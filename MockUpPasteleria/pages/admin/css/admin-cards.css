@@ -1,0 +1,191 @@
+/* ==========================================
+   ADMIN CARDS - KPI, Order, Generic
+   ========================================== */
+
+/* Generic admin card */
+.admin-card {
+  background-color: var(--bs-surface-white);
+  border-radius: var(--admin-radius-card, 16px);
+  border: none;
+  box-shadow: var(--admin-shadow-card, 0 4px 20px rgba(0,0,0,0.03));
+  position: relative;
+  overflow: hidden;
+}
+
+/* KPI Cards */
+.kpi-card {
+  background-color: var(--bs-surface-white);
+  border-radius: var(--admin-radius-card, 16px);
+  border: none;
+  box-shadow: var(--admin-shadow-card, 0 4px 20px rgba(0,0,0,0.03));
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem;
+}
+
+.kpi-icon-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  border-bottom-left-radius: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.kpi-icon-wrapper.is-pink { background-color: var(--kpi-pink-bg, #fff0f2); }
+.kpi-icon-wrapper.is-orange { background-color: var(--kpi-orange-bg, #ffecd9); }
+.kpi-icon-wrapper.is-brown { background-color: var(--kpi-brown-bg, #f6efe9); }
+
+.kpi-circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  margin-top: -5px;
+  margin-right: -5px;
+}
+
+.kpi-circle.is-pink { background-color: var(--kpi-pink-circle, #f7b2c0); color: #fff; }
+.kpi-circle.is-orange { background-color: var(--kpi-orange-circle, #fc9b65); color: #fff; }
+.kpi-circle.is-brown { background-color: var(--kpi-brown-circle, #dcbca3); color: #fff; }
+
+.kpi-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  color: var(--bs-info, #77574d);
+}
+
+.kpi-value {
+  font-size: 2.8rem;
+  color: var(--bs-secondary, #934b19);
+  font-family: var(--admin-font-heading, 'Be Vietnam Pro', sans-serif);
+  font-weight: 700;
+}
+
+/* Dashboard header (flex row with title + controls) */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Chart container */
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* Period selector */
+.period-select {
+  width: auto;
+  border-color: rgba(147, 75, 25, 0.2);
+  border-radius: var(--admin-radius-pill, 9999px);
+  background: transparent;
+  color: var(--bs-secondary, #934b19);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Notifications */
+.notification-item {
+  display: flex;
+  gap: 15px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(147, 75, 25, 0.05);
+}
+.notification-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.notif-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.notif-icon.is-red { background-color: var(--notif-red-bg, var(--admin-state-danger-bg)); color: var(--notif-red-color, #d9534f); }
+.notif-icon.is-brown { background-color: var(--notif-brown-bg, #eaddd3); color: var(--bs-info, #77574d); }
+.notif-icon.is-orange { background-color: var(--notif-orange-bg, #fcb183); color: #fff; }
+
+/* ==========================================
+   ORDER CARDS
+   ========================================== */
+.order-card {
+  background-color: var(--bs-surface-white);
+  border-radius: var(--admin-radius-card, 16px);
+  border: none;
+  box-shadow: var(--admin-shadow-card, 0 4px 20px rgba(0,0,0,0.03));
+  height: 100%;
+}
+
+.order-card .card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-status {
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: var(--admin-radius-pill, 9999px);
+  padding: 4px 12px;
+  display: inline-block;
+}
+
+.order-status.is-pending { background-color: var(--admin-state-warning-bg); color: var(--admin-state-warning-text); }
+.order-status.is-preparing { background-color: var(--admin-state-info-bg); color: var(--admin-state-info-text); }
+.order-status.is-shipped { background-color: #e8d5e0; color: var(--bs-primary, #81515a); }
+.order-status.is-completed { background-color: var(--admin-state-success-bg); color: var(--admin-state-success-text); }
+
+/* Filter pills */
+.filter-pills {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(147, 75, 25, 0.1);
+  margin-bottom: 1.5rem;
+  white-space: nowrap;
+}
+
+.filter-pill {
+  border: none;
+  background: transparent;
+  color: var(--bs-info, #77574d);
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: var(--admin-radius-pill, 9999px);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--admin-transition-fast, 0.2s ease);
+}
+
+.filter-pill.is-active {
+  background-color: var(--bs-primary, #81515a);
+  color: #fff;
+}
+
+.filter-pill:hover:not(.is-active) {
+  background-color: var(--nav-hover, rgba(119, 87, 77, 0.1));
+}
+

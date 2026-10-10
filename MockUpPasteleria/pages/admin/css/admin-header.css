@@ -1,0 +1,130 @@
+.admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background-color: var(--bs-body-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(147,75,25,0.1);
+}
+
+@media (min-width: 768px) {
+  .admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background-color: var(--bs-body-bg);
+    padding: 1rem 3rem;
+  }
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.topbar-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--bs-info);
+  font-size: 1.75rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.topbar-search {
+  position: relative;
+  width: 100%;
+  max-width: 350px;
+  min-width: 11.875rem;
+  transition: all 0.3s ease;
+}
+
+.topbar-search-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+}
+
+.topbar-search-input {
+  border-radius: var(--admin-radius-pill);
+  background: var(--bs-surface-white);
+  border: 1px solid rgba(147,75,25,0.1);
+  padding-left: 2.8rem;
+  padding-right: 15px;
+  color: var(--bs-info);
+  font-weight: 600;
+}
+
+.topbar-search-input:focus {
+  box-shadow: 0 0 0 3px var(--search-focus-shadow);
+  border-color: var(--bs-primary);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.topbar-icon-btn {
+  background: none;
+  border: none;
+  color: var(--bs-info);
+  font-size: 1.25rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.topbar-notification-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background: var(--bs-danger);
+  border: 2px solid #fff;
+  border-radius: 50%;
+}
+
+.topbar-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+@media (max-width: 767.98px) {
+  .topbar-actions {
+    gap: 0.5rem;
+  }
+  .topbar-toggle-btn {
+    display: none;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .topbar-search-input {
+    font-size: 0.85rem;
+    padding-left: 35px;
+  }
+  .topbar-search-icon {
+    left: 10px;
+  }
+}
+
+
+/* Ensure header placeholder allows sticky behavior */
+#header-placeholder {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background-color: var(--bs-body-bg);
+}
+

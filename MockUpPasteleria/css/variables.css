@@ -1,0 +1,44 @@
+/* ==========================================
+   Variables CSS — Pastelería Mil Sabores
+   Sistema de Temas (Theme Switcher)
+   ========================================== */
+
+:root {
+    /* Colores Sistema de Diseño */
+    --color-primary: #FFC0CB; /* Rosa pastel */
+    --color-secondary: #8B4513; /* Chocolate / Café claro */
+    --color-tertiary: #5D4037; /* Café oscuro */
+    --color-background: #FFF5E1; /* Crema */
+    --color-surface: #FFFFFF; /* Blanco */
+    --color-text: #5D4037; /* Café oscuro para texto principal */
+    --color-text-light: #B0BEC5; /* Gris azulado */
+    --color-error: #F44336;
+    --color-warning: #FF9800;
+
+    /* Tipografía */
+    --font-heading: 'Pacifico', cursive;
+    --font-text: 'Lato', sans-serif;
+
+    /* Espaciado */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-2xl: 48px;
+
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --radius-full: 50%;
+
+    /* Sombras */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+    /* Transiciones */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+}

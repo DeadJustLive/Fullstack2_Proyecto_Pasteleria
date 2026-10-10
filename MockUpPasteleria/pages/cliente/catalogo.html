@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+  <title>Catálogo - Crème & Co</title>
+  <link rel="stylesheet" href="../../css/dev-hub-button.css">
+  <link rel="stylesheet" href="css/auth-modal.css">
+</head>
+<body class="pagina-catalogo">
+  <!-- Encabezado Principal: Contiene el branding y la navegación superior -->
+  <header>
+    <div class="header-inner">
+      <div class="brand-group">
+        <span class="brand-logo" aria-hidden="true">C</span>
+        <p class="brand">Crème & Co</p>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="catalogo.html" class="active">Catálogo</a></li>
+          <li><a href="carrito.html">Carrito</a></li>
+          <li><a href="envio.html">Seguimiento de envío</a></li>
+          <li class="nav-profile-container">
+            <div class="nav-profile" id="nav-profile-btn" style="cursor:pointer; display:flex; align-items:center; margin-left: 1rem;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="var(--color-tertiary)" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+            <div class="profile-dropdown" id="profile-dropdown">
+              <!-- Contenedor Dinámico: Rellenado por js/auth.js (Dropdown de perfil de usuario) -->
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <!-- Contenedor Principal: Estructura central de la vista actual -->
+  <main>
+    <div class="catalogo-hero">
+      <span class="eyebrow">Pastelería Artesanal</span>
+      <h1>Nuestro Catálogo</h1>
+      <p class="tagline">Elige entre nuestras tortas, postres y opciones sin gluten, elaboradas a mano cada día.</p>
+    </div>
+
+    <!-- Sección de Productos Destacados: Implementa scroll snap para el carrusel horizontal -->
+    <div class="section-title">
+      <span class="eyebrow">Lo más pedido</span>
+      <h2>Productos Destacados</h2>
+    </div>
+    <div class="carousel-wrapper">
+      <button class="carousel-btn prev" aria-label="Anterior"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+      <div class="carousel">
+      <div class="product-card">
+        <span class="badge badge-premium">★ Premium</span>
+        <a href="productos/producto1.html" class="placeholder-img foto producto-img-link"><img src="imagen/chocolate.jpg" alt="Torta de Chocolate Clásica"></a>
+        <div class="product-info">
+          <h3><a class="producto-nombre-link" href="productos/producto1.html">Torta de Chocolate Clásica</a></h3>
+          <span class="price">$35.000</span>
+          <div class="product-actions">
+            <a href="checkout.html" class="btn btn-primary btn-add-cart">Añadir al carrito</a>
+            <a href="productos/producto1.html" class="btn btn-icon" title="Ver Detalles" aria-label="Ver Detalles">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <span class="badge badge-temporada">Temporada</span>
+        <a href="productos/producto2.html" class="placeholder-img foto producto-img-link"><img src="imagen/tartaleta.jpg" alt="Tartaleta de Frutos Rojos"></a>
+        <div class="product-info">
+          <h3><a class="producto-nombre-link" href="productos/producto2.html">Tartaleta de Frutos Rojos</a></h3>
+          <span class="price">$28.000</span>
+          <div class="product-actions">
+            <a href="checkout.html" class="btn btn-primary btn-add-cart">Añadir al carrito</a>
+            <a href="productos/producto2.html" class="btn btn-icon" title="Ver Detalles" aria-label="Ver Detalles">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <span class="badge badge-vendido">Más vendido</span>
+        <div class="placeholder-img foto"><img src="imagen/cheesecake.jpg" alt="Cheesecake de Frutos Rojos"></div>
+        <div class="product-info">
+          <h3>Cheesecake de Frutos Rojos</h3>
+          <span class="price">$30.000</span>
+          <div class="product-actions">
+            <a href="checkout.html" class="btn btn-primary btn-add-cart">Añadir al carrito</a>
+            <a href="#" class="btn btn-icon" title="Ver Detalles" aria-label="Ver Detalles">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-btn next" aria-label="Siguiente"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+  </div>
+
+  <!-- Layout Principal del Catálogo: Panel lateral de filtros y cuadrícula (Grid) de productos -->
+    <div class="catalogo-layout">
+      <aside class="filtros">
+        <form id="filtro-form" onsubmit="event.preventDefault();">
+          <!-- Formulario de Búsqueda de Productos -->
+          <div class="form-group" style="position: relative; margin-bottom: 1.5rem;">
+            <label for="busqueda">Buscar producto</label>
+            <div style="display: flex; align-items: center; position: relative;">
+              <input type="text" id="busqueda" placeholder="Ej: Torta, Cheesecake..." style="width: 100%; padding-right: 35px;">
+              <svg style="position: absolute; right: 10px; width: 18px; height: 18px; color: var(--color-secondary);" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Grupo de Filtros: Categorías (Acordeón HTML5 con details/summary) -->
+          <details open style="margin-bottom: 1.5rem;">
+            <summary style="font-family: var(--font-display); font-weight: 600; color: var(--color-tertiary); cursor: pointer; outline: none; margin-bottom: 0.5rem; user-select: none;">
+              Categorías
+            </summary>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.7rem; padding-top: 0.5rem;">
+              <li><label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: normal;"><input type="checkbox" name="filtro-categoria" value="torta" style="width: 1.1rem; height: 1.1rem; accent-color: var(--color-secondary);"> Tortas</label></li>
+              <li><label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: normal;"><input type="checkbox" name="filtro-categoria" value="tartaleta" style="width: 1.1rem; height: 1.1rem; accent-color: var(--color-secondary);"> Tartaletas</label></li>
+              <li><label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: normal;"><input type="checkbox" name="filtro-categoria" value="cheesecake" style="width: 1.1rem; height: 1.1rem; accent-color: var(--color-secondary);"> Cheesecakes</label></li>
+              <li><label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: normal;"><input type="checkbox" name="filtro-categoria" value="pastel" style="width: 1.1rem; height: 1.1rem; accent-color: var(--color-secondary);"> Pasteles</label></li>
+              <li><label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: normal;"><input type="checkbox" name="filtro-categoria" value="pancakes" style="width: 1.1rem; height: 1.1rem; accent-color: var(--color-secondary);"> Pancakes</label></li>
+            </ul>
+          </details>
+
+          <!-- Grupo de Filtros: Variaciones y atributos especiales -->
+          <details open style="margin-bottom: 1.5rem;">
+            <summary style="font-family: var(--font-display); font-weight: 600; color: var(--color-tertiary); cursor: pointer; outline: none; margin-bottom: 0.5rem; user-select: none;">
+              Variaciones
+            </summary>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.7rem; padding-top: 0.5rem;">
+              <li><label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: normal;"><input type="checkbox" name="filtro-variacion" value="personalizable" style="width: 1.1rem; height: 1.1rem; accent-color: var(--color-secondary);"> Personalizable</label></li>
+              <li><label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: normal;"><input type="checkbox" name="filtro-variacion" value="temporada" style="width: 1.1rem; height: 1.1rem; accent-color: var(--color-secondary);"> Temporada</label></li>
+              <li><label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: normal;"><input type="checkbox" name="filtro-variacion" value="vendido" style="width: 1.1rem; height: 1.1rem; accent-color: var(--color-secondary);"> Más vendido</label></li>
+              <li><label style="display: flex; align-items: center; gap: 0.6rem; cursor: pointer; font-weight: normal;"><input type="checkbox" name="filtro-variacion" value="sin gluten" style="width: 1.1rem; height: 1.1rem; accent-color: var(--color-secondary);"> Sin Gluten</label></li>
+            </ul>
+          </details>
+
+          <!-- Filtro de Rango: Input de tipo range para precio máximo -->
+          <div style="margin-bottom: 1.5rem;">
+            <h3 style="font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--color-tertiary); margin-bottom: 0.9rem;">Precio Máximo</h3>
+            <label for="precio-max" class="sr-only">Precio máximo</label>
+            <input type="range" id="precio-max" name="precio-max" min="0" max="100000" value="100000" style="width: 100%; accent-color: var(--color-secondary);">
+            <div class="range-labels" style="display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--color-secondary); margin-top: 0.4rem;">
+              <span>$0</span>
+              <span id="precio-valor">$100.000</span>
+            </div>
+          </div>
+
+          <!-- Acciones del Formulario de Filtros -->
+          <div style="display: flex; flex-direction: column; gap: 0.6rem;">
+            <button type="button" id="btn-aplicar" class="btn btn-primary" style="width: 100%;">Confirmar Filtros</button>
+            <button type="button" id="btn-limpiar" class="btn" style="width: 100%; background: #E5E5E5; color: var(--color-ink);">Borrar Filtros</button>
+          </div>
+        </form>
+      </aside>
+
+      <div class="card-grid">
+        <div class="product-card">
+          <span class="badge badge-personalizable">Personalizable</span>
+          <a href="productos/producto1.html" class="placeholder-img foto producto-img-link"><img src="imagen/chocolate.jpg" alt="Torta de Chocolate Clásica"></a>
+          <div class="product-info">
+            <h3><a class="producto-nombre-link" href="productos/producto1.html">Torta de Chocolate Clásica</a></h3>
+            <span class="price">$35.000</span>
+            <div class="product-actions">
+            <a href="checkout.html" class="btn btn-primary btn-add-cart">Añadir al carrito</a>
+            <a href="productos/producto1.html" class="btn btn-icon" title="Ver Detalles" aria-label="Ver Detalles">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </a>
+          </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <a href="productos/producto2.html" class="placeholder-img foto producto-img-link"><img src="imagen/tartaleta.jpg" alt="Tartaleta de Frutos Rojos"></a>
+          <div class="product-info">
+            <h3><a class="producto-nombre-link" href="productos/producto2.html">Tartaleta de Frutos Rojos</a></h3>
+            <span class="price">$28.000</span>
+            <div class="product-actions">
+            <a href="checkout.html" class="btn btn-primary btn-add-cart">Añadir al carrito</a>
+            <a href="productos/producto2.html" class="btn btn-icon" title="Ver Detalles" aria-label="Ver Detalles">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </a>
+          </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="placeholder-img foto"><img src="imagen/pancakes.png" alt="Pancakes Sin Gluten"></div>
+          <div class="product-info">
+            <h3>Pancakes Sin Gluten</h3>
+            <span class="price">$22.000</span>
+            <div class="product-actions">
+            <a href="checkout.html" class="btn btn-primary btn-add-cart">Añadir al carrito</a>
+            <a href="#" class="btn btn-icon" title="Ver Detalles" aria-label="Ver Detalles">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </a>
+          </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <span class="badge badge-temporada">Temporada</span>
+          <div class="placeholder-img foto"><img src="imagen/cheesecake.jpg" alt="Cheesecake de Frutos Rojos"></div>
+          <div class="product-info">
+            <h3>Cheesecake de Frutos Rojos</h3>
+            <span class="price">$30.000</span>
+            <div class="product-actions">
+            <a href="checkout.html" class="btn btn-primary btn-add-cart">Añadir al carrito</a>
+            <a href="#" class="btn btn-icon" title="Ver Detalles" aria-label="Ver Detalles">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </a>
+          </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <span class="badge badge-vendido">Más vendido</span>
+          <div class="placeholder-img foto"><img src="imagen/tres_leches.jpg" alt="Tres Leches Clásica"></div>
+          <div class="product-info">
+            <h3>Tres Leches Clásica</h3>
+            <span class="price">$32.000</span>
+            <div class="product-actions">
+            <a href="checkout.html" class="btn btn-primary btn-add-cart">Añadir al carrito</a>
+            <a href="#" class="btn btn-icon" title="Ver Detalles" aria-label="Ver Detalles">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </a>
+          </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="placeholder-img foto"><img src="imagen/zanahoria.jpg" alt="Pastel de Zanahoria"></div>
+          <div class="product-info">
+            <h3>Pastel de Zanahoria</h3>
+            <span class="price">$26.000</span>
+            <div class="product-actions">
+            <a href="checkout.html" class="btn btn-primary btn-add-cart">Añadir al carrito</a>
+            <a href="#" class="btn btn-icon" title="Ver Detalles" aria-label="Ver Detalles">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </a>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- Footer de la Aplicación: Enlaces corporativos, horarios y contacto -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>Crème & Co</h4>
+        <p>Tu pastelería artesanal de confianza. Horneamos cada día con ingredientes 100% naturales y muchísimo amor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <p style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Calle del Sabor 123, Barrio Dulce</p>
+        <p style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> +56 9 1234 5678</p>
+        <p style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> hola@cremeco.cl</p>
+      </div>
+      <div class="footer-col">
+        <h4>Horarios</h4>
+        <p>Lunes a Viernes: 08:00 - 20:00</p>
+        <p>Sábados: 09:00 - 18:00</p>
+        <p>Domingos: Cerrado</p>
+      </div>
+      <div class="footer-col">
+        <h4>Redes Sociales</h4>
+        <ul>
+          <li><a href="#" style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> Instagram</a></li>
+          <li><a href="#" style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg> Facebook</a></li>
+          <li><a href="#" style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg> TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Pastelería Crème & Co. Todos los derechos reservados.
+    </div>
+  </footer>
+
+<!-- Botón Flotante (Modo Desarrollo): Atajo rápido para regresar al índice del proyecto -->
+<a href="../../index.html" class="dev-btn-volver-hub" title="Volver al índice">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  Volver al Hub
+</a>
+
+<!-- Script para la funcionalidad del filtro -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Referencias a los elementos del DOM del filtro
+    const busquedaInput = document.getElementById("busqueda");
+    const precioRango = document.getElementById("precio-max");
+    const precioValorLabel = document.getElementById("precio-valor");
+    const btnAplicar = document.getElementById("btn-aplicar");
+    const btnLimpiar = document.getElementById("btn-limpiar");
+    const formFiltro = document.getElementById("filtro-form");
+    
+    // Obtener todas las tarjetas de producto en la grilla principal
+    const productos = document.querySelectorAll(".card-grid .product-card");
+
+    // Actualizar el texto visual del precio máximo mientras se mueve el rango (sin filtrar aún)
+    precioRango.addEventListener("input", () => {
+      const precioMax = parseInt(precioRango.value, 10);
+      precioValorLabel.textContent = `$${precioMax.toLocaleString('es-CL')}`;
+    });
+
+    // Función principal encargada de aplicar los filtros al hacer click en "Confirmar Filtros"
+    const filtrarProductos = () => {
+      const busquedaTexto = busquedaInput.value.toLowerCase();
+      const precioMax = parseInt(precioRango.value, 10);
+
+      // Obtener las categorías y variaciones marcadas con el "ticket" (checkbox)
+      const categoriasMarcadas = Array.from(document.querySelectorAll('input[name="filtro-categoria"]:checked')).map(cb => cb.value.toLowerCase());
+      const variacionesMarcadas = Array.from(document.querySelectorAll('input[name="filtro-variacion"]:checked')).map(cb => cb.value.toLowerCase());
+
+      productos.forEach(producto => {
+        // Obtener datos del producto actual
+        const titulo = producto.querySelector("h3").textContent.toLowerCase();
+        const precioTexto = producto.querySelector(".price").textContent;
+        // Limpiar el texto del precio (quitar $ y puntos) para convertirlo a número entero
+        const precio = parseInt(precioTexto.replace('$', '').replace(/\./g, ''), 10);
+        
+        // Obtener el texto de la etiqueta o "badge" (si existe) para la variación
+        const badge = producto.querySelector(".badge");
+        const variacionTexto = badge ? badge.textContent.toLowerCase() : "";
+
+        // Condiciones de filtrado:
+        // 1. Coincidencia de texto en la barra de búsqueda
+        const cumpleBusqueda = busquedaTexto === "" || titulo.includes(busquedaTexto);
+        
+        // 2. Coincidencia de categoría (si no hay ninguna marcada, cumple; si hay, busca si el título la contiene)
+        const cumpleCategoria = categoriasMarcadas.length === 0 || categoriasMarcadas.some(cat => titulo.includes(cat));
+
+        // 3. Coincidencia de variación (si no hay ninguna marcada, cumple; si hay, busca si la etiqueta coincide)
+        const cumpleVariacion = variacionesMarcadas.length === 0 || variacionesMarcadas.some(vr => variacionTexto.includes(vr));
+
+        // 4. El precio del producto está dentro del rango seleccionado
+        const cumplePrecio = precio <= precioMax;
+
+        // Mostrar u ocultar la tarjeta dependiendo de si cumple TODAS las condiciones
+        if (cumpleBusqueda && cumpleCategoria && cumpleVariacion && cumplePrecio) {
+          producto.style.display = "flex"; // Se mantiene 'flex' para no romper el layout de la tarjeta
+        } else {
+          producto.style.display = "none";
+        }
+      });
+    };
+
+    // Función para borrar filtros y mostrarlos todos de nuevo
+    const limpiarFiltros = () => {
+      formFiltro.reset(); // Restablece búsqueda, checkboxes y rango de precio a su valor por defecto
+      // Actualizar el valor del texto del rango a su valor por defecto
+      const precioMaxDefault = parseInt(precioRango.value, 10);
+      precioValorLabel.textContent = `$${precioMaxDefault.toLocaleString('es-CL')}`;
+      
+      // Mostrar todos los productos nuevamente
+      productos.forEach(producto => {
+        producto.style.display = "flex";
+      });
+    };
+
+    // Asignar los eventos a los botones de Confirmar y Borrar
+    btnAplicar.addEventListener("click", filtrarProductos);
+    btnLimpiar.addEventListener("click", limpiarFiltros);
+  });
+</script>
+
+  <div id="auth-modals-container"></div>
+  <script src="js/auth.js"></script>
+
+  <script>
+    const btnToggle = document.getElementById('btn-toggle-filtros');
+    const btnClose = document.getElementById('btn-close-filtros');
+    const sidebar = document.getElementById('filtros-sidebar');
+    const overlay = document.getElementById('filtros-overlay');
+
+    if(btnToggle && btnClose && sidebar && overlay) {
+      function openFilters() {
+        sidebar.classList.add('show');
+        overlay.classList.add('show');
+        document.body.style.overflow = 'hidden'; // block scroll
+      }
+      function closeFilters() {
+        sidebar.classList.remove('show');
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+      btnToggle.addEventListener('click', openFilters);
+      btnClose.addEventListener('click', closeFilters);
+      overlay.addEventListener('click', closeFilters);
+    }
+  </script>
+  <script src="js/carrusel.js"></script>
+</body>
+</html>

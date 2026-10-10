@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO: Evitar que los motores de búsqueda indexen el panel de administración por seguridad -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Panel de Reportes | Admin</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/admin-variables.css">
+  <link rel="stylesheet" href="css/admin-sidebar.css">
+  <link rel="stylesheet" href="css/admin-header.css">
+  <link rel="stylesheet" href="css/admin-bottom-nav.css">
+  <link rel="stylesheet" href="css/admin-feedback.css">
+  <link rel="stylesheet" href="css/admin-cards.css">
+<script>if(localStorage.getItem('admin_sidebar_compact')==='true') document.documentElement.classList.add('is-sidebar-compact');</script>
+  <link rel="stylesheet" href="../../css/dev-hub-button.css">
+</head>
+<body>
+  <!-- Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  
+  <!-- SIDEBAR will be injected here -->
+  <div id="sidebar-placeholder"></div>
+  
+  <div class="main-content" id="main-content">
+    <!-- HEADER will be injected here -->
+    <div id="header-placeholder"></div>
+    
+    <main class="admin-main-area pb-4">
+      <div class="container-fluid px-3 px-md-4">
+      <div class="mb-4 mt-2">
+        <h1 class="fw-bold" style="font-size: 2rem;">Panel de Reportes</h1>
+        <p class="text-muted m-0" style="opacity: 0.8;">Esto es lo que sucede hoy en Crème & Co.</p>
+      </div>
+    
+      <!-- KPI Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="h-100 d-flex flex-column">
+            <div class="kpi-card" data-bs-toggle="collapse" data-bs-target="#detailSales" role="button" aria-expanded="true" style="cursor: pointer;">
+              <div class="kpi-icon-wrapper is-pink">
+                <div class="kpi-circle is-pink"><i class="bi bi-cash"></i></div>
+              </div>
+              <h6 class="kpi-title mb-3">Ventas Totales Hoy</h6>
+              <h2 class="kpi-value mb-2" id="kpi-sales">$1,245.50</h2>
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi bi-graph-up-arrow" style="color: var(--bs-secondary)"></i>
+                <small style="color: var(--bs-secondary); font-weight: 600;">+12% respecto a ayer</small>
+              </div>
+            </div>
+            <!-- Detalles Inferiores (Sales) -->
+            <div class="collapse show mt-2" id="detailSales">
+              <div class="p-3 rounded-3" style="background-color: var(--bs-surface-white); border: 1px solid rgba(147,75,25,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+                <small class="text-muted fw-bold d-block mb-2">Top 3 Más Vendidos</small>
+                
+                <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+                  <div>
+                    <h6 class="mb-0 fw-bold" style="font-size: 0.9rem; color: var(--bs-secondary);">Tarta Red Velvet</h6>
+                    <small class="text-muted">14 ventas</small>
+                  </div>
+                  <button class="btn btn-sm btn-outline-primary rounded-circle" style="width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center;" data-bs-toggle="modal" data-bs-target="#modalDetalleProducto" title="Ver detalles">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+                
+                <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+                  <div>
+                    <h6 class="mb-0 fw-bold" style="font-size: 0.9rem; color: var(--bs-secondary);">Croissant de Almendra</h6>
+                    <small class="text-muted">10 ventas</small>
+                  </div>
+                  <button class="btn btn-sm btn-outline-primary rounded-circle" style="width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center;" data-bs-toggle="modal" data-bs-target="#modalDetalleProducto">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+                
+                <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                    <h6 class="mb-0 fw-bold" style="font-size: 0.9rem; color: var(--bs-secondary);">Cheesecake de Maracuyá</h6>
+                    <small class="text-muted">8 ventas</small>
+                  </div>
+                  <button class="btn btn-sm btn-outline-primary rounded-circle" style="width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center;" data-bs-toggle="modal" data-bs-target="#modalDetalleProducto">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="h-100 d-flex flex-column">
+            <div class="kpi-card" data-bs-toggle="collapse" data-bs-target="#detailOrders" role="button" aria-expanded="true" style="cursor: pointer;">
+              <div class="kpi-icon-wrapper is-orange">
+                <div class="kpi-circle is-orange"><i class="bi bi-bag"></i></div>
+              </div>
+              <h6 class="kpi-title mb-3">Pedidos Activos</h6>
+              <h2 class="kpi-value mb-2" id="kpi-orders">24</h2>
+              <div class="d-flex align-items-center gap-2 text-muted">
+                <small class="fw-semibold">5 esperando retiro</small>
+              </div>
+            </div>
+            <!-- Detalles Inferiores (Orders) -->
+            <div class="collapse show mt-2" id="detailOrders">
+              <div class="p-3 rounded-3" style="background-color: var(--bs-surface-white); border: 1px solid rgba(147,75,25,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+                <small class="text-muted fw-bold d-block mb-2">Próximos a Despachar</small>
+                
+                <div class="d-flex flex-column gap-2">
+                  <div class="p-2 rounded" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="fw-bold" style="font-size: 0.85rem; color: #856404;">#00125 - Carlos Ruiz</span>
+                      <span class="badge bg-warning text-dark" style="font-size: 0.7rem;">En 15 min</span>
+                    </div>
+                  </div>
+                  <div class="p-2 rounded" style="background-color: #f8f5f1; border-left: 4px solid var(--bs-info);">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="fw-bold" style="font-size: 0.85rem; color: var(--bs-secondary);">#00127 - Ana L.</span>
+                      <span class="badge bg-secondary" style="font-size: 0.7rem;">En 45 min</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-12 col-lg-4 col-xl-4">
+          <div class="h-100 d-flex flex-column">
+            <div class="kpi-card" data-bs-toggle="collapse" data-bs-target="#detailDeliveries" role="button" aria-expanded="true" style="cursor: pointer;">
+              <div class="kpi-icon-wrapper is-brown">
+                <div class="kpi-circle is-brown"><i class="bi bi-truck"></i></div>
+              </div>
+              <h6 class="kpi-title mb-3">Entregas Completadas</h6>
+              <h2 class="kpi-value mb-2" id="kpi-deliveries">18</h2>
+              <div class="d-flex align-items-center gap-2 text-muted">
+                <small class="fw-semibold">Todas a tiempo</small>
+              </div>
+            </div>
+            <!-- Detalles Inferiores (Deliveries) -->
+            <div class="collapse show mt-2" id="detailDeliveries">
+              <div class="p-3 rounded-3" style="background-color: var(--bs-surface-white); border: 1px solid rgba(147,75,25,0.1); box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+                <small class="text-muted fw-bold d-block mb-2">Últimas Calificaciones</small>
+                
+                <div class="mb-2 pb-2 border-bottom">
+                  <div class="text-warning mb-1" style="font-size: 0.8rem;">
+                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                  </div>
+                  <p class="mb-0 text-muted" style="font-size: 0.85rem; line-height: 1.2;">"La tarta de limón llegó en perfecto estado y muy fresca."</p>
+                </div>
+                <div>
+                  <div class="text-warning mb-1" style="font-size: 0.8rem;">
+                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
+                  </div>
+                  <p class="mb-0 text-muted" style="font-size: 0.85rem; line-height: 1.2;">"Excelente presentación. Repartidor muy amable."</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Chart + Notifications -->
+      <div class="row g-3">
+        <div class="col-12 col-xl-8">
+          <div class="admin-card p-3 p-md-4 h-100">
+            <div class="dashboard-header mb-3">
+              <h4 class="fw-bold m-0" style="color: var(--bs-secondary); font-family: var(--admin-font-heading); font-size: 1.25rem;">Tendencia de Ventas</h4>
+              <select class="form-select period-select form-select-sm" style="width: auto;">
+                <option value="this-week">Esta Semana</option>
+                <option value="last-week">Semana Pasada</option>
+                <option value="month">Este Mes</option>
+              </select>
+            </div>
+            <div class="chart-container" style="position: relative; height: 300px; width: 100%;">
+              <canvas id="salesChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-xl-4">
+          <div class="admin-card p-4 h-100 d-flex flex-column">
+            <div class="dashboard-header">
+              <h4 class="fw-bold m-0" style="color: var(--bs-secondary); font-family: var(--admin-font-heading);">Notificaciones</h4>
+              <div class="dropdown">
+                <button class="btn btn-link p-0" style="color: var(--bs-info);" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-three-dots"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="border: 1px solid rgba(147,75,25,0.1); border-radius: 12px;">
+                  <li><a class="dropdown-item" href="#"><i class="bi bi-check2-all me-2"></i>Marcar leídas</a></li>
+                  <li><a class="dropdown-item" href="./configuracion.html"><i class="bi bi-gear me-2"></i>Ajustes de alertas</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="flex-grow-1">
+              <div class="notification-item">
+                <div class="notif-icon is-red"><i class="bi bi-exclamation-triangle"></i></div>
+                <div>
+                  <h6 class="fw-bold mb-1" style="color: var(--bs-secondary);">Poco Stock: Harina de Almendras</h6>
+                  <p class="text-muted small mb-1">Quedan solo 2kg en el inventario. Por favor reordena.</p>
+                  <small class="text-muted" style="font-size: 0.75rem;">Hace 10 min</small>
+                </div>
+              </div>
+              <div class="notification-item">
+                <div class="notif-icon is-brown"><i class="bi bi-box-seam"></i></div>
+                <div>
+                  <h6 class="fw-bold mb-1" style="color: var(--bs-secondary);">Llegó Envío</h6>
+                  <p class="text-muted small mb-1">El envío del proveedor 'Cacao Central' fue recibido y registrado.</p>
+                  <small class="text-muted" style="font-size: 0.75rem;">Hace 1 hora</small>
+                </div>
+              </div>
+              <div class="notification-item">
+                <div class="notif-icon is-orange"><i class="bi bi-pencil-square"></i></div>
+                <div>
+                  <h6 class="fw-bold mb-1" style="color: var(--bs-secondary);">Pedido Personalizado Actualizado</h6>
+                  <p class="text-muted small mb-1">El cliente modificó detalles del Pedido #4092 (Pastel de Boda).</p>
+                  <small class="text-muted" style="font-size: 0.75rem;">Hace 3 horas</small>
+                </div>
+              </div>
+            </div>
+            <div class="text-center mt-4 pt-3" style="border-top: 1px solid rgba(147,75,25,0.05);">
+              <a href="#" class="fw-bold text-decoration-none small" style="color: var(--bs-primary);" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNotif">Ver Todas las Notificaciones</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- BOTTOM NAV will be injected here -->
+  <div id="bottomnav-placeholder"></div>
+  
+    <!-- Modal Detalle Producto -->
+  <div class="modal fade" id="modalDetalleProducto" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 16px; border: none;">
+        <div class="modal-header" style="border-bottom: 1px solid rgba(147,75,25,0.1); background-color: #f8f5f1;">
+          <h5 class="modal-title fw-bold" style="color: var(--bs-secondary); font-family: var(--admin-font-heading);">Detalle de Producto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <div class="mb-3">
+            <i class="bi bi-cake2" style="font-size: 4rem; color: var(--bs-primary);"></i>
+          </div>
+          <h4 class="fw-bold" style="color: var(--bs-secondary);">Tarta Red Velvet</h4>
+          <span class="badge bg-success mb-3">En Stock: 12 unid.</span>
+          <p class="text-muted">Tarta clásica con bizcocho esponjoso rojo oscuro y glaseado de queso crema artesanal.</p>
+          <h3 class="fw-bold text-primary mt-3">.00</h3>
+        </div>
+        <div class="modal-footer" style="border-top: none;">
+          <button type="button" class="btn btn-outline-secondary rounded-pill w-100" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Local JS -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/feedback.js"></script>
+  <script src="js/sidebar-toggle.js"></script>
+  <script src="js/chart-init.js"></script>
+
+<!-- Dev Hub Button -->
+<a href="../../index.html" class="dev-btn-volver-hub" title="Volver al índice">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  Volver al Hub
+</a>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

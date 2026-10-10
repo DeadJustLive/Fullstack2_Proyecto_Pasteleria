@@ -1,0 +1,30 @@
+<!--
+=========================================================
+COMPONENTE: Barra de Navegación (Navbar)
+TIPO: Feature (Específico del proyecto)
+
+REGLAS DE CONSTRUCCIÓN:
+1. Debe agrupar elementos semánticos (<nav>, <ul>, <li>, <a>).
+2. Puede incluir componentes 'common' en su interior, como botones de "Iniciar sesión".
+3. En la fase de React, importará los links desde React Router (<Link>).
+=========================================================
+-->
+<header class="navbar">
+    <div class="navbar-brand" style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--color-tertiary);">
+        <!-- Logo -->
+        <span>Pastelería Mil Sabores</span>
+    </div>
+    <nav class="navbar-nav">
+        <ul>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="/catalogo">Catálogo</a></li>
+            <li><a href="/categorias">Categorías</a></li>
+            <li><a href="/carrito">Carrito</a></li>
+            <li><a href="/mi-cuenta">Mi Cuenta</a></li>
+        </ul>
+    </nav>
+    <div class="navbar-actions">
+        <!-- Aquí simulamos la inyección del componente Button -->
+        <button class="btn btn-primary" type="button">Login</button>
+    </div>
+</header>

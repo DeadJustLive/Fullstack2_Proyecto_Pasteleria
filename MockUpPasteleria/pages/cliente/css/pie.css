@@ -1,0 +1,74 @@
+/* ==========================================================================
+   ARCHIVO: pie.css
+   PROPÓSITO: Estilos para el pie de página (Footer) y enlaces corporativos.
+   ========================================================================== */
+footer {
+  position: relative;
+  margin-top: 3rem;
+  background-color: var(--color-tertiary);
+  color: var(--color-neutral);
+  text-align: center;
+  padding: 2.25rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+
+footer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -13px;
+  height: 14px;
+  background-image: radial-gradient(circle at 10px 14px, var(--color-neutral) 10px, transparent 11px);
+  background-size: 20px 14px;
+  background-repeat: repeat-x;
+}
+.footer-container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  text-align: left;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 245, 225, 0.2);
+}
+.footer-container h4 {
+  font-family: var(--font-display);
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+.footer-container p, .footer-container ul {
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+.footer-container ul {
+  list-style: none;
+}
+.footer-container ul li {
+  margin-bottom: 0.5rem;
+}
+.footer-container ul li a {
+  color: var(--color-neutral);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-container ul li a:hover {
+  color: var(--color-primary);
+}
+.footer-bottom {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: rgba(255, 245, 225, 0.7);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    text-align: center;
+  }
+}

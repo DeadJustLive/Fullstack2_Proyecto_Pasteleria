@@ -1,0 +1,75 @@
+<header class="admin-topbar">
+  <div class="topbar-left">
+    <button id="btn-toggle-sidebar" class="topbar-toggle-btn">
+      <i class="bi bi-list"></i>
+    </button>
+  </div>
+  
+  <div class="topbar-search">
+    <i class="bi bi-search topbar-search-icon"></i>
+    <input type="text" class="form-control topbar-search-input" placeholder="Buscar...">
+  </div>
+  
+  <div class="topbar-actions">
+    <button class="topbar-icon-btn" title="Notificaciones" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNotif" aria-controls="offcanvasNotif">
+      <i class="bi bi-bell"></i>
+      <span class="topbar-notification-dot"></span>
+    </button>
+    <a href="./configuracion.html" class="topbar-icon-btn" title="Configuración" style="text-decoration: none;">
+      <i class="bi bi-gear"></i>
+    </a>
+    <a href="./configuracion.html" title="Mi Perfil">
+      <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150" alt="Avatar" class="topbar-avatar" style="transition: transform 0.2s;">
+    </a>
+  </div>
+</header>
+
+<!-- Offcanvas Notifications -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNotif" aria-labelledby="offcanvasNotifLabel" style="border-radius: 16px 0 0 16px; border-left: none; box-shadow: -4px 0 20px rgba(0,0,0,0.05);">
+  <div class="offcanvas-header" style="border-bottom: 1px solid rgba(147,75,25,0.1); background-color: #f8f5f1;">
+    <h5 class="offcanvas-title fw-bold" id="offcanvasNotifLabel" style="color: var(--bs-secondary); font-family: var(--admin-font-heading);">Notificaciones</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body p-4">
+    
+    <div class="d-flex gap-3 pb-3 mb-3" style="border-bottom: 1px solid rgba(147,75,25,0.05);">
+      <div style="width: 40px; height: 40px; border-radius: 50%; background: #f8d7da; color: #d9534f; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        <i class="bi bi-exclamation-triangle"></i>
+      </div>
+      <div>
+        <h6 class="fw-bold mb-1" style="color: var(--bs-secondary); font-size: 0.95rem;">Poco Stock: Harina de Almendras</h6>
+        <p class="text-muted small mb-1">Quedan solo 2kg en el inventario.</p>
+        <small class="text-muted" style="font-size: 0.75rem;">Hace 10 min</small>
+      </div>
+    </div>
+
+    <div class="d-flex gap-3 pb-3 mb-3" style="border-bottom: 1px solid rgba(147,75,25,0.05);">
+      <div style="width: 40px; height: 40px; border-radius: 50%; background: #eaddd3; color: var(--bs-info); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        <i class="bi bi-box-seam"></i>
+      </div>
+      <div>
+        <h6 class="fw-bold mb-1" style="color: var(--bs-secondary); font-size: 0.95rem;">Llegó Envío</h6>
+        <p class="text-muted small mb-1">Envío del proveedor 'Cacao Central' recibido.</p>
+        <small class="text-muted" style="font-size: 0.75rem;">Hace 1 hora</small>
+      </div>
+    </div>
+
+    <div class="d-flex gap-3 pb-3 mb-3" style="border-bottom: 1px solid rgba(147,75,25,0.05);">
+      <div style="width: 40px; height: 40px; border-radius: 50%; background: #fcb183; color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        <i class="bi bi-pencil-square"></i>
+      </div>
+      <div>
+        <h6 class="fw-bold mb-1" style="color: var(--bs-secondary); font-size: 0.95rem;">Pedido Actualizado</h6>
+        <p class="text-muted small mb-1">El cliente modificó detalles del Pedido #4092.</p>
+        <small class="text-muted" style="font-size: 0.75rem;">Hace 3 horas</small>
+      </div>
+    </div>
+
+    <div class="d-grid mt-4">
+      <button class="btn btn-outline-primary rounded-pill fw-bold">Marcar todas como leídas</button>
+    </div>
+  </div>
+</div>
+
+
+

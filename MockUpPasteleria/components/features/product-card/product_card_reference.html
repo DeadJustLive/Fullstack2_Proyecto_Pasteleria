@@ -1,0 +1,43 @@
+<!--
+=========================================================
+REFERENCIA DE COMPONENTE: Tarjeta de Producto
+(Este archivo es solo de diseño y planeación para React)
+=========================================================
+
+TODO: INPUTS (Props que recibirá el componente en React)
+- {string} imagen - URL de la imagen de la torta.
+- {string} nombre - Nombre de la torta.
+- {number} precio - Precio en CLP.
+- {string} categoria - Categoría del producto (ej: Tortas, Postres).
+- {boolean} personalizable - Indica si el producto permite agregar un mensaje.
+- {boolean} isOutOfStock - Bandera para deshabilitar botón.
+
+TODO: OUTPUTS (Eventos que emitirá hacia el padre)
+- onAddToCart(productId) - Se dispara al hacer clic en "Añadir al Carrito".
+- onCustomize(productId) - Se dispara si el usuario quiere personalizar (si aplica).
+
+TODO: LÓGICA INTERNA
+- Formatear el `precio` a moneda local (CLP) antes de mostrarlo.
+- Si `isOutOfStock` es true, añadir clase CSS '.disabled' al botón y cambiar texto a "Agotado".
+- Si `personalizable` es true, mostrar un badge o botón extra.
+-->
+
+<article class="product-card">
+    <div class="product-card__image-container">
+        <img src="placeholder_torta.jpg" alt="[nombre]" class="product-card__image">
+        <!-- Badge de categoría -->
+        <span class="badge category-badge">[categoria]</span>
+    </div>
+    <div class="product-card__body">
+        <h3 class="product-card__title" style="font-family: var(--font-heading);">[nombre]</h3>
+        <p class="product-card__price">[precio_clp]</p>
+        
+        <!-- Opciones adicionales -->
+        <div class="product-card__options">
+            <!-- Si personalizable es true -->
+            <span class="text-sm">✨ Personalizable</span>
+        </div>
+
+        <button class="btn btn-primary" onclick="/* onAddToCart() */">Añadir al Carrito</button>
+    </div>
+</article>

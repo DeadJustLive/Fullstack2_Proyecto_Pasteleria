@@ -1,0 +1,59 @@
+<!-- 
+  COMPONENTE: form-field
+  Componente reutilizable de campo de formulario con soporte para validación.
+  
+  PROPS para React: label, type, id, placeholder, required, minLength, maxLength, hint, icon
+  STATE: normal | error | success
+  
+  USO EN HTML:
+  Copia este bloque y cambia los atributos data-* según la validación que necesites.
+  El script validation.js se encarga de todo automáticamente.
+-->
+
+<!-- Ejemplo: Campo de Texto Requerido -->
+<div class="form-field">
+    <label class="form-field__label" for="nombre">Nombre Completo</label>
+    <input 
+        class="form-field__input" 
+        type="text" 
+        id="nombre" 
+        placeholder="Ingresa tu nombre"
+        data-required
+        data-min-length="3"
+    >
+    <!-- ACTION: onValidationError → se llena automáticamente por validation.js -->
+    <span class="form-field__error"></span>
+    <span class="form-field__hint">Mínimo 3 caracteres</span>
+</div>
+
+<!-- Ejemplo: Campo de Email con Regla de Negocio Duoc -->
+<div class="form-field">
+    <label class="form-field__label" for="email">Correo Electrónico</label>
+    <input 
+        class="form-field__input" 
+        type="email" 
+        id="email" 
+        placeholder="tucorreo@ejemplo.com"
+        data-required
+        data-type="email"
+    >
+    <span class="form-field__error"></span>
+    <span class="form-field__hint">Si eres estudiante Duoc, usa tu correo institucional</span>
+</div>
+
+<!-- Ejemplo: Campo de Teléfono Chileno -->
+<div class="form-field">
+    <label class="form-field__label" for="telefono">Teléfono</label>
+    <input 
+        class="form-field__input" 
+        type="tel" 
+        id="telefono" 
+        placeholder="912345678"
+        data-required
+        data-type="tel"
+    >
+    <span class="form-field__error"></span>
+    <span class="form-field__hint">9 dígitos, sin +56</span>
+</div>
+
+<!-- NOTA: El CSS debe ir en form-field.css -->

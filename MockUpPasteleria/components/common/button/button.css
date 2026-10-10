@@ -1,0 +1,26 @@
+/* 
+=========================================================
+ESTILOS DEL COMPONENTE: Botón
+=========================================================
+1. Estos estilos solo deben afectar a la clase .btn y sus modificadores (.btn-primary, .btn-secondary).
+2. Utilizar variables globales de CSS (var(--color-primary)) definidas en variables.css.
+3. En la fase React, este archivo se puede importar directamente en Button.jsx o usarse como CSS Modules.
+*/
+
+.btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--font-main);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-background);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+}

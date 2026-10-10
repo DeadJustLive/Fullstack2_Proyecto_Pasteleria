@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /carrito/
+Disallow: /checkout/
+Disallow: /perfil/
+
+Sitemap: https://tudominio.com/sitemap.xml

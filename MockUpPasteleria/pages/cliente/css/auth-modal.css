@@ -1,0 +1,83 @@
+/* ==========================================================================
+   ARCHIVO: auth-modal.css
+   PROPÓSITO: Estilos para la ventana modal de autenticación y menús desplegables de usuario.
+   ========================================================================== */
+.nav-profile-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  min-width: 150px;
+  box-shadow: 0 4px 12px rgba(93, 64, 55, 0.15);
+  border-radius: var(--radius);
+  overflow: hidden;
+  z-index: 1000;
+  flex-direction: column;
+}
+.profile-dropdown.show {
+  display: flex;
+}
+.profile-dropdown a {
+  padding: 0.8rem 1rem;
+  color: var(--color-ink);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(93, 64, 55, 0.05);
+  display: block;
+}
+.profile-dropdown a:hover {
+  background: var(--color-neutral);
+}
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+.modal-overlay.active {
+  display: flex;
+}
+.modal-content {
+  background: white;
+  padding: 2.5rem;
+  border-radius: var(--radius);
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--color-secondary);
+  line-height: 1;
+}
+.modal-content h2 {
+  text-align: center;
+  margin-top: 0;
+}
+nav ul {
+  align-items: center;
+}
+
+nav ul li .profile-dropdown a {
+  border-radius: 0;
+  padding: 0.8rem 1rem;
+  background-color: transparent;
+}
+
+nav ul li .profile-dropdown a:hover {
+  background-color: var(--color-neutral);
+}

@@ -1,0 +1,80 @@
+/* theme.css - Sobrescritura de variables de Bootstrap */
+
+:root {
+  --bs-primary: #81515a;
+  --bs-secondary: #934b19;
+  --bs-info: #77574d;
+  --bs-warning: #ffa26a;
+  --bs-danger: #ba1a1a;
+  --bs-light: #fff8f0;
+  --bs-dark: #1f1b0f;
+  --bs-primary-container: #ffc0cb;
+  --bs-on-primary-container: #7b4b55;
+  --bs-surface-white: #ffffff;
+  --bs-body-bg: #fff8f0;
+  --bs-body-color: #5D4037;
+  --bs-font-sans-serif: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+  --bs-heading-font-family: 'Be Vietnam Pro', sans-serif;
+  --bs-border-radius: 0.5rem;
+  --bs-border-radius-sm: 0.25rem;
+  --bs-border-radius-lg: 1rem;
+  --bs-border-radius-xl: 1.5rem;
+  --bs-border-radius-pill: 9999px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--bs-heading-font-family);
+  color: var(--bs-primary);
+}
+
+.bg-cream { background-color: var(--bs-body-bg) !important; }
+.bg-surface-white { background-color: var(--bs-surface-white) !important; }
+.text-coffee { color: var(--bs-body-color) !important; }
+.text-primary-container { color: var(--bs-on-primary-container) !important; }
+.bg-primary-container { background-color: var(--bs-primary-container) !important; }
+
+.btn-primary {
+  --bs-btn-bg: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-bg: #663a43;
+  --bs-btn-hover-border-color: #663a43;
+  --bs-btn-active-bg: #4a2931;
+  --bs-btn-active-border-color: #4a2931;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-bg: rgba(129, 81, 90, 0.65);
+  --bs-btn-disabled-border-color: rgba(129, 81, 90, 0.65);
+  --bs-btn-disabled-color: #ffffff;
+}
+
+.btn-outline-primary {
+  --bs-btn-color: var(--bs-primary);
+  --bs-btn-border-color: var(--bs-primary);
+  --bs-btn-hover-bg: var(--bs-primary);
+  --bs-btn-hover-color: #fff;
+}
+
+/* Fix for Bootstrap Text/Bg Utilities */
+.text-primary { color: var(--bs-primary) !important; }
+.text-secondary { color: var(--bs-secondary) !important; }
+.text-info { color: var(--bs-info) !important; }
+.text-warning { color: var(--bs-warning) !important; }
+.text-danger { color: var(--bs-danger) !important; }
+.text-light { color: var(--bs-light) !important; }
+.text-dark { color: var(--bs-dark) !important; }
+
+.bg-primary { background-color: var(--bs-primary) !important; }
+.bg-secondary { background-color: var(--bs-secondary) !important; }
+.bg-info { background-color: var(--bs-info) !important; }
+.bg-warning { background-color: var(--bs-warning) !important; }
+.bg-danger { background-color: var(--bs-danger) !important; }
+
+/* Prevent horizontal scroll */
+html {
+  font-size: 13px; /* Reducción de ~20% en toda la interfaz (UI Scaling) */
+}
+html, body {
+  overflow-x: hidden;
+  
+}
+
+

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+  <title>Perfil - Crème & Co</title>
+  <link rel="stylesheet" href="../../css/dev-hub-button.css">
+  <link rel="stylesheet" href="css/auth-modal.css">
+</head>
+<body class="pagina-perfil">
+  <!-- Encabezado Principal: Contiene el branding y la navegación superior -->
+  <header>
+    <div class="header-inner">
+      <div class="brand-group">
+        <span class="brand-logo" aria-hidden="true">C</span>
+        <p class="brand">Crème & Co</p>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="carrito.html">Carrito</a></li>
+          <li><a href="envio.html">Seguimiento de envío</a></li>
+          <li class="nav-profile-container">
+            <div class="nav-profile" id="nav-profile-btn" style="cursor:pointer; display:flex; align-items:center; margin-left: 1rem;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="var(--color-tertiary)" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+            <div class="profile-dropdown" id="profile-dropdown">
+              <!-- Contenedor Dinámico: Rellenado por js/auth.js (Dropdown de perfil de usuario) -->
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <!-- Contenedor Principal: Estructura central de la vista actual -->
+  <main>
+    <section class="perfil-hero">
+      <span class="eyebrow">Mi cuenta</span>
+      <h1>Mi Perfil</h1>
+      <p>Bienvenido de nuevo. Aquí puedes gestionar tus datos, preferencias y revisar tus dulces beneficios.</p>
+    </section>
+
+    <div class="perfil-grid">
+      <!-- Panel Izquierdo: Formularios de configuración de cuenta e historial -->
+      <div class="perfil-col">
+        <section>
+          <h2>Mis Datos</h2>
+          <div class="perfil-usuario">
+            <div class="perfil-avatar" aria-hidden="true">AG</div>
+            <div>
+              <p class="perfil-nombre">Ana García</p>
+              <p class="perfil-correo">ana.garcia@mail.com</p>
+            </div>
+          </div>
+          <form>
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" name="telefono" value="+56 9 9153 2345">
+            </div>
+            <div class="form-group">
+              <label for="direccion">Dirección principal</label>
+              <input type="text" id="direccion" name="direccion" value="Estacion Venezuela 1234, Santiago, Chile">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Actualizar Datos</button>
+          </form>
+        </section>
+
+        <section>
+          <h2>Preferencias</h2>
+          <ul class="perfil-prefs">
+            <li><label><input type="checkbox" checked> Sin Gluten</label></li>
+            <li><label><input type="checkbox"> Vegano</label></li>
+            <li><label><input type="checkbox" checked> Amante del Chocolate Oscuro</label></li>
+          </ul>
+          <div style="margin-top: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+            <button id="btn-prefs" class="btn btn-secondary">Guardar</button>
+            <span id="prefs-feedback" style="opacity: 0; transition: opacity 0.3s; color: var(--color-primary); font-weight: 700; background: var(--color-tertiary); padding: 0.2rem 0.8rem; border-radius: 999px;">¡Guardado! ✓</span>
+          </div>
+        </section>
+      </div>
+
+      <!-- Panel Derecho: Widgets informativos (Beneficios, Progreso de Puntos, Recomendaciones) -->
+      <div class="perfil-main">
+        <div class="beneficios-grid">
+          <div class="beneficio beneficio-premium">
+            <div>
+              <p class="beneficio-tag">Cliente Premium</p>
+              <p class="beneficio-descuento">10% OFF</p>
+              <p>Descuento activo de por vida en todos los pasteles artesanales.</p>
+            </div>
+          </div>
+          <div class="beneficio beneficio-promo">
+            <div>
+              <p class="beneficio-tag">Promo Especial</p>
+              <p class="beneficio-titulo">Día del Cumpleaños</p>
+              <p>Disfruta de un cupcake de cortesía en tu mes de cumpleaños.</p>
+            </div>
+            <span class="pill">Activo en Octubre</span>
+          </div>
+        </div>
+
+        <section>
+          <div class="perfil-seccion-cabecera">
+            <h2>Historial Reciente</h2>
+            <a class="perfil-ver-todos" href="#">Ver Todos</a>
+          </div>
+          <div class="pedido-row">
+            <div class="pedido-info">
+              <div class="placeholder-img foto pedido-thumb"><img src="imagen/torta.jpg" alt="Tarta de Frambuesa y Chocolate"></div>
+              <div>
+                <p class="pedido-nombre">Tarta de Frambuesa y Chocolate</p>
+                <p class="pedido-detalle">Pedido #1042 • 12 Oct 2024</p>
+              </div>
+            </div>
+            <div class="pedido-importe">
+              <p class="pedido-precio">$85.000</p>
+              <span class="pedido-estado">Entregado</span>
+            </div>
+          </div>
+          <div class="pedido-row">
+            <div class="pedido-info">
+              <div class="placeholder-img foto pedido-thumb"><img src="imagen/torta.jpg" alt="Caja de Macarons Variados (12 uds)"></div>
+              <div>
+                <p class="pedido-nombre">Caja de Macarons Variados (12 uds)</p>
+                <p class="pedido-detalle">Pedido #0985 • 28 Sep 2024</p>
+              </div>
+            </div>
+            <div class="pedido-importe">
+              <p class="pedido-precio">$42.000</p>
+              <span class="pedido-estado">Entregado</span>
+            </div>
+          </div>
+        </section>
+
+        <div>
+          <div class="perfil-seccion-cabecera">
+            <h2>Recomendaciones para ti</h2>
+          </div>
+          <div class="card-grid reco-grid">
+            <div class="product-card">
+              <a href="productos/producto1.html" class="placeholder-img foto producto-img-link"><img src="imagen/chocolate.jpg" alt="Torta de Chocolate Clásica"></a>
+              <div class="product-info">
+                <h3><a class="producto-nombre-link" href="productos/producto1.html">Torta de Chocolate Clásica</a></h3>
+                <p class="perfil-reco-nota">Basado en tus pedidos de chocolate.</p>
+                <span class="price">$35.000</span>
+                <a href="productos/producto1.html" class="btn btn-primary btn-sm">Ver Detalles</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="placeholder-img foto"><img src="imagen/tres_leches.jpg" alt="Tres Leches Clásica"></div>
+              <div class="product-info">
+                <h3>Tres Leches Clásica</h3>
+                <p class="perfil-reco-nota">Un clásico que nunca falla.</p>
+                <span class="price">$32.000</span>
+                <a href="checkout.html" class="btn btn-primary btn-sm">Añadir al carrito</a>
+              </div>
+            </div>
+            <div class="product-card">
+              <div class="placeholder-img foto"><img src="imagen/zanahoria.jpg" alt="Pastel de Zanahoria"></div>
+              <div class="product-info">
+                <h3>Pastel de Zanahoria</h3>
+                <p class="perfil-reco-nota">Suave, húmedo y con especias.</p>
+                <span class="price">$26.000</span>
+                <a href="checkout.html" class="btn btn-primary btn-sm">Añadir al carrito</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- Footer de la Aplicación: Enlaces corporativos, horarios y contacto -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>Crème & Co</h4>
+        <p>Tu pastelería artesanal de confianza. Horneamos cada día con ingredientes 100% naturales y muchísimo amor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <p style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Calle del Sabor 123, Barrio Dulce</p>
+        <p style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> +56 9 1234 5678</p>
+        <p style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> hola@cremeco.cl</p>
+      </div>
+      <div class="footer-col">
+        <h4>Horarios</h4>
+        <p>Lunes a Viernes: 08:00 - 20:00</p>
+        <p>Sábados: 09:00 - 18:00</p>
+        <p>Domingos: Cerrado</p>
+      </div>
+      <div class="footer-col">
+        <h4>Redes Sociales</h4>
+        <ul>
+          <li><a href="#" style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> Instagram</a></li>
+          <li><a href="#" style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg> Facebook</a></li>
+          <li><a href="#" style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg> TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Pastelería Crème & Co. Todos los derechos reservados.
+    </div>
+  </footer>
+
+<!-- Botón Flotante (Modo Desarrollo): Atajo rápido para regresar al índice del proyecto -->
+<a href="../../index.html" class="dev-btn-volver-hub" title="Volver al índice">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  Volver al Hub
+</a>
+
+  <div id="auth-modals-container"></div>
+  <script src="js/auth.js"></script>
+
+  <script>
+    const btnPrefs = document.getElementById('btn-prefs');
+    const feedbackPrefs = document.getElementById('prefs-feedback');
+    if (btnPrefs) {
+      btnPrefs.addEventListener('click', function() {
+        btnPrefs.textContent = 'Guardando...';
+        btnPrefs.disabled = true;
+        setTimeout(() => {
+          btnPrefs.textContent = 'Guardar';
+          btnPrefs.disabled = false;
+          feedbackPrefs.style.opacity = '1';
+          setTimeout(() => feedbackPrefs.style.opacity = '0', 2500);
+        }, 800);
+      });
+    }
+  </script>
+</body>
+</html>

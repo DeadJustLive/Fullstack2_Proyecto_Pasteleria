@@ -1,0 +1,48 @@
+/* dev-hub-button.css
+   Estilos dedicados para el botón temporal de "Volver al Hub".
+   Se ha creado como un archivo separado para facilitar su eliminación
+   una vez que el proyecto esté integrado o pase a producción.
+*/
+
+.dev-btn-volver-hub {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background-color: #1f1b0f;
+  color: #ffffff !important;
+  padding: 10px 20px;
+  border-radius: 50px;
+  text-decoration: none !important;
+  font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 999999;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dev-btn-volver-hub:hover {
+  transform: translateY(-3px);
+  background-color: #3b3320;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+}
+
+.dev-btn-volver-hub svg {
+  fill: currentColor;
+  width: 16px;
+  height: 16px;
+}
+
+/* Ajuste para móviles para no interferir con la navegación inferior */
+@media (max-width: 768px) {
+  .dev-btn-volver-hub {
+    bottom: 80px; /* Queda por encima del posible bottom-nav */
+    left: 16px;
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,257 @@
+/* admin-tables.css */
+
+/* Generic Table Styles */
+.table-card {
+    background-color: var(--bs-surface-white, #ffffff);
+    border-radius: var(--admin-radius-card, 16px);
+    border: none;
+    box-shadow: var(--admin-shadow-card, 0 4px 20px rgba(0,0,0,0.03));
+    overflow: hidden;
+}
+
+.admin-table {
+    margin: 0;
+    width: 100%;
+}
+
+.admin-table thead {
+    background-color: #f8f5f1;
+}
+
+.admin-table th {
+    color: var(--bs-info);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(147,75,25,0.08);
+}
+
+.admin-table td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(147,75,25,0.05);
+}
+
+.admin-table tbody tr:hover {
+    background-color: rgba(147,75,25,0.02);
+}
+
+/* Action Buttons */
+.action-btn {
+    background: none;
+    border: 1px solid rgba(147,75,25,0.15);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    transform: scale(1.1);
+}
+
+.action-btn.is-edit {
+    color: var(--bs-primary);
+    border-color: var(--bs-primary);
+}
+
+.action-btn.is-edit:hover {
+    background-color: var(--bs-primary);
+    color: #fff;
+}
+
+.action-btn.is-delete, .action-btn.is-suspend {
+    color: var(--bs-danger);
+    border-color: var(--bs-danger);
+}
+
+.action-btn.is-delete:hover, .action-btn.is-suspend:hover {
+    background-color: var(--bs-danger);
+    color: #fff;
+}
+
+.action-btn.is-reactivate {
+    color: var(--admin-state-success-text);
+    border-color: var(--admin-state-success-text);
+}
+
+.action-btn.is-reactivate:hover {
+    background-color: var(--admin-state-success-text);
+    color: #fff;
+}
+
+
+/* Inventario Specific Styles */
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.product-thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--admin-radius-thumbnail, 8px);
+    background-color: #f1ede9;
+    flex-shrink: 0;
+    object-fit: cover;
+}
+
+.product-name {
+    font-weight: 700;
+    color: var(--bs-body-color);
+}
+
+.stock-badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--admin-radius-pill, 9999px);
+    padding: 4px 14px;
+    display: inline-block;
+}
+
+.stock-badge.is-ok {
+    background-color: var(--admin-state-success-bg);
+    color: var(--admin-state-success-text);
+}
+
+.stock-badge.is-danger {
+    background-color: var(--admin-state-danger-bg);
+    color: var(--notif-red-color, var(--admin-state-danger-text));
+}
+
+.stock-badge.is-warning {
+    background-color: var(--admin-state-warning-bg);
+    color: var(--admin-state-warning-text);
+}
+
+/* Modal overrides for admin page */
+.modal-content {
+    border-radius: var(--admin-radius-card, 16px);
+    border: none;
+}
+
+.modal-header {
+    background-color: #f8f5f1;
+    border-bottom: none;
+}
+
+.modal-title {
+    color: var(--bs-primary);
+    font-weight: 700;
+}
+
+/* Usuarios Specific Styles */
+.users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.users-search {
+    max-width: 300px;
+}
+
+.users-search .form-control {
+    border-radius: 9999px 0 0 9999px;
+}
+
+.users-search .btn {
+    border-radius: 0 9999px 9999px 0;
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+}
+
+.user-avatar.is-admin {
+    background-color: var(--bs-primary);
+    color: #fff;
+}
+
+.user-avatar.is-client {
+    background-color: #e8d5e0;
+    color: var(--bs-body-color);
+}
+
+.user-avatar.is-editor {
+    background-color: var(--kpi-orange-bg, #ffecd9);
+    color: var(--bs-body-color);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-weight: 700;
+    color: var(--bs-body-color);
+}
+
+.user-email {
+    font-size: 0.85rem;
+    color: var(--bs-info);
+}
+
+.role-badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--admin-radius-pill, 9999px);
+    padding: 4px 14px;
+    display: inline-block;
+}
+
+.role-badge.is-admin {
+    background-color: var(--bs-primary);
+    color: #fff;
+}
+
+.role-badge.is-client {
+    background-color: #e0d6d8;
+    color: var(--bs-info);
+}
+
+.role-badge.is-editor {
+    background-color: var(--kpi-orange-bg, #ffecd9);
+    color: #946a3a;
+}
+
+.status-badge {
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: var(--admin-radius-pill, 9999px);
+    padding: 4px 14px;
+}
+
+.status-badge.is-active {
+    background-color: var(--admin-state-success-bg);
+    color: var(--admin-state-success-text);
+}
+
+.status-badge.is-suspended {
+    background-color: var(--admin-state-danger-bg);
+    color: var(--notif-red-color, var(--admin-state-danger-text));
+}
+

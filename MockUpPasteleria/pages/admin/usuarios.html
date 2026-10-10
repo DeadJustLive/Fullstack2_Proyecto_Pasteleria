@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO: Evitar que los motores de búsqueda indexen el panel de administración por seguridad -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Gestión de Usuarios | Admin</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Local CSS -->
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/admin-variables.css">
+  <link rel="stylesheet" href="css/admin-sidebar.css">
+  <link rel="stylesheet" href="css/admin-header.css">
+  <link rel="stylesheet" href="css/admin-bottom-nav.css">
+  <link rel="stylesheet" href="css/admin-feedback.css">
+  <link rel="stylesheet" href="css/admin-tables.css">
+<script>if(localStorage.getItem('admin_sidebar_compact')==='true') document.documentElement.classList.add('is-sidebar-compact');</script>
+  <link rel="stylesheet" href="../../css/dev-hub-button.css">
+</head>
+<body>
+  <!-- Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  
+  <!-- SIDEBAR will be injected here -->
+  <div id="sidebar-placeholder"></div>
+  
+  <div class="main-content" id="main-content">
+    <!-- HEADER will be injected here -->
+    <div id="header-placeholder"></div>
+    
+    <main class="admin-main-area p-4">
+      <div class="users-header">
+        <div>
+          <h1 class="mb-1 text-secondary">Gestión de Usuarios</h1>
+          <p class="text-info mb-0">Administra los usuarios del sistema.</p>
+        </div>
+        <div class="users-search input-group">
+          <input type="text" class="form-control" placeholder="Buscar usuario...">
+          <button class="btn btn-primary px-4" type="button">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="user-avatar is-admin">M</div>
+                    <div class="user-info">
+                      <span class="user-name">Matias Rojas</span>
+                      <span class="user-email">matias@ejemplo.com</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="role-badge is-admin">Admin</span></td>
+                <td><span class="status-badge is-active">Activo</span></td>
+                <td>
+                  <div class="d-flex gap-2">
+                    <button class="action-btn is-edit disabled" title="Editar" disabled style="opacity: 0.5;">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="user-avatar is-client">C</div>
+                    <div class="user-info">
+                      <span class="user-name">Cliente Frecuente</span>
+                      <span class="user-email">cliente@ejemplo.com</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="role-badge is-client">Cliente</span></td>
+                <td><span class="status-badge is-active">Activo</span></td>
+                <td>
+                  <div class="d-flex gap-2">
+                    <button class="action-btn is-edit" title="Editar">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="action-btn is-suspend" title="Suspender">
+                      <i class="bi bi-slash-circle"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="user-avatar is-editor">A</div>
+                    <div class="user-info">
+                      <span class="user-name">Ana García</span>
+                      <span class="user-email">ana.garcia@ejemplo.com</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="role-badge is-editor">Editor</span></td>
+                <td><span class="status-badge is-active">Activo</span></td>
+                <td>
+                  <div class="d-flex gap-2">
+                    <button class="action-btn is-edit" title="Editar">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="action-btn is-suspend" title="Suspender">
+                      <i class="bi bi-slash-circle"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center gap-3">
+                    <div class="user-avatar is-client">P</div>
+                    <div class="user-info">
+                      <span class="user-name">Pedro Méndez</span>
+                      <span class="user-email">pedro@ejemplo.com</span>
+                    </div>
+                  </div>
+                </td>
+                <td><span class="role-badge is-client">Cliente</span></td>
+                <td><span class="status-badge is-suspended">Suspendido</span></td>
+                <td>
+                  <div class="d-flex gap-2">
+                    <button class="action-btn is-edit" title="Editar">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button class="action-btn is-reactivate" title="Reactivar">
+                      <i class="bi bi-arrow-counterclockwise"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- BOTTOM NAV will be injected here -->
+  <div id="bottomnav-placeholder"></div>
+  
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container position-fixed bottom-0 end-0 p-3"></div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Local JS -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/feedback.js"></script>
+  <script src="js/sidebar-toggle.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.action-btn.is-suspend').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (confirm('¿Suspender esta cuenta de usuario?')) {
+            const row = btn.closest('tr');
+            const statusBadge = row.querySelector('.status-badge');
+            statusBadge.className = 'status-badge is-suspended';
+            statusBadge.textContent = 'Suspendido';
+            btn.innerHTML = '<i class="bi bi-arrow-counterclockwise"></i>';
+            btn.title = 'Reactivar';
+            btn.classList.remove('is-suspend');
+            btn.classList.add('is-reactivate');
+            window.showToast('Cuenta suspendida', 'success');
+          }
+        });
+      });
+      
+      document.querySelectorAll('.action-btn.is-reactivate').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const row = btn.closest('tr');
+          const statusBadge = row.querySelector('.status-badge');
+          statusBadge.className = 'status-badge is-active';
+          statusBadge.textContent = 'Activo';
+          btn.innerHTML = '<i class="bi bi-slash-circle"></i>';
+          btn.title = 'Suspender';
+          btn.classList.remove('is-reactivate');
+          btn.classList.add('is-suspend');
+          window.showToast('Cuenta reactivada', 'success');
+        });
+      });
+    });
+  </script>
+
+<!-- Dev Hub Button -->
+<a href="../../index.html" class="dev-btn-volver-hub" title="Volver al índice">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  Volver al Hub
+</a>
+
+</body>
+</html>
+
+
+
+

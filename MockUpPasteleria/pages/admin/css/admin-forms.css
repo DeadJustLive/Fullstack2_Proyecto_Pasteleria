@@ -1,0 +1,80 @@
+/* ==========================================
+   ADMIN FORMS - Configuration page
+   ========================================== */
+.config-card {
+  background-color: var(--bs-surface-white);
+  border-radius: var(--admin-radius-card, 16px);
+  border: none;
+  box-shadow: var(--admin-shadow-card, 0 4px 20px rgba(0,0,0,0.03));
+}
+
+.config-card .card-body {
+  padding: 1.5rem;
+}
+
+.config-card-title {
+  color: var(--bs-primary, #81515a);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  font-family: var(--admin-font-heading, 'Be Vietnam Pro', sans-serif);
+  font-size: 1.25rem;
+}
+
+.config-input {
+  background-color: #f8f5f1;
+  border: 1px solid rgba(147, 75, 25, 0.1);
+}
+
+.config-input:focus {
+  box-shadow: 0 0 0 3px var(--search-focus-shadow, rgba(129, 81, 90, 0.1));
+  border-color: var(--bs-primary, #81515a);
+}
+
+.config-label {
+  color: var(--bs-body-color, #5D4037);
+  font-weight: 700;
+}
+
+.credentials-box {
+  background-color: #f8f5f1;
+  border: 1px solid rgba(147, 75, 25, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+}
+
+.help-card {
+  background-color: var(--bs-primary, #81515a);
+  border-radius: var(--admin-radius-card, 16px);
+  border: none;
+  color: #fff;
+  text-align: center;
+}
+
+.help-card .card-body {
+  padding: 1.5rem;
+}
+
+.help-card-btn {
+  background: #fff;
+  color: var(--bs-primary, #81515a);
+  border-radius: var(--admin-radius-pill, 9999px);
+  font-weight: 700;
+  border: none;
+  width: 100%;
+  padding: 0.5rem 1.5rem;
+}
+
+.help-card-btn:hover {
+  background: #f0f0f0;
+  color: var(--bs-primary, #81515a);
+}
+
+/* Form Switch (Toggle) customization */
+.form-check-input:checked {
+  background-color: var(--bs-primary, #81515a);
+  border-color: var(--bs-primary, #81515a);
+}
+.form-check-input:focus {
+  border-color: var(--bs-primary, #81515a);
+  box-shadow: 0 0 0 0.25rem var(--search-focus-shadow, rgba(129, 81, 90, 0.25));
+}

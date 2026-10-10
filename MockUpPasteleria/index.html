@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crème & Co</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <!-- CSS Global -->
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/variables.css">
+    <style>
+        body {
+            font-family: var(--font-text, 'Lato', sans-serif);
+            background-color: var(--color-background, #FFF5E1);
+            color: var(--color-text, #5D4037);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 24px;
+        }
+        h1 {
+            font-family: var(--font-heading, 'Pacifico', cursive);
+            font-size: 2.5rem;
+            color: var(--color-secondary, #8B4513);
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: var(--color-text-light, #B0BEC5);
+            margin-bottom: 40px;
+        }
+        .nav-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            width: 100%;
+            max-width: 900px;
+        }
+        @media (min-width: 768px) {
+            .nav-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .nav-section {
+            background: var(--color-surface, #FFF);
+            border-radius: var(--radius-lg, 16px);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-section h2 {
+            font-family: var(--font-text, 'Lato', sans-serif);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .nav-section--cliente h2 { color: var(--color-secondary, #8B4513); }
+        .nav-section--admin h2 { color: var(--color-error, #F44336); }
+        .nav-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .nav-section a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: var(--radius-md, 8px);
+            text-decoration: none;
+            color: var(--color-text, #5D4037);
+            font-size: 15px;
+            transition: background var(--transition-fast, 150ms ease);
+        }
+        .nav-section a:hover {
+            background: var(--color-background, #FFF5E1);
+        }
+        .nav-section a .material-symbols-outlined {
+            font-size: 20px;
+            color: var(--color-secondary, #8B4513);
+        }
+        .badge-status {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-weight: 700;
+            margin-left: auto;
+        }
+        .badge-status--done { background: #E8F5E9; color: #2E7D32; }
+        .badge-status--wip { background: #FFF3E0; color: #E65100; }
+        .badge-status--todo { background: #F3E5F5; color: #7B1FA2; }
+    </style>
+</head>
+<body>
+    <h1>Crème & Co</h1>
+    <p class="subtitle">Prototipo Interactivo — Índice de Vistas</p>
+
+    <div class="nav-grid">
+        <!-- Vistas del Cliente -->
+        <div class="nav-section nav-section--cliente">
+            <h2>🛒 Flujo del Cliente</h2>
+            <ul>
+                <li>
+                    <a href="./pages/cliente/index.html">
+                        <span class="material-symbols-outlined">home</span>
+                        Home / Historia
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/cliente/catalogo.html">
+                        <span class="material-symbols-outlined">storefront</span>
+                        Catálogo de Productos
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/cliente/productos/producto_base.html">
+                        <span class="material-symbols-outlined">cake</span>
+                        Detalle de Producto
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/cliente/carrito.html">
+                        <span class="material-symbols-outlined">shopping_cart</span>
+                        Carrito de Compras
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/cliente/checkout.html">
+                        <span class="material-symbols-outlined">shopping_cart_checkout</span>
+                        Checkout
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/cliente/envio.html">
+                        <span class="material-symbols-outlined">local_shipping</span>
+                        Opciones de Envío
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/cliente/confirmacion.html">
+                        <span class="material-symbols-outlined">check_circle</span>
+                        Confirmación de Pedido
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/cliente/registro.html">
+                        <span class="material-symbols-outlined">person_add</span>
+                        Registro
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/cliente/login.html">
+                        <span class="material-symbols-outlined">login</span>
+                        Iniciar Sesión
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/cliente/perfil.html">
+                        <span class="material-symbols-outlined">account_circle</span>
+                        Mi Perfil
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Vistas del Admin -->
+        <div class="nav-section nav-section--admin">
+            <h2>⚙️ Panel de Administración</h2>
+            <ul>
+                <li>
+                    <a href="./pages/admin/dashboard.html">
+                        <span class="material-symbols-outlined">analytics</span>
+                        Panel de Reportes
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/admin/inventario.html">
+                        <span class="material-symbols-outlined">inventory_2</span>
+                        Gestión de Inventario
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/admin/pedidos.html">
+                        <span class="material-symbols-outlined">receipt_long</span>
+                        Gestión de Pedidos
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/admin/usuarios.html">
+                        <span class="material-symbols-outlined">group</span>
+                        Gestión de Usuarios
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="./pages/admin/configuracion.html">
+                        <span class="material-symbols-outlined">settings</span>
+                        Configuración
+                        <span class="badge-status badge-status--done">Completado</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

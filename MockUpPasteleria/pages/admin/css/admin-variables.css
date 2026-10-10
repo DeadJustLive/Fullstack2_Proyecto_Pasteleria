@@ -1,0 +1,76 @@
+:root {
+  /* Colors from theme.css */
+  --bs-primary: #81515a;
+  --bs-secondary: #934b19;
+  --bs-info: #77574d;
+  --bs-warning: #ffa26a;
+  --bs-danger: #ba1a1a;
+  --bs-light: #fff8f0;
+  --bs-dark: #1f1b0f;
+  --bs-primary-container: #ffc0cb;
+  --bs-on-primary-container: #7b4b55;
+  --bs-surface-white: #ffffff;
+  --bs-body-bg: #fff8f0;
+  --bs-body-color: #5D4037;
+
+  /* Sidebar-specific colors */
+  --admin-sidebar-bg: #f1e9e0;
+  --admin-sidebar-border: rgba(147, 75, 25, 0.05);
+
+  /* KPI accent colors */
+  --kpi-pink-bg: #fff0f2;
+  --kpi-pink-circle: #f7b2c0;
+  --kpi-orange-bg: #ffecd9;
+  --kpi-orange-circle: #fc9b65;
+  --kpi-brown-bg: #f6efe9;
+  --kpi-brown-circle: #dcbca3;
+
+  /* Notification colors */
+  --notif-red-bg: #f8d7da;
+  --notif-red-color: #d9534f;
+  --notif-brown-bg: #eaddd3;
+  --notif-orange-bg: #fcb183;
+
+  /* Misc interaction */
+  --signout-hover: rgba(217, 83, 79, 0.1);
+  --nav-hover: rgba(119, 87, 77, 0.1);
+  --search-focus-shadow: rgba(129, 81, 90, 0.1);
+
+  /* Border radius tokens */
+  --admin-radius-card: 16px;
+  --admin-radius-pill: 9999px;
+  --admin-radius-bottom-nav: 30px;
+  --admin-radius-thumbnail: 8px;
+  --admin-radius-avatar: 50%;
+  
+  /* Sidebar avatar token */
+  --admin-sidebar-avatar: 55px;
+
+  /* Shadow tokens */
+  --admin-shadow-card: 0 4px 20px rgba(0,0,0,0.03);
+  --admin-shadow-card-hover: 0 15px 30px rgba(0,0,0,0.08);
+
+  /* Typography */
+  --admin-font-body: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+  --admin-font-heading: 'Be Vietnam Pro', sans-serif;
+
+  /* Spacing */
+  --admin-spacing-sm: 0.5rem;
+  --admin-spacing-md: 1rem;
+  --admin-spacing-lg: 1.5rem;
+  --admin-spacing-xl: 2rem;
+
+  /* Transitions */
+  --admin-transition-fast: 0.2s ease;
+  --admin-transition-base: 0.3s ease;
+
+  /* State Colors (Success, Warning, Danger, Info) */
+  --admin-state-success-bg: #d4edda;
+  --admin-state-success-text: #155724;
+  --admin-state-warning-bg: #fff3cd;
+  --admin-state-warning-text: #856404;
+  --admin-state-danger-bg: #f8d7da;
+  --admin-state-danger-text: #d9534f;
+  --admin-state-info-bg: #cce5ff;
+  --admin-state-info-text: #004085;
+}

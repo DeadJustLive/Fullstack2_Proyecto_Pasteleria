@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+  <title>Seguimiento de Pedido - Crème & Co</title>
+  <link rel="stylesheet" href="../../css/dev-hub-button.css">
+  <link rel="stylesheet" href="css/auth-modal.css">
+</head>
+<body class="pagina-seguimiento">
+  <!-- Encabezado Principal: Contiene el branding y la navegación superior -->
+  <header>
+    <div class="header-inner">
+      <div class="brand-group">
+        <span class="brand-logo" aria-hidden="true">C</span>
+        <p class="brand">Crème & Co</p>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="catalogo.html">Catálogo</a></li>
+          <li><a href="carrito.html">Carrito</a></li>
+          <li><a href="envio.html" class="active">Seguimiento de envío</a></li>
+          <li class="nav-profile-container">
+            <div class="nav-profile" id="nav-profile-btn" style="cursor:pointer; display:flex; align-items:center; margin-left: 1rem;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="var(--color-tertiary)" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+            <div class="profile-dropdown" id="profile-dropdown">
+              <!-- Contenedor Dinámico: Rellenado por js/auth.js (Dropdown de perfil de usuario) -->
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <!-- Contenedor Principal: Estructura central de la vista actual -->
+  <main>
+    <section class="seguimiento-hero">
+      <a class="seguimiento-volver" href="perfil.html">← Volver a mis pedidos</a>
+      <h1>Seguimiento de Pedido #67</h1>
+      <p>Tu momento dulce está en camino. Entrega estimada: <strong>15 de Noviembre, 14:00 - 16:00</strong></p>
+    </section>
+
+    <div class="seguimiento-grid">
+      <!-- Panel Principal: Línea de tiempo de estados (Stepper) y mapa de ruta embebido -->
+      <div class="seguimiento-principal">
+        <section class="seguimiento-card">
+          <h2>Estado del Pedido</h2>
+          <div class="stepper">
+            <div class="stepper-paso is-done">
+              <span class="stepper-circulo" aria-hidden="true">✓</span>
+              <div>
+                <p class="stepper-titulo">Pedido Recibido</p>
+                <p class="stepper-nota">09:30 AM</p>
+              </div>
+            </div>
+            <div class="stepper-paso is-current">
+              <span class="stepper-circulo" aria-hidden="true">2</span>
+              <div>
+                <p class="stepper-titulo">En Preparación</p>
+                <p class="stepper-nota">Amasando con amor</p>
+              </div>
+            </div>
+            <div class="stepper-paso">
+              <span class="stepper-circulo" aria-hidden="true">3</span>
+              <div>
+                <p class="stepper-titulo">Listo para Despacho</p>
+                <p class="stepper-nota">Pendiente</p>
+              </div>
+            </div>
+            <div class="stepper-paso">
+              <span class="stepper-circulo" aria-hidden="true">4</span>
+              <div>
+                <p class="stepper-titulo">En Camino</p>
+                <p class="stepper-nota">Pendiente</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="seguimiento-card">
+          <h2>Ruta de Entrega</h2>
+          <div class="mapa-container" style="width: 100%; height: 350px; border-radius: var(--radius); overflow: hidden; margin-top: 1rem; border: 1px solid rgba(93, 64, 55, 0.12);">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3329.1415668612196!2d-70.6482613!3d-33.4488426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c5a2c4e201bb%3A0x23f79fbc957a1772!2sSantiago%2C%20Regi%C3%B3n%20Metropolitana!5e0!3m2!1ses!2scl!4v1700000000000!5m2!1ses!2scl" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </section>
+      </div>
+
+      <!-- Panel Lateral (Sidebar): Desglose de precios, subtotales y acciones principales -->
+      <aside class="seguimiento-lateral">
+        <section class="seguimiento-card">
+          <h2>Resumen del Pedido</h2>
+          <div class="resumen-productos">
+            <div class="resumen-producto">
+              <div class="placeholder-img foto resumen-thumb"><img src="imagen/tartaleta.jpg" alt="Tartaleta de Frutos Rojos"></div>
+              <div class="resumen-nombre">
+                <p>Tartaleta de Frutos Rojos</p>
+                <p>Porción individual</p>
+              </div>
+              <span class="resumen-cantidad">x1</span>
+            </div>
+            <div class="resumen-producto">
+              <div class="placeholder-img foto resumen-thumb"><img src="imagen/chocolate.jpg" alt="Torta de Chocolate clásica"></div>
+              <div class="resumen-nombre">
+                <p>Torta de Chocolate clasica</p>
+                <p>Porción individual</p>
+              </div>
+              <span class="resumen-cantidad">x1</span>
+            </div>
+          </div>
+          <a href="#" class="btn btn-outline">Ver Factura</a>
+        </section>
+      </aside>
+    </div>
+
+    <section class="seguimiento-card contacto-card">
+      <h2>Contacto y Soporte</h2>
+      <p>¿Problemas con tu pedido o con el envío? Escríbenos y te ayudaremos.</p>
+      <form action="#" method="post" class="contacto-form">
+        <div class="form-group">
+          <label for="contacto-nombre">Nombre</label>
+          <input type="text" id="contacto-nombre" name="nombre" placeholder="Ej: María Gómez" required>
+        </div>
+        <div class="form-group">
+          <label for="contacto-email">Correo</label>
+          <input type="email" id="contacto-email" name="email" placeholder="Ej: maria@ejemplo.com" required>
+        </div>
+        <div class="form-group">
+          <label for="contacto-mensaje">Mensaje</label>
+          <textarea id="contacto-mensaje" name="mensaje" rows="4" placeholder="Cuéntanos en qué te podemos ayudar..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar consulta</button>
+      </form>
+    </section>
+  </main>
+  <!-- Footer de la Aplicación: Enlaces corporativos, horarios y contacto -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>Crème & Co</h4>
+        <p>Tu pastelería artesanal de confianza. Horneamos cada día con ingredientes 100% naturales y muchísimo amor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <p style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg> Calle del Sabor 123, Barrio Dulce</p>
+        <p style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg> +56 9 1234 5678</p>
+        <p style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> hola@cremeco.cl</p>
+      </div>
+      <div class="footer-col">
+        <h4>Horarios</h4>
+        <p>Lunes a Viernes: 08:00 - 20:00</p>
+        <p>Sábados: 09:00 - 18:00</p>
+        <p>Domingos: Cerrado</p>
+      </div>
+      <div class="footer-col">
+        <h4>Redes Sociales</h4>
+        <ul>
+          <li><a href="#" style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg> Instagram</a></li>
+          <li><a href="#" style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg> Facebook</a></li>
+          <li><a href="#" style="display: flex; align-items: center; gap: 0.5rem;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg> TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Pastelería Crème & Co. Todos los derechos reservados.
+    </div>
+  </footer>
+
+<!-- Botón Flotante (Modo Desarrollo): Atajo rápido para regresar al índice del proyecto -->
+<a href="../../index.html" class="dev-btn-volver-hub" title="Volver al índice">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  Volver al Hub
+</a>
+
+  <div id="auth-modals-container"></div>
+  <script src="js/auth.js"></script>
+</body>
+</html>
