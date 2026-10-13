@@ -4,6 +4,33 @@ Para que **Matias**, **Nicolas** y **Anais** sepan exactamente qué archivo abri
 
 ---
 
+## 🧭 Estrategia de migración: Snapshot → Extracción → Migración
+
+**Decisión de equipo (validada con Home como piloto).** En vez de reconstruir cada página a mano con Tailwind (que provocaba desvíos visuales), primero llevamos el HTML+CSS del mockup **tal cual** a React para garantizar la paridad visual, y luego migramos al design system de a poco.
+
+> **Importante:** el CSS del mockup cliente **NO usa Bootstrap**. Bootstrap solo está en las páginas de `pages/admin/`. En cliente se reemplaza CSS propio; en admin se reemplaza Bootstrap.
+
+### Fase 1 — Snapshot (paridad visual)
+- Copiar el HTML del mockup a un componente React (`.tsx`) casi literal: `class` → `className`, `style` → camelCase.
+- El CSS del mockup está **encolado** en `frontend/src/mockup/`:
+  - `src/mockup/cliente/*.css` → copia de `MockUpPasteleria/pages/cliente/css/`.
+  - `src/mockup/mockup.css` → importa `cliente/estilos.css` dentro de `@layer components` (`@import url("./cliente/estilos.css") layer(components)`).
+  - `src/mockup/imagen/fondo_obrador.png` → imagen que el CSS referencia por `url('../imagen/...')`.
+- Estar **dentro de `@layer components`** significa: manda sobre nuestro base/preflight (paridad con el mockup), pero los utilitarios de Tailwind siguen ganando (lo que protege páginas ya migradas como Carrito/Checkout/POS).
+- **No portar JS del mockup**: la interactividad se hace con React (estado/hooks/context).
+- Responsable piloto: **Matias** terminó `Home.tsx` + header/footer en `ClienteLayout.tsx`.
+
+### Fase 2 — Extracción de componentes
+- Del HTML ya portado se **extraen los componentes React nuevos** (aún con las clases del mockup): `Navbar`, `Footer`, `ProductCard`, `Badge`, `section-title/eyebrow`, carrusel, etc. Estos son los componentes de Anais/Nicolas según el mapeo de abajo.
+- Los contratos de props siguen la guía `03-ejemplo-componente-cva.md`; el CSS queda donde está hasta su migración.
+
+### Fase 3 — Migración CSS → design system (Bootstrap/CSS fuera)
+- Por cada componente extraído: reemplazar sus clases del mockup por el componente/estilos del design system (`Button`, `Input`, tokens CVA), **borrar el CSS del mockup correspondiente** y verificar visualmente.
+- En admin: quitar las clases de Bootstrap y `--bs-*` → tokens del design system.
+- Al terminar, eliminar `frontend/src/mockup/`.
+
+---
+
 ## 👥 Resumen de Roles
 
 | Integrante | Rol Principal | Foco Técnico |

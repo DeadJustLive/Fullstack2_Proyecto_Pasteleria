@@ -1,3 +1,112 @@
+@import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap");
 @import "tailwindcss";
 
-/* Aquí puedes agregar tus utilidades o bases personalizadas si es necesario */
+/* =========================================================
+   DESIGN SYSTEM - Crème & Co
+   Tokens extraidos del mockup (MockUpPasteleria/pages/cliente/css/estilos.css)
+   ========================================================= */
+@theme {
+  /* Colores */
+  --color-primary: #ffc0cb;
+  --color-secondary: #8b4513;
+  --color-tertiary: #5d4037;
+  --color-neutral: #fff5e1;
+  --color-ink: #3a2a21;
+  --color-inverted: #241812;
+  --color-error: #f44336;
+  --color-warning: #ff9800;
+
+  /* Tipografia */
+  --font-display: "Be Vietnam Pro", sans-serif;
+  --font-body: "Source Sans 3", sans-serif;
+
+  /* Radios y layout */
+  --radius: 12px;
+  --container-page: 1080px;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+@layer base {
+  body {
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    background-color: var(--color-neutral);
+    line-height: 1.6;
+
+    /* Sensacion de App nativa: evita seleccion accidental de texto. */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Re-habilitado en campos de formulario para poder escribir y borrar. */
+  input,
+  textarea {
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    color: var(--color-tertiary);
+    line-height: 1.15;
+  }
+
+  h1 {
+    font-size: clamp(1.9rem, 4vw, 2.9rem);
+  }
+
+  h2 {
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+    text-align: center;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+  }
+}
+
+/* Banner de servicios: marquee infinito (usado por animate-[banner-deslizar_...]) */
+@keyframes banner-deslizar {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Full-bleed del hero medido contra el shell (excluye la scrollbar) en lugar de 100vw */
+@layer utilities {
+  .hero-wrapper {
+    left: auto;
+    right: auto;
+    width: 100cqi;
+    margin-inline: calc(50% - 50cqi);
+  }
+
+  /* Quienes somos: apilar texto e imagen en mobile (el mockup no tiene flex-wrap) */
+  .quienes-somos-split {
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 640px) {
+    main {
+      padding: 1.75rem 1rem 3rem;
+    }
+
+    section {
+      padding: 1.25rem;
+    }
+
+    .hero-split,
+    .quienes-somos-split {
+      gap: 2rem;
+    }
+  }
+}

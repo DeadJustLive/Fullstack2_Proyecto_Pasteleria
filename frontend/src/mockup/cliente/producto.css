@@ -1,0 +1,149 @@
+/* ==========================================================================
+   ARCHIVO: producto.css
+   PROPÓSITO: Layout detallado para la página individual de cada producto y sus acciones.
+   ========================================================================== */
+/* enlaces de las tarjetas del catalogo que llevan a un producto */
+.producto-img-link {
+  text-decoration: none;
+  color: var(--color-secondary);
+}
+.producto-nombre-link {
+  color: var(--color-tertiary);
+  text-decoration: none;
+}
+.producto-nombre-link:hover { text-decoration: underline; }
+
+/* layout de detalle: imagen grande + informacion */
+.producto-detalle {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) 1fr;
+  gap: 2rem;
+  align-items: start;
+  text-align: left;
+}
+@media (max-width: 880px) {
+  .producto-detalle { grid-template-columns: 1fr; }
+}
+.producto-detalle section { margin-bottom: 0; }
+
+.producto-imagen {
+  aspect-ratio: 1 / 1;
+  min-height: 320px;
+}
+
+/* cabecera de la pagina */
+.producto-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-tertiary);
+  text-decoration: none;
+  margin-bottom: 1rem;
+}
+.producto-volver:hover { text-decoration: underline; }
+
+.producto-info h1,
+.producto-info h2,
+.producto-info h3 {
+  text-align: left;
+}
+.producto-eyebrow {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: 0.4rem;
+}
+.producto-precio {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--color-tertiary);
+  margin: 0.75rem 0 0.25rem;
+}
+.producto-descripcion {
+  margin: 0.75rem 0 1.25rem;
+}
+.producto-nota {
+  font-size: 0.9rem;
+  color: var(--color-secondary);
+}
+
+/* ingredientes */
+.producto-ingredientes {
+  margin-bottom: 1.25rem;
+}
+.producto-ingredientes h3 {
+  margin-bottom: 0.5rem;
+}
+.producto-ingredientes ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.producto-ingredientes li {
+  font-size: 0.85rem;
+  background-color: var(--color-neutral);
+  border: 1px solid rgba(93, 64, 55, 0.2);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+}
+
+/* selector de cantidad + anadir al carrito */
+.producto-comprar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.producto-cantidad {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(93, 64, 55, 0.3);
+  border-radius: 999px;
+  padding: 0.2rem;
+  background-color: var(--color-neutral);
+}
+.producto-cantidad button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-tertiary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.producto-cantidad button:hover { background-color: #F4A9B8; }
+.producto-cantidad input {
+  width: 2.4rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-weight: 700;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.producto-cantidad input::-webkit-outer-spin-button,
+.producto-cantidad input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.producto-cantidad input:focus { outline: none; }
+
+/* bloques de informacion extra (opcional en la base) */
+.producto-adicionales {
+  margin-top: 2rem;
+}
+.producto-adicionales section {
+  margin-bottom: 0;
+}

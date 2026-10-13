@@ -1,0 +1,262 @@
+/* ==========================================================================
+   ARCHIVO: seguimiento.css
+   PROPÓSITO: Estilos para la vista de tracking de envíos, línea de tiempo (stepper) y mapas.
+   ========================================================================== */
+/* Estilos de layout propios de la pagina de seguimiento de pedido */
+
+/* cabecera de la pagina: enlace volver + título + entrega estimada */
+.seguimiento-hero {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0.5rem 0 1rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+.seguimiento-hero h1,
+.seguimiento-hero h2 {
+  text-align: left;
+}
+.seguimiento-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-tertiary);
+  text-decoration: none;
+  margin-bottom: 0.75rem;
+}
+.seguimiento-volver:hover { text-decoration: underline; }
+.seguimiento-hero p {
+  margin-top: 0.75rem;
+  max-width: 62ch;
+}
+.seguimiento-hero strong { color: var(--color-secondary); }
+
+
+
+/* las tarjetas de esta pagina dejan de estar centradas */
+.seguimiento-card h2,
+.seguimiento-card h3 {
+  text-align: left;
+}
+
+/* layout de dos columnas: principal (stepper+mapa) + resumen */
+.seguimiento-grid {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 330px);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+@media (max-width: 900px) {
+  .seguimiento-grid { grid-template-columns: 1fr; }
+}
+
+/* Columna izquierda (Stepper y Mapa) */
+.seguimiento-principal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.seguimiento-principal section {
+  margin-bottom: 0px;
+}
+
+/* Columna derecha (Resumen del pedido) */
+.seguimiento-lateral {
+  /* Al ser hijo de un Grid, se estira automáticamente.
+     Garantizamos que el contenedor mida 100% del alto disponible
+     para que el elemento 'sticky' en su interior tenga espacio para deslizarse.
+     Quitamos el display: flex para evitar bugs de navegadores con sticky. */
+  height: 100%;
+}
+.seguimiento-lateral section {
+  margin-bottom: 0px;
+}
+
+/* --- Stepper de estados --- */
+.seguimiento-estados h2 {
+  margin-bottom: 1.25rem;
+}
+.stepper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.stepper-paso {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1.75rem;
+}
+.stepper-paso:last-child { padding-bottom: 0; }
+/* linea vertical que une los pasos en movil */
+.stepper-paso::before {
+  content: "";
+  position: absolute;
+  left: 23px;
+  top: 46px;
+  bottom: 4px;
+  width: 2px;
+  background-color: rgba(93, 64, 55, 0.18);
+}
+.stepper-paso:last-child::before { display: none; }
+.stepper-paso.is-done::before,
+.stepper-paso.is-current::before {
+  background-color: var(--color-primary);
+}
+.stepper-circulo {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--color-neutral);
+  border: 1px solid rgba(93, 64, 55, 0.25);
+  color: var(--color-secondary);
+  font-family: var(--font-display);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+.stepper-paso.is-done .stepper-circulo {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-tertiary);
+}
+.stepper-paso.is-current .stepper-circulo {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-tertiary);
+  box-shadow: 0 0 0 5px rgba(255, 192, 203, 0.4);
+}
+.stepper-titulo {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-tertiary);
+}
+.stepper-nota {
+  font-size: 0.82rem;
+  color: var(--color-secondary);
+}
+.stepper-paso:not(.is-done):not(.is-current) {
+  opacity: 0.55;
+}
+.stepper-paso.is-current .stepper-titulo {
+  color: var(--color-tertiary);
+}
+
+@media (min-width: 768px) {
+  .stepper {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .stepper-paso {
+    flex: 1;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 0.6rem;
+    padding-bottom: 0;
+  }
+  /* linea horizontal que une los pasos en escritorio */
+  .stepper-paso:not(:last-child)::before {
+    left: auto;
+    top: 22px;
+    bottom: auto;
+    right: -50%;
+    width: auto;
+    height: 2px;
+    background-color: rgba(93, 64, 55, 0.18);
+    z-index: 0;
+  }
+  .stepper-paso.is-done:not(:last-child)::before,
+  .stepper-paso.is-current:not(:last-child)::before {
+    background-color: var(--color-primary);
+  }
+  .stepper-paso.is-current::before { z-index: 0; }
+  .stepper-circulo { z-index: 1; }
+}
+
+/* --- Mapa / ruta de entrega --- */
+.mapa-placeholder {
+  width: 100%;
+  height: 280px;
+  border-radius: var(--radius);
+}
+
+/* 
+ * --- Resumen del pedido (columna lateral) --- 
+ * Utilizamos 'position: sticky' en lugar de 'fixed' para que la tarjeta de resumen
+ * se quede "fija" en la pantalla al hacer scroll, pero sin perder su ancho ni 
+ * salirse de su columna en el Grid (lo cual pasaría si usáramos 'fixed').
+ * 
+ * Funciona porque su contenedor padre (.seguimiento-lateral) se estira automáticamente 
+ * a lo alto de toda la página gracias a CSS Grid. La tarjeta se deslizará 
+ * dentro de ese contenedor hasta llegar al fondo.
+ */
+.seguimiento-lateral section {
+  /* Mantiene el elemento fijo dentro de su contenedor al hacer scroll */
+  position: sticky;
+  /* Espacio desde arriba de la ventana donde se detendrá el elemento */
+  top: 1.5rem;
+  /* align-self: flex-start; puede agregarse si en algún navegador el flex-stretch causa problemas con sticky */
+  align-self: flex-start;
+}
+.resumen-productos {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.resumen-producto {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+.resumen-thumb {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  padding: 0;
+  font-size: 0.6rem;
+  border-radius: 10px;
+}
+.resumen-producto .resumen-nombre {
+  flex: 1;
+  min-width: 0;
+}
+.resumen-nombre p:first-child {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-tertiary);
+}
+.resumen-nombre p:last-child {
+  font-size: 0.82rem;
+  color: var(--color-secondary);
+}
+.resumen-cantidad {
+  font-weight: 700;
+  color: var(--color-tertiary);
+}
+
+/* boton "Ver factura" estilo outline sobre fondo blanco */
+.btn-outline {
+  background-color: #FFFFFF;
+  border: 2px solid var(--color-secondary);
+  color: var(--color-secondary);
+}
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: var(--color-tertiary);
+}
+.seguimiento-lateral .btn {
+  display: block;
+  width: 100%;
+  margin-top: 1.25rem;
+  text-align: center;
+}

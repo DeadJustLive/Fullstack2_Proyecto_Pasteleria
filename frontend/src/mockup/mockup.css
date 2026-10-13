@@ -1,0 +1,6 @@
+/* Snapshot del CSS del mockup (MockUpPasteleria/pages/cliente/css/).
+   Importado al layer `components` para que:
+   - mande sobre nuestro base/preflight (paridad visual con el mockup)
+   - los utilitarios de Tailwind sigan pudiendo sobreescribirlo página a página
+     durante la migracion al design system. */
+@import url("./cliente/estilos.css") layer(components);

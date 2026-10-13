@@ -1,0 +1,638 @@
+/* ==========================================================================
+   ARCHIVO: estilos.css
+   PROPÓSITO: Hoja de estilos global: Variables de color, tipografía, resets y componentes base.
+   ========================================================================== */
+@import url(pie.css);
+@import url(cabecera.css);
+@import url(menu.css);
+@import url(catalogo.css);
+@import url(perfil.css);
+@import url(seguimiento.css);
+@import url(carrito.css);
+@import url(producto.css);
+@import url(imagenes.css);
+
+:root {
+  
+/* --------------------------------------------------------------------------
+   SECCIÓN: VARIABLES GLOBALES (COLORES Y TIPOGRAFÍA)
+   -------------------------------------------------------------------------- */
+  --color-primary: #FFC0CB;
+  --color-secondary: #8B4513;
+  --color-tertiary: #5D4037;
+  --color-neutral: #FFF5E1;
+  --color-ink: #3A2A21;
+  --color-inverted: #241812;
+
+  --font-display: 'Be Vietnam Pro', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+
+  --radius: 12px;
+  --container-width: 1080px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  overflow-x: hidden; /* Evitar scroll horizontal indeseado */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  line-height: 1.6;
+  background-color: var(--color-neutral);
+  
+  /* Se desactiva la selección de texto globalmente en el body (user-select: none) para mejorar 
+     la experiencia de usuario (UX). Esto evita que al hacer clics rápidos, navegar o arrastrar 
+     elementos interactivos (como el carrusel, acordeones o botones) se resalte el texto de 
+     forma accidental, dándole a la página una sensación más parecida a una aplicación nativa. */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Estándar */
+}
+
+/* Es importante volver a habilitar la selección de texto dentro de los campos de formulario
+   para que el usuario pueda escribir, seleccionar y borrar texto con normalidad. */
+input, textarea {
+  -webkit-user-select: auto;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-tertiary);
+  line-height: 1.15;
+}
+
+h1 { font-size: clamp(1.9rem, 4vw, 2.9rem); }
+h2 { font-size: clamp(1.3rem, 2.6vw, 1.7rem); text-align: center; }
+
+p { max-width: 65ch; }
+
+a {
+  color: var(--color-secondary);
+}
+
+main {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+section {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(93, 64, 55, 0.12);
+  border-radius: var(--radius);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(93, 64, 55, 0.06);
+}
+
+/* botones  */
+.btn {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.75rem 1.85rem;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color .15s ease, transform .15s ease, color .15s ease;
+}
+.btn:active { transform: scale(0.98); }
+
+.btn-primary {
+  background-color: var(--color-secondary);
+  color: var(--color-neutral);
+}
+.btn-primary:hover { background-color: var(--color-tertiary); }
+
+.btn-inverted {
+  background-color: var(--color-inverted);
+  color: var(--color-neutral);
+}
+.btn-inverted:hover { background-color: #000000; }
+
+button { font-family: inherit; }
+
+
+/* --------------------------------------------------------------------------
+   SECCIÓN: COMPONENTES BASE: FORMULARIOS Y ENTRADAS
+   -------------------------------------------------------------------------- */
+.form-card {
+  max-width: 420px;
+  margin: 0 auto;
+}
+.form-group {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+label {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--color-tertiary);
+}
+input {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid rgba(93, 64, 55, 0.3);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  background-color: var(--color-neutral);
+  color: var(--color-ink);
+}
+textarea {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid rgba(93, 64, 55, 0.3);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  background-color: var(--color-neutral);
+  color: var(--color-ink);
+  resize: vertical;
+}
+input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+  border-color: var(--color-secondary);
+}
+textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+  border-color: var(--color-secondary);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.form-footer-note {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.92rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   SECCIÓN: COMPONENTE: HERO SECTION (HOME)
+   -------------------------------------------------------------------------- */
+.hero-wrapper {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: linear-gradient(rgba(58, 42, 33, 0.8), rgba(58, 42, 33, 0.85)), url('../imagen/fondo_obrador.png');
+  background-size: cover;
+  background-position: center;
+  padding: clamp(3rem, 8vw, 6rem) 1.5rem; /* Padding fluido */
+  margin-bottom: 4rem;
+  margin-top: -2.5rem; /* Compensa el padding-top de main para tocar el header */
+  color: var(--color-neutral); /* Texto por defecto claro */
+}
+
+/* Invertir colores y escalar tipografías de texto fluidamente */
+.hero-wrapper h1 {
+  color: var(--color-neutral) !important;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1.1;
+}
+.hero-wrapper p,
+.hero-wrapper .tagline {
+  color: var(--color-neutral) !important;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+}
+.hero-wrapper .eyebrow {
+  color: var(--color-primary) !important; /* Resalta sobre el marrón oscuro */
+  font-size: clamp(0.75rem, 1.5vw, 0.95rem);
+}
+
+/* Contenedor del logo SVG en lugar de la foto */
+.hero-split .hero-logo {
+  flex: 1 1 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hero-split .hero-logo svg {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+.hero-split .hero-logo svg:hover {
+  transform: scale(1.02);
+}
+
+/* El contenido interno respeta el ancho máximo */
+.hero-split {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+  flex-wrap: wrap;
+  text-align: left;
+}
+.hero-split .hero-text { flex: 1 1 320px; }
+
+/* Sección Quiénes Somos (split) */
+.quienes-somos-split {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+.quienes-somos-split .texto { flex: 1 1 320px; }
+.quienes-somos-split .texto h2 { text-align: left; margin-bottom: 1rem; }
+.quienes-somos-split .texto p { margin-bottom: 1rem; }
+.quienes-somos-split .imagen { 
+  flex: 1 1 320px; 
+  aspect-ratio: 4 / 3; 
+  border-radius: var(--radius); 
+}
+.hero-split .eyebrow {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: 0.5rem;
+}
+.hero-split .tagline {
+  font-size: 1.05rem;
+  color: var(--color-ink);
+  margin: 1rem 0 1.5rem;
+}
+.hero-split .hero-image {
+  flex: 1 1 320px;
+  aspect-ratio: 4 / 3;
+}
+
+
+/* --------------------------------------------------------------------------
+   SECCIÓN: COMPONENTE: FRANJA DE SELLOS DE CONFIANZA
+   -------------------------------------------------------------------------- */
+.feature-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0 0 3rem;
+  background-color: #FFFFFF;
+  padding: 1.5rem 2rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(93, 64, 55, 0.12);
+  box-shadow: 0 4px 6px rgba(93, 64, 55, 0.05);
+}
+.feature-list li {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.feature-list li::before {
+  content: '✓';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-primary);
+  color: var(--color-tertiary);
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+
+/* --------------------------------------------------------------------------
+   SECCIÓN: COMPONENTE: ENCABEZADOS DE SECCIÓN
+   -------------------------------------------------------------------------- */
+.section-title {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+.section-title .eyebrow {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: 0.35rem;
+}
+
+
+/* --------------------------------------------------------------------------
+   SECCIÓN: LAYOUT: GRILLAS RESPONSIVAS (CSS GRID)
+   -------------------------------------------------------------------------- */
+.card-grid {
+  display: grid;
+  gap: 1.5rem;
+  /* Móvil por defecto: 1 columna */
+  grid-template-columns: 1fr;
+}
+
+/* Pantallas pequeñas (sm: >= 576px) */
+@media (min-width: 576px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Pantallas medianas (md: >= 768px) */
+@media (min-width: 768px) {
+  .card-grid {
+    /* Mantenemos 2 columnas hasta que la pantalla sea más ancha, para dar espacio a la barra lateral si existe */
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Pantallas a partir de 900px (donde el usuario solicitó 3 columnas) */
+@media (min-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Pantallas grandes (lg: >= 992px) */
+@media (min-width: 992px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Pantallas extra grandes (xl: >= 1200px) */
+@media (min-width: 1200px) {
+  .card-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Modificador para tarjetas más pequeñas (recomendaciones perfil) */
+.reco-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.reco-grid .product-info {
+  padding: 0.8rem;
+}
+.reco-grid .product-card h3 {
+  font-size: 0.95rem;
+}
+.reco-grid .price {
+  font-size: 0.9rem;
+}
+.reco-grid .btn-add-cart {
+  padding: 0.6rem 0.4rem;
+  font-size: 0.85rem;
+}
+.reco-grid .btn-icon {
+  width: 36px;
+  height: 36px;
+}
+.reco-grid .btn-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 960px) {
+  .reco-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+
+
+/* --------------------------------------------------------------------------
+   SECCIÓN: COMPONENTE: CARRUSEL HORIZONTAL (DESTACADOS)
+   -------------------------------------------------------------------------- */
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centra el carrusel en el contenedor */
+  margin-bottom: 3rem;
+  width: 100%;
+}
+.carousel-wrapper .carousel {
+  margin-bottom: 0;
+  width: 100%; /* Permite que el carrusel use todo el espacio para poder centrar las tarjetas internamente */
+}
+.carousel-btn {
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid rgba(93, 64, 55, 0.12);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-tertiary);
+  transition: all 0.3s ease;
+}
+.carousel-btn:hover {
+  background: var(--color-primary);
+  color: var(--color-tertiary);
+  transform: translateY(-50%) scale(1.05);
+}
+.carousel-btn.prev {
+  left: -24px;
+}
+.carousel-btn.next {
+  right: -24px;
+}
+@media (max-width: 900px) {
+  .carousel-btn {
+    display: none; /* En móviles es mejor deslizar con el dedo */
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   SECCIÓN: COMPONENTE: CARRUSEL HORIZONTAL (DESTACADOS)
+   -------------------------------------------------------------------------- */
+.carousel {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  margin-bottom: 3rem;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+@media (min-width: 960px) {
+  .carousel {
+    justify-content: center; /* Centrar cuando hay espacio de sobra */
+  }
+}
+.carousel::-webkit-scrollbar { display: none; }
+.carousel .product-card {
+  min-width: 260px;
+  max-width: 300px;
+  flex: 1 0 260px;
+  scroll-snap-align: start;
+}
+
+
+/* --------------------------------------------------------------------------
+   SECCIÓN: LAYOUT: GRILLA DE TARJETAS (CSS GRID)
+   -------------------------------------------------------------------------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 600px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.product-card {
+  position: relative;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(93, 64, 55, 0.12);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(93, 64, 55, 0.06);
+  display: flex;
+  flex-direction: column;
+}
+.product-card .placeholder-img {
+  aspect-ratio: 1 / 1;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px dashed rgba(93, 64, 55, 0.25);
+}
+.product-card .product-info {
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+.product-card .price {
+  font-weight: 700;
+  color: var(--color-secondary);
+}
+
+/* Acciones en la tarjeta (botones al fondo) */
+.product-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto; /* Empuja los botones al fondo para alinear tarjetas */
+}
+.btn-add-cart {
+  flex: 1;
+  text-align: center;
+  padding: 0.75rem 0.5rem;
+  font-size: 0.95rem;
+}
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 2px solid var(--color-secondary);
+  border-radius: 50%;
+  color: var(--color-secondary);
+  background: transparent;
+  transition: background-color .15s ease, color .15s ease, transform .15s ease;
+}
+.btn-icon:hover {
+  background: var(--color-secondary);
+  color: var(--color-neutral);
+}
+.btn-icon:active { transform: scale(0.95); }
+
+/* caja punteada reservada para las fotos que pondra el nico */
+.placeholder-img {
+  background-color: var(--color-neutral);
+  border: 2px dashed rgba(93, 64, 55, 0.3);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--color-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* el resumen de la compra */
+.resumen-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed rgba(93, 64, 55, 0.25);
+}
+.resumen-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--color-tertiary);
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+}
+
+/* confirmacion */
+.confirmacion-icono {
+  font-size: 2.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* los colores por pagina*/
+.pagina-home,
+.pagina-login,
+.pagina-registro,
+.pagina-checkout,
+.pagina-confirmacion,
+.pagina-perfil,
+.pagina-seguimiento,
+.pagina-carrito {
+  background-color: var(--color-neutral);
+  min-height: 100vh;
+}

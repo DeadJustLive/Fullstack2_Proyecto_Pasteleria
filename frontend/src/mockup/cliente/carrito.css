@@ -1,0 +1,199 @@
+/* ==========================================================================
+   ARCHIVO: carrito.css
+   PROPÓSITO: Estilos específicos para la vista del carrito de compras y resumen de pago.
+   ========================================================================== */
+/* Estilos de layout propios de la pagina de carrito */
+
+/* cabecera de la pagina (izquierda) */
+.carrito-hero {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0.5rem 0 1rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+.carrito-hero .eyebrow {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: 0.35rem;
+}
+.carrito-hero p {
+  margin-top: 0.75rem;
+  max-width: 60ch;
+}
+
+/* las tarjetas de esta pagina dejan de estar centradas */
+.carrito-principal h2,
+.carrito-lateral h2,
+.carrito-principal h3 {
+  text-align: left;
+}
+
+/* layout de dos columnas: productos + resumen */
+.carrito-grid {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 330px);
+  gap: 1.5rem;
+}
+@media (max-width: 900px) {
+  .carrito-grid { grid-template-columns: 1fr; }
+}
+
+.carrito-principal section,
+.carrito-lateral section {
+  margin-bottom: 0;
+}
+
+/* --- Item del carrito --- */
+.carrito-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px dashed rgba(93, 64, 55, 0.22);
+}
+.carrito-item:first-child { padding-top: 0; }
+.carrito-item:last-child { border-bottom: none; padding-bottom: 0; }
+.carrito-thumb {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  padding: 0;
+  font-size: 0.6rem;
+  border-radius: 10px;
+}
+.carrito-info {
+  flex: 1;
+  min-width: 0;
+}
+.carrito-nombre {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-tertiary);
+}
+.carrito-detalle {
+  font-size: 0.82rem;
+  color: var(--color-secondary);
+  margin-bottom: 0.35rem;
+}
+.carrito-precio-unitario {
+  font-size: 0.9rem;
+  color: var(--color-secondary);
+}
+.carrito-eliminar {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+.carrito-eliminar:hover { text-decoration: underline; }
+
+/* formulario basico de cantidad */
+.carrito-cantidad {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(93, 64, 55, 0.3);
+  border-radius: 999px;
+  padding: 0.2rem;
+  background-color: var(--color-neutral);
+}
+.carrito-cantidad button {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-tertiary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+.carrito-cantidad button:hover { background-color: #F4A9B8; }
+.carrito-cantidad input {
+  width: 2.4rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-weight: 700;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.carrito-cantidad input::-webkit-outer-spin-button,
+.carrito-cantidad input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.carrito-cantidad input:focus {
+  outline: none;
+}
+
+.carrito-subtotal-linea {
+  min-width: 5.5rem;
+  text-align: right;
+  font-weight: 700;
+  color: var(--color-tertiary);
+}
+
+/* --- Resumen / cupon --- */
+.carrito-lateral section {
+  position: sticky;
+  top: 1.5rem;
+}
+.carrito-cupon {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+.carrito-cupon input {
+  flex: 1;
+  min-width: 0;
+}
+.carrito-cupon .btn {
+  padding: 0.55rem 1.1rem;
+  white-space: nowrap;
+}
+.carrito-totales {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed rgba(93, 64, 55, 0.22);
+}
+.carrito-totales .valor { font-weight: 600; }
+.carrito-total {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--color-tertiary);
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+}
+.carrito-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+.carrito-acciones .btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.carrito-seguir {
+  display: block;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+.carrito-seguir:hover { text-decoration: underline; }

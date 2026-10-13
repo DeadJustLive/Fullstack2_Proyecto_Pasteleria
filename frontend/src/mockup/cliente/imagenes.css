@@ -1,0 +1,75 @@
+/* ==========================================================================
+   ARCHIVO: imagenes.css
+   PROPÓSITO: Clases utilitarias para el manejo estandarizado de imágenes y placeholders.
+   ========================================================================== */
+/* Estilos de TODAS las imagenes de producto: .foto + tamanos por contexto */
+
+/* Contenedor con foto real (reemplaza al placeholder punteado) */
+.placeholder-img.foto {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  background-color: #FFFFFF;
+  border: none;
+}
+.placeholder-img.foto img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Tarjetas de catalogo / recomendaciones: imagen cuadrada a sangre */
+.product-card .placeholder-img.foto {
+  aspect-ratio: 1 / 1;
+  border-radius: 0;
+  border: none;
+}
+
+/* Detalle de producto (imagen grande) */
+.producto-detalle .placeholder-img.foto {
+  aspect-ratio: 1 / 1;
+  min-height: 320px;
+  border-radius: var(--radius);
+  border: none;
+}
+
+/* Miniaturas del carrito */
+.carrito-thumb.foto {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  border: none;
+}
+
+/* Miniaturas del historial en perfil */
+.pedido-thumb.foto {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  border: none;
+}
+
+/* Envio / seguimiento: miniaturas acotadas y mapa contenido */
+.pagina-seguimiento .resumen-thumb.foto {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  border: none;
+}
+.pagina-seguimiento .resumen-thumb.foto img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+}
+.pagina-seguimiento .mapa-placeholder.foto {
+  width: 100%;
+  height: 280px;
+  border-radius: var(--radius);
+  border: none;
+}
+.pagina-seguimiento .mapa-placeholder.foto img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}

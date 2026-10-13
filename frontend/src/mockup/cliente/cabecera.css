@@ -1,0 +1,56 @@
+/* ==========================================================================
+   ARCHIVO: cabecera.css
+   PROPÓSITO: Estilos estructurales para el encabezado principal (Header) y logotipo.
+   ========================================================================== */
+header {
+  position: relative;
+  background-color: white
+  ;
+  border-bottom: 1px solid rgba(93, 64, 55, 0.14);
+  padding: 1rem 1.5rem;
+}
+
+.header-inner {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-tertiary);
+  font-family: var(--font-display);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header .brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.2rem, 2.4vw, 1.5rem);
+  letter-spacing: 0.01em;
+  color: var(--color-tertiary);
+}
+
+header .tagline {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.9rem;
+  color: var(--color-secondary);
+}
