@@ -22,7 +22,7 @@
 | :--- | :--- |
 | **Fase actual** | F3 — Ejecución por tickets |
 | **Siguiente fase** | F4 — Validación / Testing (cuando se complete la migración a design system) |
-| **Estado** | En curso — Home migrada al design system |
+| **Estado** | En curso — Home migrada al design system y responsividad mobile corregida |
 
 > Fases: F0 Setup → F1 Levantamiento → F2 Sprints → F3 Ejecución → F4 Validación → F5 Cierre. Ver `AGENTS.md`.
 
@@ -85,6 +85,7 @@ la migración.
 | T17 | Migrar Navbar y Footer al design system | F3 / S4 | Pendiente | `CONV-UI-04` |
 | T18 | Implementar `ProductoDetalle` (ruta `producto/:id`) | F3 / S4 | Pendiente | `CONV-UI-02` |
 | T19 | Eliminar `frontend/src/mockup/` | F3 / S4 | Pendiente | `CONV-GEN-02` |
+| T20 | Fix de responsividad: `main` del shell con `max-w-full` + `xl:max-w-page` | F3 / S4 | Hecho | `CONV-UI-03` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
@@ -118,5 +119,23 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
   sin `href="#"`, sin clases del snapshot, todas las imágenes referenciadas existen). El
   andamiaje se eliminó al cerrar el ticket; el error de aserción queda registrado como
   `FRONT-012` en `docs/cicatrices_guerra.md`.
+- **Evidencia de T20:** medición real en Edge headless (CDP) sobre el build de producción,
+  antes y después del fix, en 7 anchos (360 / 390 / 430 / 768 / 1024 / 1280 / 1440) y
+  5 rutas (`/`, `/catalogo`, `/carrito`, `/checkout`, `/envio`).
+  - **Home:** `main` pasa de 1080px fijos a `clientWidth` del viewport; el hero pasa de
+    estar fuera de pantalla (`x=360..720` en 360px) a ocupar el viewport completo
+    (`x=0..360`). Sin scroll horizontal ni desbordes en ninguna medida.
+  - **1280 / 1440:** `main` = 1080px y hero = `0..1265` / `0..1425`, **idénticos** al
+    estado previo → sin regresión en escritorio.
+  - **Catálogo / Carrito / Checkout / Envío:** `main` con el mismo ancho que antes del
+    fix en los 7 anchos → el cambio no afecta a las páginas aún no migradas.
+  - **Menú móvil (390px):** el panel se abre dentro del viewport.
+  - La causa raíz y el porqué del `margin-inline: auto` quedan registrados como
+    `FRONT-013` en `docs/cicatrices_guerra.md`.
+- **Grafo PCA:** al añadir `ClienteLayout.tsx` al manifiesto se detectó que el anotador
+  **truncaba las relaciones** de cada nodo (sobrevivía solo la última línea `@relates`):
+  el grafo declaraba 23 relaciones para 23 nodos, cuando el manifiesto define 42. Corregido
+  en `tools/pca_annotator.py` y registrado como `FRONT-014`. `impact` ahora devuelve los
+  dependientes reales (p. ej. `frontend.pages.cliente.home` → `frontend.layouts.clienteLayout`).
 - **Pendiente de validación manual:** checklist responsive 360 / 390 / 430 / 768 / 1024 /
   1280 / 1440 (sección 7 de `docs/reglas_ui.md`).

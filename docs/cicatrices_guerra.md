@@ -123,4 +123,20 @@
 // fix='Cuando el recurso lo define el CSS (background-image, @font-face), buscarlo en la hoja compilada y no en el markup. Y comprobar las imagenes referenciadas contra /public para detectar rutas rotas.'
 ```
 
+```markdown
+// @learn-error id='FRONT-013'
+// input='Dejar el main del shell como flex item con el max-width y el margin: 0 auto del snapshot'
+// expected='Que el contenido se centrara y quedara contenido en un contenedor de 1080px en cualquier pantalla'
+// actual='El main es flex item de una columna: el margin-inline: auto anula el estirado y lo dimensiona por su contenido (fit-content). El marquee (width: max-content) lo inflaba a 1080px en TODAS las pantallas, y el hero full-bleed quedaba fuera del viewport (en 360px ocupaba x=360..720). El html,body{overflow-x:hidden} del snapshot ocultaba el sintoma en vez de arreglarlo'
+// fix='Anadir max-w-full al main (fija el ancho al viewport) y recuperar el tope de 1080px con xl:max-w-page (desde 1280px, donde ya cabe). Verificar con medicion real en el navegador: main == clientWidth, hero 0..viewport, scrollWidth == clientWidth.'
+```
+
+```markdown
+// @learn-error id='FRONT-014'
+// input='Anadir un nodo con varias relaciones al manifiesto y ejecutar impact para saber que le afecta'
+// expected='Que el grafo tuviera todas las relaciones del nodo (por ejemplo, 44 relaciones en 23 nodos)'
+// actual='El grafo reportaba 23 relaciones (exactamente una por nodo): parse_annotations asignaba meta["relates"] = [...] en vez de acumularla, asi que de cada bloque @pca solo sobrevivia la ULTIMA linea @relates. El check pasaba igual (0 relaciones rotas) porque la que sobrevivia era valida: el bug se escondia'
+// fix='En _assign, las relaciones se acumulan con una lista de deduplicados en vez de sobrescribirse. Senal de alarma: el numero de relaciones debe coincidir con la suma de relates del manifiesto, no con el numero de nodos.'
+```
+
 *(El alumno y la IA añadirán más errores debajo de esta línea durante el desarrollo del Taller 4)*

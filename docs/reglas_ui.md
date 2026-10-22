@@ -146,6 +146,23 @@ Viven en `frontend/src/components/ui/` y `frontend/src/components/domain/`.
 - [ ] 1280px — el `main` sigue limitado a 1080px; el hero a sangre completa.
 - [ ] 1440px — sin desbordes.
 
+### Criterio objetivo (comprobable, no "a ojo")
+
+El `overflow-x: hidden` del snapshot **oculta** los desbordes, no los arregla: por eso
+hay que medir, no mirar. Para cada ruta y cada ancho de la lista anterior:
+
+| Comprobación | Condición |
+| :--- | :--- |
+| Ancho del contenedor | `main.getBoundingClientRect().width === document.documentElement.clientWidth` (o `1080` a partir de 1280px, donde `xl:max-w-page` entra) |
+| Sin scroll horizontal | `document.documentElement.scrollWidth === document.documentElement.clientWidth` |
+| Sin elementos fuera | ningún descendiente de `main` con `right > clientWidth` o `left < 0` (ignorando los que tienen un ancestro con `overflow-x` distinto de `visible`) |
+| Elemento a sangre completa | su `left === 0` y su `right === clientWidth` |
+
+El `main` del shell **siempre** lleva `max-w-full`. Sin él, el `margin-inline: auto`
+del snapshot lo convierte en un contenedor `fit-content` que se infla con el contenido
+más ancho (el marquee) y empuja las secciones a sangre fuera de la pantalla. Ver
+`FRONT-013` en `docs/cicatrices_guerra.md`.
+
 ---
 
 ## 8. Rendimiento
