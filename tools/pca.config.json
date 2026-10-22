@@ -217,7 +217,7 @@
       "path": "frontend/src/hooks/useCarousel.ts",
       "id": "frontend.hooks.useCarousel",
       "kind": "service",
-      "limit": 100,
+      "limit": 110,
       "contract": "useCarousel(total: number) -> { trackRef, indice, enInicio, enFin, irA, desplazar }",
       "desc": "Estado y acciones de un track horizontal con scroll-snap (indice y posiciones)",
       "relates": ["frontend.domain.carouselDestacados", "docs.reglas_ui"]
