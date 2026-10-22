@@ -1,0 +1,214 @@
+{
+  "_annotation": {
+    "id": "tools.pca_config",
+    "kind": "config",
+    "desc": "Manifiesto del anotador PCA (JSON no admite comentarios; esta clave cumple el rol de bloque)",
+    "relates": ["tools.pca_annotator"]
+  },
+  "base_dir": "..",
+  "roots": ["docs", "tools", "frontend/src", "frontend/scripts"],
+  "include": ["**/*.py", "**/*.md", "**/*.css", "**/*.html", "**/*.tsx", "**/*.ts", "**/*.mjs"],
+  "exclude": ["**/grafo.*", "**/*.bak", "**/node_modules/**", "**/dist/**"],
+  "files": [
+    {
+      "path": "tools/pca_annotator.py",
+      "id": "tools.pca_annotator",
+      "kind": "service",
+      "limit": 500,
+      "contract": "cli: annotate|graph|impact|check",
+      "desc": "CLI para inyectar anotaciones PCA y generar el grafo de impacto del proyecto",
+      "relates": ["docs.sistema_anotaciones", "docs.convenciones"]
+    },
+    {
+      "path": "tools/README.md",
+      "id": "tools.readme",
+      "kind": "doc",
+      "desc": "Guía de uso del anotador PCA y cómo agregar lenguajes",
+      "relates": ["tools.pca_annotator"]
+    },
+    {
+      "path": "docs/sistema_anotaciones.md",
+      "id": "docs.sistema_anotaciones",
+      "kind": "doc",
+      "desc": "Diccionario de anotaciones PCA y cómo usarlas",
+      "relates": ["tools.pca_annotator"]
+    },
+    {
+      "path": "docs/convenciones.md",
+      "id": "docs.convenciones",
+      "kind": "doc",
+      "desc": "Convenciones generales del proyecto",
+      "relates": ["docs.sistema_anotaciones"]
+    },
+    {
+      "path": "docs/estado_proyecto.md",
+      "id": "docs.estado_proyecto",
+      "kind": "doc",
+      "limit": 200,
+      "desc": "Tablero de control: fase, stack, sprints, tickets y próximo paso",
+      "relates": ["docs.convenciones", "docs.reglas_ui", "docs.git"]
+    },
+    {
+      "path": "docs/reglas_ui.md",
+      "id": "docs.reglas_ui",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Reglas de UI: tokens, escalas, breakpoints, componentes y checklist responsive",
+      "relates": ["docs.convenciones", "frontend.ui.buttonVariants"]
+    },
+    {
+      "path": "docs/cicatrices_guerra.md",
+      "id": "docs.cicatrices_guerra",
+      "kind": "doc",
+      "limit": 300,
+      "desc": "Learning loop: errores commits, su causa y su solución",
+      "relates": ["docs.convenciones", "docs.reglas_ui"]
+    },
+    {
+      "path": "docs/git.md",
+      "id": "docs.git",
+      "kind": "doc",
+      "limit": 200,
+      "desc": "Estrategia de ramas, commits y flujo de versionado",
+      "relates": ["docs.convenciones"]
+    },
+    {
+      "path": "frontend/src/components/ui/buttonVariants.ts",
+      "id": "frontend.ui.buttonVariants",
+      "kind": "service",
+      "limit": 60,
+      "contract": "cva: variant(primary|secondary|outline|ghost) x size(sm|default|lg|icon)",
+      "desc": "Variantes compartidas por Button y ButtonLink del design system",
+      "relates": ["docs.reglas_ui"]
+    },
+    {
+      "path": "frontend/src/components/ui/Button.tsx",
+      "id": "frontend.ui.button",
+      "kind": "component",
+      "limit": 50,
+      "contract": "props: variant, size, type, disabled + ButtonHTMLAttributes",
+      "desc": "Boton del design system (pildora, variantes CVA)",
+      "relates": ["frontend.ui.buttonVariants", "docs.reglas_ui"]
+    },
+    {
+      "path": "frontend/src/components/ui/ButtonLink.tsx",
+      "id": "frontend.ui.buttonLink",
+      "kind": "component",
+      "limit": 50,
+      "contract": "props: to + ButtonVariantProps",
+      "desc": "Enlace con apariencia de boton del design system",
+      "relates": ["frontend.ui.buttonVariants", "docs.reglas_ui"]
+    },
+    {
+      "path": "frontend/src/components/ui/LogoCremeCo.tsx",
+      "id": "frontend.ui.logoCremeCo",
+      "kind": "component",
+      "limit": 120,
+      "contract": "props: className",
+      "desc": "Logotipo SVG inline de Crème & Co (decorativo, id unico con useId)",
+      "relates": ["docs.reglas_ui"]
+    },
+    {
+      "path": "frontend/src/components/domain/HeroHome.tsx",
+      "id": "frontend.domain.heroHome",
+      "kind": "component",
+      "limit": 80,
+      "contract": "sin props",
+      "desc": "Banner principal de la Home (full-bleed con .hero-bg y .full-bleed)",
+      "relates": ["frontend.ui.logoCremeCo", "frontend.ui.buttonLink", "docs.reglas_ui"]
+    },
+    {
+      "path": "frontend/src/components/domain/CarouselDestacados.tsx",
+      "id": "frontend.domain.carouselDestacados",
+      "kind": "component",
+      "limit": 160,
+      "contract": "props: productos: Producto[]",
+      "desc": "Carrusel de destacados con scroll-snap, flechas funcionales y teclado",
+      "relates": ["frontend.domain.productCard", "docs.reglas_ui"]
+    },
+    {
+      "path": "frontend/src/components/domain/ProductCard.tsx",
+      "id": "frontend.domain.productCard",
+      "kind": "component",
+      "limit": 120,
+      "contract": "props: producto: Producto, className?: string",
+      "desc": "Tarjeta de producto: anadir al carrito real, enlaces reales y a11y",
+      "relates": ["frontend.ui.button", "frontend.ui.buttonLink", "frontend.ui.badge"]
+    },
+    {
+      "path": "frontend/src/components/domain/SobreNosotros.tsx",
+      "id": "frontend.domain.sobreNosotros",
+      "kind": "component",
+      "limit": 60,
+      "contract": "sin props",
+      "desc": "Bloque de texto e imagen 'Quiénes Somos' de la Home",
+      "relates": ["docs.reglas_ui"]
+    },
+    {
+      "path": "frontend/src/components/domain/BlogRecientes.tsx",
+      "id": "frontend.domain.blogRecientes",
+      "kind": "component",
+      "limit": 60,
+      "contract": "sin props",
+      "desc": "Grid de artículos recientes del blog en la Home",
+      "relates": ["frontend.ui.buttonLink", "frontend.ui.sectionTitle", "frontend.data.articles"]
+    },
+    {
+      "path": "frontend/src/components/ui/SectionTitle.tsx",
+      "id": "frontend.ui.sectionTitle",
+      "kind": "component",
+      "limit": 40,
+      "contract": "props: eyebrow?, titulo, className?",
+      "desc": "Encabezado de seccion con eyebrow y titulo centrados",
+      "relates": ["docs.reglas_ui"]
+    },
+    {
+      "path": "frontend/src/components/ui/Badge.tsx",
+      "id": "frontend.ui.badge",
+      "kind": "component",
+      "limit": 40,
+      "contract": "props: tipo: BadgeTipo + HTMLAttributes",
+      "desc": "Etiqueta flotante sobre la foto del producto",
+      "relates": ["docs.reglas_ui"]
+    },
+    {
+      "path": "frontend/src/data/articles.ts",
+      "id": "frontend.data.articles",
+      "kind": "service",
+      "limit": 40,
+      "contract": "export ARTICULOS: Articulo[]",
+      "desc": "Datos de los artículos del blog destacados en la Home",
+      "relates": ["docs.reglas_ui"]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Home.tsx",
+      "id": "frontend.pages.cliente.home",
+      "kind": "component",
+      "limit": 60,
+      "contract": "sin props",
+      "desc": "Orquestador de la Home: compono las secciones de dominio",
+      "relates": [
+        "frontend.domain.heroHome",
+        "frontend.domain.carouselDestacados",
+        "frontend.domain.sobreNosotros",
+        "frontend.domain.blogRecientes",
+        "frontend.data.articles"
+      ]
+    },
+    {
+      "path": "frontend/scripts/optimize-images.mjs",
+      "id": "frontend.scripts.optimizeImages",
+      "kind": "service",
+      "limit": 160,
+      "contract": "cli: npm run optimize:images",
+      "desc": "Convierte PNG a WebP y re-codifica JPG de public/imagen sin degradar",
+      "relates": ["docs.reglas_ui"]
+    }
+  ],
+  "options": {
+    "output_dir": "."
+  },
+  "languages": {
+    ".mjs": { "line_prefix": "//" }
+  }
+}

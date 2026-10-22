@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 
+# Salidas del anotador PCA (grafo regenerable)
+grafo.json
+grafo.mmd
+*.bak
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
