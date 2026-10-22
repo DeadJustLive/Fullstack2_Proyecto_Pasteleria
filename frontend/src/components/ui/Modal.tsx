@@ -36,7 +36,7 @@ export function Modal({ abierto, titulo, onCerrar, children }: ModalProps) {
         aria-label={titulo}
         onClick={(e) => e.stopPropagation()}
         className={cn(
-          "relative flex max-h-[85vh] w-full max-w-md flex-col overflow-hidden rounded bg-white shadow-xl"
+          "relative flex max-h-[85vh] w-full max-w-md flex-col overflow-hidden rounded-xl bg-white shadow-xl"
         )}
       >
         <div className="flex items-center justify-between border-b border-tertiary/10 bg-neutral px-5 py-4">

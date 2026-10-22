@@ -1,34 +1,19 @@
+// @pca:start
+// @id(frontend.ui.button)
+// @kind(component)
+// @limit(lines: 50)
+// @contract(props: variant, size, type, disabled + ButtonHTMLAttributes)
+// @relates(frontend.ui.buttonVariants)
+// @relates(docs.reglas_ui)
+// @desc(Boton del design system (pildora, variantes CVA))
+// @pca:end
 import { forwardRef, type ButtonHTMLAttributes } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+import { buttonVariants, type ButtonVariantProps } from "@/components/ui/buttonVariants";
 import { cn } from "@/lib/utils";
-
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 rounded font-body font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        primary: "bg-primary text-inverted hover:bg-secondary hover:text-white",
-        secondary: "bg-secondary text-white hover:bg-tertiary",
-        outline:
-          "border border-tertiary text-tertiary hover:bg-tertiary hover:text-white",
-        ghost: "text-tertiary hover:bg-tertiary/10",
-      },
-      size: {
-        sm: "h-9 px-3 text-sm",
-        default: "h-11 px-5 text-base",
-        lg: "h-12 px-8 text-lg",
-      },
-    },
-    defaultVariants: {
-      variant: "primary",
-      size: "default",
-    },
-  }
-);
 
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+    ButtonVariantProps {}
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, type = "button", ...props }, ref) => {

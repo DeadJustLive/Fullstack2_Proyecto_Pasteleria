@@ -1,3 +1,11 @@
+// @pca:start
+// @id(frontend.ui.sectionTitle)
+// @kind(component)
+// @limit(lines: 40)
+// @contract(props: eyebrow?, titulo, className?)
+// @relates(docs.reglas_ui)
+// @desc(Encabezado de seccion con eyebrow y titulo centrados)
+// @pca:end
 import { cn } from "@/lib/utils";
 
 export interface SectionTitleProps {
