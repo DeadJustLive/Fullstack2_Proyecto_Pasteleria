@@ -11,7 +11,7 @@
   right: 50%;
   margin-left: -50vw;
   margin-right: -50vw;
-  background: linear-gradient(rgba(58, 42, 33, 0.85), rgba(93, 64, 55, 0.9)), url('../imagen/fondo_obrador.png');
+  background: linear-gradient(rgba(58, 42, 33, 0.85), rgba(93, 64, 55, 0.9)), url('/imagen/fondo_obrador.webp');
   background-size: cover;
   background-position: center;
   padding: 4rem 1.5rem;

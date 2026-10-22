@@ -76,7 +76,7 @@ export const productos: Producto[] = [
     id: 5,
     nombre: "Pancakes Sin Gluten",
     precio: 22000,
-    imagen: "/imagen/pancakes.png",
+    imagen: "/imagen/pancakes.webp",
     descripcion:
       "Torre de pancakes esponjosos elaborados con harina sin gluten y miel de maple.",
     categorias: ["pancakes"],
