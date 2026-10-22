@@ -263,7 +263,9 @@ def _assign(meta, key, value):
     elif key == "desc":
         meta["desc"] = value
     elif key in ("relates", "relate", "fk"):
-        meta["relates"] = [item.strip() for item in value.split(",") if item.strip()]
+        for item in (part.strip() for part in value.split(",")):
+            if item and item not in meta["relates"]:
+                meta["relates"].append(item)
 
 
 def extract_block_text(text):

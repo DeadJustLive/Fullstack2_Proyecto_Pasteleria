@@ -196,6 +196,15 @@
       ]
     },
     {
+      "path": "frontend/src/layouts/ClienteLayout.tsx",
+      "id": "frontend.layouts.clienteLayout",
+      "kind": "component",
+      "limit": 120,
+      "contract": "sin props (shell de las rutas de cliente): Navbar + main + Footer",
+      "desc": "Shell del cliente: define el padding y el ancho del main (max-w-full + xl:max-w-page)",
+      "relates": ["frontend.pages.cliente.home", "docs.reglas_ui"]
+    },
+    {
       "path": "frontend/scripts/optimize-images.mjs",
       "id": "frontend.scripts.optimizeImages",
       "kind": "service",
