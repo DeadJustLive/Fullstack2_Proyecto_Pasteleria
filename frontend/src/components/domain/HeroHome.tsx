@@ -38,7 +38,10 @@ export function HeroHome() {
           logo es decorativo y no focusable, asi que el orden de lectura y de
           foco siguen siendo el titulo y el CTA. */}
       <div className="mx-auto grid max-w-[1080px] items-center gap-8 text-left sm:gap-14 md:grid-cols-2">
-        <div className="order-2 md:order-1">
+        {/* En movil el bloque se centra entero (titulo, parrafo y CTA) para que
+            el boton quede centrado bajo el logo. A partir de md se recupera la
+            alineacion a la izquierda del snapshot. */}
+        <div className="order-2 text-center md:order-1 md:text-left">
           <p className="mb-2 text-[0.8rem] font-bold uppercase tracking-[0.08em] text-primary">
             Pastelería Artesanal
           </p>
@@ -52,7 +55,7 @@ export function HeroHome() {
             En Crème &amp; Co elaboramos cada pastel a mano, con ingredientes frescos y
             recetas tradicionales, para cada ocasión especial.
           </p>
-          <ButtonLink to="/catalogo" variant="primary" size="lg">
+          <ButtonLink to="/catalogo" variant="primary" size="lg" className="mx-auto md:mx-0">
             Ver Catálogo
           </ButtonLink>
         </div>

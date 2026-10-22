@@ -205,6 +205,24 @@
       "relates": ["frontend.pages.cliente.home", "docs.reglas_ui"]
     },
     {
+      "path": "frontend/src/components/ui/BackToTop.tsx",
+      "id": "frontend.ui.backToTop",
+      "kind": "component",
+      "limit": 80,
+      "contract": "sin props",
+      "desc": "Boton flotante que vuelve al inicio de la pagina (aparece al desplazar)",
+      "relates": ["frontend.ui.button", "frontend.layouts.clienteLayout", "docs.reglas_ui"]
+    },
+    {
+      "path": "frontend/src/hooks/useCarousel.ts",
+      "id": "frontend.hooks.useCarousel",
+      "kind": "service",
+      "limit": 100,
+      "contract": "useCarousel(total: number) -> { trackRef, indice, enInicio, enFin, irA, desplazar }",
+      "desc": "Estado y acciones de un track horizontal con scroll-snap (indice y posiciones)",
+      "relates": ["frontend.domain.carouselDestacados", "docs.reglas_ui"]
+    },
+    {
       "path": "frontend/scripts/optimize-images.mjs",
       "id": "frontend.scripts.optimizeImages",
       "kind": "service",

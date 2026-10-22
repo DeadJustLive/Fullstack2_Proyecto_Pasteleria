@@ -10,6 +10,7 @@
 import { Outlet } from "react-router-dom";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { BackToTop } from "@/components/ui/BackToTop";
 
 export function ClienteLayout() {
   return (
@@ -30,6 +31,9 @@ export function ClienteLayout() {
         <Outlet />
       </main>
       <Footer />
+      {/* Boton de volver arriba: vive en el shell para que aparezca en todas
+          las paginas del sitio del cliente. */}
+      <BackToTop />
     </div>
   );
 }

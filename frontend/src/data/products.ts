@@ -113,4 +113,43 @@ export const productos: Producto[] = [
     categorias: ["torta"],
     variaciones: ["personalizable"],
   },
+  // Los tres siguientes nacen para que el carrusel de la Home tenga recorrido
+  // que mostrar. Reutilizan fotos de productos ya listados (aun no hay
+  // fotografia propia para ellos); se reemplazan por fotos reales cuando
+  // exista el catalogo definitivo.
+  {
+    id: 9,
+    nombre: "Torta de Vainilla con Crema",
+    precio: 29500,
+    imagen: "/imagen/torta.jpg",
+    descripcion:
+      "Bizcocho de vainilla artesano con crema pastelera y un toque de ron de vainilla.",
+    categorias: ["torta"],
+    variaciones: ["temporada"],
+    badge: "temporada",
+    destacado: true,
+  },
+  {
+    id: 10,
+    nombre: "Postre Tres Leches con Canela",
+    precio: 31500,
+    imagen: "/imagen/tres_leches.jpg",
+    descripcion:
+      "Bizcocho bañado en tres leches, decorado con merengue, canela y nuez moscada.",
+    categorias: ["pastel"],
+    variaciones: [],
+    badge: "vendido",
+    destacado: true,
+  },
+  {
+    id: 11,
+    nombre: "Pancakes con Frutos Rojos",
+    precio: 24500,
+    imagen: "/imagen/pancakes.webp",
+    descripcion:
+      "Torre de pancakes esponjosos con frutos rojos de temporada y miel de maple.",
+    categorias: ["pancakes"],
+    variaciones: ["personalizable"],
+    destacado: true,
+  },
 ];
