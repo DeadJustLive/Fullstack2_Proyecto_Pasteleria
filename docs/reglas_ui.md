@@ -95,7 +95,7 @@ Viven en `frontend/src/components/ui/` y `frontend/src/components/domain/`.
 
 | Componente | Archivo | Responsabilidad |
 | :--- | :--- | :--- |
-| `HeroHome` | `domain/HeroHome.tsx` | Banner full-bleed. Fondo en la utilidad `.hero-bg`. |
+| `HeroHome` | `domain/HeroHome.tsx` | Banner full-bleed. Fondo en la utilidad `.hero-bg`. En móvil el logo va arriba y el CTA queda debajo (ver §5). |
 | `BannerServicios` | `domain/BannerServicios.tsx` | Marquee de beneficios (marquee infinito, `prefers-reduced-motion` respetado). |
 | `CarouselDestacados` | `domain/CarouselDestacados.tsx` | Carrusel con scroll-snap + flechas funcionales. |
 | `ProductCard` | `domain/ProductCard.tsx` | Tarjeta de producto. Única en la Home. |
@@ -121,6 +121,11 @@ Viven en `frontend/src/components/ui/` y `frontend/src/components/domain/`.
 - El `main` del cliente define el padding: móvil `1.75rem / 1rem / 3rem`, desktop `2.5rem / 1.5rem / 4rem`.
   El hero lo compensa con un margen negativo (`-mt-7 sm:-mt-10`) para tocar el header.
 - El shell (`layouts/ClienteLayout.tsx`) es el contenedor `inline-size`; de ahí sale el `cqi`.
+- **Orden del hero:** por debajo de `md` (768px) los dos bloques del hero se apilan con el
+  **logo primero** y el texto con su CTA después, de modo que el botón "Ver Catálogo" queda
+  por debajo del logo. A partir de `md` pasan a dos columnas (texto a la izquierda, logo a la
+  derecha). Se resuelve con `order`, **sin reordenar el DOM**: el logo es decorativo y no
+  focusable, así que el orden de lectura y de foco siguen siendo título → CTA.
 
 ---
 

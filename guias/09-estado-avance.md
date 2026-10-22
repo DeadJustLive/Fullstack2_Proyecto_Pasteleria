@@ -49,7 +49,7 @@ Seguimiento del plan de `guias/06-planificacion-scrum.md` y de la estrategia **S
 
 | Página | Dueño | Estado | Notas |
 | :--- | :--- | :--- | :--- |
-| `pages/cliente/Home.tsx` | Matias | ✅ | **Migrada al design system.** Orquestador delgado (~37 líneas) sobre `HeroHome`, `CarouselDestacados`, `SobreNosotros`, `BlogRecientes` y `ProductCard`. |
+| `pages/cliente/Home.tsx` | Matias | ✅ | **Migrada al design system.** Orquestador delgado (~37 líneas) sobre `HeroHome`, `CarouselDestacados`, `SobreNosotros`, `BlogRecientes` y `ProductCard`. En móvil el hero apila logo → texto → CTA (el botón queda bajo el logo). |
 | `pages/cliente/Catalogo.tsx` | Matias | ✅ | Filtros (búsqueda/categorías/variaciones/precio) con drawer en mobile. |
 | `pages/cliente/ProductoDetalle.tsx` | Anais | ⏳ | Ruta `producto/:id` en `Placeholder`. |
 | `pages/cliente/Envio.tsx` | Anais | ⏳ | Ruta `envio` en `Placeholder`. |

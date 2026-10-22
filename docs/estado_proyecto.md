@@ -137,5 +137,14 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
   el grafo declaraba 23 relaciones para 23 nodos, cuando el manifiesto define 42. Corregido
   en `tools/pca_annotator.py` y registrado como `FRONT-014`. `impact` ahora devuelve los
   dependientes reales (p. ej. `frontend.pages.cliente.home` → `frontend.layouts.clienteLayout`).
+- **Orden del hero en móvil (refinamiento de T12/T14):** por debajo de 768px el logo va
+  arriba y el CTA "Ver Catálogo" queda por debajo del logo (antes el botón quedaba arriba
+  y el logo cerraba el hero). Medido en el navegador:
+  - 360 / 390 / 430px → logo `y=121..`, título por debajo, botón `y=628..676`; el hero
+    **mantiene su altura** (651px en 390px).
+  - 768 / 1024 / 1280 / 1440px → **idéntico** a antes (texto a la izquierda, logo a la
+    derecha, mismas coordenadas).
+  - El **orden del DOM no cambia** (`p > h1 > p > a[Ver Catálogo] > svg`): el logo es
+    decorativo y no focusable, así que lectura y foco siguen siendo título → CTA.
 - **Pendiente de validación manual:** checklist responsive 360 / 390 / 430 / 768 / 1024 /
   1280 / 1440 (sección 7 de `docs/reglas_ui.md`).
