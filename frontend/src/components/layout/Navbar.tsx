@@ -44,6 +44,18 @@ export function Navbar() {
     return () => document.removeEventListener("keydown", manejarEscape);
   }, [abierto]);
 
+  // Bloquea el scroll del documento mientras el menu movil esta abierto:
+  // si no, el fondo sigue desplazandose detras del menu desplegado.
+  useEffect(() => {
+    if (!abierto) return;
+
+    const overflowPrevio = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = overflowPrevio;
+    };
+  }, [abierto]);
+
   useEffect(() => {
     if (!esEscritorio || !menuPerfilAbierto) return;
 
@@ -83,7 +95,7 @@ export function Navbar() {
   };
 
   return (
-    <header>
+    <header className="select-none">
       <div className="header-inner">
         <Link to="/" className="brand-group">
           <span className="brand-logo" aria-hidden="true">

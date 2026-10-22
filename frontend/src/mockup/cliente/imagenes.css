@@ -19,13 +19,6 @@
   object-fit: cover;
 }
 
-/* Tarjetas de catalogo / recomendaciones: imagen cuadrada a sangre */
-.product-card .placeholder-img.foto {
-  aspect-ratio: 1 / 1;
-  border-radius: 0;
-  border: none;
-}
-
 /* Detalle de producto (imagen grande) */
 .producto-detalle .placeholder-img.foto {
   aspect-ratio: 1 / 1;

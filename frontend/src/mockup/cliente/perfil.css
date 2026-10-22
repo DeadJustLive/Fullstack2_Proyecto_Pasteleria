@@ -236,24 +236,7 @@
 .perfil-ver-todos:hover { text-decoration: underline; }
 
 /* --- Recomendaciones --- */
-.perfil-grid .card-grid { margin-bottom: 0; }
 .perfil-reco-nota {
   font-size: 0.85rem;
   color: var(--color-secondary);
-}
-.perfil-grid .product-info h3 {
-  text-align: left;
-}
-.perfil-grid .btn-sm {
-  display: block;
-  width: 100%;
-  padding: 0.4rem 1rem;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
-/* boton a lo ancho de la tarjeta (Actualizar Datos) */
-.perfil-grid .btn-block {
-  width: 100%;
-  text-align: center;
 }

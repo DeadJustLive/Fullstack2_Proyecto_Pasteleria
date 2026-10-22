@@ -18,6 +18,7 @@ function App() {
         <Route path="carrito" element={<Carrito />} />
         <Route path="checkout" element={<Checkout />} />
         <Route path="envio" element={<Placeholder title="Seguimiento de Envío" owner="Anais" />} />
+        <Route path="blog/:slug" element={<Placeholder title="Artículo del Blog" owner="Matias" />} />
         <Route path="confirmacion" element={<Placeholder title="Confirmación" owner="Anais" />} />
         <Route path="login" element={<Placeholder title="Iniciar Sesión" owner="Nicolas" />} />
         <Route path="registro" element={<Placeholder title="Registro" owner="Nicolas" />} />

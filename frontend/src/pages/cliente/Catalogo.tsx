@@ -82,7 +82,7 @@ export function Catalogo() {
 
   return (
     <>
-      <section className="rounded bg-[url('/imagen/fondo_obrador.png')] bg-cover bg-center">
+      <section className="rounded bg-[url('/imagen/fondo_obrador.webp')] bg-cover bg-center">
         <div className="rounded bg-ink/85 px-6 py-14 text-center text-neutral">
           <span className="font-body text-sm font-bold uppercase tracking-widest text-primary">
             Pastelería Artesanal
