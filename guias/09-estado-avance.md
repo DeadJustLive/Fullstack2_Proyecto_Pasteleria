@@ -12,7 +12,9 @@ Seguimiento del plan de `guias/06-planificacion-scrum.md` y de la estrategia **S
 | :--- | :--- | :--- |
 | **1. Snapshot** (paridad visual) | ✅ | CSS del mockup cliente encolado en `frontend/src/mockup/`: `cliente/*.css` + `mockup.css` (`@import url("./cliente/estilos.css") layer(components)`) + `imagen/fondo_obrador.png`. No se portó el JS del mockup (la interactividad es React). |
 | **2. Extracción** | ✅ | Extraídos con clases del mockup donde aplica: `Navbar`, `Footer`, `ProductCard`, `Badge`, `SectionTitle`, `BannerServicios`. |
-| **3. Migración a design system** | 🟡 | Carrito, Checkout y POS ya usan tokens + `Button`/`Input`/`Card`. Home y Catálogo aún usan clases del mockup. `src/mockup/` sigue presente (se elimina al terminar). |
+| **3. Migración a design system** | 🟡 | Carrito, Checkout y POS ya usan tokens + `Button`/`Input`/`Card`. **Home ya está migrada** (componentes propios + tokens). Catálogo, Navbar y Footer siguen con clases del mockup. `src/mockup/` sigue presente (se elimina al terminar). |
+
+> 🔧 Los prompts para ejecutar estas fases (plantilla + instancias) viven en [`prompts/`](./prompts/prompt-base.md).
 
 ---
 
@@ -21,8 +23,10 @@ Seguimiento del plan de `guias/06-planificacion-scrum.md` y de la estrategia **S
 ### 🍰 Matias
 | Componente | Estado | Notas |
 | :--- | :--- | :--- |
-| `components/ui/Button.tsx` | ✅ | CVA con `variant` (primary/secondary/outline/ghost) y `size` (sm/default/lg). |
+| `components/ui/Button.tsx` | ✅ | CVA con `variant` (primary/secondary/outline/ghost) y `size` (sm/default/lg/**icon**). `rounded-full` + variante `icon` circular. |
 | `components/ui/Input.tsx` | ✅ | CVA con `state` (default/error/success) + `label`/`hint`/`error`. |
+| `components/ui/ButtonLink.tsx` | ✅ | Enlace que reutiliza `buttonVariants` (no duplica estilos). |
+| `components/ui/LogoCremeCo.tsx` | ✅ | Logo SVG con `useId` saneado (los ids de React llevan `:` y rompen `url(#id)`). |
 | Configuración de Rutas | ✅ | `react-router-dom` en `App.tsx` con `ClienteLayout` y `AdminLayout`. |
 
 ### 🎨 Anais
@@ -30,7 +34,7 @@ Seguimiento del plan de `guias/06-planificacion-scrum.md` y de la estrategia **S
 | :--- | :--- | :--- |
 | `components/layout/Navbar.tsx` | ✅ | Menú móvil (hamburguesa), ítem Carrito con badge, menú de perfil y modales de auth. |
 | `components/layout/Footer.tsx` | ✅ | Footer modular con `CONTACTOS`, `HORARIOS` y `REDES_SOCIALES`. |
-| `components/domain/ProductCard.tsx` | ✅ | Tarjeta con `Badge`; base de clases como constante (sin CVA: no tiene variantes). |
+| `components/domain/ProductCard.tsx` | ✅ | Tarjeta con `Badge`; base de clases como constante (sin CVA: no tiene variantes). Migrada: alta real al carrito (`useCart`), enlaces a `producto/:id`, `loading="lazy"` y `aria` correcto. |
 
 ### 🔐 Nicolas
 | Componente | Estado | Notas |
@@ -45,7 +49,7 @@ Seguimiento del plan de `guias/06-planificacion-scrum.md` y de la estrategia **S
 
 | Página | Dueño | Estado | Notas |
 | :--- | :--- | :--- | :--- |
-| `pages/cliente/Home.tsx` | Matias | ✅ | Hero full-bleed, `BannerServicios` (marquee), carrusel de destacados y secciones. |
+| `pages/cliente/Home.tsx` | Matias | ✅ | **Migrada al design system.** Orquestador delgado (~37 líneas) sobre `HeroHome`, `CarouselDestacados`, `SobreNosotros`, `BlogRecientes` y `ProductCard`. |
 | `pages/cliente/Catalogo.tsx` | Matias | ✅ | Filtros (búsqueda/categorías/variaciones/precio) con drawer en mobile. |
 | `pages/cliente/ProductoDetalle.tsx` | Anais | ⏳ | Ruta `producto/:id` en `Placeholder`. |
 | `pages/cliente/Envio.tsx` | Anais | ⏳ | Ruta `envio` en `Placeholder`. |
@@ -89,7 +93,11 @@ Estos archivos no estaban mapeados en el plan pero ya existen y sostienen el flu
 | UI de dominio | `components/domain/MiniCarrito.tsx`, `ModalLogin.tsx`, `ModalRegistro.tsx`, `MenuPerfil.tsx` | Mini-carrito modal, autenticación y menú de perfil. |
 | Utilidades | `lib/utils.ts`, `lib/storage.ts`, `hooks/useMediaQuery.ts` | `cn`, `formatPrecio` (CLP), helpers de `localStorage`, hook `matchMedia`. |
 | Layouts | `layouts/ClienteLayout.tsx`, `layouts/AdminLayout.tsx`, `pages/Placeholder.tsx`, `components/dev/Skeleton.tsx` | Shell de cliente/admin y placeholders por responsable. |
-| Responsividad mobile (cliente) | `Navbar`, `Catalogo`, `Home`, `Carrito`, `index.css` | Hamburguesa, drawer de filtros, overrides en `@layer utilities`. Solo cliente. |
+| Secciones de Home (nuevas) | `components/domain/HeroHome.tsx`, `CarouselDestacados.tsx`, `SobreNosotros.tsx`, `BlogRecientes.tsx`, `data/articles.ts` | Secciones propias de la Home migrada al design system (hero full-bleed, carrusel con scroll-snap, quiénes somos, blog). |
+| Responsive mobile (cliente) | `Navbar`, `Catalogo`, `Home`, `Carrito`, `index.css` | Hamburguesa, drawer de filtros, overrides en `@layer utilities`. Solo cliente. |
+| Fix de responsividad del `main` | `layouts/ClienteLayout.tsx` | `max-w-full` + `xl:max-w-page`: el `margin-inline: auto` del snapshot convertía el `main` en un contenedor `fit-content` inflado por el marquee (1080px fijos) y empujaba el hero fuera de pantalla por debajo de 1280px. |
+| Performance | `scripts/optimize-images.mjs` (npm `optimize:images`) | PNG → WebP y JPG re-codificados con `sharp`. `public/imagen/` bajó de 3,3 MB a 767 KB. |
+| Kit PCA (raíz) | `AGENTS.md`, `docs/`, `prompts/`, `tools/` | Metodología PCA instalada en la raíz: anotaciones, grafo de impacto y documentación viva. |
 
 ---
 
@@ -112,8 +120,37 @@ Además: `ProductCard` perdió el `cva` sin variantes; se quitó `cn()` de un so
 
 ---
 
+## 🔁 Decisiones del equipo
+
+| Tema | Decisión | Detalle |
+| :--- | :--- | :--- |
+| Backend | 🔁 | **No hay backend aún.** La gestión se desarrollará en **Spring Boot + CSS puro** (sin Tailwind), construida desde `MockUpPasteleria/pages/admin`. |
+| Admin React | 🔁 | El admin en React (`pages/admin`, `AdminLayout`) **se descarta** en favor de la app Spring Boot. El POS en Tailwind queda como referencia, no como destino. |
+| API | 🔁 | Cliente y gestión **comparten la misma API REST** de Spring Boot, por requerimiento de **realtime** (inventario y disponibilidad). El cliente seguirá con mocks hasta integrar la API. |
+
+---
+
+## 🧩 Prompts de componentes
+
+Plantilla y guías reutilizables para crear/migrar componentes React a partir del mockup: [`prompts/prompt-base.md`](./prompts/prompt-base.md) (base → refactor CVA) e instancias para ProductoDetalle, Envio, Confirmacion, Perfil y el refactor de Home/Catálogo.
+
+---
+
 ## ✅ Verificación
 
 - `npm run lint` → 0 problemas.
-- `npm run build` (`tsc -b && vite build`) → OK.
-- Validación visual pendiente por el equipo en el dev server.
+- `npm run build` (`tsc -b && vite build`) → OK (`index.css` 56,94 kB · `index.js` 272,91 kB).
+- `npm run optimize:images` → idempotente, no degrada imágenes ya optimizadas.
+- Render SSR de la Home (smoke test temporal, ya eliminado): 27/27 comprobaciones OK
+  — sin `href="#"`, sin clases del snapshot y todas las imágenes referenciadas existen.
+- `python tools/pca_annotator.py check` → 0 sobre-límite, 0 relaciones rotas, 0 sin anotación.
+- Medición responsive automatizada (Edge headless + CDP, antes y después del fix):
+  7 anchos (360 / 390 / 430 / 768 / 1024 / 1280 / 1440) × 5 rutas (`/`, `/catalogo`,
+  `/carrito`, `/checkout`, `/envio`), 35 medidas.
+  - Home: `main` = `clientWidth` en todos los anchos y hero de `0` a `clientWidth`
+    (antes ocupaba `x=360..720` en un viewport de 360px).
+  - 1280 / 1440: `main` = 1080px, idéntico al estado previo.
+  - Catálogo / Carrito / Checkout / Envío: anchos de `main` sin cambios.
+  - Menú móvil (390px): el panel se abre dentro del viewport.
+- Validación visual responsive pendiente por el equipo en el dev server
+  (checklist 360 / 390 / 430 / 768 / 1024 / 1280 / 1440 en `docs/reglas_ui.md`).
