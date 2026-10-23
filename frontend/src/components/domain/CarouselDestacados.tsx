@@ -1,11 +1,12 @@
 // @pca:start
 // @id(frontend.domain.carouselDestacados)
 // @kind(component)
-// @limit(lines: 160)
+// @limit(lines: 145)
 // @contract(props: productos: Producto[])
 // @relates(frontend.domain.productCard)
+// @relates(frontend.hooks.useCarousel)
 // @relates(docs.reglas_ui)
-// @desc(Carrusel de destacados con scroll-snap, flechas funcionales y teclado)
+// @desc(Carrusel ciclico de destacados con scroll-snap, flechas inferiores y pildoras)
 // @pca:end
 import type { KeyboardEvent } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -32,7 +33,7 @@ export interface CarouselDestacadosProps {
  *   navegador lo dejaria a media pantalla y su pildora nunca se activaria.
  */
 export function CarouselDestacados({ productos }: CarouselDestacadosProps) {
-  const { trackRef, indice, enInicio, enFin, irA, desplazar } = useCarousel(productos.length);
+  const { trackRef, indice, irA, desplazar } = useCarousel(productos.length);
 
   const alTeclado = (evento: KeyboardEvent<HTMLUListElement>) => {
     if (evento.key === "ArrowRight") {
@@ -46,7 +47,7 @@ export function CarouselDestacados({ productos }: CarouselDestacadosProps) {
   };
 
   const clasesFlecha =
-    "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-tertiary/15 bg-white text-tertiary shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition hover:bg-primary disabled:pointer-events-none disabled:opacity-30";
+    "inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-tertiary/15 bg-white text-tertiary shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition hover:bg-primary";
 
   return (
     <div className="mb-12">
@@ -78,7 +79,6 @@ export function CarouselDestacados({ productos }: CarouselDestacadosProps) {
           type="button"
           className={clasesFlecha}
           onClick={() => desplazar(-1)}
-          disabled={enInicio}
           aria-label="Ver creaciones anteriores"
         >
           <ChevronLeft size={24} aria-hidden="true" />
@@ -109,7 +109,6 @@ export function CarouselDestacados({ productos }: CarouselDestacadosProps) {
           type="button"
           className={clasesFlecha}
           onClick={() => desplazar(1)}
-          disabled={enFin}
           aria-label="Ver creaciones siguientes"
         >
           <ChevronRight size={24} aria-hidden="true" />

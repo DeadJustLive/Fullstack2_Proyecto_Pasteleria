@@ -1,11 +1,11 @@
 // @pca:start
 // @id(frontend.hooks.useCarousel)
 // @kind(service)
-// @limit(lines: 100)
-// @contract(useCarousel(total: number) -> { trackRef, indice, enInicio, enFin, irA, desplazar })
+// @limit(lines: 120)
+// @contract(useCarousel(total: number) -> { trackRef, indice, irA, desplazar })
 // @relates(frontend.domain.carouselDestacados)
 // @relates(docs.reglas_ui)
-// @desc(Estado y acciones de un track horizontal con scroll-snap (indice y posiciones))
+// @desc(Estado y acciones de un carrusel horizontal cíclico con scroll-snap)
 // @pca:end
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -13,16 +13,15 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * Estado y acciones de un track horizontal con `scroll-snap`.
  *
  * - `indice` es el primer producto visible (el que queda pegado al borde
- *   izquierdo). Como el track lleva un espaciador final, cualquier producto
- *   puede quedar alineado a la izquierda, incluido el ultimo.
+ *   izquierdo).
  * - `irA` alinea un producto concreto; `desplazar` avanza o retrocede uno.
+ * - Es **cíclico**: al pulsar "siguiente" en el último producto vuelve al
+ *   primero, y al pulsar "anterior" en el primero va al último.
  * - El scroll respeta `prefers-reduced-motion`.
  */
 export interface UseCarousel {
   trackRef: React.RefObject<HTMLUListElement>;
   indice: number;
-  enInicio: boolean;
-  enFin: boolean;
   irA: (destino: number) => void;
   desplazar: (direccion: 1 | -1) => void;
 }
@@ -30,8 +29,6 @@ export interface UseCarousel {
 export function useCarousel(total: number): UseCarousel {
   const trackRef = useRef<HTMLUListElement>(null);
   const [indice, setIndice] = useState(0);
-  const [enInicio, setEnInicio] = useState(true);
-  const [enFin, setEnFin] = useState(false);
 
   /** Distancia, en px, desde la que empieza cada producto dentro del track. */
   const posiciones = useCallback((): number[] => {
@@ -47,19 +44,16 @@ export function useCarousel(total: number): UseCarousel {
 
   const sincronizar = useCallback(() => {
     const track = trackRef.current;
-    if (!track) return;
-
-    setEnInicio(track.scrollLeft <= 4);
+    if (!track || total <= 0) return;
 
     let activo = 0;
     posiciones().forEach((posicion, i) => {
       if (posicion <= track.scrollLeft + 8) activo = i;
     });
+
+    // Normalizar por si queda fuera de rango (transición cíclica)
+    activo = ((activo % total) + total) % total;
     setIndice(activo);
-    // El final se decide por el ultimo producto, no por el ancho total del
-    // track: el espaciador final anade unos pixeles de mas y dejarian la
-    // flecha activada cuando ya no hay nada que mostrar.
-    setEnFin(activo >= total - 1);
   }, [posiciones, total]);
 
   useEffect(() => {
@@ -79,17 +73,18 @@ export function useCarousel(total: number): UseCarousel {
   const irA = useCallback(
     (destino: number) => {
       const track = trackRef.current;
-      if (!track) return;
+      if (!track || total <= 0) return;
 
       const offsets = posiciones();
       if (offsets.length === 0) return;
 
-      const objetivo = Math.min(Math.max(destino, 0), offsets.length - 1);
+      // Cíclico: si se sale por arriba o por abajo, dar la vuelta
+      const objetivo = ((destino % total) + total) % total;
       const suave = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       track.scrollTo({ left: offsets[objetivo], behavior: suave ? "smooth" : "auto" });
     },
-    [posiciones],
+    [posiciones, total],
   );
 
   const desplazar = useCallback(
@@ -99,5 +94,6 @@ export function useCarousel(total: number): UseCarousel {
     [indice, irA],
   );
 
-  return { trackRef, indice, enInicio, enFin, irA, desplazar };
+  return { trackRef, indice, irA, desplazar };
 }
+
