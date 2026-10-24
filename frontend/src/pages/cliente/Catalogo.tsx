@@ -2,14 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Skeleton } from "@/components/dev/Skeleton";
 import { FiltroCheckbox } from "@/components/domain/FiltroCheckbox";
-import { useCart } from "@/context/cart";
+import { ProductCard } from "@/components/domain/ProductCard";
 import { cn, formatPrecio } from "@/lib/utils";
 import { CATEGORIAS, PRECIO_MAX, VARIACIONES, productos } from "@/data/products";
 
 export function Catalogo() {
-  const { agregar } = useCart();
   const [busqueda, setBusqueda] = useState("");
   const [categorias, setCategorias] = useState<string[]>([]);
   const [variaciones, setVariaciones] = useState<string[]>([]);
@@ -181,14 +179,7 @@ export function Catalogo() {
               No encontramos productos con esos filtros.
             </p>
           ) : (
-            filtrados.map((p) => (
-              <div key={p.id} className="flex flex-col gap-2">
-                <Skeleton elemento="ProductCard" responsable="Anais" className="h-80" />
-                <Button variant="outline" size="sm" onClick={() => agregar(p)}>
-                  Agregar al carrito
-                </Button>
-              </div>
-            ))
+            filtrados.map((p) => <ProductCard key={p.id} producto={p} />)
           )}
         </div>
       </div>

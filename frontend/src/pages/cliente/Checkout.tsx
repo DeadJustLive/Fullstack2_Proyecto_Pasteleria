@@ -7,15 +7,10 @@ import { PageHero } from "@/components/ui/PageHero";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { OrderSummary } from "@/components/domain/OrderSummary";
 import { useCart } from "@/context/cart";
+import { LABEL_METODO } from "@/data/pedidos";
+import { crearIdPedido, guardarPedido } from "@/lib/pedidos";
 import { formatPrecio } from "@/lib/utils";
-
-type MetodoPago = "tarjeta" | "transferencia" | "efectivo";
-
-const LABEL_METODO: Record<MetodoPago, string> = {
-  tarjeta: "Tarjeta de crédito o débito",
-  transferencia: "Transferencia bancaria",
-  efectivo: "Pago contra entrega",
-};
+import type { MetodoPago } from "@/types/pedido";
 
 export function Checkout() {
   const { items, cupon, subtotal, descuento, envio, total, vaciar } = useCart();
@@ -35,8 +30,24 @@ export function Checkout() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    // Se guarda el pedido ANTES de vaciar el carrito: Confirmacion, Envio y
+    // Perfil lo leen desde aqui. Los datos de la tarjeta nunca se guardan.
+    const pedido = {
+      id: crearIdPedido(),
+      fecha: new Date().toISOString(),
+      estado: "recibido" as const,
+      items: items.map(({ producto, cantidad }) => ({ producto, cantidad })),
+      cupon,
+      subtotal,
+      descuento,
+      envio,
+      total,
+      metodoPago: metodo,
+      entrega: datos,
+    };
+    guardarPedido(pedido);
     vaciar();
-    navigate("/confirmacion");
+    navigate("/confirmacion", { state: { pedidoId: pedido.id } });
   };
 
   if (items.length === 0) {

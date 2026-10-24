@@ -36,6 +36,8 @@ export const productos: Producto[] = [
     variaciones: ["personalizable"],
     badge: "premium",
     destacado: true,
+    ingredientes: ["Cacao 70%", "Chocolate belga", "Harina de trigo", "Huevos", "Mantequilla", "Crema de leche"],
+    nota: "Tamaño mediano • 8 porciones. Personalizable con mensaje.",
   },
   {
     id: 2,
@@ -48,6 +50,8 @@ export const productos: Producto[] = [
     variaciones: ["temporada"],
     badge: "temporada",
     destacado: true,
+    ingredientes: ["Harina de trigo", "Mantequilla", "Crema pastelera", "Frambuesas", "Frutillas", "Arándanos"],
+    nota: "Tartaleta individual • Fruta de temporada, disponibilidad limitada.",
   },
   {
     id: 3,
@@ -59,6 +63,8 @@ export const productos: Producto[] = [
     categorias: [],
     variaciones: [],
     destacado: true,
+    ingredientes: ["Harina de almendras", "Claras de huevo", "Azúcar flor", "Ganache surtida"],
+    nota: "Caja de 12 unidades • Sabores surtidos. Contiene frutos secos.",
   },
   {
     id: 4,
@@ -71,6 +77,8 @@ export const productos: Producto[] = [
     variaciones: [],
     badge: "vendido",
     destacado: true,
+    ingredientes: ["Queso crema", "Galletas", "Mantequilla", "Huevos", "Frutos rojos"],
+    nota: "Tamaño mediano • 10 porciones. Mantener refrigerado.",
   },
   {
     id: 5,
@@ -81,6 +89,8 @@ export const productos: Producto[] = [
       "Torre de pancakes esponjosos elaborados con harina sin gluten y miel de maple.",
     categorias: ["pancakes"],
     variaciones: ["sin gluten"],
+    ingredientes: ["Harina sin gluten", "Huevos", "Leche", "Miel de maple"],
+    nota: "Porción para 2 personas • Preparado con harina sin gluten.",
   },
   {
     id: 6,
@@ -92,6 +102,8 @@ export const productos: Producto[] = [
     categorias: ["pastel"],
     variaciones: [],
     badge: "vendido",
+    ingredientes: ["Huevos", "Harina de trigo", "Leche condensada", "Leche evaporada", "Crema de leche", "Canela"],
+    nota: "Tamaño mediano • 10 porciones. Mantener refrigerada.",
   },
   {
     id: 7,
@@ -102,6 +114,8 @@ export const productos: Producto[] = [
       "Pastel húmedo de zanahoria y nueces con frosting cremoso de queso crema.",
     categorias: ["pastel"],
     variaciones: [],
+    ingredientes: ["Zanahoria", "Nueces", "Harina de trigo", "Huevos", "Queso crema", "Canela"],
+    nota: "Tamaño mediano • 8 porciones. Contiene frutos secos.",
   },
   {
     id: 8,
@@ -112,5 +126,7 @@ export const productos: Producto[] = [
       "Torta de vainilla con capas de crema chantilly y frutas frescas de la estación.",
     categorias: ["torta"],
     variaciones: ["personalizable"],
+    ingredientes: ["Harina de trigo", "Vainilla", "Crema chantilly", "Huevos", "Frutas frescas"],
+    nota: "Tamaño mediano • 8 porciones. Personalizable con mensaje.",
   },
 ];

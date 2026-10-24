@@ -6,7 +6,7 @@ export function ClienteLayout() {
   return (
     <div className="flex min-h-screen flex-col [container-type:inline-size]">
       <Navbar />
-      <main className="flex-1">
+      <main className="w-full flex-1">
         <Outlet />
       </main>
       <Footer />

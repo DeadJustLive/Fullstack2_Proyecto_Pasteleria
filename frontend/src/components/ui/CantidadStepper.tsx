@@ -62,7 +62,7 @@ export function CantidadStepper({
           value={valor}
           aria-label="Cantidad"
           onChange={(e) => onCambiar(Number(e.target.value) || 1)}
-          className="w-9 border-none bg-transparent text-center font-body font-bold text-ink outline-none"
+          className="w-9 border-none bg-transparent p-0 text-center font-body font-bold text-ink outline-none"
         />
       ) : (
         <span className="min-w-4 text-center font-body font-semibold">{valor}</span>
