@@ -1,27 +1,16 @@
-// Pill con el estado de un pedido. Entregado se ve neutro; el resto, activo.
-import { cva } from "class-variance-authority";
+// Pill con el estado de un pedido, usando los tonos del badge de estado.
+import { EstadoBadge, type EstadoBadgeProps } from "@/components/ui/Badge";
 import { LABEL_ESTADO } from "@/data/pedidos";
 import type { EstadoPedido } from "@/types/pedido";
 
-const pillVariants = cva(
-  "inline-block whitespace-nowrap rounded-full px-3 py-0.5 font-body text-xs font-bold uppercase tracking-wide",
-  {
-    variants: {
-      fase: {
-        activo: "bg-primary text-tertiary",
-        entregado: "bg-tertiary/10 text-tertiary",
-      },
-    },
-    defaultVariants: {
-      fase: "activo",
-    },
-  }
-);
+const TONO_ESTADO: Record<EstadoPedido, NonNullable<EstadoBadgeProps["tono"]>> = {
+  recibido: "info",
+  preparacion: "warning",
+  listo: "primary",
+  camino: "info",
+  entregado: "neutral",
+};
 
 export function PillEstadoPedido({ estado }: { estado: EstadoPedido }) {
-  return (
-    <span className={pillVariants({ fase: estado === "entregado" ? "entregado" : "activo" })}>
-      {LABEL_ESTADO[estado]}
-    </span>
-  );
+  return <EstadoBadge tono={TONO_ESTADO[estado]}>{LABEL_ESTADO[estado]}</EstadoBadge>;
 }

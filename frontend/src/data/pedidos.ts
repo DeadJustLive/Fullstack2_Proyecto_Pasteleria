@@ -22,6 +22,24 @@ export const LABEL_ESTADO: Record<EstadoPedido, string> = {
   entregado: "Entregado",
 };
 
+// Siguiente paso del flujo que administra el panel de pedidos.
+export const SIGUIENTE_ESTADO: Record<EstadoPedido, EstadoPedido | null> = {
+  recibido: "preparacion",
+  preparacion: "listo",
+  listo: "camino",
+  camino: "entregado",
+  entregado: null,
+};
+
+// Texto del boton que avanza el pedido en el admin.
+export const ACCION_ESTADO: Record<EstadoPedido, string | null> = {
+  recibido: "Marcar preparación",
+  preparacion: "Marcar listo",
+  listo: "Marcar envío",
+  camino: "Marcar entregado",
+  entregado: null,
+};
+
 // Orden de las etapas del seguimiento (stepper de Envio).
 export const ETAPAS_PEDIDO: { estado: EstadoPedido; titulo: string; nota: string }[] = [
   { estado: "recibido", titulo: "Pedido recibido", nota: "Recibimos tu pedido" },

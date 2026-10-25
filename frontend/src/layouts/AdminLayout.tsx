@@ -1,24 +1,27 @@
-import { Outlet } from "react-router-dom";
-import { Skeleton } from "@/components/dev/Skeleton";
+import { useEffect, useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import { AdminHeader } from "@/components/layout/AdminHeader";
+import { AdminSidebar } from "@/components/layout/AdminSidebar";
 
 export function AdminLayout() {
+  const [menuAbierto, setMenuAbierto] = useState(false);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    setMenuAbierto(false);
+  }, [pathname]);
+
   return (
     <div className="flex min-h-screen bg-neutral">
-      <aside className="hidden w-64 shrink-0 border-r border-tertiary/10 lg:block">
-        <Skeleton
-          elemento="AdminSidebar"
-          responsable="Nicolas"
-          className="h-full rounded-none border-y-0 border-l-0"
-        />
-      </aside>
+      <AdminSidebar
+        abierto={menuAbierto}
+        onCerrar={() => setMenuAbierto(false)}
+      />
 
-      <div className="flex flex-1 flex-col">
-        <Skeleton
-          elemento="Header Admin"
-          responsable="Nicolas"
-          className="h-16 rounded-none border-x-0 border-t-0"
-        />
-        <main className="mx-auto w-full max-w-page flex-1 px-4 py-10">
+      <div className="flex min-w-0 flex-1 flex-col">
+        <AdminHeader onAbrirMenu={() => setMenuAbierto(true)} />
+
+        <main className="mx-auto w-full max-w-page flex-1 px-4 py-6 lg:px-8 lg:py-10">
           <Outlet />
         </main>
       </div>
