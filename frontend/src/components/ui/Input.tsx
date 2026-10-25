@@ -31,6 +31,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ className, id, label, hint, error, state, ...props }, ref) => {
     const generatedId = useId();
     const inputId = id ?? generatedId;
+    const mensajeId = `${inputId}-mensaje`;
     const effectiveState = error ? "error" : state;
 
     return (
@@ -48,12 +49,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           className={cn(inputVariants({ state: effectiveState }), className)}
           aria-invalid={effectiveState === "error"}
+          aria-describedby={error || hint ? mensajeId : undefined}
           {...props}
         />
         {error ? (
-          <span className="font-body text-xs text-error">{error}</span>
+          <span id={mensajeId} role="alert" className="font-body text-xs text-error">
+            {error}
+          </span>
         ) : hint ? (
-          <span className="font-body text-xs text-ink/50">{hint}</span>
+          <span id={mensajeId} className="font-body text-xs text-ink/50">
+            {hint}
+          </span>
         ) : null}
       </div>
     );

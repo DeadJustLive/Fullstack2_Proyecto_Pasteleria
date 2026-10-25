@@ -63,6 +63,19 @@ Para ejecutar la aplicación en tu máquina local:
 
 ---
 
+## 🔐 Acceso demo al panel administrativo
+
+La zona `/admin` está protegida por rol. Para revisarla en desarrollo:
+
+```text
+Email:      admin@cremeco.cl
+Contraseña: admin123
+```
+
+También se puede entrar con `matias@ejemplo.com` o `nicolas@ejemplo.com` usando la misma clave demo. Las cuentas de cliente pueden navegar por la tienda, pero verán “Acceso restringido” si intentan abrir `/admin`.
+
+---
+
 ## 📚 Guías de Desarrollo para el Equipo
 
 Si eres parte del equipo de desarrollo, consulta los documentos dentro de la carpeta [`guias/`](./guias/):

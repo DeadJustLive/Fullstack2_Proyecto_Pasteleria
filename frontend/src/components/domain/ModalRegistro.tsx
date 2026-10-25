@@ -1,9 +1,6 @@
-import { useState, type FormEvent } from "react";
+import { Link } from "react-router-dom";
 import { Modal } from "@/components/ui/Modal";
-import { Input } from "@/components/ui/Input";
-import { PasswordInput } from "@/components/ui/PasswordInput";
-import { Button } from "@/components/ui/Button";
-import { useAuth } from "@/context/auth";
+import { FormularioRegistro } from "@/components/domain/auth/FormularioRegistro";
 
 interface ModalRegistroProps {
   abierto: boolean;
@@ -11,62 +8,24 @@ interface ModalRegistroProps {
   onCambiarALogin: () => void;
 }
 
-export function ModalRegistro({ abierto, onCerrar, onCambiarALogin }: ModalRegistroProps) {
-  const { registrar } = useAuth();
-  const [nombre, setNombre] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    registrar(nombre, email);
-    setNombre("");
-    setEmail("");
-    setPassword("");
-    onCerrar();
-  };
-
+export function ModalRegistro({
+  abierto,
+  onCerrar,
+  onCambiarALogin,
+}: ModalRegistroProps) {
   return (
     <Modal abierto={abierto} titulo="Crear cuenta" onCerrar={onCerrar}>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <Input
-          label="Nombre"
-          placeholder="Ej: Juan Pérez"
-          required
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-        />
-        <Input
-          label="Correo"
-          type="email"
-          placeholder="Ej: micorreo@ejemplo.com"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <PasswordInput
-          label="Contraseña"
-          placeholder="Crea una contraseña segura"
-          required
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      <FormularioRegistro onExito={onCerrar} onCambiarALogin={onCambiarALogin} />
 
-        <Button type="submit" className="w-full">
-          Registrarme
-        </Button>
-
-        <p className="text-center font-body text-sm text-ink/80">
-          ¿Ya tienes cuenta?{" "}
-          <button
-            type="button"
-            onClick={onCambiarALogin}
-            className="font-semibold text-secondary underline"
-          >
-            Inicia sesión
-          </button>
-        </p>
-      </form>
+      <p className="mt-5 border-t border-tertiary/10 pt-4 text-center font-body text-xs text-ink/60">
+        <Link
+          to="/registro"
+          onClick={onCerrar}
+          className="font-semibold text-secondary underline transition-colors hover:text-tertiary"
+        >
+          Abrir la página completa de registro
+        </Link>
+      </p>
     </Modal>
   );
 }
