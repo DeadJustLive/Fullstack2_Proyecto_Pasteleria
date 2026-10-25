@@ -1,0 +1,30 @@
+# ==============================================================================
+# CONFIGURACIÓN DE SUPABASE - EDGE FUNCTIONS
+# ==============================================================================
+# Este archivo controla el comportamiento de las Edge Functions en producción.
+#
+# IMPORTANTE: Por defecto, Supabase exige un JWT válido en TODAS las funciones.
+# El webhook de pagos es una excepción porque Flow lo llama directamente
+# (servidor a servidor) sin enviar ningún token de autenticación.
+# Si no desactivamos verify_jwt para el webhook, Flow recibirá un 401
+# y nunca podrá notificarnos que un pago fue exitoso.
+# ==============================================================================
+
+[project]
+id = "ModulosFlow"
+
+# ============================================================
+# payment-webhook: Desactivamos JWT porque esta función la
+# llama Flow directamente. La seguridad se maneja internamente
+# consultando a Flow con /payment/getStatus (server-to-server).
+# ============================================================
+[functions.payment-webhook]
+verify_jwt = false
+
+# Las demás funciones MANTIENEN la verificación JWT activa
+# (solo usuarios autenticados de tu app pueden llamarlas)
+[functions.create-payment]
+verify_jwt = true
+
+[functions.refund-payment]
+verify_jwt = true

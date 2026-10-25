@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Componentes, Botones y Modales - Crème & Co Admin</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <style>
+    .component-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+    .color-swatch {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      border: 1px solid rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar__header">
+        <div class="admin-sidebar__logo">C</div>
+        <div>
+          <span class="admin-sidebar__title">Crème & Co</span>
+          <span class="admin-sidebar__badge">Admin</span>
+        </div>
+      </div>
+
+      <nav class="admin-nav">
+        <a href="reportes.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          Dashboard & Reportes
+        </a>
+        <a href="productos.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          Productos & Catálogo
+        </a>
+        <a href="inventario.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+          Inventario & Stock
+        </a>
+        <a href="usuarios.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          Usuarios & Roles
+        </a>
+        <a href="promociones.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+          Promociones & Descuentos
+        </a>
+        <a href="componentes.html" class="admin-nav__link admin-nav__link--active">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+          UI Kit: Botones & Modales
+        </a>
+      </nav>
+
+      <div class="admin-sidebar__footer">
+        <div class="admin-user">
+          <div class="admin-user__avatar">AG</div>
+          <div class="admin-user__info">
+            <span class="admin-user__name">Admin General</span>
+            <span class="admin-user__role">Superusuario</span>
+          </div>
+        </div>
+        <a href="auth.html" title="Cerrar Sesión" style="color: rgba(255, 245, 225, 0.7);">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="admin-header__title-group">
+          <h1>Catálogo de Componentes, Botones y Modales</h1>
+          <p>Librería visual interactiva y patrones de interfaz de la PWA de Administración</p>
+        </div>
+      </header>
+
+      <div class="admin-body">
+        <!-- SECCION 1: BOTONES -->
+        <div class="admin-card">
+          <div class="admin-card__header">
+            <div>
+              <h2 class="admin-card__title">1. Variantes de Botones</h2>
+              <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7);">Definidos con el radio píldora (rounded-full) y tokens oficiales</p>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <!-- Variantes -->
+            <div>
+              <span class="form-label" style="margin-bottom: 0.5rem; display: block;">Variantes Principales:</span>
+              <div class="component-group">
+                <button class="btn btn-primary">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                  Botón Primario (Rosa)
+                </button>
+                <button class="btn btn-secondary">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                  Botón Secundario (Marrón)
+                </button>
+                <button class="btn btn-outline">Botón Outline</button>
+                <button class="btn btn-danger">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                  Botón Peligro (Rojo)
+                </button>
+              </div>
+            </div>
+
+            <!-- Tamaños -->
+            <div>
+              <span class="form-label" style="margin-bottom: 0.5rem; display: block;">Tamaños de Botón:</span>
+              <div class="component-group">
+                <button class="btn btn-primary btn-sm">Botón Pequeño (sm)</button>
+                <button class="btn btn-primary">Botón Estándar (md)</button>
+                <button class="btn btn-primary" style="padding: 0.75rem 1.75rem; font-size: 1rem;">Botón Grande (lg)</button>
+              </div>
+            </div>
+
+            <!-- Botones con Tooltip de Regla de Negocio -->
+            <div>
+              <span class="form-label" style="margin-bottom: 0.5rem; display: block;">Botón con Restricción de Regla de Negocio (Hover para ver tooltip):</span>
+              <div class="component-group">
+                <div class="tooltip-container">
+                  <button class="btn btn-danger btn-disabled" aria-disabled="true">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                    Eliminar Producto Vendido
+                  </button>
+                  <span class="tooltip-text">Regla: No puedes eliminar productos que fueron vendidos históricamente.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECCION 2: DISPARADORES DE MODALES -->
+        <div class="admin-card">
+          <div class="admin-card__header">
+            <div>
+              <h2 class="admin-card__title">2. Catálogo de Modales Interactivos</h2>
+              <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7);">Haz clic en cada botón para previsualizar el modal correspondiente</p>
+            </div>
+          </div>
+
+          <div class="component-group">
+            <button class="btn btn-primary" onclick="abrirModal('modalFormulario')">
+              1. Modal Formulario Complejo
+            </button>
+            <button class="btn btn-danger" onclick="abrirModal('modalConfirmacion')">
+              2. Modal Confirmación Destructiva
+            </button>
+            <button class="btn btn-secondary" onclick="abrirModal('modalAlerta')">
+              3. Modal Alerta Informativa (Stock)
+            </button>
+            <button class="btn btn-outline" onclick="abrirModal('modalExito')">
+              4. Modal Éxito / Feedback POS
+            </button>
+          </div>
+        </div>
+
+        <!-- SECCION 3: BADGES Y ESTADOS -->
+        <div class="admin-card">
+          <div class="admin-card__header">
+            <div>
+              <h2 class="admin-card__title">3. Insignias de Estado (Badges)</h2>
+              <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7);">Para tablas de inventario, pedidos y transacciones</p>
+            </div>
+          </div>
+
+          <div class="component-group">
+            <span class="status-badge status-badge--success">● Activo / Entregado / Óptimo</span>
+            <span class="status-badge status-badge--warning">● En Preparación / Bajo Stock</span>
+            <span class="status-badge status-badge--danger">● Rechazado / Agotado / Cancelado</span>
+            <span class="status-badge status-badge--info">● Listo Retiro / Venta Web</span>
+            <span class="status-badge status-badge--neutral">● Borrador / Cliente</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL 1: Formulario Complejo -->
+  <div class="modal-overlay" id="modalFormulario">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Editar Parámetros de Producto</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModal('modalFormulario')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Nombre del Producto</label>
+          <input type="text" class="form-input" value="Torta de Chocolate con Frutillas">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div class="form-group">
+            <label class="form-label">Precio CLP</label>
+            <input type="number" class="form-input" value="45000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Stock Mínimo Alerta</label>
+            <input type="number" class="form-input" value="5">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notas para Cocina</label>
+          <textarea class="form-textarea" rows="2">Requiere frutillas frescas de temporada. No congeladas.</textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="cerrarModal('modalFormulario')">Cancelar</button>
+        <button class="btn btn-primary" onclick="alert('Guardado'); cerrarModal('modalFormulario');">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Confirmación Destructiva -->
+  <div class="modal-overlay" id="modalConfirmacion">
+    <div class="modal-window" style="max-width: 440px;">
+      <div class="modal-header" style="border-bottom-color: #FFCDD2; background: #FFEBEE;">
+        <h3 style="color: #C62828;">¿Confirmar Eliminación?</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModal('modalConfirmacion')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.9rem; color: var(--color-ink); line-height: 1.5;">
+          Esta acción no se puede deshacer. Se eliminará el borrador <strong>"Torta Experimental Matcha"</strong> del sistema.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="cerrarModal('modalConfirmacion')">Cancelar</button>
+        <button class="btn btn-danger" onclick="alert('Elemento eliminado.'); cerrarModal('modalConfirmacion');">Sí, Eliminar Definitivamente</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Alerta Informativa (Stock) -->
+  <div class="modal-overlay" id="modalAlerta">
+    <div class="modal-window" style="max-width: 480px;">
+      <div class="modal-header" style="background: #FFF8E1;">
+        <h3 style="color: #F57F17;">Alerta de Inventario Crítico</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModal('modalAlerta')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.9rem; color: var(--color-ink); line-height: 1.5;">
+          El insumo <strong>"Chocolate Cobertura Belga 70%"</strong> ha alcanzado 1 kg en existencia, superando el umbral de seguridad de 5 kg.
+        </p>
+        <p style="font-size: 0.85rem; color: rgba(58, 42, 33, 0.7);">
+          Se recomienda generar una orden de compra antes de aceptar nuevos pedidos personalizados.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="cerrarModal('modalAlerta')">Entendido, Gestionar Compra</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Éxito / Feedback POS -->
+  <div class="modal-overlay" id="modalExito">
+    <div class="modal-window" style="max-width: 440px; text-align: center;">
+      <div class="modal-body" style="padding: 2.5rem 1.5rem 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: #E8F5E9; color: #2E7D32; display: flex; align-items: center; justify-content: center;">
+          <svg width="34" height="34" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+        </div>
+        <h3 style="font-size: 1.4rem; color: var(--color-tertiary);">¡Venta Registrada con Éxito!</h3>
+        <p style="font-size: 0.88rem; color: rgba(58, 42, 33, 0.75);">
+          Ticket #POS-2025-00481 emitido. Stock descontado automáticamente en el Kardex.
+        </p>
+        <div style="font-family: var(--font-display); font-size: 1.6rem; font-weight: 700; color: var(--color-secondary);">
+          Total: $45.000 CLP
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button class="btn btn-primary" onclick="cerrarModal('modalExito')">Imprimir Comprobante & Nuevo Ticket</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function abrirModal(id) {
+      document.getElementById(id).classList.add('active');
+    }
+    function cerrarModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+  </script>
+</body>
+</html>

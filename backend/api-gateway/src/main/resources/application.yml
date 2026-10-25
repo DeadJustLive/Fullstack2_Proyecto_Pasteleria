@@ -1,0 +1,58 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:5173"
+              - "http://localhost:5174"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+      routes:
+        - id: service-identity
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/identity/**
+
+        - id: service-catalog
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/catalog/**
+
+        - id: service-order
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/orders/**
+
+        - id: service-payment-flow
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/payments/**
+
+        - id: service-inventory
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/inventory/**
+
+        - id: service-notification
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/notifications/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

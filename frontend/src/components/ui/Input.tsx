@@ -1,9 +1,17 @@
+// @pca:start
+// @id(frontend.ui.input)
+// @kind(component)
+// @limit(lines: 80)
+// @contract(props: InputHTMLAttributes + InputProps)
+// @relates(docs.reglas_ui)
+// @desc(Campo de entrada de texto accesible con estados default, error y success)
+// @pca:end
 import { forwardRef, useId, type InputHTMLAttributes } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const inputVariants = cva(
-  "w-full rounded-lg border bg-white px-4 py-2 font-body text-base text-ink outline-none transition-colors placeholder:text-ink/40 focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50",
+  "w-full rounded-lg border bg-white font-body text-ink outline-none transition-colors placeholder:text-ink/40 focus:ring-2 disabled:cursor-not-allowed disabled:opacity-50",
   {
     variants: {
       state: {
@@ -12,9 +20,15 @@ const inputVariants = cva(
         success:
           "border-green-500 focus:border-green-500 focus:ring-green-500/20",
       },
+      inputSize: {
+        sm: "h-9 px-3 text-sm",
+        default: "px-4 py-2 text-base",
+        lg: "h-12 px-4 text-lg",
+      },
     },
     defaultVariants: {
       state: "default",
+      inputSize: "default",
     },
   }
 );
@@ -28,7 +42,7 @@ export interface InputProps
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, id, label, hint, error, state, ...props }, ref) => {
+  ({ className, id, label, hint, error, state, inputSize, ...props }, ref) => {
     const generatedId = useId();
     const inputId = id ?? generatedId;
     const effectiveState = error ? "error" : state;
@@ -46,7 +60,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           id={inputId}
-          className={cn(inputVariants({ state: effectiveState }), className)}
+          className={cn(inputVariants({ state: effectiveState, inputSize }), className)}
           aria-invalid={effectiveState === "error"}
           {...props}
         />

@@ -26,6 +26,7 @@ export const buttonVariants = cva(
         outline:
           "border border-tertiary text-tertiary hover:bg-tertiary hover:text-white",
         ghost: "text-tertiary hover:bg-tertiary/10",
+        destructive: "bg-error text-white hover:bg-error/90",
       },
       size: {
         sm: "h-9 px-3 text-sm",

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servicios - Crème & Co</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/servicios.css">
+</head>
+<body>
+  <header style="background: white; border-bottom: 1px solid var(--color-border); padding: 1rem 0;">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-primary); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: var(--color-tertiary);">C</div>
+        <span style="font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--color-tertiary);">Crème & Co</span>
+      </div>
+      <nav style="display: flex; gap: 2rem;">
+        <a href="#" style="color: var(--color-tertiary); font-weight: 500;">Inicio</a>
+        <a href="servicios.html" style="color: var(--color-secondary); font-weight: 600;">Servicios</a>
+        <a href="personalizacion.html" style="color: var(--color-tertiary); font-weight: 500;">Personalización</a>
+        <a href="perfil.html" style="color: var(--color-tertiary); font-weight: 500;">Mi Perfil</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="servicios-hero">
+    <div class="servicios-hero__content">
+      <span class="servicios-hero__eyebrow">Nuestros Servicios</span>
+      <h1 class="servicios-hero__title">Tortas Artesanales para Cada Ocasión</h1>
+      <p class="servicios-hero__subtitle">Creamos tortas únicas con ingredientes seleccionados, diseñadas especialmente para hacer de tus momentos algo inolvidable.</p>
+    </div>
+  </section>
+
+  <main class="servicios-grid">
+    <article class="servicio-card" data-servicio="tortas-personalizadas">
+      <div class="servicio-card__img-wrapper">
+        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop" alt="Tortas Personalizadas" class="servicio-card__img">
+        <span class="badge badge-info servicio-card__badge">Más Popular</span>
+      </div>
+      <div class="servicio-card__body">
+        <h3 class="servicio-card__title">Tortas Personalizadas</h3>
+        <p class="servicio-card__desc">Diseñamos tu torta soñada con decoración a medida, sabores únicos y detalles personalizados para tu evento especial.</p>
+        <div class="servicio-card__features">
+          <span class="servicio-card__feature-tag">Decoración 3D</span>
+          <span class="servicio-card__feature-tag">Fondant</span>
+          <span class="servicio-card__feature-tag">Fotografía comestible</span>
+        </div>
+        <div class="servicio-card__footer">
+          <span style="font-weight: 600; color: var(--color-secondary);">Desde $35.000</span>
+          <span class="btn btn-ghost" style="padding: 0.5rem 1rem;">Ver más →</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="servicio-card" data-servicio="eventos-corporativos">
+      <div class="servicio-card__img-wrapper">
+        <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?q=80&w=800&auto=format&fit=crop" alt="Eventos Corporativos" class="servicio-card__img">
+      </div>
+      <div class="servicio-card__body">
+        <h3 class="servicio-card__title">Eventos Corporativos</h3>
+        <p class="servicio-card__desc">Tortas y mesas dulces para lanzamientos, aniversarios empresariales, cumpleaños corporativos y más.</p>
+        <div class="servicio-card__features">
+          <span class="servicio-card__feature-tag">Logo comestible</span>
+          <span class="servicio-card__feature-tag">Mini tortas</span>
+          <span class="servicio-card__feature-tag">Entrega a oficina</span>
+        </div>
+        <div class="servicio-card__footer">
+          <span style="font-weight: 600; color: var(--color-secondary);">Desde $50.000</span>
+          <span class="btn btn-ghost" style="padding: 0.5rem 1rem;">Ver más →</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="servicio-card" data-servicio="matrimonios">
+      <div class="servicio-card__img-wrapper">
+        <img src="https://images.unsplash.com/photo-1535254973040-607b474cb50d?q=80&w=800&auto=format&fit=crop" alt="Tortas de Matrimonio" class="servicio-card__img">
+        <span class="badge badge-success servicio-card__badge">Especial</span>
+      </div>
+      <div class="servicio-card__body">
+        <h3 class="servicio-card__title">Tortas de Matrimonio</h3>
+        <p class="servicio-card__desc">Creamos la torta perfecta para tu gran día. Degustación previa incluida y asesoría personalizada.</p>
+        <div class="servicio-card__features">
+          <span class="servicio-card__feature-tag">Degustación</span>
+          <span class="servicio-card__feature-tag">Torre de cupcakes</span>
+          <span class="servicio-card__feature-tag">Montaje en salón</span>
+        </div>
+        <div class="servicio-card__footer">
+          <span style="font-weight: 600; color: var(--color-secondary);">Desde $120.000</span>
+          <span class="btn btn-ghost" style="padding: 0.5rem 1rem;">Ver más →</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="servicio-card" data-servicio="infantiles">
+      <div class="servicio-card__img-wrapper">
+        <img src="https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec?q=80&w=800&auto=format&fit=crop" alt="Tortas Infantiles" class="servicio-card__img">
+      </div>
+      <div class="servicio-card__body">
+        <h3 class="servicio-card__title">Tortas Infantiles</h3>
+        <p class="servicio-card__desc">Tortas temáticas divertidas con tus personajes favoritos. ¡Sorprende al cumpleañero con una creación única!</p>
+        <div class="servicio-card__features">
+          <span class="servicio-card__feature-tag">Personajes 3D</span>
+          <span class="servicio-card__feature-tag">Colorantes naturales</span>
+          <span class="servicio-card__feature-tag">Velas incluidas</span>
+        </div>
+        <div class="servicio-card__footer">
+          <span style="font-weight: 600; color: var(--color-secondary);">Desde $28.000</span>
+          <span class="btn btn-ghost" style="padding: 0.5rem 1rem;">Ver más →</span>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-overlay">
+    <div class="modal">
+      <div class="modal__header">
+        <div class="modal__title-group">
+          <h2 class="modal__title">Tortas Personalizadas</h2>
+          <p class="modal__subtitle">Crea la torta perfecta para tu ocasión</p>
+        </div>
+        <button class="modal__close">
+          <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="modal__body">
+        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop" alt="Tortas Personalizadas" class="modal__img">
+        
+        <div class="modal__section">
+          <h3 class="modal__section-title">¿Qué incluye?</h3>
+          <ul class="modal__list">
+            <li class="modal__list-item">
+              <svg class="modal__list-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>Diseño personalizado a tu gusto</span>
+            </li>
+            <li class="modal__list-item">
+              <svg class="modal__list-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>Elección de sabor y relleno</span>
+            </li>
+            <li class="modal__list-item">
+              <svg class="modal__list-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>Decoración con fondant o crema</span>
+            </li>
+            <li class="modal__list-item">
+              <svg class="modal__list-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span>Asesoría durante todo el proceso</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="modal__info-grid">
+          <div class="modal__info-card">
+            <span class="modal__info-label">Tiempo de anticipación</span>
+            <span class="modal__info-value">48-72 horas</span>
+          </div>
+          <div class="modal__info-card">
+            <span class="modal__info-label">Rango de precio</span>
+            <span class="modal__info-value">$35.000 - $80.000</span>
+          </div>
+          <div class="modal__info-card">
+            <span class="modal__info-label">Para cuántas personas</span>
+            <span class="modal__info-value">10 - 40 personas</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn-outline modal__close-btn">Cerrar</button>
+        <a href="personalizacion.html" class="btn btn-primary">Personalizar Ahora</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/modales.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+com\cremeco\common\events\OrderPlacedEvent$OrderItemDetail$OrderItemDetailBuilder.class
+com\cremeco\common\events\OrderPlacedEvent$OrderPlacedEventBuilder.class
+com\cremeco\common\events\OrderPlacedEvent.class
+com\cremeco\common\events\PaymentConfirmedEvent$PaymentConfirmedEventBuilder.class
+com\cremeco\common\events\OrderPlacedEvent$OrderItemDetail.class
+com\cremeco\common\events\PaymentConfirmedEvent.class

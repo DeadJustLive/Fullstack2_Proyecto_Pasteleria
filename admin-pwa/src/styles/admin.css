@@ -1,0 +1,177 @@
+/* =========================================================
+   Crème & Co — Admin PWA (Bootstrap 5 & CSS Puro, Sin Tailwind)
+   ========================================================= */
+
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+:root {
+  --color-primary: #8b4513;
+  --color-secondary: #5d4037;
+  --color-accent: #ffc0cb;
+  --color-neutral: #fff5e1;
+  --color-ink: #3a2a21;
+
+  --bs-primary: #8b4513;
+  --bs-primary-rgb: 139, 69, 19;
+  --bs-secondary: #5d4037;
+  --bs-secondary-rgb: 93, 64, 55;
+  --bs-body-font-family: "Source Sans 3", system-ui, -apple-system, sans-serif;
+  --bs-body-bg: #fdfbf7;
+  --bs-body-color: #3a2a21;
+}
+
+body {
+  font-family: var(--bs-body-font-family);
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  min-height: 100vh;
+}
+
+.brand-font {
+  font-family: "Be Vietnam Pro", sans-serif;
+  font-weight: 700;
+  color: var(--bs-secondary);
+}
+
+/* Sidebar & Layout */
+.pwa-sidebar {
+  width: 270px;
+  background-color: #ffffff;
+  border-right: 1px solid rgba(93, 64, 55, 0.12);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: transform 0.25s ease-in-out;
+  z-index: 1040;
+}
+
+@media (max-width: 991.98px) {
+  .pwa-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+  }
+  .pwa-sidebar.show {
+    transform: translateX(0);
+  }
+}
+
+.pwa-sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 1035;
+}
+
+.pwa-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.65rem;
+  color: var(--bs-secondary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s ease-in-out;
+}
+
+.pwa-nav-link:hover {
+  background-color: #faf6f0;
+  color: var(--bs-primary);
+}
+
+.pwa-nav-link.active {
+  background-color: var(--bs-secondary);
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(93, 64, 55, 0.2);
+}
+
+/* Tarjetas y Contenedores */
+.admin-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(93, 64, 55, 0.1);
+  border-radius: 0.9rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.admin-card-header {
+  background-color: #faf6f0;
+  border-bottom: 1px solid rgba(93, 64, 55, 0.08);
+  font-weight: 700;
+  color: var(--bs-secondary);
+  padding: 0.9rem 1.25rem;
+}
+
+/* Botones */
+.btn-primary {
+  background-color: #8b4513 !important;
+  border-color: #8b4513 !important;
+  color: #ffffff !important;
+  font-weight: 600;
+  border-radius: 50rem;
+  padding: 0.5rem 1.25rem;
+}
+
+.btn-primary:hover {
+  background-color: #5d4037 !important;
+  border-color: #5d4037 !important;
+  box-shadow: 0 3px 8px rgba(139, 69, 19, 0.25);
+}
+
+.btn-outline-primary {
+  border-color: #8b4513 !important;
+  color: #8b4513 !important;
+  font-weight: 600;
+  border-radius: 50rem;
+}
+
+.btn-outline-primary:hover {
+  background-color: #8b4513 !important;
+  color: #ffffff !important;
+}
+
+.btn-secondary {
+  background-color: #5d4037 !important;
+  border-color: #5d4037 !important;
+  font-weight: 600;
+  border-radius: 50rem;
+}
+
+.btn-danger {
+  border-radius: 50rem;
+  font-weight: 600;
+}
+
+/* Tablas */
+.admin-table thead th {
+  background-color: #faf6f0;
+  color: var(--bs-secondary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(93, 64, 55, 0.1);
+}
+
+.admin-table tbody td {
+  padding: 0.85rem 1rem;
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(93, 64, 55, 0.06);
+}
+
+/* Modales */
+.admin-modal-content {
+  border-radius: 1rem;
+  border: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+
+.admin-modal-header {
+  background-color: #faf6f0;
+  border-bottom: 1px solid rgba(93, 64, 55, 0.1);
+  padding: 1rem 1.25rem;
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Perfil - Crème & Co</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/perfil.css">
+</head>
+<body>
+  <header style="background: white; border-bottom: 1px solid var(--color-border); padding: 1rem 0;">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-primary); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: var(--color-tertiary);">C</div>
+        <span style="font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--color-tertiary);">Crème & Co</span>
+      </div>
+      <nav style="display: flex; gap: 2rem;">
+        <a href="#" style="color: var(--color-tertiary); font-weight: 500;">Inicio</a>
+        <a href="servicios.html" style="color: var(--color-tertiary); font-weight: 500;">Servicios</a>
+        <a href="personalizacion.html" style="color: var(--color-tertiary); font-weight: 500;">Personalización</a>
+        <a href="perfil.html" style="color: var(--color-secondary); font-weight: 600;">Mi Perfil</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="perfil-header">
+    <div class="perfil-header__content">
+      <span class="perfil-header__eyebrow">Mi Cuenta</span>
+      <h1 class="perfil-header__title">Mi Perfil</h1>
+      <p class="perfil-header__subtitle">Gestiona tu información personal, revisa tus pedidos y sigue el estado de tus tortas.</p>
+    </div>
+  </section>
+
+  <main class="perfil-layout">
+    <aside class="perfil-sidebar">
+      <div class="perfil-sidebar__user">
+        <div class="perfil-sidebar__avatar">MG</div>
+        <div class="perfil-sidebar__info">
+          <span class="perfil-sidebar__name">María González</span>
+          <span class="perfil-sidebar__email">maria.gonzalez@email.com</span>
+        </div>
+      </div>
+      <nav class="perfil-nav">
+        <a href="perfil.html" class="perfil-nav__link perfil-nav__link--active">
+          <svg class="perfil-nav__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+          Mis Datos
+        </a>
+        <a href="perfil-seguimiento.html" class="perfil-nav__link">
+          <svg class="perfil-nav__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+          </svg>
+          Mis Pedidos
+        </a>
+        <a href="perfil-seguimiento.html" class="perfil-nav__link">
+          <svg class="perfil-nav__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          Seguimiento de Pedido
+        </a>
+        <a href="#" class="perfil-nav__link">
+          <svg class="perfil-nav__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+          </svg>
+          Cerrar Sesión
+        </a>
+      </nav>
+    </aside>
+
+    <div class="perfil-content">
+      <section class="perfil-section">
+        <div class="perfil-section__header">
+          <div class="perfil-section__title-group">
+            <h2 class="perfil-section__title">Información Personal</h2>
+            <p class="perfil-section__subtitle">Datos de tu cuenta y contacto</p>
+          </div>
+          <button class="btn btn-outline">Editar Datos</button>
+        </div>
+        <div class="perfil-section__body">
+          <div class="info-grid">
+            <div class="info-field">
+              <span class="info-field__label">Nombre Completo</span>
+              <div class="info-field__value">María González Pérez</div>
+            </div>
+            <div class="info-field">
+              <span class="info-field__label">Correo Electrónico</span>
+              <div class="info-field__value">maria.gonzalez@email.com</div>
+            </div>
+            <div class="info-field">
+              <span class="info-field__label">Teléfono</span>
+              <div class="info-field__value">+56 9 1234 5678</div>
+            </div>
+            <div class="info-field">
+              <span class="info-field__label">Fecha de Registro</span>
+              <div class="info-field__value">15 de Octubre, 2025</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="perfil-section">
+        <div class="perfil-section__header">
+          <div class="perfil-section__title-group">
+            <h2 class="perfil-section__title">Dirección de Entrega</h2>
+            <p class="perfil-section__subtitle">Dirección principal para tus pedidos</p>
+          </div>
+          <button class="btn btn-outline">Editar Dirección</button>
+        </div>
+        <div class="perfil-section__body">
+          <div class="info-grid">
+            <div class="info-field">
+              <span class="info-field__label">Calle y Número</span>
+              <div class="info-field__value">Av. Providencia 1234, Depto 501</div>
+            </div>
+            <div class="info-field">
+              <span class="info-field__label">Comuna</span>
+              <div class="info-field__value">Providencia</div>
+            </div>
+            <div class="info-field">
+              <span class="info-field__label">Región</span>
+              <div class="info-field__value">Región Metropolitana</div>
+            </div>
+            <div class="info-field">
+              <span class="info-field__label">Código Postal</span>
+              <div class="info-field__value">7500000</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="perfil-section">
+        <div class="perfil-section__header">
+          <div class="perfil-section__title-group">
+            <h2 class="perfil-section__title">Últimos Pedidos</h2>
+            <p class="perfil-section__subtitle">Acceso rápido a tus pedidos recientes</p>
+          </div>
+          <a href="perfil-seguimiento.html" class="btn btn-outline">Ver Todos</a>
+        </div>
+        <div class="perfil-section__body">
+          <div class="productos-list">
+            <div class="producto-item">
+              <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=400&auto=format&fit=crop" alt="Torta" class="producto-item__img">
+              <div class="producto-item__info">
+                <span class="producto-item__name">Torta de Chocolate con Frutillas</span>
+                <span class="producto-item__details">Pedido #CC-2025-001234 • 25 de Octubre, 2025</span>
+                <span class="badge badge-warning" style="margin-top: 0.3rem; width: fit-content;">En preparación</span>
+              </div>
+              <div style="text-align: right;">
+                <div class="producto-item__price">$45.000</div>
+                <a href="perfil-seguimiento.html" class="btn btn-ghost" style="margin-top: 0.5rem; padding: 0.5rem 1rem;">Seguir Pedido</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

@@ -14,4 +14,6 @@ export interface Producto {
   variaciones: Variacion[];
   badge?: BadgeTipo;
   destacado?: boolean;
+  disponible?: boolean;
+  stock?: number;
 }

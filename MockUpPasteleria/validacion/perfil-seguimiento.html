@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seguimiento de Pedido - Crème & Co</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/perfil.css">
+  <link rel="stylesheet" href="css/seguimiento.css">
+</head>
+<body>
+  <header style="background: white; border-bottom: 1px solid var(--color-border); padding: 1rem 0;">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-primary); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: var(--color-tertiary);">C</div>
+        <span style="font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--color-tertiary);">Crème & Co</span>
+      </div>
+      <nav style="display: flex; gap: 2rem;">
+        <a href="#" style="color: var(--color-tertiary); font-weight: 500;">Inicio</a>
+        <a href="servicios.html" style="color: var(--color-tertiary); font-weight: 500;">Servicios</a>
+        <a href="personalizacion.html" style="color: var(--color-tertiary); font-weight: 500;">Personalización</a>
+        <a href="perfil.html" style="color: var(--color-secondary); font-weight: 600;">Mi Perfil</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="perfil-header">
+    <div class="perfil-header__content">
+      <span class="perfil-header__eyebrow">Seguimiento</span>
+      <h1 class="perfil-header__title">Seguimiento de Pedido</h1>
+      <p class="perfil-header__subtitle">Revisa el estado en tiempo real de tu pedido y quién lo recogerá.</p>
+    </div>
+  </section>
+
+  <main class="perfil-layout">
+    <aside class="perfil-sidebar">
+      <div class="perfil-sidebar__user">
+        <div class="perfil-sidebar__avatar">MG</div>
+        <div class="perfil-sidebar__info">
+          <span class="perfil-sidebar__name">María González</span>
+          <span class="perfil-sidebar__email">maria.gonzalez@email.com</span>
+        </div>
+      </div>
+      <nav class="perfil-nav">
+        <a href="perfil.html" class="perfil-nav__link">
+          <svg class="perfil-nav__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+          Mis Datos
+        </a>
+        <a href="perfil-seguimiento.html" class="perfil-nav__link">
+          <svg class="perfil-nav__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+          </svg>
+          Mis Pedidos
+        </a>
+        <a href="perfil-seguimiento.html" class="perfil-nav__link perfil-nav__link--active">
+          <svg class="perfil-nav__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          Seguimiento de Pedido
+        </a>
+        <a href="#" class="perfil-nav__link">
+          <svg class="perfil-nav__icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+          </svg>
+          Cerrar Sesión
+        </a>
+      </nav>
+    </aside>
+
+    <div class="perfil-content">
+      <section class="perfil-section">
+        <div class="perfil-section__header">
+          <div class="pedido-header">
+            <div class="pedido-header__info">
+              <span class="pedido-header__id">Pedido #CC-2025-001234</span>
+              <div class="pedido-header__meta">
+                <div class="pedido-header__meta-item">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                  <span>Realizado: 25 de Octubre, 2025 - 14:30</span>
+                </div>
+                <div class="pedido-header__meta-item">
+                  <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span>Entrega estimada: 27 de Octubre, 2025</span>
+                </div>
+              </div>
+            </div>
+            <span class="badge badge-warning">En preparación</span>
+          </div>
+        </div>
+        <div class="perfil-section__body">
+          <div class="recogedor-card">
+            <div class="recogedor-card__info">
+              <div class="recogedor-card__avatar">JP</div>
+              <div class="recogedor-card__text">
+                <span class="recogedor-card__label">Persona que recogerá el pedido</span>
+                <span class="recogedor-card__name">Juan Pablo Martínez</span>
+                <span style="font-size: 0.875rem; color: rgba(58, 42, 33, 0.7);">RUT: 12.345.678-9</span>
+              </div>
+            </div>
+            <button class="btn btn-outline" style="padding: 0.5rem 1rem;">Cambiar Recogedor</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="perfil-section">
+        <div class="perfil-section__header">
+          <div class="perfil-section__title-group">
+            <h2 class="perfil-section__title">Estado del Pedido</h2>
+            <p class="perfil-section__subtitle">Seguimiento detallado de tu pedido</p>
+          </div>
+        </div>
+        <div class="perfil-section__body">
+          <div class="timeline">
+            <div class="timeline-item timeline-item--completed">
+              <div class="timeline-item__marker">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <div class="timeline-item__content">
+                <div class="timeline-item__header">
+                  <span class="timeline-item__title">Pedido Recibido</span>
+                  <span class="timeline-item__time">25 Oct 2025 - 14:30</span>
+                </div>
+                <p class="timeline-item__description">Tu pedido ha sido recibido y confirmado correctamente.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item timeline-item--completed">
+              <div class="timeline-item__marker">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <div class="timeline-item__content">
+                <div class="timeline-item__header">
+                  <span class="timeline-item__title">Pago Confirmado</span>
+                  <span class="timeline-item__time">25 Oct 2025 - 14:32</span>
+                </div>
+                <p class="timeline-item__description">Pago procesado exitosamente.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item timeline-item--active">
+              <div class="timeline-item__marker">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                </svg>
+              </div>
+              <div class="timeline-item__content">
+                <div class="timeline-item__header">
+                  <span class="timeline-item__title">En Preparación</span>
+                  <span class="timeline-item__time">26 Oct 2025 - 09:15</span>
+                </div>
+                <p class="timeline-item__description">Nuestros pasteleros están trabajando en tu torta con mucho cariño.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item timeline-item--pending">
+              <div class="timeline-item__marker">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <div class="timeline-item__content">
+                <div class="timeline-item__header">
+                  <span class="timeline-item__title">Listo para Retirar / En Camino</span>
+                  <span class="timeline-item__time">Pendiente</span>
+                </div>
+                <p class="timeline-item__description">Tu pedido estará listo para ser retirado o enviado.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item timeline-item--pending">
+              <div class="timeline-item__marker">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <div class="timeline-item__content">
+                <div class="timeline-item__header">
+                  <span class="timeline-item__title">Entregado</span>
+                  <span class="timeline-item__time">Pendiente</span>
+                </div>
+                <p class="timeline-item__description">Pedido entregado exitosamente.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="perfil-section">
+        <div class="perfil-section__header">
+          <div class="perfil-section__title-group">
+            <h2 class="perfil-section__title">Detalle del Pedido</h2>
+            <p class="perfil-section__subtitle">Productos solicitados</p>
+          </div>
+        </div>
+        <div class="perfil-section__body">
+          <div class="productos-list">
+            <div class="producto-item">
+              <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=400&auto=format&fit=crop" alt="Torta" class="producto-item__img">
+              <div class="producto-item__info">
+                <span class="producto-item__name">Torta de Chocolate con Frutillas</span>
+                <span class="producto-item__details">Tamaño: 20 personas • Sabor: Chocolate • Relleno: Ganache de Frutilla</span>
+              </div>
+              <div class="producto-item__price">$45.000</div>
+            </div>
+          </div>
+
+          <div class="resumen-pedido">
+            <div class="resumen-pedido__row">
+              <span>Subtotal</span>
+              <span>$45.000</span>
+            </div>
+            <div class="resumen-pedido__row">
+              <span>Envío</span>
+              <span>$0.00</span>
+            </div>
+            <div class="resumen-pedido__row resumen-pedido__row--total">
+              <span>Total</span>
+              <span>$45.000</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

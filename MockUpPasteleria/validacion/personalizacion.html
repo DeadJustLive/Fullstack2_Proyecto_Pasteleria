@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personalizar Torta - Crème & Co</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/personalizacion.css">
+</head>
+<body>
+  <header style="background: white; border-bottom: 1px solid var(--color-border); padding: 1rem 0;">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-primary); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: var(--color-tertiary);">C</div>
+        <span style="font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--color-tertiary);">Crème & Co</span>
+      </div>
+      <nav style="display: flex; gap: 2rem;">
+        <a href="#" style="color: var(--color-tertiary); font-weight: 500;">Inicio</a>
+        <a href="servicios.html" style="color: var(--color-tertiary); font-weight: 500;">Servicios</a>
+        <a href="personalizacion.html" style="color: var(--color-secondary); font-weight: 600;">Personalización</a>
+        <a href="perfil.html" style="color: var(--color-tertiary); font-weight: 500;">Mi Perfil</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="personalizacion-hero">
+    <div class="personalizacion-hero__content">
+      <span class="personalizacion-hero__eyebrow">Personalización</span>
+      <h1 class="personalizacion-hero__title">Diseña tu Torta Ideal</h1>
+      <p class="personalizacion-hero__subtitle">Personaliza cada detalle de tu torta. Los sabores se configuran desde nuestra cocina según disponibilidad.</p>
+    </div>
+  </section>
+
+  <main class="personalizacion-layout">
+    <div class="personalizacion-form">
+      <!-- Paso 1: Cantidad de personas -->
+      <section class="personalizacion-section">
+        <div class="personalizacion-section__header">
+          <div class="personalizacion-section__title-group">
+            <h2 class="personalizacion-section__title">
+              <span class="personalizacion-section__step">1</span>
+              Cantidad de Personas
+            </h2>
+            <p class="personalizacion-section__subtitle">Selecciona para cuántas personas será tu torta</p>
+          </div>
+        </div>
+        <div class="personalizacion-section__body">
+          <div class="personas-selector">
+            <div class="personas-options">
+              <div class="personas-option">
+                <input type="radio" name="personas" id="p10" value="10" class="personas-option__input" checked>
+                <label for="p10" class="personas-option__label">10</label>
+              </div>
+              <div class="personas-option">
+                <input type="radio" name="personas" id="p15" value="15" class="personas-option__input">
+                <label for="p15" class="personas-option__label">15</label>
+              </div>
+              <div class="personas-option">
+                <input type="radio" name="personas" id="p20" value="20" class="personas-option__input">
+                <label for="p20" class="personas-option__label">20</label>
+              </div>
+              <div class="personas-option">
+                <input type="radio" name="personas" id="p25" value="25" class="personas-option__input">
+                <label for="p25" class="personas-option__label">25</label>
+              </div>
+              <div class="personas-option">
+                <input type="radio" name="personas" id="p30" value="30" class="personas-option__input">
+                <label for="p30" class="personas-option__label">30</label>
+              </div>
+              <div class="personas-option">
+                <input type="radio" name="personas" id="p40" value="40" class="personas-option__input">
+                <label for="p40" class="personas-option__label">40+</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Paso 2: Sabores -->
+      <section class="personalizacion-section">
+        <div class="personalizacion-section__header">
+          <div class="personalizacion-section__title-group">
+            <h2 class="personalizacion-section__title">
+              <span class="personalizacion-section__step">2</span>
+              Sabores y Rellenos
+            </h2>
+            <p class="personalizacion-section__subtitle">Selecciona los sabores para tu torta</p>
+          </div>
+        </div>
+        <div class="personalizacion-section__body">
+          <div class="sabores-info">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--color-secondary); flex-shrink: 0;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="sabores-info__text"><strong>Nota:</strong> El número de sabores permitidos se define desde administración según el tamaño de la torta.</span>
+          </div>
+
+          <div class="sabores-grid">
+            <div class="sabor-option">
+              <input type="checkbox" id="sabor1" class="sabor-option__input">
+              <label for="sabor1" class="sabor-option__label">
+                <div class="sabor-option__checkbox">
+                  <svg class="sabor-option__check" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <div class="sabor-option__info">
+                  <span class="sabor-option__name">Chocolate</span>
+                  <span class="sabor-option__desc">Bizcocho húmedo de chocolate</span>
+                </div>
+                <span class="sabor-option__badge">Clásico</span>
+              </label>
+            </div>
+
+            <div class="sabor-option">
+              <input type="checkbox" id="sabor2" class="sabor-option__input">
+              <label for="sabor2" class="sabor-option__label">
+                <div class="sabor-option__checkbox">
+                  <svg class="sabor-option__check" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <div class="sabor-option__info">
+                  <span class="sabor-option__name">Vainilla</span>
+                  <span class="sabor-option__desc">Bizcocho esponjoso de vainilla</span>
+                </div>
+                <span class="sabor-option__badge">Clásico</span>
+              </label>
+            </div>
+
+            <div class="sabor-option">
+              <input type="checkbox" id="sabor3" class="sabor-option__input">
+              <label for="sabor3" class="sabor-option__label">
+                <div class="sabor-option__checkbox">
+                  <svg class="sabor-option__check" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <div class="sabor-option__info">
+                  <span class="sabor-option__name">Red Velvet</span>
+                  <span class="sabor-option__desc">Bizcocho aterciopelado rojo</span>
+                </div>
+                <span class="sabor-option__badge">Especial</span>
+              </label>
+            </div>
+
+            <div class="sabor-option">
+              <input type="checkbox" id="sabor4" class="sabor-option__input">
+              <label for="sabor4" class="sabor-option__label">
+                <div class="sabor-option__checkbox">
+                  <svg class="sabor-option__check" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <div class="sabor-option__info">
+                  <span class="sabor-option__name">Zanahoria</span>
+                  <span class="sabor-option__desc">Bizcocho de zanahoria con especias</span>
+                </div>
+                <span class="sabor-option__badge">Casero</span>
+              </label>
+            </div>
+
+            <div class="sabor-option">
+              <input type="checkbox" id="sabor5" class="sabor-option__input">
+              <label for="sabor5" class="sabor-option__label">
+                <div class="sabor-option__checkbox">
+                  <svg class="sabor-option__check" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <div class="sabor-option__info">
+                  <span class="sabor-option__name">Frutilla</span>
+                  <span class="sabor-option__desc">Bizcocho ligero con esencia de frutilla</span>
+                </div>
+                <span class="sabor-option__badge">Frutal</span>
+              </label>
+            </div>
+
+            <div class="sabor-option">
+              <input type="checkbox" id="sabor6" class="sabor-option__input">
+              <label for="sabor6" class="sabor-option__label">
+                <div class="sabor-option__checkbox">
+                  <svg class="sabor-option__check" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <div class="sabor-option__info">
+                  <span class="sabor-option__name">Tres Leches</span>
+                  <span class="sabor-option__desc">Húmedo, cremoso y irresistible</span>
+                </div>
+                <span class="sabor-option__badge">Latino</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Paso 3: Detalles -->
+      <section class="personalizacion-section">
+        <div class="personalizacion-section__header">
+          <div class="personalizacion-section__title-group">
+            <h2 class="personalizacion-section__title">
+              <span class="personalizacion-section__step">3</span>
+              Detalles del Pedido
+            </h2>
+            <p class="personalizacion-section__subtitle">Completa la información para tu cotización</p>
+          </div>
+        </div>
+        <div class="personalizacion-section__body">
+          <div class="form-group">
+            <label class="form-label">Nombre completo</label>
+            <input type="text" class="form-input" placeholder="Ingresa tu nombre completo">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono de contacto</label>
+            <input type="tel" class="form-input" placeholder="+56 9 XXXX XXXX">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fecha del evento</label>
+            <input type="date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Descripción de lo que deseas</label>
+            <textarea class="form-textarea" placeholder="Describe el diseño, colores, mensaje, temática o cualquier detalle que quieras incluir..."></textarea>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="resumen-sidebar">
+      <div class="resumen-card">
+        <div class="resumen-card__header">
+          <h3 class="resumen-card__title">Resumen de Cotización</h3>
+        </div>
+        <div class="resumen-card__body">
+          <div class="resumen-card__section">
+            <span class="resumen-card__section-title">Configuración</span>
+            <div class="resumen-card__list">
+              <div class="resumen-card__list-item">
+                <span>Cantidad de personas</span>
+                <span class="resumen-personas">10 personas</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="resumen-card__divider"></div>
+
+          <div class="resumen-card__section resumen-sabores" style="display: none;">
+            <span class="resumen-card__section-title">Sabores seleccionados</span>
+            <div class="resumen-card__list resumen-sabores-list">
+              <!-- Se llena dinámicamente -->
+            </div>
+          </div>
+
+          <div class="resumen-card__divider"></div>
+
+          <div class="resumen-card__section">
+            <span class="resumen-card__section-title">Estado</span>
+            <p class="resumen-card__text">Cotización en proceso. Nos pondremos en contacto contigo para confirmar precios y disponibilidad.</p>
+          </div>
+        </div>
+        <div class="resumen-card__footer">
+          <button class="btn btn-primary" style="width: 100%;">Solicitar Cotización</button>
+          <p class="resumen-card__note">Te contactaremos en un plazo de 24 horas</p>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="js/personalizacion.js"></script>
+</body>
+</html>

@@ -13,7 +13,8 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 const NAV_ITEMS = [
   { to: "/", label: "Home", end: true },
   { to: "/catalogo", label: "Catálogo", end: false },
-  { to: "/envio", label: "Seguimiento de envío", end: false },
+  { to: "/blog", label: "Blog", end: false },
+  { to: "/personalizacion", label: "Personalización", end: false },
 ];
 
 type AuthModal = "login" | "registro" | null;

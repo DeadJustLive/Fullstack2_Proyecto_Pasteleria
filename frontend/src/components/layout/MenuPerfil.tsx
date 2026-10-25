@@ -22,6 +22,9 @@ export function MenuPerfil({ onIniciarSesion, onRegistrarse, onCerrar }: MenuPer
         <Link to="/perfil" className={ITEM} onClick={onCerrar}>
           Mi perfil
         </Link>
+        <Link to="/perfil/seguimiento" className={ITEM} onClick={onCerrar}>
+          Seguimiento de pedidos
+        </Link>
         <button
           type="button"
           className={ITEM}

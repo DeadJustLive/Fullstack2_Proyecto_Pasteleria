@@ -16,7 +16,7 @@ import { CarouselDestacados } from "@/components/domain/CarouselDestacados";
 import { HeroHome } from "@/components/domain/HeroHome";
 import { SobreNosotros } from "@/components/domain/SobreNosotros";
 import { SectionTitle } from "@/components/ui/SectionTitle";
-import { productos } from "@/data/products";
+import { useRealtimeProducts } from "@/hooks/useRealtimeProducts";
 
 const BENEFICIOS = [
   "Horneado fresco a diario",
@@ -26,6 +26,7 @@ const BENEFICIOS = [
 ];
 
 export function Home() {
+  const { productos } = useRealtimeProducts();
   const destacados = productos.filter((producto) => producto.destacado);
 
   return (

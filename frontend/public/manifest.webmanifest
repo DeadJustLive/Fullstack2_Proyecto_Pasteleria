@@ -1,0 +1,17 @@
+{
+  "name": "Crème & Co — Panel de Administración & POS",
+  "short_name": "Crème Admin",
+  "description": "PWA de administración, KDS cocina y punto de venta POS para pastelería Crème & Co",
+  "start_url": "/admin",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FAF6F0",
+  "theme_color": "#8B4513",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,3 +1,11 @@
+// @pca:start
+// @id(frontend.layout.admin)
+// @kind(component)
+// @limit(lines: 50)
+// @contract(props: void)
+// @relates(docs.reglas_ui)
+// @desc(Layout esqueleto de admin en frontend web)
+// @pca:end
 import { Outlet } from "react-router-dom";
 import { Skeleton } from "@/components/dev/Skeleton";
 

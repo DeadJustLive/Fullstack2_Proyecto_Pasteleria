@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventario y Stock - Crème & Co Admin</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar__header">
+        <div class="admin-sidebar__logo">C</div>
+        <div>
+          <span class="admin-sidebar__title">Crème & Co</span>
+          <span class="admin-sidebar__badge">Admin</span>
+        </div>
+      </div>
+
+      <nav class="admin-nav">
+        <a href="reportes.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          Dashboard & Reportes
+        </a>
+        <a href="productos.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          Productos & Catálogo
+        </a>
+        <a href="inventario.html" class="admin-nav__link admin-nav__link--active">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+          Inventario & Stock
+        </a>
+        <a href="usuarios.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          Usuarios & Roles
+        </a>
+        <a href="promociones.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+          Promociones & Descuentos
+        </a>
+        <a href="componentes.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+          UI Kit: Botones & Modales
+        </a>
+      </nav>
+
+      <div class="admin-sidebar__footer">
+        <div class="admin-user">
+          <div class="admin-user__avatar">AG</div>
+          <div class="admin-user__info">
+            <span class="admin-user__name">Admin General</span>
+            <span class="admin-user__role">Superusuario</span>
+          </div>
+        </div>
+        <a href="auth.html" title="Cerrar Sesión" style="color: rgba(255, 245, 225, 0.7);">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="admin-header__title-group">
+          <h1>Control de Inventario y Kardex</h1>
+          <p>Supervisión de stock, alerta de mermas y ajustes para cocina y POS</p>
+        </div>
+        <div class="admin-header__actions">
+          <button class="btn btn-primary" onclick="abrirModalAjuste()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            Registrar Movimiento / Merma
+          </button>
+        </div>
+      </header>
+
+      <div class="admin-body">
+        <!-- Tarjetas de Resumen de Inventario -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-card__label">Items en Stock Óptimo</span>
+            <span class="kpi-card__value" style="color: #2E7D32;">28</span>
+            <span class="kpi-card__trend kpi-card__trend--up">Disponibilidad completa</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-card__label">Stock Bajo / Por Reabastecer</span>
+            <span class="kpi-card__value" style="color: #F57F17;">4</span>
+            <span class="kpi-card__trend kpi-card__trend--down">Alerta de compra</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-card__label">Agotados</span>
+            <span class="kpi-card__value" style="color: #C62828;">1</span>
+            <span class="kpi-card__trend kpi-card__trend--down">Desactivado en tienda</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-card__label">Mermas del Mes</span>
+            <span class="kpi-card__value" style="color: var(--color-ink);">$34.500</span>
+            <span style="font-size: 0.75rem; color: rgba(58, 42, 33, 0.7);">3 registros contabilizados</span>
+          </div>
+        </div>
+
+        <!-- Tabla de Existencias -->
+        <div class="admin-card">
+          <div class="admin-card__header">
+            <div>
+              <h2 class="admin-card__title">Existencias Actuales</h2>
+              <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7);">Descuento automático sincronizado con ventas de mostrador y web</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem;">
+              <input type="text" class="form-input" placeholder="Filtrar producto o SKU..." style="width: 220px; font-size: 0.82rem;">
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Producto / Insumo</th>
+                  <th>Tipo</th>
+                  <th>Stock Actual</th>
+                  <th>Mínimo Requerido</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>TOR-CHO-01</strong></td>
+                  <td><strong>Torta de Chocolate con Frutillas</strong></td>
+                  <td>Producto Terminado</td>
+                  <td><strong>12 un.</strong></td>
+                  <td>5 un.</td>
+                  <td><span class="status-badge status-badge--success">Óptimo</span></td>
+                  <td>
+                    <button class="btn btn-outline btn-sm" onclick="abrirModalAjusteCon('Torta de Chocolate con Frutillas')">Ajustar</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>TOR-RED-02</strong></td>
+                  <td><strong>Torta Red Velvet</strong></td>
+                  <td>Producto Terminado</td>
+                  <td><strong style="color: #F57F17;">3 un.</strong></td>
+                  <td>5 un.</td>
+                  <td><span class="status-badge status-badge--warning">Bajo Stock</span></td>
+                  <td>
+                    <button class="btn btn-outline btn-sm" onclick="abrirModalAjusteCon('Torta Red Velvet')">Ajustar</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>INS-HAR-01</strong></td>
+                  <td><strong>Harina Pastelera Especial (Saco 25kg)</strong></td>
+                  <td>Insumo Crítico</td>
+                  <td><strong>8 sacos</strong></td>
+                  <td>3 sacos</td>
+                  <td><span class="status-badge status-badge--success">Óptimo</span></td>
+                  <td>
+                    <button class="btn btn-outline btn-sm" onclick="abrirModalAjusteCon('Harina Pastelera Especial')">Ajustar</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>INS-CHO-02</strong></td>
+                  <td><strong>Chocolate Cobertura Belga 70%</strong></td>
+                  <td>Insumo Crítico</td>
+                  <td><strong style="color: #C62828;">1 kg</strong></td>
+                  <td>5 kg</td>
+                  <td><span class="status-badge status-badge--danger">Crítico</span></td>
+                  <td>
+                    <button class="btn btn-outline btn-sm" onclick="abrirModalAjusteCon('Chocolate Cobertura Belga 70%')">Ajustar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Historial Kardex Reciente -->
+        <div class="admin-card">
+          <div class="admin-card__header">
+            <div>
+              <h2 class="admin-card__title">Últimos Movimientos de Kardex</h2>
+              <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7);">Auditoría inmutable de entradas, salidas y mermas</p>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Fecha y Hora</th>
+                  <th>Producto</th>
+                  <th>Tipo</th>
+                  <th>Cantidad</th>
+                  <th>Saldo Resultante</th>
+                  <th>Motivo / Referencia</th>
+                  <th>Responsable</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>25 Oct 2025 - 14:32</td>
+                  <td>Torta de Chocolate con Frutillas</td>
+                  <td><span class="status-badge status-badge--info">VENTA_WEB</span></td>
+                  <td style="color: #C62828;">-1 un.</td>
+                  <td>12 un.</td>
+                  <td>Pedido Web #CC-2025-001234</td>
+                  <td>Sistema Webpay</td>
+                </tr>
+                <tr>
+                  <td>25 Oct 2025 - 11:15</td>
+                  <td>Torta Red Velvet</td>
+                  <td><span class="status-badge status-badge--danger">MERMA</span></td>
+                  <td style="color: #C62828;">-1 un.</td>
+                  <td>3 un.</td>
+                  <td>Accidente de manipulación en vitrina</td>
+                  <td>Nicolás Valdés (Cajero)</td>
+                </tr>
+                <tr>
+                  <td>24 Oct 2025 - 08:30</td>
+                  <td>Harina Pastelera Especial</td>
+                  <td><span class="status-badge status-badge--success">ENTRADA</span></td>
+                  <td style="color: #2E7D32;">+10 sacos</td>
+                  <td>8 sacos</td>
+                  <td>Factura Proveedor #84920</td>
+                  <td>Matías Retamal (Admin)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Ajuste de Stock -->
+  <div class="modal-overlay" id="modalAjuste">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Registrar Movimiento de Inventario</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModalAjuste()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Producto / Insumo</label>
+          <input type="text" class="form-input" id="ajusteProductoNombre" placeholder="Seleccione o escriba..." required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div class="form-group">
+            <label class="form-label">Tipo de Movimiento</label>
+            <select class="form-select" required>
+              <option value="ENTRADA">Entrada (Compra a proveedor)</option>
+              <option value="MERMA">Merma (Deterioro / Pérdida)</option>
+              <option value="AJUSTE">Ajuste de Auditoría</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cantidad Afectada</label>
+            <input type="number" class="form-input" placeholder="Ej: 5" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Motivo o Justificación Obligatoria</label>
+          <textarea class="form-textarea" rows="2" placeholder="Describa el motivo del ajuste o número de factura..." required></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="cerrarModalAjuste()">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarAjuste()">Registrar en Kardex</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function abrirModalAjuste() {
+      document.getElementById('modalAjuste').classList.add('active');
+    }
+    function abrirModalAjusteCon(nombre) {
+      document.getElementById('ajusteProductoNombre').value = nombre;
+      abrirModalAjuste();
+    }
+    function cerrarModalAjuste() {
+      document.getElementById('modalAjuste').classList.remove('active');
+    }
+    function guardarAjuste() {
+      alert('Movimiento registrado en Kardex y stock recalculado.');
+      cerrarModalAjuste();
+    }
+  </script>
+</body>
+</html>

@@ -2,14 +2,17 @@ import { useEffect, useMemo, useState } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Skeleton } from "@/components/dev/Skeleton";
+import { CarouselBanner } from "@/components/domain/CarouselBanner";
 import { FiltroCheckbox } from "@/components/domain/FiltroCheckbox";
-import { useCart } from "@/context/cart";
+import { ProductCard } from "@/components/domain/ProductCard";
+
 import { cn, formatPrecio } from "@/lib/utils";
-import { CATEGORIAS, PRECIO_MAX, VARIACIONES, productos } from "@/data/products";
+import { CATEGORIAS, PRECIO_MAX, VARIACIONES } from "@/data/products";
+import { useRealtimeProducts } from "@/hooks/useRealtimeProducts";
 
 export function Catalogo() {
-  const { agregar } = useCart();
+
+  const { productos } = useRealtimeProducts();
   const [busqueda, setBusqueda] = useState("");
   const [categorias, setCategorias] = useState<string[]>([]);
   const [variaciones, setVariaciones] = useState<string[]>([]);
@@ -77,30 +80,27 @@ export function Catalogo() {
           p.precio <= filtros.precioMax
         );
       }),
-    [filtros]
+    [filtros, productos]
   );
 
   return (
     <>
-      <section className="rounded bg-[url('/imagen/fondo_obrador.webp')] bg-cover bg-center">
-        <div className="rounded bg-ink/85 px-6 py-14 text-center text-neutral">
-          <span className="font-body text-sm font-bold uppercase tracking-widest text-primary">
-            Pastelería Artesanal
-          </span>
-          <h1 className="text-neutral">Nuestro Catálogo</h1>
-          <p className="mt-3 font-body text-neutral/90">
-            Elige entre nuestras tortas, postres y opciones sin gluten, elaboradas a mano cada día.
-          </p>
+      <section className="relative overflow-hidden rounded-xl bg-[url('/imagen/fondo_obrador.webp')] bg-cover bg-[center_25%]">
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/90 to-ink/80" />
+        <div className="relative flex min-h-[320px] items-center justify-center px-3 py-6 sm:min-h-[360px] sm:px-5 sm:py-7 lg:min-h-[400px] lg:px-6 lg:py-8">
+          <div className="relative mx-auto w-full max-w-[1100px]">
+            <CarouselBanner productos={productos.filter((p) => p.destacado).slice(0, 6)} />
+          </div>
         </div>
       </section>
 
       <Button
         variant="outline"
         onClick={() => setFiltrosAbiertos(true)}
-        className="mt-10 w-full lg:hidden"
+        className="mt-8 w-full lg:hidden"
       >
         <SlidersHorizontal size={18} />
-        Filtros
+        Mostrar filtros
       </Button>
 
       {filtrosAbiertos && (
@@ -117,7 +117,7 @@ export function Catalogo() {
           className={cn(
             "fixed inset-y-0 left-0 z-50 flex w-[300px] max-w-[85vw] flex-col gap-7 overflow-y-auto bg-white p-6 shadow-xl transition-transform duration-300",
             filtrosAbiertos ? "translate-x-0" : "-translate-x-full",
-            "lg:static lg:z-auto lg:w-auto lg:max-w-none lg:translate-x-0 lg:overflow-visible lg:rounded lg:border lg:border-tertiary/10 lg:shadow-sm"
+            "lg:static lg:z-auto lg:w-auto lg:max-w-none lg:translate-x-0 lg:overflow-visible lg:rounded-xl lg:border lg:border-tertiary/10 lg:bg-white/95 lg:shadow-card"
           )}
         >
           <div className="flex items-center justify-between lg:hidden">
@@ -154,18 +154,48 @@ export function Catalogo() {
           />
 
           <div className="flex flex-col gap-3">
-            <h3 className="font-display text-base font-semibold text-tertiary">Precio Máximo</h3>
+            <h3 className="font-display text-base font-semibold text-tertiary">Rango de precio</h3>
+            <div className="flex items-center gap-2">
+              <div className="flex flex-1 flex-col gap-1">
+                <span className="text-xs font-body text-ink/70">Mínimo</span>
+                <input
+                  type="number"
+                  min={0}
+                  max={precioMax}
+                  value={0}
+                  readOnly
+                  className="w-full rounded-lg border border-tertiary/20 bg-neutral/50 px-3 py-2 font-body text-sm text-ink/70 focus:outline-none"
+                />
+              </div>
+              <div className="flex flex-1 flex-col gap-1">
+                <span className="text-xs font-body text-ink/70">Máximo</span>
+                <input
+                  type="number"
+                  min={0}
+                  max={PRECIO_MAX}
+                  value={precioMax}
+                  onChange={(e) => {
+                    const val = Number(e.target.value);
+                    if (val >= 0 && val <= PRECIO_MAX) {
+                      setPrecioMax(val);
+                    }
+                  }}
+                  className="w-full rounded-lg border border-tertiary/20 px-3 py-2 font-body text-sm text-tertiary focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
+                />
+              </div>
+            </div>
             <input
               type="range"
               min={0}
               max={PRECIO_MAX}
               value={precioMax}
               onChange={(e) => setPrecioMax(Number(e.target.value))}
-              className="w-full accent-secondary"
+              className="w-full cursor-pointer accent-secondary"
+              style={{ accentColor: "var(--color-secondary)" }}
             />
-            <div className="flex justify-between font-body text-xs text-secondary">
-              <span>$0</span>
-              <span>{formatPrecio(precioMax)}</span>
+            <div className="flex justify-between font-body text-xs text-ink/70">
+              <span>{formatPrecio(0)}</span>
+              <span>{formatPrecio(PRECIO_MAX)}</span>
             </div>
           </div>
 
@@ -182,12 +212,12 @@ export function Catalogo() {
             </p>
           ) : (
             filtrados.map((p) => (
-              <div key={p.id} className="flex flex-col gap-2">
-                <Skeleton elemento="ProductCard" responsable="Anais" className="h-80" />
-                <Button variant="outline" size="sm" onClick={() => agregar(p)}>
-                  Agregar al carrito
-                </Button>
-              </div>
+              <ProductCard
+                key={p.id}
+                producto={p}
+
+                className="h-full"
+              />
             ))
           )}
         </div>

@@ -61,9 +61,9 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho` · `Bloqueado`.
 | T32 | Login con JWT, refresh y logout | S1 | Matias | Alta | T30 | Pendiente |
 | T33 | SecurityConfig, filtro JWT y authorities | S1 | Matias | Alta | T32 | Pendiente |
 | T34 | `/auth/me`, perfil y cambio de contraseña | S1 | Nicolas | Alta | T33 | Pendiente |
-| T35 | CRUD de usuarios en la PWA | S1 | Nicolas | Alta | T30, T33 | Pendiente |
-| T36 | CRUD de roles y matriz de permisos | S1 | Nicolas | Alta | T30 | Pendiente |
-| T37 | Asignación de roles y salvaguardas | S1 | Nicolas | Alta | T35, T36 | Pendiente |
+| T35 | CRUD de usuarios (API) | S1 | Nicolas | Alta | T30, T33 | Pendiente |
+| T36 | CRUD de roles y matriz de permisos (API) | S1 | Nicolas | Alta | T30 | Pendiente |
+| T37 | Asignación de roles y salvaguardas (API) | S1 | Nicolas | Alta | T35, T36 | Pendiente |
 | T38 | Auditoría de identidad | S1 | Nicolas | Media | T36, T37 | Pendiente |
 | T39 | PWA: login, guards y menú por permisos | S1 | Anais | Alta | T27, T34 | Pendiente |
 | T40 | PWA: pantallas Usuarios y Roles | S1 | Anais | Alta | T35–T39 | Pendiente |
@@ -71,8 +71,8 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho` · `Bloqueado`.
 | T42 | Pruebas de seguridad y matriz de permisos | S1 | Nicolas | Alta | T30–T38 | Pendiente |
 | T43 | Modelo de catálogo y datos semilla | S2 | Nicolas | Alta | T24 | Pendiente |
 | T44 | API pública de catálogo | S2 | Nicolas | Alta | T43 | Pendiente |
-| T45 | CRUD admin de categorías | S2 | Anais | Alta | T43, T44 | Pendiente |
-| T46 | CRUD admin de productos | S2 | Anais | Alta | T43, T44 | Pendiente |
+| T45 | CRUD admin de categorías (API) | S2 | Anais | Alta | T43, T44 | Pendiente |
+| T46 | CRUD admin de productos (API) | S2 | Anais | Alta | T43, T44 | Pendiente |
 | T47 | Gestión de imágenes de producto | S2 | Nicolas | Media | T46 | Pendiente |
 | T48 | Cliente: catálogo real en Home y Catálogo | S2 | Anais | Alta | T44 | Pendiente |
 | T49 | Cliente: detalle de producto | S2 | Anais | Alta | T44, T48 | Pendiente |
@@ -118,7 +118,21 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho` · `Bloqueado`.
 
 ---
 
-## 4. Ruta crítica
+## 4. Reserva de migraciones (Flyway)
+
+| Rango | Sprint | Uso | Estado |
+| :--- | :--- | :--- | :--- |
+| `V1__baseline.sql` | S0 | Estructura base / metadatos | Asignado (T24) |
+| `V10__*` - `V12__*` | S1 | Identidad, roles, permisos y auditoría | Asignado (T30, T38) |
+| `V20__*` - `V22__*` | S2 | Catálogo, categorías, productos e imágenes | Asignado (T43, T47) |
+| `V30__*` - `V33__*` | S3 | Pedidos, cupones, envíos y pagos | Asignado (T52–T57) |
+| `V40__*` - `V42__*` | S4 | Inventario, insumos, recetas, caja y POS | Asignado (T62, T64, T66) |
+| `V50__*` - `V52__*` | S5 | Blog, configuración y auditoría general | Asignado (T74, T77, T78) |
+| `V60__*` | S6 | Integraciones de pago (Flow) | Asignado (T80) |
+
+> Solo el coordinador reserva un nuevo número de migración. No se reutilizan versiones.
+
+## 5. Ruta crítica
 
 ```text
 T21 → T22 → T23 → T24 → T30 → T32 → T33 → T34 → T39 → T41

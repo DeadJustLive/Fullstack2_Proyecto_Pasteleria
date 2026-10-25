@@ -37,28 +37,43 @@ function reducer(state: CartState, accion: Accion): CartState {
         items: existe
           ? state.items.map((i) =>
               i.producto.id === accion.producto.id
-                ? { ...i, cantidad: i.cantidad + 1 }
+                ? { ...i, cantidad: Math.min(99, i.cantidad + 1) }
                 : i
             )
           : [...state.items, { producto: accion.producto, cantidad: 1 }],
       };
     }
-    case "quitar":
+    case "quitar": {
+      const nuevosItems = state.items.filter((i) => i.producto.id !== accion.productoId);
       return {
         ...state,
-        items: state.items.filter((i) => i.producto.id !== accion.productoId),
+        items: nuevosItems,
+        cupon: nuevosItems.length === 0 ? null : state.cupon,
       };
-    case "cambiarCantidad":
+    }
+    case "cambiarCantidad": {
+      if (accion.cantidad <= 0) {
+        const itemsSinProducto = state.items.filter((i) => i.producto.id !== accion.productoId);
+        return {
+          ...state,
+          items: itemsSinProducto,
+          cupon: itemsSinProducto.length === 0 ? null : state.cupon,
+        };
+      }
+      const cantidadSegura = Math.min(99, Math.max(1, Math.round(accion.cantidad)));
       return {
         ...state,
         items: state.items.map((i) =>
           i.producto.id === accion.productoId
-            ? { ...i, cantidad: Math.max(1, accion.cantidad) }
+            ? { ...i, cantidad: cantidadSegura }
             : i
         ),
       };
-    case "aplicarCupon":
-      return { ...state, cupon: accion.cupon };
+    }
+    case "aplicarCupon": {
+      const cuponLimpio = accion.cupon.trim().toUpperCase();
+      return { ...state, cupon: cuponLimpio || null };
+    }
     case "quitarCupon":
       return { ...state, cupon: null };
     case "vaciar":

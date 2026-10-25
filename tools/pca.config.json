@@ -3,12 +3,32 @@
     "id": "tools.pca_config",
     "kind": "config",
     "desc": "Manifiesto del anotador PCA (JSON no admite comentarios; esta clave cumple el rol de bloque)",
-    "relates": ["tools.pca_annotator"]
+    "relates": [
+      "tools.pca_annotator"
+    ]
   },
   "base_dir": "..",
-  "roots": ["docs", "tools", "frontend/src", "frontend/scripts"],
-  "include": ["**/*.py", "**/*.md", "**/*.css", "**/*.html", "**/*.tsx", "**/*.ts", "**/*.mjs"],
-  "exclude": ["**/grafo.*", "**/*.bak", "**/node_modules/**", "**/dist/**"],
+  "roots": [
+    "docs",
+    "tools",
+    "frontend/src",
+    "frontend/scripts"
+  ],
+  "include": [
+    "**/*.py",
+    "**/*.md",
+    "**/*.css",
+    "**/*.html",
+    "**/*.tsx",
+    "**/*.ts",
+    "**/*.mjs"
+  ],
+  "exclude": [
+    "**/grafo.*",
+    "**/*.bak",
+    "**/node_modules/**",
+    "**/dist/**"
+  ],
   "files": [
     {
       "path": "tools/pca_annotator.py",
@@ -17,28 +37,37 @@
       "limit": 500,
       "contract": "cli: annotate|graph|impact|check",
       "desc": "CLI para inyectar anotaciones PCA y generar el grafo de impacto del proyecto",
-      "relates": ["docs.sistema_anotaciones", "docs.convenciones"]
+      "relates": [
+        "docs.sistema_anotaciones",
+        "docs.convenciones"
+      ]
     },
     {
       "path": "tools/README.md",
       "id": "tools.readme",
       "kind": "doc",
       "desc": "Guía de uso del anotador PCA y cómo agregar lenguajes",
-      "relates": ["tools.pca_annotator"]
+      "relates": [
+        "tools.pca_annotator"
+      ]
     },
     {
       "path": "docs/sistema_anotaciones.md",
       "id": "docs.sistema_anotaciones",
       "kind": "doc",
       "desc": "Diccionario de anotaciones PCA y cómo usarlas",
-      "relates": ["tools.pca_annotator"]
+      "relates": [
+        "tools.pca_annotator"
+      ]
     },
     {
       "path": "docs/convenciones.md",
       "id": "docs.convenciones",
       "kind": "doc",
       "desc": "Convenciones generales del proyecto",
-      "relates": ["docs.sistema_anotaciones"]
+      "relates": [
+        "docs.sistema_anotaciones"
+      ]
     },
     {
       "path": "docs/estado_proyecto.md",
@@ -46,7 +75,11 @@
       "kind": "doc",
       "limit": 200,
       "desc": "Tablero de control: fase, stack, sprints, tickets y próximo paso",
-      "relates": ["docs.convenciones", "docs.reglas_ui", "docs.git"]
+      "relates": [
+        "docs.convenciones",
+        "docs.reglas_ui",
+        "docs.git"
+      ]
     },
     {
       "path": "docs/reglas_ui.md",
@@ -54,7 +87,10 @@
       "kind": "doc",
       "limit": 400,
       "desc": "Reglas de UI: tokens, escalas, breakpoints, componentes y checklist responsive",
-      "relates": ["docs.convenciones", "frontend.ui.buttonVariants"]
+      "relates": [
+        "docs.convenciones",
+        "frontend.ui.buttonVariants"
+      ]
     },
     {
       "path": "docs/cicatrices_guerra.md",
@@ -62,7 +98,10 @@
       "kind": "doc",
       "limit": 300,
       "desc": "Learning loop: errores commits, su causa y su solución",
-      "relates": ["docs.convenciones", "docs.reglas_ui"]
+      "relates": [
+        "docs.convenciones",
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "docs/git.md",
@@ -70,7 +109,21 @@
       "kind": "doc",
       "limit": 200,
       "desc": "Estrategia de ramas, commits y flujo de versionado",
-      "relates": ["docs.convenciones"]
+      "relates": [
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "docs/diccionario_funciones_variables.md",
+      "id": "docs.diccionario_funciones_variables",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Diccionario técnico de funciones, variables y matriz de impacto Blast Radius",
+      "relates": [
+        "docs.convenciones",
+        "docs.reglas_ui",
+        "docs.arquitectura_microservicios_kafka"
+      ]
     },
     {
       "path": "frontend/src/components/ui/buttonVariants.ts",
@@ -79,7 +132,9 @@
       "limit": 60,
       "contract": "cva: variant(primary|secondary|outline|ghost) x size(sm|default|lg|icon)",
       "desc": "Variantes compartidas por Button y ButtonLink del design system",
-      "relates": ["docs.reglas_ui"]
+      "relates": [
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/components/ui/Button.tsx",
@@ -88,7 +143,10 @@
       "limit": 50,
       "contract": "props: variant, size, type, disabled + ButtonHTMLAttributes",
       "desc": "Boton del design system (pildora, variantes CVA)",
-      "relates": ["frontend.ui.buttonVariants", "docs.reglas_ui"]
+      "relates": [
+        "frontend.ui.buttonVariants",
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/components/ui/ButtonLink.tsx",
@@ -97,7 +155,10 @@
       "limit": 50,
       "contract": "props: to + ButtonVariantProps",
       "desc": "Enlace con apariencia de boton del design system",
-      "relates": ["frontend.ui.buttonVariants", "docs.reglas_ui"]
+      "relates": [
+        "frontend.ui.buttonVariants",
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/components/ui/LogoCremeCo.tsx",
@@ -106,7 +167,9 @@
       "limit": 120,
       "contract": "props: className",
       "desc": "Logotipo SVG inline de Crème & Co (decorativo, id unico con useId)",
-      "relates": ["docs.reglas_ui"]
+      "relates": [
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/components/domain/HeroHome.tsx",
@@ -115,7 +178,11 @@
       "limit": 80,
       "contract": "sin props",
       "desc": "Banner principal de la Home (full-bleed con .hero-bg y .full-bleed)",
-      "relates": ["frontend.ui.logoCremeCo", "frontend.ui.buttonLink", "docs.reglas_ui"]
+      "relates": [
+        "frontend.ui.logoCremeCo",
+        "frontend.ui.buttonLink",
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/components/domain/CarouselDestacados.tsx",
@@ -124,16 +191,23 @@
       "limit": 160,
       "contract": "props: productos: Producto[]",
       "desc": "Carrusel de destacados con scroll-snap, flechas funcionales y teclado",
-      "relates": ["frontend.domain.productCard", "docs.reglas_ui"]
+      "relates": [
+        "frontend.domain.productCard",
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/components/domain/ProductCard.tsx",
       "id": "frontend.domain.productCard",
       "kind": "component",
-      "limit": 120,
-      "contract": "props: producto: Producto, className?: string",
+      "limit": 140,
+      "contract": "props: producto: Producto, elevation?: string, className?: string",
       "desc": "Tarjeta de producto: anadir al carrito real, enlaces reales y a11y",
-      "relates": ["frontend.ui.button", "frontend.ui.buttonLink", "frontend.ui.badge"]
+      "relates": [
+        "frontend.ui.button",
+        "frontend.ui.buttonLink",
+        "frontend.ui.badge"
+      ]
     },
     {
       "path": "frontend/src/components/domain/SobreNosotros.tsx",
@@ -142,7 +216,9 @@
       "limit": 60,
       "contract": "sin props",
       "desc": "Bloque de texto e imagen 'Quiénes Somos' de la Home",
-      "relates": ["docs.reglas_ui"]
+      "relates": [
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/components/domain/BlogRecientes.tsx",
@@ -151,16 +227,22 @@
       "limit": 60,
       "contract": "sin props",
       "desc": "Grid de artículos recientes del blog en la Home",
-      "relates": ["frontend.ui.buttonLink", "frontend.ui.sectionTitle", "frontend.data.articles"]
+      "relates": [
+        "frontend.ui.buttonLink",
+        "frontend.ui.sectionTitle",
+        "frontend.data.articles"
+      ]
     },
     {
       "path": "frontend/src/components/ui/SectionTitle.tsx",
       "id": "frontend.ui.sectionTitle",
       "kind": "component",
-      "limit": 40,
-      "contract": "props: eyebrow?, titulo, className?",
-      "desc": "Encabezado de seccion con eyebrow y titulo centrados",
-      "relates": ["docs.reglas_ui"]
+      "limit": 55,
+      "contract": "props: eyebrow?, titulo, align?, spacing?, className?",
+      "desc": "Encabezado de seccion con eyebrow y titulo configurables via CVA",
+      "relates": [
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/components/ui/Badge.tsx",
@@ -169,7 +251,9 @@
       "limit": 40,
       "contract": "props: tipo: BadgeTipo + HTMLAttributes",
       "desc": "Etiqueta flotante sobre la foto del producto",
-      "relates": ["docs.reglas_ui"]
+      "relates": [
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/data/articles.ts",
@@ -178,7 +262,9 @@
       "limit": 40,
       "contract": "export ARTICULOS: Articulo[]",
       "desc": "Datos de los artículos del blog destacados en la Home",
-      "relates": ["docs.reglas_ui"]
+      "relates": [
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/pages/cliente/Home.tsx",
@@ -202,7 +288,10 @@
       "limit": 120,
       "contract": "sin props (shell de las rutas de cliente): Navbar + main + Footer",
       "desc": "Shell del cliente: define el padding y el ancho del main (max-w-full + xl:max-w-page)",
-      "relates": ["frontend.pages.cliente.home", "docs.reglas_ui"]
+      "relates": [
+        "frontend.pages.cliente.home",
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/components/ui/BackToTop.tsx",
@@ -211,7 +300,11 @@
       "limit": 80,
       "contract": "sin props",
       "desc": "Boton flotante que vuelve al inicio de la pagina (aparece al desplazar)",
-      "relates": ["frontend.ui.button", "frontend.layouts.clienteLayout", "docs.reglas_ui"]
+      "relates": [
+        "frontend.ui.button",
+        "frontend.layouts.clienteLayout",
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/src/hooks/useCarousel.ts",
@@ -220,7 +313,10 @@
       "limit": 110,
       "contract": "useCarousel(total: number) -> { trackRef, indice, enInicio, enFin, irA, desplazar }",
       "desc": "Estado y acciones de un track horizontal con scroll-snap (indice y posiciones)",
-      "relates": ["frontend.domain.carouselDestacados", "docs.reglas_ui"]
+      "relates": [
+        "frontend.domain.carouselDestacados",
+        "docs.reglas_ui"
+      ]
     },
     {
       "path": "frontend/scripts/optimize-images.mjs",
@@ -229,13 +325,306 @@
       "limit": 160,
       "contract": "cli: npm run optimize:images",
       "desc": "Convierte PNG a WebP y re-codifica JPG de public/imagen sin degradar",
-      "relates": ["docs.reglas_ui"]
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/EstadoPedidoBadge.tsx",
+      "id": "frontend.domain.estadoPedidoBadge",
+      "kind": "component",
+      "limit": 80,
+      "contract": "props: estado: string, className?: string",
+      "desc": "Insignia con variante de color semantico segun el estado del pedido",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/LineaTiempoPedido.tsx",
+      "id": "frontend.domain.lineaTiempoPedido",
+      "kind": "component",
+      "limit": 140,
+      "contract": "props: hitos: HitoPedido[]",
+      "desc": "Linea de tiempo cronologica con estados completados, activo y pendientes",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/PerfilSidebar.tsx",
+      "id": "frontend.domain.perfilSidebar",
+      "kind": "component",
+      "limit": 110,
+      "contract": "props: tabActiva: 'datos' | 'pedidos' | 'seguimiento'",
+      "desc": "Barra lateral del perfil con usuario autenticado y enlaces de navegacion",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/Modal.tsx",
+      "id": "frontend.ui.modal",
+      "kind": "component",
+      "limit": 90,
+      "contract": "props: abierto: boolean, titulo: string, onCerrar: () => void, children: ReactNode",
+      "desc": "Ventana modal accesible con cierre por escape y fondo bloqueado",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Perfil.tsx",
+      "id": "frontend.pages.cliente.perfil",
+      "kind": "component",
+      "limit": 380,
+      "contract": "sin props: consulta contexto de sesion o estado local",
+      "desc": "Vista de perfil de cliente con datos personales, direcciones y acceso a pedidos",
+      "relates": [
+        "frontend.domain.perfilSidebar",
+        "frontend.domain.estadoPedidoBadge",
+        "frontend.ui.button",
+        "frontend.ui.buttonLink",
+        "frontend.ui.modal"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/PerfilSeguimiento.tsx",
+      "id": "frontend.pages.cliente.perfilSeguimiento",
+      "kind": "component",
+      "limit": 360,
+      "contract": "sin props: consulta pedido mock o parametros de ruta",
+      "desc": "Vista de seguimiento de pedido dentro del perfil con timeline e info de recogida",
+      "relates": [
+        "frontend.domain.perfilSidebar",
+        "frontend.domain.lineaTiempoPedido",
+        "frontend.domain.estadoPedidoBadge",
+        "frontend.ui.button",
+        "frontend.ui.buttonLink",
+        "frontend.ui.modal"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/Input.tsx",
+      "id": "frontend.ui.input",
+      "kind": "component",
+      "limit": 80,
+      "contract": "props: InputHTMLAttributes + InputProps",
+      "desc": "Campo de entrada de texto accesible con estados default, error y success",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Personalizacion.tsx",
+      "id": "frontend.pages.cliente.personalizacion",
+      "kind": "component",
+      "limit": 320,
+      "contract": "sin props: formulario interactivo de diseno y cotizacion de tortas",
+      "desc": "Pagina de personalizacion de tortas por pasos: personas, sabores y detalles",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.ui.modal",
+        "frontend.ui.input",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "docs/reglas_backend.md",
+      "id": "docs.reglas_backend",
+      "kind": "doc",
+      "limit": 300,
+      "desc": "Reglas de backend: arquitectura modular Spring Boot, JPA, Flyway, RFC 7807 y convenciones de BD",
+      "relates": [
+        "docs.convenciones",
+        "docs.estado_proyecto"
+      ]
+    },
+    {
+      "path": "docs/especificacion_microservicios.md",
+      "id": "docs.especificacion_microservicios",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Especificación de microservicios y módulos de Spring Boot con sus entidades, endpoints y dependencias",
+      "relates": [
+        "docs.reglas_backend",
+        "interfaces.entity.user",
+        "interfaces.entity.rbac",
+        "interfaces.entity.catalog",
+        "interfaces.entity.order",
+        "interfaces.entity.payment",
+        "interfaces.entity.inventory",
+        "interfaces.entity.blog",
+        "interfaces.entity.audit"
+      ]
+    },
+    {
+      "path": "docs/especificacion_pwa_admin.md",
+      "id": "docs.especificacion_pwa_admin",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Especificación de vistas, flujos y permisos de la aplicación PWA de administración",
+      "relates": [
+        "docs.especificacion_microservicios",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/common.entity.ts",
+      "id": "interfaces.entity.common",
+      "kind": "model",
+      "limit": 60,
+      "contract": "BaseEntity, AuditableEntity, PaginationParams, PageResponse",
+      "desc": "Interfaces base de persistencia y paginacion para BD y JPA",
+      "relates": [
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/user.entity.ts",
+      "id": "interfaces.entity.user",
+      "kind": "model",
+      "limit": 80,
+      "contract": "UserEntity, UserAddressEntity, RefreshTokenEntity",
+      "desc": "Entidades de usuarios, direcciones y refresh tokens para MySQL y JPA",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/rbac.entity.ts",
+      "id": "interfaces.entity.rbac",
+      "kind": "model",
+      "limit": 70,
+      "contract": "RoleEntity, PermissionEntity, UserRoleEntity, RolePermissionEntity",
+      "desc": "Entidades de roles, permisos y tablas intermedias RBAC para MySQL y JPA",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/catalog.entity.ts",
+      "id": "interfaces.entity.catalog",
+      "kind": "model",
+      "limit": 110,
+      "contract": "CategoryEntity, ProductEntity, ProductVariationEntity, PersonalizationOptionEntity",
+      "desc": "Entidades de productos, categorias, variaciones y personalizacion",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/order.entity.ts",
+      "id": "interfaces.entity.order",
+      "kind": "model",
+      "limit": 150,
+      "contract": "OrderEntity, OrderItemEntity, OrderStatusHistoryEntity, OrderPickupEntity, OrderDeliveryAddressEntity",
+      "desc": "Entidades de pedidos, items, historial de estados y recogedor",
+      "relates": [
+        "interfaces.entity.common",
+        "interfaces.entity.catalog",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/payment.entity.ts",
+      "id": "interfaces.entity.payment",
+      "kind": "model",
+      "limit": 80,
+      "contract": "PaymentEntity, CouponEntity",
+      "desc": "Entidades de transacciones de pago, pasarelas y cupones de descuento",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/inventory.entity.ts",
+      "id": "interfaces.entity.inventory",
+      "kind": "model",
+      "limit": 80,
+      "contract": "InventoryMovementEntity, CashRegisterEntity",
+      "desc": "Entidades de control de movimientos de inventario y sesiones de caja POS",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/blog.entity.ts",
+      "id": "interfaces.entity.blog",
+      "kind": "model",
+      "limit": 60,
+      "contract": "BlogPostEntity",
+      "desc": "Entidades de publicaciones editoriales y articulos del blog",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/audit.entity.ts",
+      "id": "interfaces.entity.audit",
+      "kind": "model",
+      "limit": 60,
+      "contract": "AuditLogEntity",
+      "desc": "Entidades de registro de auditoria y trazabilidad de operaciones",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/index.ts",
+      "id": "interfaces.index",
+      "kind": "model",
+      "limit": 30,
+      "contract": "export *",
+      "desc": "Barril central de exportacion para todas las interfaces de dominio",
+      "relates": [
+        "interfaces.entity.common",
+        "interfaces.entity.user",
+        "interfaces.entity.rbac",
+        "interfaces.entity.catalog",
+        "interfaces.entity.order",
+        "interfaces.entity.payment",
+        "interfaces.entity.inventory",
+        "interfaces.entity.blog",
+        "interfaces.entity.audit"
+      ]
+    },
+    {
+      "path": "frontend/src/layouts/AdminLayout.tsx",
+      "id": "frontend.layout.admin",
+      "kind": "component",
+      "limit": 50,
+      "contract": "props: void",
+      "desc": "Layout esqueleto de admin en frontend web",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "docs/arquitectura_microservicios_kafka.md",
+      "id": "docs.arquitectura_microservicios_kafka",
+      "kind": "doc",
+      "limit": 450,
+      "desc": "Arquitectura de microservicios Spring Boot, comunicación asincrónica con Apache Kafka y pasarela de pago Flow",
+      "relates": [
+        "docs.especificacion_microservicios",
+        "docs.reglas_backend"
+      ]
     }
   ],
   "options": {
     "output_dir": "."
   },
   "languages": {
-    ".mjs": { "line_prefix": "//" }
+    ".mjs": {
+      "line_prefix": "//"
+    }
   }
 }

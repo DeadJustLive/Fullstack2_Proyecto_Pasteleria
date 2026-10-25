@@ -11,6 +11,7 @@ import { Outlet } from "react-router-dom";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { BackToTop } from "@/components/ui/BackToTop";
+import { FloatingCartButton } from "@/components/ui/FloatingCartButton";
 
 export function ClienteLayout() {
   return (
@@ -31,6 +32,8 @@ export function ClienteLayout() {
         <Outlet />
       </main>
       <Footer />
+      {/* Boton flotante de acceso al carrito (visible cuando cantidadTotal > 0 en centro inferior) */}
+      <FloatingCartButton />
       {/* Boton de volver arriba: vive en el shell para que aparezca en todas
           las paginas del sitio del cliente. */}
       <BackToTop />

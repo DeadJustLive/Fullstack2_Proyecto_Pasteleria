@@ -1,12 +1,11 @@
 // @pca:start
 // @id(frontend.domain.carouselDestacados)
 // @kind(component)
-// @limit(lines: 145)
+// @limit(lines: 160)
 // @contract(props: productos: Producto[])
 // @relates(frontend.domain.productCard)
-// @relates(frontend.hooks.useCarousel)
 // @relates(docs.reglas_ui)
-// @desc(Carrusel ciclico de destacados con scroll-snap, flechas inferiores y pildoras)
+// @desc(Carrusel de destacados con scroll-snap, flechas funcionales y teclado)
 // @pca:end
 import type { KeyboardEvent } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
