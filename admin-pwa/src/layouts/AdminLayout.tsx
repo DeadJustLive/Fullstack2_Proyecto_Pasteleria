@@ -8,6 +8,7 @@ import {
   Monitor,
   Package,
   Palette,
+  Settings,
   ShieldCheck,
   Tag,
   Users,
@@ -22,6 +23,7 @@ const NAV_ITEMS = [
   { to: "/usuarios", label: "Usuarios & Roles", icon: Users },
   { to: "/promociones", label: "Promociones & Descuentos", icon: Tag },
   { to: "/pos", label: "Punto de Venta POS", icon: Monitor },
+  { to: "/configuracion", label: "Configuración de la Tienda", icon: Settings },
   { to: "/componentes", label: "UI Kit & Modales", icon: Palette },
 ];
 

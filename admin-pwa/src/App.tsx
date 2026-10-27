@@ -7,6 +7,7 @@ import { Usuarios } from "./pages/Usuarios";
 import { Promociones } from "./pages/Promociones";
 import { Pos } from "./pages/Pos";
 import { ComponentesShowcase } from "./pages/ComponentesShowcase";
+import { Configuracion } from "./pages/Configuracion";
 
 export function App() {
   return (
@@ -18,6 +19,7 @@ export function App() {
         <Route path="usuarios" element={<Usuarios />} />
         <Route path="promociones" element={<Promociones />} />
         <Route path="pos" element={<Pos />} />
+        <Route path="configuracion" element={<Configuracion />} />
         <Route path="componentes" element={<ComponentesShowcase />} />
       </Route>
     </Routes>
