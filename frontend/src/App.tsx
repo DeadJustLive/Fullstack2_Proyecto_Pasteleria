@@ -18,6 +18,7 @@ import { Perfil } from "@/pages/cliente/Perfil";
 import { PerfilSeguimiento } from "@/pages/cliente/PerfilSeguimiento";
 import { Personalizacion } from "@/pages/cliente/Personalizacion";
 import { ProductoDetalle } from "@/pages/cliente/ProductoDetalle";
+import { Envio } from "@/pages/cliente/Envio";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
         <Route path="producto/:id" element={<ProductoDetalle />} />
         <Route path="carrito" element={<Carrito />} />
         <Route path="checkout" element={<Checkout />} />
-        <Route path="envio" element={<PerfilSeguimiento />} />
+        <Route path="envio" element={<Envio />} />
         <Route path="blog" element={<Blog />} />
         <Route path="blog/:slug" element={<BlogDetalle />} />
         <Route path="personalizacion" element={<Personalizacion />} />
