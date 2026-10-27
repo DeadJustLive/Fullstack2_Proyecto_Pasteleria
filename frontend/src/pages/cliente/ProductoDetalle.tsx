@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Check, Copy, Minus, Plus, Share2, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -8,18 +8,75 @@ import { Modal } from "@/components/ui/Modal";
 import { useCart } from "@/context/cart";
 import { BADGE_LABEL } from "@/data/products";
 import { useRealtimeProducts } from "@/hooks/useRealtimeProducts";
+import { api } from "@/services/api";
 import { formatPrecio } from "@/lib/utils";
+import type { Producto } from "@/types/product";
 
 export function ProductoDetalle() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { agregar } = useCart();
-  const { productos } = useRealtimeProducts();
+  const { productos, cargando: cargandoCatalogo } = useRealtimeProducts();
   const [cantidad, setCantidad] = useState(1);
   const [compartirAbierto, setCompartirAbierto] = useState(false);
   const [copiado, setCopiado] = useState(false);
 
-  const producto = useMemo(() => productos.find((p) => p.id === Number(id)), [id, productos]);
+  const productoEnLista = useMemo(
+    () => productos.find((p) => p.id === Number(id)),
+    [id, productos]
+  );
+
+  const [productoAsync, setProductoAsync] = useState<Producto | null>(null);
+  const [cargandoDirecto, setCargandoDirecto] = useState(false);
+  const [busquedaDirectaTerminada, setBusquedaDirectaTerminada] = useState(false);
+
+  useEffect(() => {
+    const numId = Number(id);
+    if (!id || isNaN(numId) || numId <= 0) {
+      setBusquedaDirectaTerminada(true);
+      return;
+    }
+
+    if (productoEnLista) {
+      setProductoAsync(null);
+      setBusquedaDirectaTerminada(true);
+      return;
+    }
+
+    if (cargandoCatalogo) {
+      return;
+    }
+
+    let isMounted = true;
+    setCargandoDirecto(true);
+    setBusquedaDirectaTerminada(false);
+
+    api.catalog
+      .getProductById(numId)
+      .then((remoto) => {
+        if (isMounted) {
+          setProductoAsync(remoto);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setProductoAsync(null);
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setCargandoDirecto(false);
+          setBusquedaDirectaTerminada(true);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id, productoEnLista, cargandoCatalogo]);
+
+  const producto = productoEnLista || productoAsync;
+  const estaCargando = !producto && (cargandoCatalogo || cargandoDirecto || !busquedaDirectaTerminada);
 
   const relacionados = useMemo(() => {
     if (!producto) return [];
@@ -27,6 +84,15 @@ export function ProductoDetalle() {
       .filter((p) => p.id !== producto.id && p.categorias.some((c) => producto.categorias.includes(c)))
       .slice(0, 3);
   }, [producto, productos]);
+
+  if (estaCargando) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-tertiary/20 border-t-secondary" />
+        <p className="font-body text-sm text-ink/70">Cargando producto...</p>
+      </div>
+    );
+  }
 
   if (!producto) {
     return (

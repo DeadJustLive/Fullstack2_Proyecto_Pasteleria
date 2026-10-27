@@ -32,36 +32,38 @@ export function applyAvailability(lista: Producto[]): Producto[] {
 }
 
 export function useRealtimeProducts() {
-  const [items, setItems] = useState<Producto[]>(() => applyAvailability(productosEstaticos));
+  const [items, setItems] = useState<Producto[]>([]);
+  const [cargando, setCargando] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const recargar = useCallback(() => {
-    setItems(applyAvailability(productosEstaticos));
+  const cargar = useCallback(async () => {
+    setCargando(true);
+    setError(null);
+    try {
+      const remotos = await api.catalog.getProducts();
+      if (Array.isArray(remotos) && remotos.length > 0) {
+        setItems(applyAvailability(remotos));
+      } else {
+        setItems(applyAvailability(productosEstaticos));
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error al conectar con el catálogo");
+      setItems(applyAvailability(productosEstaticos));
+    } finally {
+      setCargando(false);
+    }
   }, []);
 
+  const recargar = useCallback(() => {
+    cargar();
+  }, [cargar]);
+
   useEffect(() => {
-    // 1. Intentar sincronizar con el microservicio de Catalogo si esta disponible
-    api.catalog
-      .getProducts()
-      .then((remotos) => {
-        if (Array.isArray(remotos) && remotos.length > 0) {
-          const overrides = getStoredAvailability();
-          const remoteMap = new Map(remotos.map((r) => [r.id, r.disponible]));
+    cargar();
+  }, [cargar]);
 
-          setItems((prev) =>
-            prev.map((p) => {
-              const remoteDisp = remoteMap.get(p.id);
-              const overrideDisp = overrides[p.id];
-              const finalDisp = overrideDisp !== undefined ? overrideDisp : (remoteDisp !== undefined ? remoteDisp : (p.disponible ?? true));
-              return { ...p, disponible: finalDisp };
-            })
-          );
-        }
-      })
-      .catch(() => {
-        // Modo offline / mock
-      });
-
-    // 2. Escuchar canal de comunicacion en tiempo real (BroadcastChannel API)
+  useEffect(() => {
+    // Escuchar canal de comunicacion en tiempo real (BroadcastChannel API)
     let channel: BroadcastChannel | null = null;
     try {
       channel = new BroadcastChannel(CHANNEL_NAME);
@@ -81,15 +83,15 @@ export function useRealtimeProducts() {
       // Fallback si BroadcastChannel no esta soportado
     }
 
-    // 3. Escuchar eventos de storage entre diferentes pestañas/ventanas
+    // Escuchar eventos de storage entre diferentes pestañas/ventanas
     const handleStorage = (e: StorageEvent) => {
       if (e.key === STORAGE_KEY) {
-        recargar();
+        setItems((prev) => applyAvailability(prev));
       }
     };
     window.addEventListener("storage", handleStorage);
 
-    // 4. Escuchar eventos locales en la misma ventana
+    // Escuchar eventos locales en la misma ventana
     const handleCustom = (e: Event) => {
       const customEvent = e as CustomEvent<{ id: number; disponible: boolean }>;
       if (customEvent.detail) {
@@ -146,6 +148,8 @@ export function useRealtimeProducts() {
 
   return {
     productos: items,
+    cargando,
+    error,
     actualizarDisponibilidad,
     recargar,
   };

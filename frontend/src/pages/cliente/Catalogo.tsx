@@ -12,7 +12,7 @@ import { useRealtimeProducts } from "@/hooks/useRealtimeProducts";
 
 export function Catalogo() {
 
-  const { productos } = useRealtimeProducts();
+  const { productos, cargando, error } = useRealtimeProducts();
   const [busqueda, setBusqueda] = useState("");
   const [categorias, setCategorias] = useState<string[]>([]);
   const [variaciones, setVariaciones] = useState<string[]>([]);
@@ -89,7 +89,13 @@ export function Catalogo() {
         <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/90 to-ink/80" />
         <div className="relative flex min-h-[320px] items-center justify-center px-3 py-6 sm:min-h-[360px] sm:px-5 sm:py-7 lg:min-h-[400px] lg:px-6 lg:py-8">
           <div className="relative mx-auto w-full max-w-[1100px]">
-            <CarouselBanner productos={productos.filter((p) => p.destacado).slice(0, 6)} />
+            {cargando && productos.length === 0 ? (
+              <div className="flex h-64 items-center justify-center">
+                <div className="h-10 w-10 animate-spin rounded-full border-4 border-white/20 border-t-white" />
+              </div>
+            ) : (
+              <CarouselBanner productos={productos.filter((p) => p.destacado).slice(0, 6)} />
+            )}
           </div>
         </div>
       </section>
@@ -206,7 +212,27 @@ export function Catalogo() {
         </aside>
 
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          {filtrados.length === 0 ? (
+          {error && productos.length > 0 && (
+            <div className="col-span-full rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
+              Modo sin conexión: mostrando catálogo almacenado localmente.
+            </div>
+          )}
+
+          {cargando && productos.length === 0 ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={`cat-skeleton-${i}`}
+                className="flex flex-col overflow-hidden rounded-xl border border-tertiary/10 bg-white shadow-[0_1px_3px_rgba(93,64,55,0.06)] animate-pulse"
+              >
+                <div className="aspect-square w-full bg-neutral/80" />
+                <div className="flex flex-1 flex-col gap-3 p-[1.1rem]">
+                  <div className="h-5 w-3/4 rounded bg-neutral/80" />
+                  <div className="h-4 w-1/3 rounded bg-neutral/80" />
+                  <div className="mt-auto h-9 w-full rounded-md bg-neutral/80" />
+                </div>
+              </div>
+            ))
+          ) : filtrados.length === 0 ? (
             <p className="col-span-full py-10 text-center font-body text-ink/60">
               No encontramos productos con esos filtros.
             </p>
@@ -215,7 +241,6 @@ export function Catalogo() {
               <ProductCard
                 key={p.id}
                 producto={p}
-
                 className="h-full"
               />
             ))

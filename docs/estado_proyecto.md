@@ -98,6 +98,12 @@ la migración.
 | BK-02 | Adaptación de pasarela Flow.cl desde Biblioteca-de-Componentes-main (idempotencia en BD, reembolsos, webhooks seguros y suite de pruebas) | F3 / BK | Hecho | `CONV-DOC-01`, `CONV-EST-01` |
 | ADM-02 | Sincronización en tiempo real (0ms BroadcastChannel + Storage + API) de disponibilidad entre Admin PWA y Tienda | F3 / ADM | Hecho | `CONV-UI-01`, `CONV-UI-04` |
 | FE-31 | Relleno rápido test en Login/Checkout, pasarelas seguras (Flow, Transferencia, MP) y Botón flotante de carrito inferior central | F3 / FE | Hecho | `CONV-UI-01`, `CONV-UI-04` |
+| FE-INT-01 | Cliente HTTP con inyección automática de JWT y autenticación real con `service-identity` | F3 / INT | Hecho | `CONV-TIP-01`, `CONV-SEG-01` |
+| FE-INT-02 | Catálogo dinámico y detalle de producto conectados con `service-catalog` | F3 / INT | Hecho | `CONV-UI-02`, `CONV-TIP-01` |
+| FE-INT-03 | Carrito de compras con validación remota de cupones y control de stock | F3 / INT | Hecho | `CONV-UI-01`, `CONV-TIP-01` |
+| FE-INT-04 | Checkout completo, creación de orden y verificación de pasarela Flow.cl | F3 / INT | Pendiente | `CONV-TIP-01`, `CONV-ERR-01` |
+| FE-INT-05 | Perfil de cliente, direcciones dinámicas y tracking en tiempo real | F3 / INT | Pendiente | `CONV-UI-02`, `CONV-TIP-01` |
+| FE-INT-06 | Cotizaciones de personalización y registro de ventas POS en Kardex | F3 / INT | Pendiente | `CONV-EST-01`, `CONV-TIP-01` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
@@ -107,9 +113,8 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 > Un solo ticket concreto a la vez.
 
-- **T16 — Migrar Catálogo al design system.** Es la última página grande que depende de
-  `src/mockup/cliente/catalogo.css` (`.catalogo-hero`, `.badge`, filtros). Requiere
-  decidir si el drawer de filtros mobile se reescribe o se conserva.
+- **FE-INT-04 — Integración Completa de Checkout y Pasarela Flow.cl:**
+  Enviar modelo completo de orden y despacho a `service-order` (`POST /api/orders`), iniciar cobro en Flow (`POST /api/payments/flow/create`) y validar el token en `/confirmacion` con `api.payments.getStatus(token)`.
 
 ---
 

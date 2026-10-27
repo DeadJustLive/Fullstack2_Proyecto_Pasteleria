@@ -9,15 +9,16 @@ export interface CartItem {
 export interface CartContextValue {
   items: CartItem[];
   cupon: string | null;
+  descuentoPorcentaje: number;
   cantidadTotal: number;
   subtotal: number;
   descuento: number;
   envio: number;
   total: number;
-  agregar: (producto: Producto) => void;
+  agregar: (producto: Producto, cantidad?: number) => void;
   quitar: (productoId: number) => void;
   cambiarCantidad: (productoId: number, cantidad: number) => void;
-  aplicarCupon: (codigo: string) => boolean;
+  aplicarCupon: (codigo: string) => Promise<{ ok: boolean; mensaje?: string }>;
   quitarCupon: () => void;
   vaciar: () => void;
 }
@@ -27,6 +28,9 @@ export const ENVIO = 8000;
 export const CUPONES: Record<string, number> = {
   CREME10: 0.1,
   DULCE15: 0.15,
+  DULCE10: 0.1,
+  CREME20: 0.2,
+  BIENVENIDA: 0.15,
 };
 
 export const CartContext = createContext<CartContextValue | null>(null);

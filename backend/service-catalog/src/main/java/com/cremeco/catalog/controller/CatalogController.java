@@ -24,6 +24,16 @@ public class CatalogController {
         return ResponseEntity.ok(mockProductos);
     }
 
+    @GetMapping("/products/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable int id) {
+        Optional<Map<String, Object>> opt = mockProductos.stream()
+                .filter(p -> (int) p.get("id") == id)
+                .findFirst();
+
+        return opt.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PostMapping("/products")
     public ResponseEntity<?> createProduct(@RequestBody Map<String, Object> data) {
         Map<String, Object> nuevo = new HashMap<>(data);
