@@ -98,6 +98,8 @@ la migración.
 | BK-02 | Adaptación de pasarela Flow.cl desde Biblioteca-de-Componentes-main (idempotencia en BD, reembolsos, webhooks seguros y suite de pruebas) | F3 / BK | Hecho | `CONV-DOC-01`, `CONV-EST-01` |
 | ADM-02 | Sincronización en tiempo real (0ms BroadcastChannel + Storage + API) de disponibilidad entre Admin PWA y Tienda | F3 / ADM | Hecho | `CONV-UI-01`, `CONV-UI-04` |
 | FE-31 | Relleno rápido test en Login/Checkout, pasarelas seguras (Flow, Transferencia, MP) y Botón flotante de carrito inferior central | F3 / FE | Hecho | `CONV-UI-01`, `CONV-UI-04` |
+| FE-32 | Seguimiento de envío (`Envio.tsx`) y formulario de soporte reutilizable (`FormularioSoporte.tsx`) | F3 / FE | En revisión | `CONV-UI-01`, `CONV-UI-04` |
+| ADM-03 | Configuración de la tienda en admin-pwa (`Configuracion.tsx`), sin credenciales en código | F3 / ADM | En revisión | `CONV-SEG-01`, `CONV-UI-02` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
