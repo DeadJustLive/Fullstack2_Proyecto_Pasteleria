@@ -1,3 +1,11 @@
+// @pca:start
+// @id(admin.pages.pos)
+// @kind(page)
+// @limit(lines: 300)
+// @contract(PosAdminView())
+// @relates(docs.especificacion_pwa_admin)
+// @desc(Terminal punto de venta POS mostrador con generacion de boletas)
+// @pca:end
 import { useState } from "react";
 import { CreditCard } from "lucide-react";
 

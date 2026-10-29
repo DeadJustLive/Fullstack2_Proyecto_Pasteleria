@@ -1,3 +1,12 @@
+// @pca:start
+// @id(frontend.pages.cliente.catalogo)
+// @kind(page)
+// @limit(lines: 280)
+// @contract(CatalogoView())
+// @relates(frontend.domain.productCard)
+// @relates(docs.reglas_ui)
+// @desc(Vista de catalogo con filtros de categoria y tarjetas de productos)
+// @pca:end
 import { useEffect, useMemo, useState } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
 import { Button } from "@/components/ui/Button";

@@ -9,15 +9,21 @@
 # Escape puntual para un commit ya revisado:
 #   git commit --no-verify
 
-# Sin python3 disponible no hay nada que validar: no bloqueamos el commit.
-command -v python3 >/dev/null 2>&1 || exit 0
+PYTHON_CMD=""
+if command -v python3 >/dev/null 2>&1; then
+  PYTHON_CMD="python3"
+elif command -v python >/dev/null 2>&1; then
+  PYTHON_CMD="python"
+else
+  exit 0
+fi
 
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
 cd "$ROOT" || exit 0
 
 [ -f tools/pca_annotator.py ] || exit 0
 
-if ! python3 tools/pca_annotator.py check --strict; then
+if ! "$PYTHON_CMD" tools/pca_annotator.py check --strict; then
   echo ""
   echo "[pca] check --strict falló: corrige las FK/IDs/archivos reportados arriba."
   echo "[pca] Escape puntual (solo si ya revisaste el problema): git commit --no-verify"

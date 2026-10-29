@@ -1,3 +1,11 @@
+// @pca:start
+// @id(admin.pages.inventario)
+// @kind(page)
+// @limit(lines: 450)
+// @contract(InventarioAdminView())
+// @relates(docs.especificacion_pwa_admin)
+// @desc(Control de stock con semaforo, movimientos Kardex y registro de mermas)
+// @pca:end
 import { useState } from "react";
 import {
   ArrowDown,

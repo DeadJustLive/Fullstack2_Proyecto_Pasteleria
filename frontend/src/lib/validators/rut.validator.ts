@@ -1,9 +1,10 @@
 // @pca:start
-// @id(frontend.lib.validators.rut)
-// @kind(util)
-// @limit(lines: 90)
-// @contract(exporta: validarRut, formatearRut, limpiarRut)
-// @desc(Validador y formateador oficial de RUN/RUT chileno mediante algoritmo Módulo 11)
+// @id(frontend.lib.rutValidator)
+// @kind(service)
+// @limit(lines: 80)
+// @contract(limpiarRut, formatearRut, validarRutChileno)
+// @relates(docs.convenciones)
+// @desc(Validador de RUT chileno con algoritmo Modulo 11 puro sin dependencias)
 // @pca:end
 
 /**

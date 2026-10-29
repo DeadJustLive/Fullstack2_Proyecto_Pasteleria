@@ -1,3 +1,12 @@
+// @pca:start
+// @id(frontend.pages.cliente.checkout)
+// @kind(page)
+// @limit(lines: 380)
+// @contract(CheckoutView())
+// @relates(frontend.lib.checkoutValidator)
+// @relates(docs.reglas_ui)
+// @desc(Formulario de checkout con seleccion de entrega y pasarela Flow)
+// @pca:end
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CreditCard, Building2, ShoppingBag, ShieldCheck, Zap } from "lucide-react";

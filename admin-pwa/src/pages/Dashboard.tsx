@@ -1,3 +1,11 @@
+// @pca:start
+// @id(admin.pages.dashboard)
+// @kind(page)
+// @limit(lines: 260)
+// @contract(DashboardView())
+// @relates(docs.especificacion_pwa_admin)
+// @desc(Resumen administrativo con metricas, ventas diarias y accesos rapidos)
+// @pca:end
 import {
   AlertTriangle,
   ArrowDownRight,

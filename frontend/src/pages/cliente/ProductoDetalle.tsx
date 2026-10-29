@@ -1,3 +1,12 @@
+// @pca:start
+// @id(frontend.pages.cliente.productoDetalle)
+// @kind(page)
+// @limit(lines: 300)
+// @contract(ProductoDetalleView())
+// @relates(frontend.ui.button)
+// @relates(docs.reglas_ui)
+// @desc(Vista detallada de producto con seleccion de porciones y agregar a carrito)
+// @pca:end
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Check, Copy, Minus, Plus, Share2, ShoppingCart } from "lucide-react";

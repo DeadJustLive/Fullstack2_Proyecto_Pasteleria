@@ -1,3 +1,11 @@
+<!-- @pca:start
+@id(docs.tickets.sprint7)
+@kind(doc)
+@limit(lines: 500)
+@relates(docs.estado_proyecto)
+@relates(docs.convenciones)
+@desc(Tickets T89 a T100 para integracion total con MySQL, Flow y entrega DSY1104)
+@pca:end -->
 # Sprint 7 — Cumplimiento DSY1104 (Anexo 1), Persistencia Total MySQL y Paso a Producción (VPS)
 
 > **Fase:** F3 — Ejecución por tickets · **Sprint:** S7 · **Tickets:** T89–T100

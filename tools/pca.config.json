@@ -4,29 +4,36 @@
     "kind": "config",
     "desc": "Manifiesto del anotador PCA (JSON no admite comentarios; esta clave cumple el rol de bloque)",
     "relates": [
-      "tools.pca_annotator"
+      "tools.pca_annotator",
+      "tools.pca_core"
     ]
   },
   "base_dir": "..",
   "roots": [
     "docs",
     "tools",
-    "IberoMuseos"
+    "frontend/src",
+    "frontend/scripts",
+    "admin-pwa/src",
+    "backend"
   ],
   "include": [
     "**/*.py",
     "**/*.md",
     "**/*.css",
     "**/*.html",
-    "**/*.kt",
-    "**/*.json"
+    "**/*.tsx",
+    "**/*.ts",
+    "**/*.mjs",
+    "**/*.java"
   ],
   "exclude": [
     "**/grafo.*",
     "**/*.bak",
-    "**/build/**",
-    "**/.gradle/**",
-    "**/assets/**"
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/target/**",
+    "**/__pycache__/**"
   ],
   "files": [
     {
@@ -99,2449 +106,801 @@
       "path": "docs/estado_proyecto.md",
       "id": "docs.estado_proyecto",
       "kind": "doc",
-      "desc": "Tablero de control y memoria del proyecto Anti-Amnesia",
+      "limit": 200,
+      "desc": "Tablero de control: fase, stack, sprints, tickets y próximo paso",
       "relates": [
-        "docs.convenciones"
+        "docs.convenciones",
+        "docs.reglas_ui",
+        "docs.git"
       ]
     },
     {
       "path": "docs/reglas_ui.md",
       "id": "docs.reglas_ui",
       "kind": "doc",
-      "desc": "Reglas y convenciones de UI para Jetpack Compose y Material 3",
+      "limit": 400,
+      "desc": "Reglas de UI: tokens, escalas, breakpoints, componentes y checklist responsive",
+      "relates": [
+        "docs.convenciones",
+        "frontend.ui.buttonVariants"
+      ]
+    },
+    {
+      "path": "docs/cicatrices_guerra.md",
+      "id": "docs.cicatrices_guerra",
+      "kind": "doc",
+      "limit": 300,
+      "desc": "Learning loop: errores commits, su causa y su solución",
+      "relates": [
+        "docs.convenciones",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "docs/git.md",
+      "id": "docs.git",
+      "kind": "doc",
+      "limit": 200,
+      "desc": "Estrategia de ramas, commits y flujo de versionado",
       "relates": [
         "docs.convenciones"
+      ]
+    },
+    {
+      "path": "docs/diccionario_funciones_variables.md",
+      "id": "docs.diccionario_funciones_variables",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Diccionario técnico de funciones, variables y matriz de impacto Blast Radius",
+      "relates": [
+        "docs.convenciones",
+        "docs.reglas_ui",
+        "docs.arquitectura_microservicios_kafka"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/buttonVariants.ts",
+      "id": "frontend.ui.buttonVariants",
+      "kind": "service",
+      "limit": 60,
+      "contract": "cva: variant(primary|secondary|outline|ghost) x size(sm|default|lg|icon)",
+      "desc": "Variantes compartidas por Button y ButtonLink del design system",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/Button.tsx",
+      "id": "frontend.ui.button",
+      "kind": "component",
+      "limit": 50,
+      "contract": "props: variant, size, type, disabled + ButtonHTMLAttributes",
+      "desc": "Boton del design system (pildora, variantes CVA)",
+      "relates": [
+        "frontend.ui.buttonVariants",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/ButtonLink.tsx",
+      "id": "frontend.ui.buttonLink",
+      "kind": "component",
+      "limit": 50,
+      "contract": "props: to + ButtonVariantProps",
+      "desc": "Enlace con apariencia de boton del design system",
+      "relates": [
+        "frontend.ui.buttonVariants",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/LogoCremeCo.tsx",
+      "id": "frontend.ui.logoCremeCo",
+      "kind": "component",
+      "limit": 120,
+      "contract": "props: className",
+      "desc": "Logotipo SVG inline de Crème & Co (decorativo, id unico con useId)",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/HeroHome.tsx",
+      "id": "frontend.domain.heroHome",
+      "kind": "component",
+      "limit": 80,
+      "contract": "sin props",
+      "desc": "Banner principal de la Home (full-bleed con .hero-bg y .full-bleed)",
+      "relates": [
+        "frontend.ui.logoCremeCo",
+        "frontend.ui.buttonLink",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/CarouselDestacados.tsx",
+      "id": "frontend.domain.carouselDestacados",
+      "kind": "component",
+      "limit": 160,
+      "contract": "props: productos: Producto[]",
+      "desc": "Carrusel de destacados con scroll-snap, flechas funcionales y teclado",
+      "relates": [
+        "frontend.domain.productCard",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/ProductCard.tsx",
+      "id": "frontend.domain.productCard",
+      "kind": "component",
+      "limit": 140,
+      "contract": "props: producto: Producto, elevation?: string, className?: string",
+      "desc": "Tarjeta de producto: anadir al carrito real, enlaces reales y a11y",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.ui.buttonLink",
+        "frontend.ui.badge"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/SobreNosotros.tsx",
+      "id": "frontend.domain.sobreNosotros",
+      "kind": "component",
+      "limit": 60,
+      "contract": "sin props",
+      "desc": "Bloque de texto e imagen 'Quiénes Somos' de la Home",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/BlogRecientes.tsx",
+      "id": "frontend.domain.blogRecientes",
+      "kind": "component",
+      "limit": 60,
+      "contract": "sin props",
+      "desc": "Grid de artículos recientes del blog en la Home",
+      "relates": [
+        "frontend.ui.buttonLink",
+        "frontend.ui.sectionTitle",
+        "frontend.data.articles"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/SectionTitle.tsx",
+      "id": "frontend.ui.sectionTitle",
+      "kind": "component",
+      "limit": 55,
+      "contract": "props: eyebrow?, titulo, align?, spacing?, className?",
+      "desc": "Encabezado de seccion con eyebrow y titulo configurables via CVA",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/Badge.tsx",
+      "id": "frontend.ui.badge",
+      "kind": "component",
+      "limit": 40,
+      "contract": "props: tipo: BadgeTipo + HTMLAttributes",
+      "desc": "Etiqueta flotante sobre la foto del producto",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/data/articles.ts",
+      "id": "frontend.data.articles",
+      "kind": "service",
+      "limit": 40,
+      "contract": "export ARTICULOS: Articulo[]",
+      "desc": "Datos de los artículos del blog destacados en la Home",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Home.tsx",
+      "id": "frontend.pages.cliente.home",
+      "kind": "component",
+      "limit": 60,
+      "contract": "sin props",
+      "desc": "Orquestador de la Home: compono las secciones de dominio",
+      "relates": [
+        "frontend.domain.heroHome",
+        "frontend.domain.carouselDestacados",
+        "frontend.domain.sobreNosotros",
+        "frontend.domain.blogRecientes",
+        "frontend.data.articles"
+      ]
+    },
+    {
+      "path": "frontend/src/layouts/ClienteLayout.tsx",
+      "id": "frontend.layouts.clienteLayout",
+      "kind": "component",
+      "limit": 120,
+      "contract": "sin props (shell de las rutas de cliente): Navbar + main + Footer",
+      "desc": "Shell del cliente: define el padding y el ancho del main (max-w-full + xl:max-w-page)",
+      "relates": [
+        "frontend.pages.cliente.home",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/BackToTop.tsx",
+      "id": "frontend.ui.backToTop",
+      "kind": "component",
+      "limit": 80,
+      "contract": "sin props",
+      "desc": "Boton flotante que vuelve al inicio de la pagina (aparece al desplazar)",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.layouts.clienteLayout",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/hooks/useCarousel.ts",
+      "id": "frontend.hooks.useCarousel",
+      "kind": "service",
+      "limit": 110,
+      "contract": "useCarousel(total: number) -> { trackRef, indice, enInicio, enFin, irA, desplazar }",
+      "desc": "Estado y acciones de un track horizontal con scroll-snap (indice y posiciones)",
+      "relates": [
+        "frontend.domain.carouselDestacados",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/scripts/optimize-images.mjs",
+      "id": "frontend.scripts.optimizeImages",
+      "kind": "service",
+      "limit": 160,
+      "contract": "cli: npm run optimize:images",
+      "desc": "Convierte PNG a WebP y re-codifica JPG de public/imagen sin degradar",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/EstadoPedidoBadge.tsx",
+      "id": "frontend.domain.estadoPedidoBadge",
+      "kind": "component",
+      "limit": 80,
+      "contract": "props: estado: string, className?: string",
+      "desc": "Insignia con variante de color semantico segun el estado del pedido",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/LineaTiempoPedido.tsx",
+      "id": "frontend.domain.lineaTiempoPedido",
+      "kind": "component",
+      "limit": 140,
+      "contract": "props: hitos: HitoPedido[]",
+      "desc": "Linea de tiempo cronologica con estados completados, activo y pendientes",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/PerfilSidebar.tsx",
+      "id": "frontend.domain.perfilSidebar",
+      "kind": "component",
+      "limit": 110,
+      "contract": "props: tabActiva: 'datos' | 'pedidos' | 'seguimiento'",
+      "desc": "Barra lateral del perfil con usuario autenticado y enlaces de navegacion",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/Modal.tsx",
+      "id": "frontend.ui.modal",
+      "kind": "component",
+      "limit": 90,
+      "contract": "props: abierto: boolean, titulo: string, onCerrar: () => void, children: ReactNode",
+      "desc": "Ventana modal accesible con cierre por escape y fondo bloqueado",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Perfil.tsx",
+      "id": "frontend.pages.cliente.perfil",
+      "kind": "component",
+      "limit": 380,
+      "contract": "sin props: consulta contexto de sesion o estado local",
+      "desc": "Vista de perfil de cliente con datos personales, direcciones y acceso a pedidos",
+      "relates": [
+        "frontend.domain.perfilSidebar",
+        "frontend.domain.estadoPedidoBadge",
+        "frontend.ui.button",
+        "frontend.ui.buttonLink",
+        "frontend.ui.modal"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/PerfilSeguimiento.tsx",
+      "id": "frontend.pages.cliente.perfilSeguimiento",
+      "kind": "component",
+      "limit": 360,
+      "contract": "sin props: consulta pedido mock o parametros de ruta",
+      "desc": "Vista de seguimiento de pedido dentro del perfil con timeline e info de recogida",
+      "relates": [
+        "frontend.domain.perfilSidebar",
+        "frontend.domain.lineaTiempoPedido",
+        "frontend.domain.estadoPedidoBadge",
+        "frontend.ui.button",
+        "frontend.ui.buttonLink",
+        "frontend.ui.modal"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/Input.tsx",
+      "id": "frontend.ui.input",
+      "kind": "component",
+      "limit": 80,
+      "contract": "props: InputHTMLAttributes + InputProps",
+      "desc": "Campo de entrada de texto accesible con estados default, error y success",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Personalizacion.tsx",
+      "id": "frontend.pages.cliente.personalizacion",
+      "kind": "component",
+      "limit": 320,
+      "contract": "sin props: formulario interactivo de diseno y cotizacion de tortas",
+      "desc": "Pagina de personalizacion de tortas por pasos: personas, sabores y detalles",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.ui.modal",
+        "frontend.ui.input",
+        "docs.reglas_ui"
       ]
     },
     {
       "path": "docs/reglas_backend.md",
       "id": "docs.reglas_backend",
       "kind": "doc",
-      "desc": "Reglas y convenciones de arquitectura MVVM, Room y lógica de negocio Kotlin",
+      "limit": 300,
+      "desc": "Reglas de backend: arquitectura modular Spring Boot, JPA, Flyway, RFC 7807 y convenciones de BD",
+      "relates": [
+        "docs.convenciones",
+        "docs.estado_proyecto"
+      ]
+    },
+    {
+      "path": "docs/especificacion_microservicios.md",
+      "id": "docs.especificacion_microservicios",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Especificación de microservicios y módulos de Spring Boot con sus entidades, endpoints y dependencias",
+      "relates": [
+        "docs.reglas_backend",
+        "interfaces.entity.user",
+        "interfaces.entity.rbac",
+        "interfaces.entity.catalog",
+        "interfaces.entity.order",
+        "interfaces.entity.payment",
+        "interfaces.entity.inventory",
+        "interfaces.entity.blog",
+        "interfaces.entity.audit"
+      ]
+    },
+    {
+      "path": "docs/especificacion_pwa_admin.md",
+      "id": "docs.especificacion_pwa_admin",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Especificación de vistas, flujos y permisos de la aplicación PWA de administración",
+      "relates": [
+        "docs.especificacion_microservicios",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/common.entity.ts",
+      "id": "interfaces.entity.common",
+      "kind": "model",
+      "limit": 60,
+      "contract": "BaseEntity, AuditableEntity, PaginationParams, PageResponse",
+      "desc": "Interfaces base de persistencia y paginacion para BD y JPA",
+      "relates": [
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/user.entity.ts",
+      "id": "interfaces.entity.user",
+      "kind": "model",
+      "limit": 80,
+      "contract": "UserEntity, UserAddressEntity, RefreshTokenEntity",
+      "desc": "Entidades de usuarios, direcciones y refresh tokens para MySQL y JPA",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/rbac.entity.ts",
+      "id": "interfaces.entity.rbac",
+      "kind": "model",
+      "limit": 70,
+      "contract": "RoleEntity, PermissionEntity, UserRoleEntity, RolePermissionEntity",
+      "desc": "Entidades de roles, permisos y tablas intermedias RBAC para MySQL y JPA",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/catalog.entity.ts",
+      "id": "interfaces.entity.catalog",
+      "kind": "model",
+      "limit": 110,
+      "contract": "CategoryEntity, ProductEntity, ProductVariationEntity, PersonalizationOptionEntity",
+      "desc": "Entidades de productos, categorias, variaciones y personalizacion",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/order.entity.ts",
+      "id": "interfaces.entity.order",
+      "kind": "model",
+      "limit": 150,
+      "contract": "OrderEntity, OrderItemEntity, OrderStatusHistoryEntity, OrderPickupEntity, OrderDeliveryAddressEntity",
+      "desc": "Entidades de pedidos, items, historial de estados y recogedor",
+      "relates": [
+        "interfaces.entity.common",
+        "interfaces.entity.catalog",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/payment.entity.ts",
+      "id": "interfaces.entity.payment",
+      "kind": "model",
+      "limit": 80,
+      "contract": "PaymentEntity, CouponEntity",
+      "desc": "Entidades de transacciones de pago, pasarelas y cupones de descuento",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/inventory.entity.ts",
+      "id": "interfaces.entity.inventory",
+      "kind": "model",
+      "limit": 80,
+      "contract": "InventoryMovementEntity, CashRegisterEntity",
+      "desc": "Entidades de control de movimientos de inventario y sesiones de caja POS",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/blog.entity.ts",
+      "id": "interfaces.entity.blog",
+      "kind": "model",
+      "limit": 60,
+      "contract": "BlogPostEntity",
+      "desc": "Entidades de publicaciones editoriales y articulos del blog",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/audit.entity.ts",
+      "id": "interfaces.entity.audit",
+      "kind": "model",
+      "limit": 60,
+      "contract": "AuditLogEntity",
+      "desc": "Entidades de registro de auditoria y trazabilidad de operaciones",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/index.ts",
+      "id": "interfaces.index",
+      "kind": "model",
+      "limit": 30,
+      "contract": "export *",
+      "desc": "Barril central de exportacion para todas las interfaces de dominio",
+      "relates": [
+        "interfaces.entity.common",
+        "interfaces.entity.user",
+        "interfaces.entity.rbac",
+        "interfaces.entity.catalog",
+        "interfaces.entity.order",
+        "interfaces.entity.payment",
+        "interfaces.entity.inventory",
+        "interfaces.entity.blog",
+        "interfaces.entity.audit"
+      ]
+    },
+    {
+      "path": "frontend/src/layouts/AdminLayout.tsx",
+      "id": "frontend.layout.admin",
+      "kind": "component",
+      "limit": 50,
+      "contract": "props: void",
+      "desc": "Layout esqueleto de admin en frontend web",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "docs/arquitectura_microservicios_kafka.md",
+      "id": "docs.arquitectura_microservicios_kafka",
+      "kind": "doc",
+      "limit": 450,
+      "desc": "Arquitectura de microservicios Spring Boot, comunicación asincrónica con Apache Kafka y pasarela de pago Flow",
+      "relates": [
+        "docs.especificacion_microservicios",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "docs/tickets/sprint-7-dsy1104-produccion.md",
+      "id": "docs.tickets.sprint7",
+      "kind": "doc",
+      "limit": 500,
+      "desc": "Tickets T89 a T100 para integracion total con MySQL, Flow y entrega DSY1104",
+      "relates": [
+        "docs.estado_proyecto",
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "frontend/src/lib/validators/rut.validator.ts",
+      "id": "frontend.lib.rutValidator",
+      "kind": "service",
+      "limit": 80,
+      "contract": "limpiarRut, formatearRut, validarRutChileno",
+      "desc": "Validador de RUT chileno con algoritmo Modulo 11 puro sin dependencias",
       "relates": [
         "docs.convenciones"
       ]
     },
     {
-      "path": "docs/backend_local_offline.md",
-      "id": "docs.backend_local_offline",
-      "kind": "doc",
-      "desc": "Especificación integral del backend local offline: Room SQLite, reglas de negocio desconectadas, sincronización y SSOT",
+      "path": "frontend/src/lib/data/regiones-chile.ts",
+      "id": "frontend.lib.regionesChile",
+      "kind": "model",
+      "limit": 200,
+      "contract": "REGIONES_CHILE, obtenerComunasPorRegion, validarRegionYComuna",
+      "desc": "Diccionario oficial de las 16 regiones de Chile y sus comunas",
       "relates": [
-        "docs.convenciones",
-        "docs.reglas_backend"
+        "docs.convenciones"
       ]
     },
     {
-      "path": "docs/requerimientos_backend_servidor.md",
-      "id": "docs.requerimientos_backend_servidor",
-      "kind": "doc",
-      "desc": "Especificacion tecnica y funcional de requerimientos para el backend en el servidor REST API",
+      "path": "frontend/src/lib/validators/auth.validator.ts",
+      "id": "frontend.lib.authValidator",
+      "kind": "service",
+      "limit": 120,
+      "contract": "validarEmail, validarPassword, validarRegistro, validarLogin",
+      "desc": "Validaciones de formularios de autenticacion y registro de clientes",
       "relates": [
-        "docs.convenciones",
-        "docs.reglas_backend"
+        "frontend.lib.rutValidator",
+        "docs.convenciones"
       ]
     },
     {
-      "path": "docs/arquitectura_desacoplamiento_room_y_pagos_flow.md",
-      "id": "docs.arquitectura_desacoplamiento_room_flow",
-      "kind": "doc",
-      "desc": "Guia de desacoplamiento de Room para portabilidad KMP e integracion de pasarela Flow sin captura de datos bancarios",
+      "path": "frontend/src/lib/validators/checkout.validator.ts",
+      "id": "frontend.lib.checkoutValidator",
+      "kind": "service",
+      "limit": 120,
+      "contract": "validarCheckoutDelivery, validarCheckoutRetiro",
+      "desc": "Validaciones del formulario de checkout segun requerimientos DSY1104",
       "relates": [
-        "docs.convenciones",
-        "docs.reglas_backend",
-        "docs.backend_local_offline",
-        "docs.requerimientos_backend_servidor"
+        "frontend.lib.rutValidator",
+        "frontend.lib.regionesChile",
+        "docs.convenciones"
       ]
     },
     {
-      "path": "docs/README.md",
-      "id": "docs.index",
-      "kind": "doc",
-      "desc": "Indice central de navegacion y mapa de documentacion tecnica y arquitectonica del proyecto",
+      "path": "admin-pwa/src/lib/validators.ts",
+      "id": "admin.lib.validators",
+      "kind": "service",
+      "limit": 120,
+      "contract": "validarRutAdmin, validarProductoAdmin, validarUsuarioAdmin",
+      "desc": "Validaciones para formularios de gestion de catalogo y usuarios en Admin PWA",
       "relates": [
-        "docs.estado_proyecto",
-        "docs.backlog_requisitos",
-        "docs.plan_sprints",
-        "docs.convenciones",
-        "docs.reglas_ui",
-        "docs.reglas_backend",
-        "docs.sistema_anotaciones",
-        "docs.backend_local_offline",
-        "docs.requerimientos_backend_servidor",
-        "docs.arquitectura_desacoplamiento_room_flow",
-        "docs.diccionario_portabilidad_ts",
-        "docs.inventario_tecnologias"
+        "docs.convenciones"
       ]
     },
     {
-      "path": "docs/diccionario_arquitectura_y_portabilidad_crossplatform_ts.md",
-      "id": "docs.diccionario_portabilidad_ts",
-      "kind": "doc",
-      "desc": "Diccionario canonico de variables funciones y blueprint arquitectonico de portabilidad a React Native y Angular con TypeScript para iOS",
+      "path": "frontend/src/services/api.ts",
+      "id": "frontend.services.api",
+      "kind": "service",
+      "limit": 320,
+      "contract": "authApi, catalogApi, orderApi, inventoryApi, notificationApi, paymentApi",
+      "desc": "Cliente HTTP del frontend con token JWT para consumir microservicios",
       "relates": [
-        "docs.index",
-        "docs.convenciones",
-        "docs.reglas_backend",
-        "docs.backend_local_offline",
-        "docs.arquitectura_desacoplamiento_room_flow"
+        "docs.especificacion_microservicios",
+        "docs.convenciones"
       ]
     },
     {
-      "path": "docs/inventario_tecnologias_y_librerias.md",
-      "id": "docs.inventario_tecnologias",
-      "kind": "doc",
-      "desc": "Inventario detallado de herramientas frameworks y bibliotecas con mapa de archivos de implementacion",
+      "path": "admin-pwa/src/services/api.ts",
+      "id": "admin.services.api",
+      "kind": "service",
+      "limit": 200,
+      "contract": "authApi, catalogApi, orderApi, inventoryApi",
+      "desc": "Cliente HTTP del Admin PWA para gestionar catalogo, POS e inventario",
       "relates": [
-        "docs.index",
-        "docs.backend_local_offline",
-        "docs.diccionario_portabilidad_ts"
+        "docs.especificacion_pwa_admin",
+        "docs.convenciones"
       ]
     },
     {
-      "path": "docs/instrucciones_desarrollo_offline.md",
-      "id": "docs.instrucciones_desarrollo_offline",
-      "kind": "doc",
-      "desc": "Instrucciones tecnicas y paso a paso para completar el desarrollo funcional de la app en modo offline",
+      "path": "frontend/src/pages/cliente/Catalogo.tsx",
+      "id": "frontend.pages.cliente.catalogo",
+      "kind": "page",
+      "limit": 280,
+      "contract": "CatalogoView()",
+      "desc": "Vista de catalogo con filtros de categoria y tarjetas de productos",
       "relates": [
-        "docs.convenciones",
-        "docs.reglas_backend",
-        "docs.backend_local_offline",
-        "docs.estado_proyecto"
-      ]
-    },
-    {
-      "path": "docs/backlog_requisitos.md",
-      "id": "docs.backlog_requisitos",
-      "kind": "doc",
-      "desc": "Backlog oficial de requisitos del sistema, historias de usuario y casos límite",
-      "relates": [
-        "docs.convenciones",
-        "docs.reglas_backend",
+        "frontend.domain.productCard",
         "docs.reglas_ui"
       ]
     },
     {
-      "path": "docs/plan_sprints.md",
-      "id": "docs.plan_sprints",
-      "kind": "doc",
-      "desc": "Plan maestro de sprints y tablero de tickets atómicos para el desarrollo del MVP",
+      "path": "frontend/src/pages/cliente/Carrito.tsx",
+      "id": "frontend.pages.cliente.carrito",
+      "kind": "page",
+      "limit": 260,
+      "contract": "CarritoView()",
+      "desc": "Vista de carrito de compras con resumen de pedido y calculo de totales",
       "relates": [
-        "docs.estado_proyecto",
-        "docs.backlog_requisitos",
-        "docs.convenciones",
-        "docs.reglas_backend",
         "docs.reglas_ui"
       ]
     },
     {
-      "path": "docs/auditoria_rendimiento.md",
-      "id": "docs.auditoria_rendimiento",
-      "kind": "doc",
-      "desc": "Auditoría de rendimiento de movimiento y transiciones: hallazgos, causa raíz y plan de optimización",
+      "path": "frontend/src/pages/cliente/Checkout.tsx",
+      "id": "frontend.pages.cliente.checkout",
+      "kind": "page",
+      "limit": 380,
+      "contract": "CheckoutView()",
+      "desc": "Formulario de checkout con seleccion de entrega y pasarela Flow",
       "relates": [
-        "home.artpanel",
-        "home.featuredcoursecard",
-        "home.screen",
-        "feature.shell",
-        "app.root",
-        "splash.screen",
-        "app.build.gradle"
+        "frontend.lib.checkoutValidator",
+        "docs.reglas_ui"
       ]
     },
     {
-      "path": "IberoMuseos/app/build.gradle.kts",
-      "id": "app.build.gradle",
-      "kind": "config",
-      "desc": "Configuración Gradle del módulo app: SDK, build types, features de build y dependencias del stack",
-      "relates": [
-        "core.theme"
-      ]
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/MuseoApp.kt",
-      "id": "app.entry",
-      "kind": "component",
-      "limit": 60,
-      "contract": null,
-      "relates": [
-        "core.error.crashhandler",
-        "core.network.connectivity",
-        "core.notification.helper",
-        "data.local.sync",
-        "data.local.session",
-        "core.i18n.language"
-      ],
-      "desc": "Clase Application de IberoMuseos: inicializa CrashHandler, ConnectivityObserver, canales de notificacion, sesion persistente y Room OfflineFirstSyncManager"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/MainActivity.kt",
-      "id": "app.main",
-      "kind": "component",
-      "limit": 80,
-      "contract": null,
-      "relates": [
-        "app.entry",
-        "core.theme",
-        "app.root"
-      ],
-      "desc": "Actividad principal que monta el tema de marca y la navegación raíz Splash a Shell de la aplicación"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/app/IberoMuseosApp.kt",
-      "id": "app.root",
-      "kind": "component",
-      "limit": 75,
-      "contract": "composable: IberoMuseosApp(",
-      "relates": [
-        "app.main",
-        "feature.shell",
-        "splash.route",
-        "feature.auth.route",
-        "data.local.session",
-        "core.theme"
-      ],
-      "desc": "Composable raíz de la aplicación: NavHost con las rutas splash, auth y shell y transición de fundido"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/error/AppError.kt",
-      "id": "core.error",
-      "kind": "model",
-      "limit": 76,
-      "contract": "errors: Database(ReadError, WriteError",
-      "desc": "Jerarquía sellada de errores de la app (datos locales, dominio e inesperados"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/error/ErrorMapper.kt",
-      "id": "core.error.mapper",
-      "kind": "util",
-      "limit": 46,
-      "contract": "mapper: map(throwable",
-      "relates": [
-        "core.error",
-        "core.network.error"
-      ],
-      "desc": "Fuente única que traduce cualquier Throwable a un AppError tipado de forma idempotente"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/error/GlobalCrashHandler.kt",
-      "id": "core.error.crashhandler",
-      "kind": "service",
-      "limit": 51,
-      "contract": "handler: lastHandledError, uncaughtException(thread, throwable",
-      "relates": [
-        "core.error",
-        "core.error.mapper"
-      ],
-      "desc": "Red de seguridad global anti-crash que mapea, registra y conserva la última excepción no controlada"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/network/error/NetworkError.kt",
-      "id": "core.network.error",
-      "kind": "model",
-      "limit": 49,
-      "contract": "errors: NoInternet, Timeout, ServerError(code",
-      "relates": [
-        "core.error"
-      ],
-      "desc": "Errores tipados de red y API que heredan de AppError con su mensaje al usuario"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/network/error/SafeApiCall.kt",
-      "id": "core.network.safecall",
-      "kind": "util",
-      "limit": 45,
-      "contract": "safeApiCall(dispatcher, apiCall",
-      "relates": [
-        "core.network.error",
-        "core.error.mapper"
-      ],
-      "desc": "Función segura que ejecuta una llamada de red y delega el mapeo de errores en ErrorMapper"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/presentation/BaseViewModel.kt",
-      "id": "core.presentation.baseviewmodel",
-      "kind": "view",
-      "limit": 40,
-      "contract": "viewmodel: exceptionHandler, handleErrorState(error",
-      "relates": [
-        "core.error",
-        "core.error.mapper"
-      ],
-      "desc": "Base de ViewModels con CoroutineExceptionHandler como red de seguridad que degrada a estado Error"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/data/assets/JsonAssetReader.kt",
-      "id": "data.assetreader",
-      "kind": "service",
-      "limit": 48,
-      "contract": "reader: readText(assetPath",
-      "relates": [
-        "core.error"
-      ],
-      "desc": "Contrato e implementación de lectura de assets JSON fuera del hilo principal con AppError ante fallo"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/data/catalog/CatalogItem.kt",
-      "id": "data.catalog.model",
-      "kind": "model",
-      "limit": 48,
-      "contract": "models: CatalogItem, CatalogCategory, ItemModality",
-      "desc": "Modelo de dominio inmutable del ítem de catálogo con sus enums de categoría y modalidad"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/data/catalog/CatalogDtos.kt",
-      "id": "data.catalog.dto",
-      "kind": "model",
-      "limit": 95,
-      "contract": "dtos: CatalogDataDto, CatalogMetadataDto, CatalogItemDto, toDomain(",
-      "relates": [
-        "data.catalog.model"
-      ],
-      "desc": "DTOs Gson del asset de catálogo y su mapeo validado hacia el modelo de dominio"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/data/catalog/AssetCatalogSource.kt",
-      "id": "data.catalog.source",
-      "kind": "service",
-      "limit": 70,
-      "contract": "source: loadItems(",
-      "relates": [
-        "data.assetreader",
-        "data.catalog.dto",
-        "data.catalog.model"
-      ],
-      "desc": "Fuente mínima del catálogo desde el asset sintético, lista para ser sustituida por Retrofit y Room en T08"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/theme/Color.kt",
-      "id": "core.theme.color",
-      "kind": "theme",
-      "limit": 110,
-      "contract": "roles: darkColorScheme, palette",
-      "desc": "Paleta de marca de mockups/design.md y esquema dark-only de Material 3"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/theme/Type.kt",
-      "id": "core.theme.type",
-      "kind": "theme",
-      "limit": 110,
-      "contract": "typography: IberoMuseosTypography, families: PlayfairDisplay, Inter",
-      "desc": "Tipografía de marca offline: Playfair Display para títulos e Inter para cuerpo y UI"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/theme/Spacing.kt",
-      "id": "core.theme.spacing",
-      "kind": "theme",
-      "limit": 50,
-      "contract": "spacing: xxs, xs, sm, md, lg, xl, xxl, LocalSpacing",
-      "desc": "Escala de espaciado sobre grilla de 4dp expuesta vía CompositionLocal (LocalSpacing"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/theme/Shape.kt",
-      "id": "core.theme.shape",
-      "kind": "theme",
-      "limit": 30,
-      "contract": "shapes: extraSmall, small, medium, large, extraLarge",
-      "desc": "Formas y radios de esquina de la marca para Material 3"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/theme/Theme.kt",
-      "id": "core.theme",
-      "kind": "theme",
-      "limit": 110,
-      "contract": "theme: IberoMuseosTheme(content",
-      "relates": [
-        "core.theme.color",
-        "core.theme.type",
-        "core.theme.shape",
-        "core.theme.spacing"
-      ],
-      "desc": "Tema dark-only global que orquesta color, tipografía, formas y espaciado de la marca"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shell/navigation/Destination.kt",
-      "id": "feature.shell.destination",
-      "kind": "component",
-      "limit": 80,
-      "contract": "routes: home, catalog, map, shipping, orders, settings, cart, favorites, checkout, podcast; titleRes, isTopLevel",
-      "relates": [
-        "core.ui.icons"
-      ],
-      "desc": "Modelo de destinos de navegación con iconos vectoriales SVG: cinco pestañas principales y rutas secundarias"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shell/ui/MuseoShell.kt",
-      "id": "feature.shell",
-      "kind": "component",
-      "limit": 200,
-      "contract": "composable: MuseoShell(modifier",
-      "relates": [
-        "feature.shell.destination",
-        "feature.shell.brandbar",
-        "feature.shell.navhost",
-        "core.network.connectivity",
-        "core.notification.helper",
-        "data.local.sync",
-        "core.ui.icons",
-        "feature.debug.dialog",
-        "feature.scanner.dialog",
-        "feature.shell.offline.dialog",
-        "core.theme"
-      ],
-      "desc": "Shell central con reinicio directo de pestañas, icono Offline junto al carrito, notificacion Offline, FAB exclusivo en Catalogo y modales QA"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shell/ui/OfflineAlertDialog.kt",
-      "id": "feature.shell.offline.dialog",
-      "kind": "component",
-      "limit": 95,
-      "contract": "composable: OfflineAlertDialog(onDismiss)",
-      "relates": [
-        "core.ui.icons",
-        "core.theme",
-        "core.network.connectivity"
-      ],
-      "desc": "Modal de alerta que avisa al usuario de la pérdida de conexión o Modo Avión activo con auto-reintento"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shell/ui/BrandTopBar.kt",
-      "id": "feature.shell.brandbar",
-      "kind": "component",
-      "limit": 120,
-      "contract": "composable: BrandTopBar(cartCount, isOffline, onCartClick, onOfflineClick, onSettingsClick, modifier",
-      "relates": [
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Encabezado de marca del Inicio y acciones de barra superior con icono SVG de carrito con badge e icono Offline reactivo"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/model/CatalogModels.kt",
-      "id": "feature.catalog.model",
-      "kind": "model",
-      "limit": 95,
-      "contract": "models: CatalogCategory, CatalogProduct, CatalogCourse, CatalogMaterial, CatalogPublication, formatClpPrice, formatBadgeWeight",
-      "relates": [
-        "feature.catalog.state",
-        "feature.catalog.sampledata",
-        "feature.catalog.route"
-      ],
-      "desc": "Modelos de dominio del Catálogo con 4 categorías museográficas, peso en kg, subtítulo y ficha técnica 2x2"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/CatalogUiState.kt",
-      "id": "feature.catalog.state",
-      "kind": "model",
-      "limit": 65,
-      "contract": "states: Loading, Success, Empty, Error",
-      "relates": [
-        "feature.catalog.model",
-        "feature.catalog.route",
-        "feature.catalog.viewmodel"
-      ],
-      "desc": "UiState del feature Catálogo con 4 estados explícitos y soporte para vista de 2 niveles: Home de Categorías 2x2 y Grilla 2 columnas"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/data/CatalogSampleData.kt",
-      "id": "feature.catalog.sampledata",
-      "kind": "util",
-      "limit": 175,
-      "contract": "data: allProducts, courses, materials, publications, favoriteIds, toggleFavorite, removeFavorite, findProductById",
-      "relates": [
-        "feature.catalog.state",
-        "feature.catalog.viewmodel",
-        "feature.catalog.model"
-      ],
-      "desc": "Datos sintéticos de las 4 categorías del Catálogo y store reactivo de Favoritos en memoria"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/viewmodel/CatalogViewModel.kt",
-      "id": "feature.catalog.viewmodel",
-      "kind": "component",
-      "limit": 130,
-      "contract": "viewmodel: uiState, favoriteIds, onSelectCategory, onShowAllProducts, onBackToCategories, onApplyFilters, onClearFilters, onToggleFavorite, simulateLoadingDelay, simulateApiError, retry",
-      "relates": [
-        "feature.catalog.state",
-        "feature.catalog.sampledata",
-        "feature.catalog.route",
-        "feature.catalog.model"
-      ],
-      "desc": "ViewModel del Catálogo con navegación de 2 niveles, filtrado real, favoritos compartidos y simulación de demora/error de API"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/CatalogRoute.kt",
-      "id": "feature.catalog.route",
-      "kind": "component",
-      "limit": 175,
-      "contract": "composable: CatalogRoute(viewModel, targetCategory, onTargetCategoryConsumed, onItemClick, onAddToCart, onOpenFavorites, onOpenScanner, resetTrigger, modifier)",
-      "relates": [
-        "feature.catalog.state",
-        "feature.catalog.viewmodel",
-        "feature.catalog.screen",
-        "feature.catalog.model",
-        "feature.catalog.filterdialog"
-      ],
-      "desc": "Route stateful del Catálogo: conecta ViewModel, soporta resetTrigger de navbar, abre FilterFullScreenDialog y expone callbacks"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/CatalogScreen.kt",
-      "id": "feature.catalog.screen",
-      "kind": "component",
-      "limit": "lines: 180",
-      "contract": "composable: CatalogScreen(uiState, cards, query, selectedTab, onTabSelected, onQueryChanged, onFilterClick, onItemClick, onToggleFavorite, onAddToCart, onRetry, modifier, isCategoryHomeMode, countsByCategory, selectedCategory, onSelectCategory, onShowAllProducts, onBackToCategories, onOpenFavorites, onOpenScanner, hasActiveFilters",
-      "relates": [
-        "feature.catalog.route",
-        "feature.catalog.state",
-        "core.theme",
-        "feature.catalog.itemcard",
-        "feature.catalog.statecontent"
-      ],
-      "desc": "CatalogScreen stateless sin TopAppBar duplicado, con fila de buscador + Filtro/Favoritos/Escáner vectoriales y flujo de 2 niveles"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/components/CatalogItemCard.kt",
-      "id": "feature.catalog.itemcard",
-      "kind": "component",
-      "limit": 165,
-      "contract": "composable: CatalogItemCard(id, type, title, imageUrl, metadata, priceLabel, modalityBadge, isFavorite, onItemClick, onToggleFavorite, onAddToCart, modifier",
-      "relates": [
-        "feature.catalog.screen",
-        "core.theme"
-      ],
-      "desc": "Tarjeta de ítem para la grilla de 2 columnas con fotografía real por URL, badge vectorial de modalidad/peso, favoritos, precio y botón +"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/components/CatalogStateContent.kt",
-      "id": "feature.catalog.statecontent",
-      "kind": "component",
-      "limit": 170,
-      "contract": "composable: CatalogStateContent(uiState, cards, isCategoryHomeMode, countsByCategory, selectedCategory, onSelectCategory, onShowAllProducts, onBackToCategories, onFilterClick, onItemClick, onToggleFavorite, onAddToCart, onRetry, modifier",
-      "relates": [
-        "feature.catalog.screen",
-        "feature.catalog.state",
-        "feature.catalog.itemcard",
-        "feature.catalog.categorygrid",
-        "core.theme"
-      ],
-      "desc": "Render de estados del catálogo: Loading, Error, Empty, Home de Categorías 2x2 y Grilla 2 columnas con iconos vectoriales"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/components/FilterFullScreenDialog.kt",
-      "id": "feature.catalog.filterdialog",
-      "kind": "component",
-      "limit": 170,
-      "contract": "composable: FilterFullScreenDialog(isOpen, selectedCategory, maxPriceClp, onlyVirtual, onSelectCategory, onSelectMaxPrice, onToggleOnlyVirtual, onDismiss, onApply, onClearAll, modifier",
-      "relates": [
-        "feature.catalog.screen",
-        "feature.catalog.model",
-        "core.theme"
-      ],
-      "desc": "Modal de filtros full-screen con selección real de categoría, tope de precio y modalidad virtual"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/CatalogPreviews.kt",
-      "id": "feature.catalog.previews",
-      "kind": "preview",
-      "limit": 120,
-      "contract": "previews: CatalogCategoryHomePreview, CatalogGridSuccessPreview, CatalogScreenLoadingPreview, CatalogScreenErrorPreview",
-      "relates": [
-        "feature.catalog.screen",
-        "feature.catalog.state",
-        "feature.catalog.itemcard",
-        "core.theme"
-      ],
-      "desc": "Previews de Android Studio para las pantallas del Catálogo: Home 2x2, Grilla 2 columnas, Loading y Error"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/detail/ItemDetailUiState.kt",
-      "id": "feature.catalog.detail.state",
-      "kind": "model",
-      "limit": 65,
-      "contract": "states: Loading, Success, Error",
-      "relates": [
-        "feature.catalog.detail.viewmodel",
-        "feature.catalog.detail.route",
-        "feature.catalog.model"
-      ],
-      "desc": "UiState del detalle de ítem con peso físico, cantidad, especificaciones 2x2 y feedback de adición al carrito"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/viewmodel/ItemDetailViewModel.kt",
-      "id": "feature.catalog.detail.viewmodel",
-      "kind": "component",
-      "limit": 115,
-      "contract": "viewmodel: uiState, loadItem(itemId",
-      "relates": [
-        "feature.catalog.detail.state",
-        "feature.catalog.detail.route",
-        "feature.catalog.sampledata",
-        "feature.catalog.model"
-      ],
-      "desc": "ViewModel del detalle de ítem: carga producto por itemId desde CatalogSampleData, sincroniza favoritos y gestiona cantidad"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/detail/ItemDetailRoute.kt",
-      "id": "feature.catalog.detail.route",
-      "kind": "component",
-      "limit": 70,
-      "contract": "composable: ItemDetailRoute(itemId, viewModel, onBack, onAddToCart, modifier",
-      "relates": [
-        "feature.catalog.detail.state",
-        "feature.catalog.detail.viewmodel",
-        "feature.catalog.detail.screen"
-      ],
-      "desc": "Route stateful del detalle de ítem: acepta itemId opcional, conecta ItemDetailViewModel y notifica adición al carrito"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/detail/ItemDetailScreen.kt",
-      "id": "feature.catalog.detail.screen",
-      "kind": "component",
-      "limit": 140,
-      "contract": "composable: ItemDetailScreen(uiState, onBack, onToggleFavorite, onAddToCart, onRetry, modifier, onDecrementQty, onIncrementQty",
-      "relates": [
-        "feature.catalog.detail.route",
-        "feature.catalog.detail.state",
-        "feature.catalog.detail.body",
-        "feature.catalog.screen",
-        "core.theme"
-      ],
-      "desc": "ItemDetailScreen stateless: TopAppBar con volver/favorito, selector de cantidad y footer con subtotal calculado"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/detail/components/ItemDetailBody.kt",
-      "id": "feature.catalog.detail.body",
-      "kind": "component",
-      "limit": 165,
-      "contract": "composable: ItemDetailBody(item, onDecrementQty, onIncrementQty, modifier",
-      "relates": [
-        "feature.catalog.detail.screen",
-        "feature.catalog.detail.state",
-        "feature.catalog.detail.specs",
-        "feature.catalog.model",
-        "core.theme"
-      ],
-      "desc": "Cuerpo visual del detalle con fotografía real por URL, badge vectorial de modalidad/peso, selector de cantidad, banner Capa 8 y ficha 2x2"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/detail/ItemDetailPreviews.kt",
-      "id": "feature.catalog.detail.previews",
-      "kind": "preview",
-      "limit": 95,
-      "contract": "previews: ItemDetailVirtualPreview, ItemDetailPhysicalPreview, ItemDetailLoadingPreview, ItemDetailErrorPreview",
-      "relates": [
-        "feature.catalog.detail.screen",
-        "feature.catalog.detail.state",
-        "core.theme"
-      ],
-      "desc": "Previews de Android Studio para los estados del detalle de ítem: Curso Virtual, Producto Físico, Loading y Error"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/home/model/HomeModels.kt",
-      "id": "home.models",
-      "kind": "model",
-      "limit": "lines: 75",
-      "contract": "models: HomePanel, ActiveOrderSummary, FeaturedCourse, RecentItemKind, RecentlyViewedItem",
-      "relates": [
-        "feature.shell.destination",
-        "feature.catalog.model"
-      ],
-      "desc": "Modelos de presentación del Home: panel visual, resumen de solicitud activa y curso destacado"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/home/ui/HomeUiState.kt",
-      "id": "home.uistate",
-      "kind": "model",
-      "limit": 60,
-      "contract": "states: Loading, Success(panels, activeOrder, featuredCourse",
-      "relates": [
-        "home.models"
-      ],
-      "desc": "Estado inmutable del Home con los cuatro estados de UI y el slot de solicitud activa o destacado"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/home/data/HomeSampleData.kt",
-      "id": "home.sampledata",
-      "kind": "util",
-      "limit": "lines: 130",
-      "contract": "data: panels, activeOrder, recentlyViewedFlow, recordViewed(item)",
-      "relates": [
-        "home.models",
-        "feature.shell.destination",
-        "feature.catalog.model"
-      ],
-      "desc": "Datos sintéticos locales del Home (paneles con fotografías de museo y arte, y pedido activo"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/home/viewmodel/HomeViewModel.kt",
-      "id": "home.viewmodel",
-      "kind": "view",
-      "limit": 96,
-      "contract": "viewmodel: uiState: StateFlow<HomeUiState>, loadHome(",
-      "relates": [
-        "home.uistate",
-        "home.sampledata",
-        "data.catalog.source",
-        "core.presentation.baseviewmodel",
-        "core.error"
-      ],
-      "desc": "ViewModel del Home que carga el curso destacado desde el asset sintético y degrada a estado Error ante fallo"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/home/ui/HomeRoute.kt",
-      "id": "home.route",
-      "kind": "component",
-      "limit": "lines: 55",
-      "contract": "composable: HomeRoute(onNavigateTo, modifier, onOpenItemDetail, onNavigateToCategory, viewModel)",
-      "relates": [
-        "home.viewmodel",
-        "home.screen",
-        "home.sampledata",
-        "feature.catalog.model",
-        "core.theme"
-      ],
-      "desc": "Composable stateful del Home: conecta el ViewModel, observa su estado y delega en HomeScreen"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/home/ui/HomeScreen.kt",
-      "id": "home.screen",
-      "kind": "component",
-      "limit": 240,
-      "contract": "composable: HomeScreen(uiState, onNavigateTo, onRetry, modifier, recentlyViewed, onOpenItemDetail, onNavigateToCategory)",
-      "relates": [
-        "home.uistate",
-        "home.models",
-        "home.sampledata",
-        "home.artpanel",
-        "home.activeordercard",
-        "home.featuredcoursecard",
-        "home.recentlyviewed",
-        "feature.catalog.model",
-        "feature.shell.destination",
-        "data.local.session",
-        "feature.auth.benefits.dialog",
-        "core.theme"
-      ],
-      "desc": "Pantalla de inicio stateless: paneles de acceso, slot de pedido o destacado, modal de beneficios por rol y vistos recientemente"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/home/ui/components/ArtPanel.kt",
-      "id": "home.artpanel",
-      "kind": "component",
-      "limit": 165,
-      "contract": "composable: ArtPanel(panel, onClick, panelHeight, modifier, compact",
-      "relates": [
-        "home.models",
-        "core.theme"
-      ],
-      "desc": "Panel reutilizable con imagen de obra, overlay degradado, kicker, título, subtítulo y fila CTA, accesible y clickable"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/home/ui/components/ActiveOrderCard.kt",
-      "id": "home.activeordercard",
-      "kind": "component",
-      "limit": 130,
-      "contract": "composable: ActiveOrderCard(order, onClick, modifier",
-      "relates": [
-        "home.models",
-        "core.theme"
-      ],
-      "desc": "Tarjeta de trazabilidad de la solicitud activa con estado y barra de progreso"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/home/ui/components/FeaturedCourseCard.kt",
-      "id": "home.featuredcoursecard",
-      "kind": "component",
-      "limit": 110,
-      "contract": "composable: FeaturedCourseCard(course, onClick, modifier",
-      "relates": [
-        "home.models",
-        "core.theme"
-      ],
-      "desc": "Card destacada de curso con imagen, textos y llamada a la acción al catálogo"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shell/ui/PlaceholderScreen.kt",
-      "id": "feature.shell.placeholder",
-      "kind": "component",
-      "limit": 50,
-      "contract": "composable: PlaceholderScreen(title, modifier",
-      "relates": [
-        "core.theme"
-      ],
-      "desc": "Pantalla provisional que centra el nombre del destino mientras las features reales no existen"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/home/ui/HomePreviews.kt",
-      "id": "home.previews",
-      "kind": "preview",
-      "limit": 92,
-      "contract": "previews: HomeScreen(Success con/sin solicitud, Loading, Empty, Error",
-      "relates": [
-        "home.screen",
-        "home.uistate",
-        "home.sampledata",
-        "home.models",
-        "core.theme"
-      ],
-      "desc": "Previews de Android Studio para inspeccionar los estados y variantes del Home sin ejecutar la app"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/splash/ui/SplashUiState.kt",
-      "id": "splash.uistate",
-      "kind": "model",
-      "limit": 30,
-      "contract": "states: Loading(message, progress",
-      "desc": "Estados de la pantalla de bienvenida: inicialización simulada en curso y lista para ingresar"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/splash/data/SplashSampleData.kt",
-      "id": "splash.sampledata",
-      "kind": "util",
-      "limit": 40,
-      "contract": "data: loadingMessages",
-      "desc": "Mensajes sintéticos de inicialización del Splash, listos para reemplazar por la carga real"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/splash/viewmodel/SplashViewModel.kt",
-      "id": "splash.viewmodel",
-      "kind": "component",
-      "limit": 70,
-      "contract": "state: StateFlow<SplashUiState>",
-      "relates": [
-        "splash.uistate",
-        "splash.sampledata"
-      ],
-      "desc": "ViewModel del Splash: simula la inicialización rotando mensajes y publicando el estado listo"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/splash/ui/SplashRoute.kt",
-      "id": "splash.route",
-      "kind": "component",
-      "limit": 70,
-      "contract": "composable: SplashRoute(onEnterApp, modifier, viewModel",
-      "relates": [
-        "splash.viewmodel",
-        "splash.screen"
-      ],
-      "desc": "Composable stateful del Splash: conecta el ViewModel, gobierna el auto-avance y delega en SplashScreen"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/splash/ui/SplashScreen.kt",
-      "id": "splash.screen",
-      "kind": "component",
-      "limit": 175,
-      "contract": "composable: SplashScreen(uiState, onEnterApp, modifier",
-      "relates": [
-        "splash.uistate",
-        "core.theme"
-      ],
-      "desc": "Pantalla de bienvenida stateless: fondo con overlay, marca institucional y bloque inferior de carga o de ingreso"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/splash/ui/SplashPreviews.kt",
-      "id": "splash.previews",
-      "kind": "preview",
-      "limit": 50,
-      "contract": "previews: SplashScreen(Loading, Ready",
-      "relates": [
-        "splash.screen",
-        "splash.uistate",
-        "core.theme"
-      ],
-      "desc": "Previews de Android Studio de los dos estados de la pantalla de bienvenida"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shell/ui/MuseoShellPreviews.kt",
-      "id": "feature.shell.previews",
-      "kind": "preview",
-      "limit": 40,
-      "contract": "previews: MuseoShell",
-      "relates": [
-        "feature.shell",
-        "core.theme"
-      ],
-      "desc": "Preview de Android Studio del Shell completo: encabezado de marca, barra inferior y Home"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/model/SettingsModels.kt",
-      "id": "settings.models",
-      "kind": "model",
-      "limit": 75,
-      "contract": "models: UserProfile, PersonalShippingData, UnitSystem, SettingsLanguageOption, SettingsActiveDialog",
-      "desc": "Modelos de dominio de Ajustes: perfil de usuario, despacho, unidades de medida y modales activos"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/SettingsUiState.kt",
-      "id": "settings.uistate",
-      "kind": "model",
-      "limit": 50,
-      "contract": "state: SettingsUiState(profile, shippingData, unitSystem, notificationsEnabled, isDebugBuild, appVersion, buildLabel, selectedLanguage",
-      "relates": [
-        "settings.models"
-      ],
-      "desc": "Estado inmutable de la pantalla de Configuración y Perfil"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/data/SettingsSampleData.kt",
-      "id": "settings.sampledata",
-      "kind": "util",
-      "limit": 55,
-      "contract": "data: profile, shippingData, defaultUnitSystem, BUILD_LABEL, NOTIFICATIONS_ENABLED_DEFAULT",
-      "relates": [
-        "settings.models"
-      ],
-      "desc": "Datos sintéticos del perfil, despacho y etiquetas de laboratorio para Ajustes"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/viewmodel/SettingsViewModel.kt",
-      "id": "settings.viewmodel",
-      "kind": "component",
-      "limit": 165,
-      "contract": "state: StateFlow<SettingsUiState>",
-      "relates": [
-        "settings.uistate",
-        "settings.sampledata",
-        "settings.models",
-        "core.i18n.language",
-        "data.local.sync",
-        "data.local.session"
-      ],
-      "desc": "ViewModel de Configuración: expone estado, notificaciones, perfil, despacho, unidades y reseteo reactivo"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/SettingsRoute.kt",
-      "id": "settings.route",
-      "kind": "component",
-      "limit": 95,
-      "contract": "composable: SettingsRoute(onNavigateTo, onOpenDebugPanel, onLogout, modifier, viewModel",
-      "relates": [
-        "settings.viewmodel",
-        "settings.screen",
-        "settings.models",
-        "feature.shell.destination",
-        "data.local.session"
-      ],
-      "desc": "Composable stateful de Ajustes: conecta el ViewModel, gobierna modales reactivos y delega en SettingsScreen"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/SettingsScreen.kt",
-      "id": "settings.screen",
-      "kind": "component",
-      "limit": 235,
-      "contract": "composable: SettingsScreen(uiState, actions, showResetDialog, activeDialog, onDismissDialog, modifier",
-      "relates": [
-        "settings.uistate",
-        "settings.profilecard",
-        "settings.accountgroup",
-        "settings.preferencesgroup",
-        "settings.debugcard",
-        "settings.aboutgroup",
-        "settings.resetdialog",
-        "settings.logoutdialog",
-        "settings.editprofiledialog",
-        "settings.personaldatadialog",
-        "settings.synccachedialog",
-        "settings.unitsdialog",
-        "settings.privacydialog",
-        "settings.aboutdialog",
-        "settings.group",
-        "settings.row",
-        "feature.shell.destination",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Pantalla stateless de Ajustes: perfil, cuenta, preferencias, debug, legal, reseteo y modales funcionales"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/SettingsProfileCard.kt",
-      "id": "settings.profilecard",
-      "kind": "component",
-      "limit": 110,
-      "contract": "composable: SettingsProfileCard(profile, onEditProfile, modifier",
-      "relates": [
-        "settings.models",
-        "core.theme"
-      ],
-      "desc": "Tarjeta de perfil sintético con avatar de iniciales, nombre, rol, correo y acceso a edición"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/SettingsGroup.kt",
-      "id": "settings.group",
-      "kind": "component",
-      "limit": 80,
-      "contract": "composable: SettingsGroup(title, modifier, content",
-      "relates": [
-        "core.theme"
-      ],
-      "desc": "Contenedor de grupo de ajustes con título y divisor sutil reutilizable entre filas"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/SettingsRow.kt",
-      "id": "settings.row",
-      "kind": "component",
-      "limit": 135,
-      "contract": "composable: SettingsRow(icon, title, description, modifier, trailing, onClick",
-      "relates": [
-        "core.theme"
-      ],
-      "desc": "Fila reutilizable de ajustes con ícono, título, descripción, valor y click opcional"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/SettingsAccountGroup.kt",
-      "id": "settings.accountgroup",
-      "kind": "component",
-      "limit": 115,
-      "contract": "composable: SettingsAccountGroup(onNavigateTo, onPersonalDataClick, modifier",
-      "relates": [
-        "settings.group",
-        "settings.row",
-        "feature.shell.destination"
-      ],
-      "desc": "Grupo Gestión de Cuenta: datos personales con modal, mis pedidos y favoritos con navegación"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/SettingsPreferencesGroup.kt",
-      "id": "settings.preferencesgroup",
-      "kind": "component",
-      "limit": 135,
-      "contract": "composable: SettingsPreferencesGroup(notificationsEnabled, onNotificationsChange, onSyncCache, unitSystem, onUnitsClick, modifier, selectedLanguage, onLanguageChange",
-      "relates": [
-        "settings.group",
-        "settings.row",
-        "settings.models",
-        "core.theme"
-      ],
-      "desc": "Grupo de preferencias: notificaciones, selector de idioma/escritura adaptativa, caché Room y selector de unidades"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/SettingsAboutGroup.kt",
-      "id": "settings.aboutgroup",
-      "kind": "component",
-      "limit": 110,
-      "contract": "composable: SettingsAboutGroup(buildLabel, appVersion, onPrivacyClick, onAboutClick, modifier",
-      "relates": [
-        "settings.group",
-        "settings.row"
-      ],
-      "desc": "Grupo Acerca de la Aplicación: privacidad normativa y versión del sistema con modales interactivos"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/SettingsDebugCard.kt",
-      "id": "settings.debugcard",
-      "kind": "component",
-      "limit": 115,
-      "contract": "composable: SettingsDebugCard(onOpenDebugPanel, modifier",
-      "relates": [
-        "core.theme"
-      ],
-      "desc": "Tarjeta del modo simulación y pruebas visible solo en builds DEBUG, con acceso al panel de US-17"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/ResetDataDialog.kt",
-      "id": "settings.resetdialog",
-      "kind": "component",
-      "limit": 80,
-      "contract": "composable: ResetDataDialog(onConfirm, onDismiss, modifier",
-      "relates": [
-        "core.theme"
-      ],
-      "desc": "Diálogo de confirmación para restablecer los datos locales de prueba, con acción en color error"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/LogoutConfirmDialog.kt",
-      "id": "settings.logoutdialog",
-      "kind": "component",
-      "limit": 80,
-      "contract": "composable: LogoutConfirmDialog(onConfirm, onDismiss, modifier",
-      "relates": [
-        "core.theme"
-      ],
-      "desc": "Diálogo de confirmación para cerrar la sesión activa y retornar a la pantalla de autenticación"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/EditProfileDialog.kt",
-      "id": "settings.editprofiledialog",
-      "kind": "component",
-      "limit": 135,
-      "contract": "composable: EditProfileDialog(profile, onSave, onDismiss, modifier",
-      "relates": [
-        "settings.models",
-        "core.theme"
-      ],
-      "desc": "Diálogo modal para editar datos del perfil sintético de usuario"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/PersonalDataDialog.kt",
-      "id": "settings.personaldatadialog",
-      "kind": "component",
-      "limit": 140,
-      "contract": "composable: PersonalDataDialog(data, onSave, onDismiss, modifier",
-      "relates": [
-        "settings.models",
-        "core.theme"
-      ],
-      "desc": "Diálogo modal para editar datos personales y de despacho sintéticos"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/SyncCacheDialog.kt",
-      "id": "settings.synccachedialog",
-      "kind": "component",
-      "limit": 155,
-      "contract": "composable: SyncCacheDialog(onDismiss, modifier",
-      "relates": [
-        "data.local.sync",
-        "data.local.db",
-        "core.network.connectivity",
-        "core.theme"
-      ],
-      "desc": "Diálogo modal de sincronización Offline-First con Room SQLite y diagnóstico de conectividad"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/UnitsDialog.kt",
-      "id": "settings.unitsdialog",
-      "kind": "component",
-      "limit": 120,
-      "contract": "composable: UnitsDialog(selectedUnit, onSelectUnit, onDismiss, modifier",
-      "relates": [
-        "settings.models",
-        "core.theme"
-      ],
-      "desc": "Diálogo modal para seleccionar sistema de medidas métrico o imperial"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/PrivacyPolicyDialog.kt",
-      "id": "settings.privacydialog",
-      "kind": "component",
-      "limit": 120,
-      "contract": "composable: PrivacyPolicyDialog(onDismiss, modifier",
-      "relates": [
-        "core.theme"
-      ],
-      "desc": "Diálogo modal informativo sobre privacidad, protección de datos y cumplimiento Leyes 21.719 y 19.628"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/components/AboutAppDialog.kt",
-      "id": "settings.aboutdialog",
-      "kind": "component",
-      "limit": 120,
-      "contract": "composable: AboutAppDialog(appVersion, buildLabel, isDebug, onDismiss, modifier",
-      "relates": [
-        "core.theme"
-      ],
-      "desc": "Diálogo modal Acerca de la Aplicación con versión, build, autoría institucional y licencia"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/settings/ui/SettingsPreviews.kt",
-      "id": "settings.previews",
-      "kind": "preview",
-      "limit": 70,
-      "contract": "previews: SettingsScreen(build release, build debug, diálogo de reset",
-      "relates": [
-        "settings.screen",
-        "settings.uistate",
-        "settings.sampledata",
-        "core.theme"
-      ],
-      "desc": "Previews de Android Studio de la pantalla de Ajustes en build release, build debug y con el diálogo de reset"
-    },
-    {
-      "path": "IberoMuseos/app/src/test/java/cl/duoc/iberomuseos/core/error/ErrorMapperTest.kt",
-      "id": "test.error.mapper",
-      "kind": "test",
-      "limit": 82,
-      "contract": "tests: idempotencia, UnknownHost/IOException/SocketTimeout/HttpException/JsonSyntax/IllegalState",
-      "relates": [
-        "core.error.mapper",
-        "core.error",
-        "core.network.error"
-      ],
-      "desc": "Pruebas JVM del mapeo centralizado de errores"
-    },
-    {
-      "path": "IberoMuseos/app/src/test/java/cl/duoc/iberomuseos/core/network/error/SafeApiCallTest.kt",
-      "id": "test.network.safecall",
-      "kind": "test",
-      "limit": 55,
-      "contract": "tests: éxito, UnknownHostException y propagación sin envolver de un AppError",
-      "relates": [
-        "core.network.safecall",
-        "core.network.error"
-      ],
-      "desc": "Pruebas JVM de la función safeApiCall y su mapeo de errores"
-    },
-    {
-      "path": "IberoMuseos/app/src/test/java/cl/duoc/iberomuseos/data/catalog/AssetCatalogSourceTest.kt",
-      "id": "test.data.catalog",
-      "kind": "test",
-      "limit": 107,
-      "contract": "tests: parseo, destacado, JSON malformado y categoría desconocida",
-      "relates": [
-        "data.catalog.source",
-        "data.catalog.model",
-        "data.catalog.dto",
-        "data.assetreader"
-      ],
-      "desc": "Pruebas JVM de la fuente de catálogo sobre asset con un lector JSON falso"
-    },
-    {
-      "path": "IberoMuseos/app/src/test/java/cl/duoc/iberomuseos/data/synthetic/SyntheticDataFormatTest.kt",
-      "id": "test.data.synthetic",
-      "kind": "test",
-      "limit": 236,
-      "contract": "tests: coherencia de catálogo, museos, couriers y regla de cobertura",
-      "relates": [
-        "data.catalog.source"
-      ],
-      "desc": "Auditoría sintáctica y de coherencia de los tres assets JSON sintéticos leídos del disco"
-    },
-    {
-      "path": "IberoMuseos/app/src/test/java/cl/duoc/iberomuseos/features/shipping/ShippingCalculatorTest.kt",
-      "id": "test.shipping.calculator",
-      "kind": "test",
-      "limit": 160,
-      "contract": "tests: EC-SHIP-01 a EC-SHIP-07, tarifas aprobadas y restricciones de peso/destino",
-      "relates": [
-        "feature.shipping.calculator",
-        "feature.shipping.model"
-      ],
-      "desc": "Pruebas unitarias JUnit rigurosas de ShippingCalculator y edge cases EC-SHIP"
-    },
-    {
-      "path": "IberoMuseos/app/src/test/java/cl/duoc/iberomuseos/features/podcast/PodcastLogicTest.kt",
-      "id": "test.features.podcast",
-      "kind": "test",
-      "limit": "lines: 80",
-      "contract": "test: PodcastLogicTest",
-      "relates": [
-        "feature.podcast.model",
-        "home.sampledata",
-        "feature.catalog.model",
-        "feature.shell.destination"
-      ],
-      "desc": "Pruebas unitarias de episodios de podcast, metadatos y enrutamiento con categoría en paneles del Home"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/model/VirtualMuseum.kt",
-      "id": "feature.map.model",
-      "kind": "model",
-      "limit": 70,
-      "contract": "domain: id, name, city, country, countryCode, typology, latitude, longitude, description, virtualVisitUrl, imageUrl",
-      "relates": [
-        "feature.map.data.source",
-        "feature.map.viewmodel"
-      ],
-      "desc": "Dominio: museo virtual con coordenadas para osmdroid"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/data/MuseumDtos.kt",
-      "id": "feature.map.data.dto",
-      "kind": "dto",
-      "limit": 60,
-      "contract": "gson: VirtualMuseumsDto, MuseumDto, toDomain(",
-      "relates": [
-        "feature.map.data.source"
-      ],
-      "desc": "DTOs Gson para parsing de virtual_museums.json"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/data/AssetVirtualMuseumSource.kt",
-      "id": "feature.map.data.source",
-      "kind": "data",
-      "limit": 90,
-      "contract": "source: getVirtualMuseums(",
-      "relates": [
-        "feature.map.model",
-        "feature.map.data.dto",
-        "data.assetreader",
-        "core.error",
-        "core.network.safecall"
-      ],
-      "desc": "Fuente que lee assets/data/virtual_museums.json, parsea con Gson y mapea a dominio"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/MapUiState.kt",
-      "id": "feature.map.state",
-      "kind": "state",
-      "limit": 60,
-      "contract": "sealed: Loading, Success(museums, filterCountry, selectedMuseum",
-      "relates": [
-        "feature.map.model"
-      ],
-      "desc": "UI state inmutable para Map (UDF"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/viewmodel/MapViewModel.kt",
-      "id": "feature.map.viewmodel",
-      "kind": "viewmodel",
-      "limit": 140,
-      "contract": "viewmodel: init(carga con delay",
-      "relates": [
-        "feature.map.model",
-        "feature.map.data.source",
-        "feature.map.sampledata",
-        "feature.map.state",
-        "home.sampledata",
-        "home.models",
-        "core.presentation.baseviewmodel",
-        "core.error"
-      ],
-      "desc": "ViewModel que carga en init desde assets con muestra sintética de respaldo, filtra por país y gestiona selección (BaseViewModel"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/MapScreen.kt",
-      "id": "feature.map.screen",
-      "kind": "component",
-      "limit": 420,
-      "contract": "composable: MapScreen(uiState, onSelectMuseum, onSetFilterCountry, onSearchQueryChange, onToggleControlsExpanded, onOpenVirtualVisit, onShare, onNavigateToDetail, modifier",
-      "relates": [
-        "feature.map.state",
-        "feature.map.model",
-        "feature.map.floating.topbar",
-        "feature.map.floating.controls",
-        "feature.map.list.bottomsheet",
-        "feature.map.peek.card",
-        "core.theme"
-      ],
-      "desc": "UI stateless de mapa con lienzo osmdroid sin botones nativos, barra flotante de búsqueda, chips, controles colapsables y tarjeta peek"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/MapPreviews.kt",
-      "id": "feature.map.previews",
-      "kind": "preview",
-      "limit": 110,
-      "contract": "previews: loading, successFiltered, empty, error",
-      "relates": [
-        "feature.map.state",
-        "feature.map.model",
-        "feature.map.screen",
-        "core.theme"
-      ],
-      "desc": "Previews de MapScreen para Android Studio"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/MapRoute.kt",
-      "id": "feature.map.route",
-      "kind": "component",
-      "limit": 80,
-      "contract": "composable: MapRoute(modifier, onNavigateToMuseumDetail, viewModel",
-      "relates": [
-        "feature.map.viewmodel",
-        "feature.map.screen",
-        "feature.map.detail.route"
-      ],
-      "desc": "Route stateful de Map: conecta el ViewModel, filtra por país/búsqueda y maneja navegación a ficha de detalle"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/data/MapSampleData.kt",
-      "id": "feature.map.sampledata",
-      "kind": "util",
-      "limit": 100,
-      "contract": "data: museums",
-      "relates": [
-        "feature.map.model",
-        "feature.map.viewmodel"
-      ],
-      "desc": "Muestra sintética de museos iberoamericanos con coordenadas válidas y fotografías arquitectónicas, alineada con virtual_museums.json"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/data/CartRepository.kt",
-      "id": "feature.cart.data.repo",
-      "kind": "service",
-      "limit": 45,
-      "contract": "repo: observeItems(",
-      "relates": [
-        "feature.cart.model",
-        "feature.cart.data.inmemory"
-      ],
-      "desc": "Contrato del repositorio del carrito; T14 añadirá la implementación Room sobre la misma interfaz"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/data/CartSampleData.kt",
-      "id": "feature.cart.sampledata",
-      "kind": "util",
-      "limit": 80,
-      "contract": "data: items",
-      "relates": [
-        "feature.cart.model",
-        "feature.cart.data.inmemory",
-        "feature.cart.viewmodel"
-      ],
-      "desc": "Datos sintéticos del carrito: mezcla de curso virtual y productos físicos con pesos, alineada con los ítems del catálogo"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/data/InMemoryCartRepository.kt",
-      "id": "feature.cart.data.inmemory",
-      "kind": "service",
-      "limit": 70,
-      "contract": "repo: InMemoryCartRepository(initialItems",
-      "relates": [
-        "feature.cart.data.repo",
-        "feature.cart.model",
-        "feature.cart.sampledata"
-      ],
-      "desc": "Implementación en memoria del repositorio del carrito respaldada por StateFlow, lista para sustituirse por Room en T14"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/model/CartItem.kt",
-      "id": "feature.cart.model",
-      "kind": "model",
-      "limit": 85,
-      "contract": "models: CartItem, CartTotals, List<CartItem>.toTotals(",
-      "relates": [
-        "feature.cart.state",
-        "feature.cart.data.repo",
-        "feature.cart.sampledata"
-      ],
-      "desc": "Modelos de dominio del Carrito: línea de ítem con cantidad, modalidad y peso, más los totales agregados del pedido"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/ui/CartPreviews.kt",
-      "id": "feature.cart.previews",
-      "kind": "preview",
-      "limit": 110,
-      "contract": "previews: CartScreen(Success, Processing, ClearDialog, Empty, Error, Loading",
-      "relates": [
-        "feature.cart.screen",
-        "feature.cart.state",
-        "feature.cart.sampledata",
-        "feature.cart.model",
-        "core.theme"
-      ],
-      "desc": "Previews de Android Studio para todos los estados de la pantalla del Carrito"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/ui/CartRoute.kt",
-      "id": "feature.cart.route",
-      "kind": "component",
-      "limit": 95,
-      "contract": "composable: CartRoute(onContinueToShipping, onExploreCatalog, modifier, viewModel",
-      "relates": [
-        "feature.cart.viewmodel",
-        "feature.cart.state",
-        "feature.cart.screen"
-      ],
-      "desc": "Composable stateful del Carrito: observa el ViewModel, gestiona el snackbar de deshacer, el diálogo de vaciado y la navegación"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/ui/CartScreen.kt",
-      "id": "feature.cart.screen",
-      "kind": "component",
-      "limit": 200,
-      "contract": "composable: CartScreen(uiState, actions, snackbarHostState, showClearDialog, modifier",
-      "relates": [
-        "feature.cart.state",
-        "feature.cart.model",
-        "feature.cart.itemcard",
-        "feature.cart.summarycard",
-        "feature.cart.cleardialog",
-        "core.theme"
-      ],
-      "desc": "Pantalla stateless del Carrito: renderiza Loading/Success/Empty/Error, SnackbarHost de deshacer y diálogo de vaciado"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/ui/CartUiState.kt",
-      "id": "feature.cart.state",
-      "kind": "model",
-      "limit": 50,
-      "contract": "states: Loading, Success(items, totals, isProcessing",
-      "relates": [
-        "feature.cart.model",
-        "feature.cart.route",
-        "feature.cart.viewmodel"
-      ],
-      "desc": "UiState del feature Carrito con los cuatro estados explícitos, la variante isProcessing del CTA y el evento de snackbar"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/ui/components/CartItemCard.kt",
-      "id": "feature.cart.itemcard",
-      "kind": "component",
-      "limit": 160,
-      "contract": "composable: CartItemCard(item, isProcessing, onIncrement, onDecrement, onRemove, modifier",
-      "relates": [
-        "feature.cart.model",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Tarjeta accesible con franja lateral de 6dp, píldora de alto contraste de envío o digital, peso en flete y TalkBack"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/ui/components/CartShippingSection.kt",
-      "id": "feature.cart.shipping.section",
-      "kind": "component",
-      "limit": 160,
-      "contract": "composable: CartShippingSection(physicalItems, physicalWeightKg, courierQuotes, selectedCourierId, onSelectCourier, modifier",
-      "relates": [
-        "feature.shipping.model",
-        "feature.cart.model",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Sección de Despacho y Encomienda integrada en el Carrito con franja visual conectora y opciones de couriers"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/ui/components/CartSummaryCard.kt",
-      "id": "feature.cart.summarycard",
-      "kind": "component",
-      "limit": 165,
-      "contract": "composable: CartSummaryCard(totals, isProcessing, onContinue, onExploreCatalog, modifier",
-      "relates": [
-        "feature.cart.model",
-        "feature.cart.itemcard",
-        "core.theme"
-      ],
-      "desc": "Banner anti-error Capa 8 y tarjeta de resumen del pedido con subtotal, peso físico, envío, total y acciones"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/ui/components/ClearCartDialog.kt",
-      "id": "feature.cart.cleardialog",
-      "kind": "component",
-      "limit": 80,
-      "contract": "composable: ClearCartDialog(onConfirm, onDismiss, modifier",
-      "relates": [
-        "core.theme"
-      ],
-      "desc": "Diálogo de confirmación para vaciar el carrito con acción destructiva en color error"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/cart/viewmodel/CartViewModel.kt",
-      "id": "feature.cart.viewmodel",
-      "kind": "component",
-      "limit": 145,
-      "contract": "viewmodel: uiState: StateFlow<CartUiState>, events: SharedFlow<CartEvent>, onIncrement(id",
-      "relates": [
-        "feature.cart.data.repo",
-        "feature.cart.data.inmemory",
-        "feature.cart.model",
-        "feature.cart.state",
-        "core.presentation.baseviewmodel",
-        "core.error",
-        "data.local.session"
-      ],
-      "desc": "ViewModel del carrito: deriva UiState desde el repositorio, simula confirmación con isProcessing y publica el evento de deshacer"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/components/MapFloatingControls.kt",
-      "id": "feature.map.floating.controls",
-      "kind": "component",
-      "limit": 125,
-      "contract": "composable: MapFloatingControls(isExpanded, onToggleExpanded, onCenterMap, onZoomIn, onZoomOut, onOpenMuseumList, modifier",
-      "relates": [
-        "feature.map.screen",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Controles flotantes colapsables de mapa con iconos SVG personalizados: centrado en Iberoamérica, lista de museos y zoom + / -"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/components/MapFloatingTopBar.kt",
-      "id": "feature.map.floating.topbar",
-      "kind": "component",
-      "limit": 205,
-      "contract": "composable: MapFloatingTopBar(searchQuery, onSearchQueryChange, activeCount, allMuseums, selectedCountry, onCountrySelected, onOpenMuseumList, modifier",
-      "relates": [
-        "feature.map.screen",
-        "feature.map.model",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Barra superior flotante de mapa con emblema SVG, buscador y carrusel de chips por país"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/components/MuseumListBottomSheet.kt",
-      "id": "feature.map.list.bottomsheet",
-      "kind": "component",
-      "limit": 195,
-      "contract": "composable: MuseumListBottomSheet(museums, onSelectMuseum, onNavigateToDetail, onDismiss, modifier",
-      "relates": [
-        "feature.map.model",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Hoja inferior accesible ModalBottomSheet que despliega el catálogo de museos virtuales con filtros activos"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/components/MapMuseumPeekCard.kt",
-      "id": "feature.map.peek.card",
-      "kind": "component",
-      "limit": 135,
-      "contract": "composable: MapMuseumPeekCard(museum, onDismiss, onExpandDetails, onShare, modifier",
-      "relates": [
-        "feature.map.screen",
-        "feature.map.model",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Tarjeta flotante peek con miniatura fotográfica e iconos SVG al pulsar un marcador en el mapa"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/detail/MuseumDetailPreviews.kt",
-      "id": "feature.map.detail.previews",
-      "kind": "preview",
-      "limit": 80,
-      "contract": null,
-      "relates": [
-        "feature.map.detail.screen",
-        "feature.map.detail.state",
-        "core.theme"
-      ],
-      "desc": "Previews de Android Studio para los estados del detalle de museo"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/detail/MuseumDetailRoute.kt",
-      "id": "feature.map.detail.route",
-      "kind": "component",
-      "limit": 70,
-      "contract": "composable: MuseumDetailRoute(museumId, onBack, viewModel, modifier",
-      "relates": [
-        "feature.map.detail.state",
-        "feature.map.detail.viewmodel",
-        "feature.map.detail.screen"
-      ],
-      "desc": "Route stateful del detalle de museo: conecta el ViewModel con la Screen stateless y gestiona Intents"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/detail/MuseumDetailScreen.kt",
-      "id": "feature.map.detail.screen",
-      "kind": "component",
-      "limit": 120,
-      "contract": "composable: MuseumDetailScreen(uiState, onBack, onOpenVirtualVisit, onShare, onRetry, modifier",
-      "relates": [
-        "feature.map.detail.route",
-        "feature.map.detail.state",
-        "feature.map.detail.body",
-        "feature.map.detail.footer",
-        "feature.map.screen",
-        "core.theme"
-      ],
-      "desc": "MuseumDetailScreen stateless: TopAppBar con volver y render de estados del museo"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/detail/MuseumDetailUiState.kt",
-      "id": "feature.map.detail.state",
-      "kind": "model",
-      "limit": 40,
-      "contract": null,
-      "relates": [
-        "feature.map.detail.viewmodel",
-        "feature.map.detail.route",
-        "feature.map.model"
-      ],
-      "desc": "UiState del detalle de museo con estados explícitos Loading/Success/Error"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/detail/components/MuseumDetailBody.kt",
-      "id": "feature.map.detail.body",
-      "kind": "component",
-      "limit": 165,
-      "contract": "composable: MuseumDetailBody(item, modifier",
-      "relates": [
-        "feature.map.detail.screen",
-        "feature.map.detail.state",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Cuerpo visual del detalle de museo con fotografía real AsyncImage e iconos SVG sin emojis"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/ui/detail/components/MuseumDetailFooterBar.kt",
-      "id": "feature.map.detail.footer",
-      "kind": "component",
-      "limit": 75,
-      "contract": "composable: MuseumDetailFooterBar(virtualVisitUrl, onOpenVirtualVisit, onShare, modifier",
-      "relates": [
-        "feature.map.detail.screen",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Barra de acciones fija en el pie del detalle de museo con iconos SVG"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/map/viewmodel/MuseumDetailViewModel.kt",
-      "id": "feature.map.detail.viewmodel",
-      "kind": "component",
-      "limit": 95,
-      "contract": null,
-      "relates": [
-        "feature.map.detail.state",
-        "feature.map.detail.route",
-        "feature.map.model",
-        "feature.map.sampledata"
-      ],
-      "desc": "ViewModel del detalle de museo: StateFlow con museo de muestra y formateo de coordenadas"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/auth/model/AuthModels.kt",
-      "id": "feature.auth.model",
-      "kind": "model",
-      "limit": 90,
-      "contract": "models: UserRole, AuthMode, AuthFormState",
-      "relates": [
-        "feature.auth.state",
-        "feature.auth.viewmodel"
-      ],
-      "desc": "Modelos de dominio de autenticación: rol institucional, modo login/registro y estado del formulario"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/auth/ui/AuthPreviews.kt",
-      "id": "feature.auth.previews",
-      "kind": "preview",
-      "limit": 100,
-      "contract": "previews: AuthLoginPreview, AuthRegisterPreview, AuthLoadingDelayPreview, AuthErrorPreview",
-      "relates": [
-        "feature.auth.screen",
-        "feature.auth.state",
-        "feature.auth.model",
-        "core.theme"
-      ],
-      "desc": "Previews de Android Studio para los 4 teléfonos de mockups/auth/auth_screens.html"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/auth/ui/AuthRoute.kt",
-      "id": "feature.auth.route",
-      "kind": "component",
-      "limit": 90,
-      "contract": "composable: AuthRoute(onAuthSuccess, modifier, viewModel)",
-      "relates": [
-        "feature.auth.viewmodel",
-        "feature.auth.state",
-        "feature.auth.screen",
-        "data.local.session"
-      ],
-      "desc": "Composable stateful de Autenticación: actualiza UserSessionStore y dispara onAuthSuccess al autenticar o continuar como invitado"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/auth/ui/AuthScreen.kt",
-      "id": "feature.auth.screen",
-      "kind": "component",
-      "limit": 260,
-      "contract": "composable: AuthScreen(uiState, onEmailChange, onPasswordChange, onNameChange, onConfirmPasswordChange, onRoleSelect, onToggleLawConsent, onSwitchMode, onSubmit, onGuestContinue, onSimulateDelay, onSimulateError, onResetState, modifier",
-      "relates": [
-        "feature.auth.state",
-        "feature.auth.model",
-        "feature.auth.components",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Pantalla stateless de Login y Registro con bloqueo CMP-EVT-01 durante carga, errores por campo y modo invitado de laboratorio"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/auth/ui/AuthUiState.kt",
-      "id": "feature.auth.state",
-      "kind": "model",
-      "limit": 60,
-      "contract": "states: Idle, Loading, Error, Authenticated",
-      "relates": [
-        "feature.auth.model",
-        "feature.auth.viewmodel",
-        "feature.auth.screen"
-      ],
-      "desc": "UiState del feature de Autenticación con soporte para espera de API, validación y errores de red"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/auth/ui/components/AuthFormComponents.kt",
-      "id": "feature.auth.components",
-      "kind": "component",
-      "limit": 175,
-      "contract": "composable: AuthBrandHeader, AuthModeTabs, AuthRoleSelector, AuthConsentBox, AuthStatusBanner, AuthLabSimulationBar",
-      "relates": [
-        "feature.auth.model",
-        "feature.auth.state",
-        "feature.auth.screen",
-        "core.theme"
-      ],
-      "desc": "Sub-componentes reutilizables de Autenticación: cabecera con logo, pestañas, chips de rol, consentimiento Ley 21.719 y banners de API"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/auth/viewmodel/AuthViewModel.kt",
-      "id": "feature.auth.viewmodel",
-      "kind": "component",
-      "limit": 215,
-      "contract": "viewmodel: uiState, onEmailChange, onPasswordChange, onNameChange, onConfirmPasswordChange, onRoleSelect, onToggleLawConsent, onSwitchMode, onSubmit, onSimulateApiError, onSimulatedDelay, onResetToIdle",
-      "relates": [
-        "feature.auth.model",
-        "feature.auth.state",
-        "feature.auth.route"
-      ],
-      "desc": "ViewModel de Autenticación: validación normativa Ley 21.719/19.628, simulación de demora de API y errores HTTP 504"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/components/CatalogCategoryGrid.kt",
-      "id": "feature.catalog.categorygrid",
-      "kind": "component",
-      "limit": 155,
-      "contract": "composable: CatalogCategoryHomeContent(countsByCategory, onSelectCategory, onShowAll, modifier",
-      "relates": [
-        "feature.catalog.model",
-        "feature.catalog.statecontent",
-        "core.theme"
-      ],
-      "desc": "Vista Home de Categorías 2x2 y tira horizontal de mini-cards con fotografías reales de arte/museos y overlay degradado"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/detail/components/ItemDetailSpecsAndBanner.kt",
-      "id": "feature.catalog.detail.specs",
-      "kind": "component",
-      "limit": 140,
-      "contract": "composable: ItemDetailCapa8Banner(isVirtual, totalWeightKg, modifier",
-      "relates": [
-        "feature.catalog.detail.body",
-        "feature.catalog.model",
-        "core.theme"
-      ],
-      "desc": "Sub-componentes del Detalle: Banner informativo Capa 8, selector de cantidad física y grilla 2x2 de Ficha Técnica"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/favorites/FavoritesRoute.kt",
-      "id": "feature.catalog.favorites.route",
-      "kind": "component",
-      "limit": 90,
-      "contract": "composable: FavoritesRoute(onItemClick, onAddToCart, onExploreCatalog, modifier",
-      "relates": [
-        "feature.catalog.favorites.state",
-        "feature.catalog.favorites.screen",
-        "feature.catalog.sampledata",
-        "feature.catalog.model"
-      ],
-      "desc": "Route stateful de Mis Favoritos: observa el store compartido de CatalogSampleData y gestiona estados y acciones"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/favorites/FavoritesScreen.kt",
-      "id": "feature.catalog.favorites.screen",
-      "kind": "component",
-      "limit": 175,
-      "contract": "composable: FavoritesScreen(uiState, onItemClick, onAddToCart, onRemoveFavorite, onExploreCatalog, onRetry, modifier",
-      "relates": [
-        "feature.catalog.favorites.state",
-        "feature.catalog.favorites.route",
-        "feature.catalog.model",
-        "core.theme"
-      ],
-      "desc": "Pantalla stateless de Mis Favoritos: lista de tarjetas con imagen por URL, iconos vectoriales, Añadir al carrito, Quitar y estados Empty/Loading/Error"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/catalog/ui/favorites/FavoritesUiState.kt",
-      "id": "feature.catalog.favorites.state",
-      "kind": "model",
-      "limit": 45,
-      "contract": "states: Loading, Success(items",
-      "relates": [
-        "feature.catalog.favorites.screen",
-        "feature.catalog.favorites.route",
-        "feature.catalog.model"
-      ],
-      "desc": "UiState de Mis Favoritos / Wishlist con los 4 estados explícitos: Loading, Success, Empty y Error"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/checkout/model/CheckoutModels.kt",
-      "id": "feature.checkout.model",
-      "kind": "model",
-      "limit": 70,
-      "contract": "models: PaymentMethod",
-      "desc": "Modelos de dominio y medios de pago para pasarela de checkout T16-01"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/checkout/ui/CheckoutPreviews.kt",
-      "id": "feature.checkout.previews",
-      "kind": "component",
-      "limit": 90,
-      "contract": "previews: CheckoutFormPreview, CheckoutConfirmedPreview, CheckoutErrorPreview",
-      "relates": [
-        "feature.checkout.screen",
-        "core.theme"
-      ],
-      "desc": "Previews de pasarela de pago en estados Form, Confirmed y PaymentError"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/checkout/ui/CheckoutRoute.kt",
-      "id": "feature.checkout.route",
-      "kind": "component",
-      "limit": 105,
-      "contract": "composable: CheckoutRoute(courierName, shippingCostClp, itemsSubtotalClp, onNavigateToOrders, onNavigateHome, modifier, viewModel",
-      "relates": [
-        "feature.checkout.viewmodel",
-        "feature.checkout.screen",
-        "data.local.session"
-      ],
-      "desc": "Punto de entrada stateful para la pasarela de pagos T16-01"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/checkout/ui/CheckoutScreen.kt",
-      "id": "feature.checkout.screen",
-      "kind": "component",
-      "limit": 215,
-      "contract": "composable: CheckoutScreen(uiState, onSelectMethod, onToggleSimulateError, onConfirmPayment, onRetryPayment, onBackToForm, onNavigateToOrders, onNavigateHome, modifier",
-      "relates": [
-        "feature.checkout.state",
-        "feature.checkout.stateviews",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Pantalla stateless de Pasarela de Pagos T16-01 con iconos vectoriales SVG, UUID EC-04 y simulador 504"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/checkout/ui/CheckoutUiState.kt",
-      "id": "feature.checkout.state",
-      "kind": "state",
-      "limit": 75,
-      "contract": "state: CheckoutUiState(Form, Processing, Confirmed, PaymentError",
-      "relates": [
-        "feature.checkout.model"
-      ],
-      "desc": "Estados sellados de UI para la pasarela de pagos: Form, Processing, Confirmed, PaymentError"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/checkout/ui/components/CheckoutStateViews.kt",
-      "id": "feature.checkout.stateviews",
-      "kind": "component",
-      "limit": 175,
-      "contract": "composable: CheckoutProcessingView, CheckoutConfirmedView, CheckoutErrorView, formatCheckoutClp",
-      "relates": [
-        "feature.checkout.state",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Vistas stateless con iconos vectoriales SVG para los estados Processing, Confirmed y PaymentError de T16-01"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/checkout/viewmodel/CheckoutViewModel.kt",
-      "id": "feature.checkout.viewmodel",
-      "kind": "viewmodel",
-      "limit": 175,
-      "contract": "viewmodel: CheckoutViewModel(uiState, setShippingQuote, selectPaymentMethod, toggleSimulateGatewayError, confirmPayment, retryPayment, backToForm",
-      "relates": [
-        "feature.checkout.state",
-        "feature.checkout.model",
-        "feature.cart.model",
-        "feature.orders.sampledata",
-        "feature.orders.model",
-        "core.notification.helper",
-        "data.local.sync"
-      ],
-      "desc": "ViewModel de pasarela de pago con persistencia Room, notificacion local y vaciado de carrito"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/debug/ui/DebugSimulationDialog.kt",
-      "id": "feature.debug.dialog",
-      "kind": "component",
-      "limit": 175,
-      "contract": "composable: DebugSimulationDialog, DebugSimOption",
-      "relates": [
-        "feature.orders.sampledata",
-        "core.notification.helper",
-        "core.theme"
-      ],
-      "desc": "Modal de simulacion QA para notificaciones locales, avance de pedidos SIM-01 y modo offline T19"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/orders/data/OrdersSampleData.kt",
-      "id": "feature.orders.sampledata",
-      "kind": "util",
-      "limit": 110,
-      "contract": "data: ordersFlow: StateFlow<List<OrderSummary>>, addOrder(order",
-      "relates": [
-        "feature.orders.model"
-      ],
-      "desc": "Estado reactivo compartido de pedidos con 3 órdenes iniciales sin emojis y mutaciones para Checkout y simulaciones Debug"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/orders/model/OrderModels.kt",
-      "id": "feature.orders.model",
-      "kind": "model",
-      "limit": 75,
-      "contract": "models: OrderStatus, OrderLineItem, OrderSummary",
-      "desc": "Modelos de dominio de Solicitudes: estados de trazabilidad, líneas adquiridas y resumen financiero"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/orders/ui/components/OrderDetailDialog.kt",
-      "id": "feature.orders.detaildialog",
-      "kind": "component",
-      "limit": 170,
-      "contract": "composable: OrderDetailDialog(order, onDismiss, modifier",
-      "relates": [
-        "feature.orders.model",
-        "core.theme"
-      ],
-      "desc": "ModalBottomSheet de detalle de pedido con línea de tiempo de trazabilidad, ítems adquiridos y desglose financiero"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/orders/ui/OrdersPreviews.kt",
-      "id": "feature.orders.previews",
-      "kind": "preview",
-      "limit": 90,
-      "contract": "previews: OrdersScreen(Success, DetailSheet, Empty, Error",
-      "relates": [
-        "feature.orders.screen",
-        "feature.orders.state",
-        "feature.orders.sampledata",
-        "core.theme"
-      ],
-      "desc": "Previews de Android Studio para los estados de Mis Solicitudes"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/orders/ui/OrdersRoute.kt",
-      "id": "feature.orders.route",
-      "kind": "component",
-      "limit": 85,
-      "contract": "composable: OrdersRoute(onExploreCatalog, modifier, viewModel",
-      "relates": [
-        "feature.orders.viewmodel",
-        "feature.orders.state",
-        "feature.orders.screen"
-      ],
-      "desc": "Route stateful de Mis Solicitudes que conecta OrdersViewModel con OrdersScreen"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/orders/ui/OrdersScreen.kt",
-      "id": "feature.orders.screen",
-      "kind": "component",
-      "limit": 185,
-      "contract": "composable: OrdersScreen(uiState, onOrderClick, onDismissDetail, onExploreCatalog, onRetry, onScenarioSelected, modifier",
-      "relates": [
-        "feature.orders.state",
-        "feature.orders.model",
-        "feature.orders.detaildialog",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Pantalla stateless de Mis Pedidos con tarjetas de estado, iconos SVG, barra de laboratorio, estados Empty/Loading/Error y detalle"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/orders/ui/OrdersUiState.kt",
-      "id": "feature.orders.state",
-      "kind": "model",
-      "limit": 60,
-      "contract": "states: Loading, Success(orders, selectedOrder, isOfflineFallback",
-      "relates": [
-        "feature.orders.model"
-      ],
-      "desc": "Estados explícitos de UI para Mis Solicitudes incluyendo modal de detalle y respaldo offline Room"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/orders/viewmodel/OrdersViewModel.kt",
-      "id": "feature.orders.viewmodel",
-      "kind": "viewmodel",
-      "limit": 120,
-      "contract": "viewmodel: uiState: StateFlow<OrdersUiState>, selectOrder(order",
-      "relates": [
-        "feature.orders.model",
-        "feature.orders.sampledata",
-        "feature.orders.state",
-        "core.presentation.baseviewmodel",
-        "core.error"
-      ],
-      "desc": "ViewModel de Mis Solicitudes que observa OrdersSampleData, abre detalle de trazabilidad y simula estados de laboratorio"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/scanner/model/ScannerModels.kt",
-      "id": "feature.scanner.model",
-      "kind": "model",
-      "limit": 120,
-      "contract": "models: ScannerType, LabBarcodeOption, HeritageQrPayload, LabQrOption, parseHeritageQr",
-      "relates": [],
-      "desc": "Modelos de dominio del escaner hibrido: modos EAN-13 vs QR patrimonial, presets de laboratorio y parser JSON"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/scanner/ui/HeritageQrResultDialog.kt",
-      "id": "feature.scanner.qr.dialog",
-      "kind": "component",
-      "limit": 150,
-      "contract": "composable: HeritageQrResultDialog(payload, onOpenCatalogItem, onDismiss, modifier",
-      "relates": [
-        "feature.scanner.model",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Modal visor de ficha tecnica y metadatos patrimoniales extraidos desde codigo QR con vinculacion a catalogo"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/scanner/ui/BarcodeScannerDialog.kt",
-      "id": "feature.scanner.dialog",
-      "kind": "component",
-      "limit": 420,
-      "contract": "composable: BarcodeScannerDialog(onProductScanned, onHeritageQrScanned, onDismiss)",
-      "relates": [
-        "feature.scanner.model",
-        "feature.scanner.optical.decoder",
-        "feature.scanner.qr.dialog",
-        "feature.scanner.camerapreview",
-        "core.theme"
-      ],
-      "desc": "Modal de escaner universal expansivo con auto-deteccion EAN-13 y QR, laser animado y decodificador ZXing"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/scanner/ui/components/CameraPreview.kt",
-      "id": "feature.scanner.camerapreview",
-      "kind": "component",
-      "limit": 80,
-      "contract": "composable: CameraPreview(onTextureViewCreated, modifier)",
-      "relates": [
-        "core.theme"
-      ],
-      "desc": "Componente de vista previa de camara Camera2 TextureView para Compose"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shell/ui/MuseoShellNavHost.kt",
-      "id": "feature.shell.navhost",
-      "kind": "component",
-      "limit": 200,
-      "contract": "composable: MuseoShellNavHost(navController, catalogResetTrigger, onNavigateTo, onOpenDebugPanel, onOpenScanner, onShowMessage, modifier)",
-      "relates": [
-        "feature.shell.destination",
-        "data.local.sync",
-        "feature.catalog.sampledata",
-        "home.sampledata",
-        "home.models",
-        "home.route",
-        "feature.catalog.route",
-        "feature.catalog.detail.route",
-        "feature.catalog.favorites.route",
-        "feature.podcast.route",
-        "feature.map.route",
-        "feature.shipping.route",
-        "feature.checkout.route",
-        "feature.orders.route",
-        "feature.cart.route",
-        "settings.route"
-      ],
-      "desc": "NavHost del Shell central conectado con CartSessionStore Room, reinicio de Catalogo y todas las rutas de la app"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/podcast/model/PodcastModels.kt",
-      "id": "feature.podcast.model",
-      "kind": "model",
-      "limit": "lines: 90",
-      "contract": "models: PodcastEpisode, samplePodcastEpisodes",
-      "relates": [
-        "feature.podcast.screen"
-      ],
-      "desc": "Modelos de dominio del Podcast Patrimonial y colección de episodios de muestra"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/podcast/ui/PodcastScreen.kt",
-      "id": "feature.podcast.screen",
-      "kind": "component",
-      "limit": "lines: 320",
-      "contract": "composable: PodcastScreen(episodes, currentEpisode, isPlaying, onTogglePlay, onSelectEpisode, onBack, modifier)",
-      "relates": [
-        "feature.podcast.model",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Pantalla accesible de Podcast Patrimonial: reproductor interactivo y listado de episodios con badges"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/podcast/ui/PodcastRoute.kt",
-      "id": "feature.podcast.route",
-      "kind": "component",
-      "limit": "lines: 60",
-      "contract": "composable: PodcastRoute(onBack, modifier)",
-      "relates": [
-        "feature.podcast.screen",
-        "feature.podcast.model"
-      ],
-      "desc": "Route stateful de Podcast Patrimonial: gestiona el estado de reproducción y delega en PodcastScreen"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shipping/data/ShippingCalculatorService.kt",
-      "id": "feature.shipping.calculator",
-      "kind": "service",
-      "limit": 100,
-      "contract": "service: calculateQuotes(destination, weightKg",
-      "relates": [
-        "feature.shipping.model"
-      ],
-      "desc": "Motor determinista puro de cálculo de tarifas y restricciones para Starken, Chilexpress y DHL Express"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shipping/model/ShippingModels.kt",
-      "id": "feature.shipping.model",
-      "kind": "model",
-      "limit": 90,
-      "contract": "models: ShippingDestination, CourierQuoteStatus, CourierQuote",
-      "desc": "Modelos de dominio del Cotizador de Envíos: destinos de Iberoamérica, estados de cotización y tarjeta de courier"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shipping/ui/components/CourierQuoteCard.kt",
-      "id": "feature.shipping.card",
-      "kind": "component",
-      "limit": 165,
-      "contract": "composable: CourierQuoteCard(quote, isSelected, onSelect, modifier",
-      "relates": [
-        "feature.shipping.model",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Tarjeta seleccionable de courier con iconos SVG que muestra tarifa y desglose o estado deshabilitado con motivo de restricción"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shipping/ui/ShippingPreviews.kt",
-      "id": "feature.shipping.previews",
-      "kind": "preview",
-      "limit": 100,
-      "contract": "previews: ShippingScreen(Mixed, VirtualExempt, Exceeded60Kg, DelayedLoading, Error",
-      "relates": [
-        "feature.shipping.screen",
-        "feature.shipping.state",
-        "feature.shipping.viewmodel",
-        "feature.shipping.model",
-        "core.theme"
-      ],
-      "desc": "Previews de Android Studio para los estados y casos límite del Cotizador de Envíos"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shipping/ui/ShippingRoute.kt",
-      "id": "feature.shipping.route",
-      "kind": "component",
-      "limit": 90,
-      "contract": "composable: ShippingRoute(onProceedToCheckout, modifier, viewModel",
-      "relates": [
-        "feature.shipping.viewmodel",
-        "feature.shipping.state",
-        "feature.shipping.screen"
-      ],
-      "desc": "Route stateful del Cotizador de Envíos: conecta el ViewModel, lanza Intent.ACTION_SEND al compartir y navega al Checkout"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shipping/ui/ShippingScreen.kt",
-      "id": "feature.shipping.screen",
-      "kind": "component",
-      "limit": 185,
-      "contract": "composable: ShippingScreen(uiState, onDestinationChange, onWeightInputChange, onSelectCourier, onScenarioSelected, onShareQuote, onProceedToCheckout, onRetry, onUseCachedRates, modifier",
-      "relates": [
-        "feature.shipping.state",
-        "feature.shipping.model",
-        "feature.shipping.card",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Pantalla stateless del Cotizador de Envíos con iconos vectoriales SVG: destino, peso, regla Capa 8, couriers y paso al pago"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shipping/ui/ShippingUiState.kt",
-      "id": "feature.shipping.state",
-      "kind": "model",
-      "limit": 70,
-      "contract": "states: Loading(isDelayed",
-      "relates": [
-        "feature.shipping.model"
-      ],
-      "desc": "Estados explícitos de UI del Cotizador de Envíos y presets de escenarios de laboratorio"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shipping/viewmodel/ShippingViewModel.kt",
-      "id": "feature.shipping.viewmodel",
-      "kind": "viewmodel",
-      "limit": 140,
-      "contract": "viewmodel: uiState: StateFlow<ShippingUiState>, onDestinationChange(dest",
-      "relates": [
-        "feature.shipping.model",
-        "feature.shipping.calculator",
-        "feature.shipping.state",
-        "core.presentation.baseviewmodel",
-        "core.error"
-      ],
-      "desc": "ViewModel del Cotizador de Envíos: evalúa Starken, Chilexpress y DHL en tiempo real y soporta escenarios EC-SHIP-01 y EC-SHIP-05"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/network/ConnectivityObserver.kt",
-      "id": "core.network.connectivity",
-      "kind": "service",
-      "limit": 165,
-      "contract": "service: ConnectivityObserver(init, isOfflineFlow, isReconnectingFlow, reconnectAttemptFlow, connectionRestoredFlow, triggerManualReconnect, setSimulatedOffline",
-      "relates": [
-        "data.local.db",
-        "data.local.sync"
-      ],
-      "desc": "Observador reactivo de conectividad ConnectivityManager con auto-reconexión periódica y sincronización Room"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/notification/MuseoNotificationHelper.kt",
-      "id": "core.notification.helper",
-      "kind": "service",
-      "limit": 110,
-      "contract": "service: MuseoNotificationHelper(createChannels, notifyOfflineMode, cancelOfflineNotification, notifyOrderAdvance",
-      "desc": "Gestor de notificaciones locales NotificationManager para alerta de modo Offline y avance de pedidos"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/ui/icons/MuseoDomainIcons.kt",
-      "id": "core.ui.domainicons",
-      "kind": "component",
+      "path": "frontend/src/pages/cliente/Blog.tsx",
+      "id": "frontend.pages.cliente.blog",
+      "kind": "page",
       "limit": 180,
-      "contract": "icons: OrdersReceipt, TruckShipping, ShieldLock, WarningTriangle, CheckCircle, Trash, Refresh, BugDebug, Compass, TargetCenter, ZoomIn, ZoomOut, Globe, ShareNodes",
+      "contract": "BlogView()",
+      "desc": "Vista listado de articulos del blog de pasteleria",
       "relates": [
-        "core.ui.icons"
-      ],
-      "desc": "Iconos vectoriales SVG de dominio para Pedidos, Logística, Seguridad, Cartografía y QA"
+        "docs.reglas_ui"
+      ]
     },
     {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/ui/icons/MuseoIcons.kt",
-      "id": "core.ui.icons",
-      "kind": "component",
-      "limit": 180,
-      "contract": "icons: Cart, CloudOffline, Museum, VirtualCourse, PhysicalPackage, BookPublication, ConservationBrush, BarcodeScanner, FilterSliders, OrdersReceipt, TruckShipping, ShieldLock, WarningTriangle, CheckCircle, Trash, Refresh, BugDebug, Compass, TargetCenter, ZoomIn, ZoomOut, Globe, ShareNodes, Play, Pause, Podcast",
-      "relates": [
-        "core.ui.domainicons"
-      ],
-      "desc": "Biblioteca central de iconos vectoriales SVG de diseño geométrico IberoMuseos sin emojis"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/data/local/Entities.kt",
-      "id": "data.local.entities",
-      "kind": "model",
-      "limit": 120,
-      "contract": "entities: CatalogItemEntity, SyncMetadataEntity, FavoriteEntity, CartItemEntity, OrderEntity",
-      "desc": "Entidades Room SQLite para cache local Offline-First de catalogo, sincronizacion, favoritos, carrito y pedidos"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/data/local/MuseoDaos.kt",
-      "id": "data.local.daos",
-      "kind": "service",
-      "limit": 140,
-      "contract": "daos: CatalogLocalDao, FavoriteLocalDao, CartLocalDao, OrderLocalDao",
-      "relates": [
-        "data.local.entities"
-      ],
-      "desc": "DAOs Room reactivos con Flow y OnConflictStrategy.REPLACE para persistencia local Offline-First"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/data/local/MuseoDatabase.kt",
-      "id": "data.local.db",
-      "kind": "service",
-      "limit": 70,
-      "contract": "db: MuseoDatabase(catalogDao, favoriteDao, cartDao, orderDao, getInstance",
-      "relates": [
-        "data.local.entities",
-        "data.local.daos"
-      ],
-      "desc": "Base de datos Room SQLite local con singleton thread-safe para operacion Offline-First"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/data/local/OfflineFirstSyncManager.kt",
-      "id": "data.local.sync",
-      "kind": "service",
+      "path": "frontend/src/pages/cliente/BlogDetalle.tsx",
+      "id": "frontend.pages.cliente.blogDetalle",
+      "kind": "page",
       "limit": 150,
-      "contract": "sync: OfflineFirstSyncManager(init, syncCatalogIfNeeded",
+      "contract": "BlogDetalleView()",
+      "desc": "Vista de lectura individual de un articulo del blog",
       "relates": [
-        "data.local.db",
-        "data.local.daos",
-        "data.local.entities",
-        "feature.cart.model",
-        "feature.cart.sampledata"
-      ],
-      "desc": "Gestor Offline-First con verificacion de version de catalogo en Room y tienda reactiva compartida de carrito"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/home/ui/components/RecentlyViewedSection.kt",
-      "id": "home.recentlyviewed",
-      "kind": "component",
-      "limit": "lines: 160",
-      "contract": "composable: RecentlyViewedSection(items, onItemClick, modifier)",
-      "relates": [
-        "home.models",
-        "core.ui.icons",
-        "core.theme"
-      ],
-      "desc": "Carrusel horizontal centralizado Vistos recientemente en Inicio con cursos, productos y museos visitados"
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/i18n/AppLanguage.kt",
-      "id": "core.i18n.language",
-      "kind": "model",
-      "limit": 90,
-      "contract": "models: ScriptType, AppLanguage, LanguageManager",
-      "desc": "Gestor reactivo de idioma (ES/PT/EN/ZH) y sistema de escritura (LATIN/CJK) para cambio dinámico de textos y fuentes",
-      "relates": []
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/i18n/AppStrings.kt",
-      "id": "core.i18n.strings",
-      "kind": "model",
-      "limit": 160,
-      "contract": "models: AppStrings, ShellStrings, HomeStrings, CatalogStrings, MapStrings, CartStrings, ShippingStrings, CheckoutStrings, OrdersStrings, SettingsStrings, A11yStrings, LocalAppStrings, appStrings",
-      "desc": "Contratos de textos centralizados por página/módulo para internacionalización y lectura asistida TalkBack",
-      "relates": [
-        "core.i18n.translations"
+        "docs.reglas_ui"
       ]
     },
     {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/i18n/AppTranslations.kt",
-      "id": "core.i18n.translations",
-      "kind": "util",
+      "path": "frontend/src/pages/cliente/ProductoDetalle.tsx",
+      "id": "frontend.pages.cliente.productoDetalle",
+      "kind": "page",
+      "limit": 300,
+      "contract": "ProductoDetalleView()",
+      "desc": "Vista detallada de producto con seleccion de porciones y agregar a carrito",
+      "relates": [
+        "frontend.ui.button",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/pago/Exito.tsx",
+      "id": "frontend.pages.cliente.pago.exito",
+      "kind": "page",
+      "limit": 160,
+      "contract": "PagoExitoView()",
+      "desc": "Pantalla de confirmacion de pago exitoso con codigo y boleta DSY1104",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/pago/Error.tsx",
+      "id": "frontend.pages.cliente.pago.error",
+      "kind": "page",
+      "limit": 160,
+      "contract": "PagoErrorView()",
+      "desc": "Pantalla de fallo de pago manteniendo resumen del carrito y boton reintentar",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Dashboard.tsx",
+      "id": "admin.pages.dashboard",
+      "kind": "page",
       "limit": 260,
-      "contract": "translations: es, pt, en, zh, forLanguage(lang)",
-      "desc": "Diccionario centralizado de textos por página en Español, Portugués, Inglés y Chino Simplificado",
+      "contract": "DashboardView()",
+      "desc": "Resumen administrativo con metricas, ventas diarias y accesos rapidos",
       "relates": [
-        "core.i18n.language",
-        "core.i18n.strings"
+        "docs.especificacion_pwa_admin"
       ]
     },
     {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/scanner/util/OpticalCodeDecoder.kt",
-      "id": "feature.scanner.optical.decoder",
-      "kind": "util",
-      "limit": 70,
-      "contract": "util: OpticalCodeDecoder.decodeBitmap(bitmap)",
-      "desc": "Decodificador optico nativo ZXing offline para codigos QR y barras EAN-13 desde fotogramas de camara",
+      "path": "admin-pwa/src/pages/Productos.tsx",
+      "id": "admin.pages.productos",
+      "kind": "page",
+      "limit": 700,
+      "contract": "ProductosAdminView()",
+      "desc": "Gestion de productos, edicion, reporte de criticos y alta de nuevos",
       "relates": [
-        "feature.scanner.model"
+        "admin.lib.validators",
+        "docs.especificacion_pwa_admin"
       ]
     },
     {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/shell/ui/components/NotificationsBottomSheet.kt",
-      "id": "feature.shell.notifications.bottomsheet",
-      "kind": "component",
-      "limit": 195,
-      "contract": "composable: NotificationsBottomSheet(onDismiss, onNavigateToOrders, onNavigateToCatalog, modifier)",
-      "desc": "Hoja inferior ModalBottomSheet con el centro de notificaciones recibidas, estado de pedidos y avisos patrimoniales",
+      "path": "admin-pwa/src/pages/Inventario.tsx",
+      "id": "admin.pages.inventario",
+      "kind": "page",
+      "limit": 450,
+      "contract": "InventarioAdminView()",
+      "desc": "Control de stock con semaforo, movimientos Kardex y registro de mermas",
       "relates": [
-        "core.ui.icons",
-        "core.theme"
+        "docs.especificacion_pwa_admin"
       ]
     },
     {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/accessibility/MuseoAccessibility.kt",
-      "id": "core.accessibility",
-      "kind": "util",
-      "limit": 120,
-      "contract": "helpers: a11yHeader, a11yLiveAnnouncement, a11yMergedCard, formatSpokenClp, formatSpokenWeight",
-      "desc": "Utilidades semánticas de accesibilidad para lectores de pantalla TalkBack orientadas a personas ciegas o con baja visión",
-      "relates": []
-    },
-    {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/core/ui/components/LottieOrderSuccessAnimation.kt",
-      "id": "core.ui.lottie.success",
-      "kind": "component",
-      "limit": 60,
-      "contract": "composable: LottieOrderSuccessAnimation(modifier)",
-      "desc": "Animacion vectorial Lottie offline de confirmacion de orden y exito en tono NewCork",
+      "path": "admin-pwa/src/pages/Pos.tsx",
+      "id": "admin.pages.pos",
+      "kind": "page",
+      "limit": 300,
+      "contract": "PosAdminView()",
+      "desc": "Terminal punto de venta POS mostrador con generacion de boletas",
       "relates": [
-        "core.ui.icons",
-        "core.theme"
+        "docs.especificacion_pwa_admin"
       ]
     },
     {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/data/local/UserSessionStore.kt",
-      "id": "data.local.session",
-      "kind": "util",
-      "limit": 160,
-      "contract": "store: UserSessionStore, UserSessionData, UserPreferencesData",
-      "desc": "Almacen reactivo y persistente en SharedPreferences de sesion institucional, rol y preferencias de usuario",
+      "path": "admin-pwa/src/pages/Promociones.tsx",
+      "id": "admin.pages.promociones",
+      "kind": "page",
+      "limit": 360,
+      "contract": "PromocionesAdminView()",
+      "desc": "Gestion de cupones de descuento, limites y vigencia",
       "relates": [
-        "feature.auth.model"
+        "docs.especificacion_pwa_admin"
       ]
     },
     {
-      "path": "IberoMuseos/app/src/main/java/cl/duoc/iberomuseos/features/auth/ui/components/RoleBenefitsWelcomeDialog.kt",
-      "id": "feature.auth.benefits.dialog",
-      "kind": "component",
-      "limit": 130,
-      "contract": "composable: RoleBenefitsWelcomeDialog(session, onDismiss, modifier)",
-      "desc": "Modal emergente de bienvenida con beneficios y porcentaje de descuento desbloqueados segun el rol",
+      "path": "admin-pwa/src/pages/Usuarios.tsx",
+      "id": "admin.pages.usuarios",
+      "kind": "page",
+      "limit": 300,
+      "contract": "UsuariosAdminView()",
+      "desc": "Gestion de usuarios, roles RBAC y consulta de historial de compras",
       "relates": [
-        "data.local.session",
-        "core.ui.icons",
-        "core.theme"
+        "admin.lib.validators",
+        "docs.especificacion_pwa_admin"
       ]
     }
   ],
@@ -2549,7 +908,7 @@
     "output_dir": "."
   },
   "languages": {
-    ".kts": {
+    ".mjs": {
       "line_prefix": "//"
     }
   }

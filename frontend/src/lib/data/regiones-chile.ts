@@ -1,9 +1,10 @@
 // @pca:start
-// @id(frontend.lib.data.regionesChile)
-// @kind(util)
-// @limit(lines: 180)
-// @contract(exporta: REGIONES_CHILE, obtenerComunasPorRegion, obtenerNombreRegion, validarRegionYComuna)
-// @desc(Catálogo oficial de las 16 regiones de Chile y sus comunas para selectores anidados)
+// @id(frontend.lib.regionesChile)
+// @kind(model)
+// @limit(lines: 200)
+// @contract(REGIONES_CHILE, obtenerComunasPorRegion, validarRegionYComuna)
+// @relates(docs.convenciones)
+// @desc(Diccionario oficial de las 16 regiones de Chile y sus comunas)
 // @pca:end
 
 export interface RegionChile {

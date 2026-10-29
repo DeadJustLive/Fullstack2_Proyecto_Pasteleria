@@ -1,3 +1,11 @@
+// @pca:start
+// @id(frontend.pages.cliente.blogDetalle)
+// @kind(page)
+// @limit(lines: 150)
+// @contract(BlogDetalleView())
+// @relates(docs.reglas_ui)
+// @desc(Vista de lectura individual de un articulo del blog)
+// @pca:end
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock, User } from "lucide-react";

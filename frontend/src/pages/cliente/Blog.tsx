@@ -1,3 +1,11 @@
+// @pca:start
+// @id(frontend.pages.cliente.blog)
+// @kind(page)
+// @limit(lines: 180)
+// @contract(BlogView())
+// @relates(docs.reglas_ui)
+// @desc(Vista listado de articulos del blog de pasteleria)
+// @pca:end
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Clock, Heart, MessageCircle, Repeat2, Share2, Tag, TrendingUp } from "lucide-react";

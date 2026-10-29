@@ -1,3 +1,11 @@
+// @pca:start
+// @id(admin.pages.promociones)
+// @kind(page)
+// @limit(lines: 360)
+// @contract(PromocionesAdminView())
+// @relates(docs.especificacion_pwa_admin)
+// @desc(Gestion de cupones de descuento, limites y vigencia)
+// @pca:end
 import { useState } from "react";
 import { Plus, Sparkles, Tag, ToggleLeft, ToggleRight } from "lucide-react";
 

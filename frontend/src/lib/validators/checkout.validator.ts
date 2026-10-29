@@ -1,10 +1,12 @@
 // @pca:start
-// @id(frontend.lib.validators.checkout)
-// @kind(util)
+// @id(frontend.lib.checkoutValidator)
+// @kind(service)
 // @limit(lines: 120)
-// @contract(exporta: validarCheckoutForm, CheckoutFormData)
-// @relates(frontend.lib.validators.rut, frontend.lib.data.regionesChile)
-// @desc(Reglas de validación puras para el formulario de Checkout según DSY1104 Anexo 1)
+// @contract(validarCheckoutDelivery, validarCheckoutRetiro)
+// @relates(frontend.lib.rutValidator)
+// @relates(frontend.lib.regionesChile)
+// @relates(docs.convenciones)
+// @desc(Validaciones del formulario de checkout segun requerimientos DSY1104)
 // @pca:end
 
 import { validarEmail } from "./auth.validator";

@@ -1,3 +1,12 @@
+// @pca:start
+// @id(admin.pages.usuarios)
+// @kind(page)
+// @limit(lines: 300)
+// @contract(UsuariosAdminView())
+// @relates(admin.lib.validators)
+// @relates(docs.especificacion_pwa_admin)
+// @desc(Gestion de usuarios, roles RBAC y consulta de historial de compras)
+// @pca:end
 import { useState } from "react";
 import { Check, Lock, Search, Shield } from "lucide-react";
 

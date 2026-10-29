@@ -1,3 +1,12 @@
+// @pca:start
+// @id(admin.pages.productos)
+// @kind(page)
+// @limit(lines: 700)
+// @contract(ProductosAdminView())
+// @relates(admin.lib.validators)
+// @relates(docs.especificacion_pwa_admin)
+// @desc(Gestion de productos, edicion, reporte de criticos y alta de nuevos)
+// @pca:end
 import { useEffect, useState } from "react";
 import {
   AlertCircle,

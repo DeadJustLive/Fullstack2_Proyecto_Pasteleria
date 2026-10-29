@@ -1,3 +1,11 @@
+// @pca:start
+// @id(frontend.pages.cliente.pago.exito)
+// @kind(page)
+// @limit(lines: 160)
+// @contract(PagoExitoView())
+// @relates(docs.reglas_ui)
+// @desc(Pantalla de confirmacion de pago exitoso con codigo y boleta DSY1104)
+// @pca:end
 import { useSearchParams } from "react-router-dom";
 import { CheckCircle2, FileText, Home, ShoppingBag } from "lucide-react";
 import { ButtonLink } from "@/components/ui/ButtonLink";

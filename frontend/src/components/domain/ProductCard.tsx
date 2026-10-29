@@ -6,7 +6,7 @@
 // @relates(frontend.ui.button)
 // @relates(frontend.ui.buttonLink)
 // @relates(frontend.ui.badge)
-// @desc(Tarjeta de producto con disponibilidad en tiempo real y a11y)
+// @desc(Tarjeta de producto: anadir al carrito real, enlaces reales y a11y)
 // @pca:end
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";

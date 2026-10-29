@@ -1,10 +1,11 @@
 // @pca:start
-// @id(frontend.lib.validators.auth)
-// @kind(util)
-// @limit(lines: 100)
-// @contract(exporta: validarEmail, validarPassword, validarLoginForm, validarRegistroForm)
-// @relates(frontend.lib.validators.rut)
-// @desc(Reglas de validación puras para formularios de autenticación y registro de usuario)
+// @id(frontend.lib.authValidator)
+// @kind(service)
+// @limit(lines: 120)
+// @contract(validarEmail, validarPassword, validarRegistro, validarLogin)
+// @relates(frontend.lib.rutValidator)
+// @relates(docs.convenciones)
+// @desc(Validaciones de formularios de autenticacion y registro de clientes)
 // @pca:end
 
 import { validarRut } from "./rut.validator";
