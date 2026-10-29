@@ -27,3 +27,14 @@ grafo.mmd
 *.njsproj
 *.sln
 *.sw?
+
+# Java / Maven
+target/
+**/target/
+*.class
+*.jar
+*.war
+
+# Python
+__pycache__/
+*.pyc

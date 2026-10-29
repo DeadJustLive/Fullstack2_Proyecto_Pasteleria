@@ -1,5 +1,14 @@
 package com.cremeco.catalog.controller;
 
+import com.cremeco.catalog.model.BlogPostEntity;
+import com.cremeco.catalog.model.CategoryEntity;
+import com.cremeco.catalog.model.ProductEntity;
+import com.cremeco.catalog.model.PromotionEntity;
+import com.cremeco.catalog.repository.BlogPostRepository;
+import com.cremeco.catalog.repository.CategoryRepository;
+import com.cremeco.catalog.repository.ProductRepository;
+import com.cremeco.catalog.repository.PromotionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,65 +17,108 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/catalog")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class CatalogController {
 
-    private final List<Map<String, Object>> mockProductos = new ArrayList<>(List.of(
-            new HashMap<>(Map.of("id", 1, "nombre", "Torta Ópera Francesa", "precio", 24990, "categoria", "tortas", "stock", 8, "ventas", 142, "disponible", true, "imagen", "/imagen/Torta-Opera-Francesa.webp")),
-            new HashMap<>(Map.of("id", 2, "nombre", "Cheesecake de Frutos Rojos", "precio", 21990, "categoria", "tortas", "stock", 12, "ventas", 98, "disponible", true, "imagen", "/imagen/Cheesecake-de-Frutos-Rojos.webp")),
-            new HashMap<>(Map.of("id", 3, "nombre", "Torta Selva Negra Tradicional", "precio", 23990, "categoria", "tortas", "stock", 5, "ventas", 64, "disponible", true, "imagen", "/imagen/Torta-Selva-Negra-Tradicional.webp")),
-            new HashMap<>(Map.of("id", 4, "nombre", "Tarta de Limón y Merengue", "precio", 18990, "categoria", "tartas", "stock", 15, "ventas", 82, "disponible", true, "imagen", "/imagen/Tarta-de-Limon-y-Merengue.webp")),
-            new HashMap<>(Map.of("id", 5, "nombre", "Croissant de Mantequilla", "precio", 3500, "categoria", "bolleria", "stock", 25, "ventas", 310, "disponible", true, "imagen", "/imagen/Croissant.webp")),
-            new HashMap<>(Map.of("id", 6, "nombre", "Torta Prototipo Nuevo", "precio", 19990, "categoria", "tortas", "stock", 10, "ventas", 0, "disponible", true, "imagen", "/imagen/Torta-Opera-Francesa.webp"))
-    ));
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final PromotionRepository promotionRepository;
+    private final BlogPostRepository blogPostRepository;
+
+    // ==========================================
+    // PRODUCTOS
+    // ==========================================
 
     @GetMapping("/products")
-    public ResponseEntity<?> listProducts() {
-        return ResponseEntity.ok(mockProductos);
+    public ResponseEntity<List<ProductEntity>> listProducts(
+            @RequestParam(required = false) String categoria,
+            @RequestParam(required = false) Boolean enOferta,
+            @RequestParam(required = false) Boolean destacado
+    ) {
+        if (categoria != null && !categoria.isBlank()) {
+            return ResponseEntity.ok(productRepository.findByCategoriaIgnoreCase(categoria));
+        }
+        if (Boolean.TRUE.equals(enOferta)) {
+            return ResponseEntity.ok(productRepository.findByEnOfertaTrue());
+        }
+        if (Boolean.TRUE.equals(destacado)) {
+            return ResponseEntity.ok(productRepository.findByDestacadoTrue());
+        }
+        return ResponseEntity.ok(productRepository.findAll());
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable int id) {
-        Optional<Map<String, Object>> opt = mockProductos.stream()
-                .filter(p -> (int) p.get("id") == id)
-                .findFirst();
+    public ResponseEntity<?> getProductById(@PathVariable Long id) {
+        return productRepository.findById(id)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "NOT_FOUND", "mensaje", "Producto no encontrado con ID: " + id)));
+    }
 
-        return opt.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/products/critical")
+    public ResponseEntity<List<ProductEntity>> listCriticalProducts() {
+        // Retorna productos cuyo stock es menor o igual a su stock mínimo
+        List<ProductEntity> all = productRepository.findAll();
+        List<ProductEntity> criticos = all.stream()
+                .filter(p -> p.getStock() <= (p.getStockMinimo() != null ? p.getStockMinimo() : 5))
+                .toList();
+        return ResponseEntity.ok(criticos);
+    }
+
+    @GetMapping("/products/offers")
+    public ResponseEntity<List<ProductEntity>> listOffers() {
+        return ResponseEntity.ok(productRepository.findByEnOfertaTrue());
     }
 
     @PostMapping("/products")
-    public ResponseEntity<?> createProduct(@RequestBody Map<String, Object> data) {
-        Map<String, Object> nuevo = new HashMap<>(data);
-        nuevo.put("id", mockProductos.size() + 1);
-        nuevo.put("ventas", 0);
-        nuevo.put("disponible", true);
-        mockProductos.add(nuevo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
+    public ResponseEntity<?> createProduct(@RequestBody ProductEntity product) {
+        if (product.getVentasHistoricas() == null) product.setVentasHistoricas(0);
+        if (product.getDisponible() == null) product.setDisponible(true);
+        if (product.getDestacado() == null) product.setDestacado(false);
+        if (product.getEnOferta() == null) product.setEnOferta(false);
+        if (product.getStockMinimo() == null) product.setStockMinimo(5);
+        if (product.getStock() == null) product.setStock(0);
+
+        ProductEntity saved = productRepository.save(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable int id, @RequestBody Map<String, Object> data) {
-        for (Map<String, Object> p : mockProductos) {
-            if ((int) p.get("id") == id) {
-                p.putAll(data);
-                return ResponseEntity.ok(p);
-            }
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductEntity product) {
+        return productRepository.findById(id).<ResponseEntity<?>>map(existing -> {
+            if (product.getNombre() != null) existing.setNombre(product.getNombre());
+            if (product.getDescripcion() != null) existing.setDescripcion(product.getDescripcion());
+            if (product.getPrecio() != null) existing.setPrecio(product.getPrecio());
+            if (product.getPrecioAnterior() != null) existing.setPrecioAnterior(product.getPrecioAnterior());
+            if (product.getEnOferta() != null) existing.setEnOferta(product.getEnOferta());
+            if (product.getCategoria() != null) existing.setCategoria(product.getCategoria());
+            if (product.getCategoriasCsv() != null) existing.setCategoriasCsv(product.getCategoriasCsv());
+            if (product.getVariacionesCsv() != null) existing.setVariacionesCsv(product.getVariacionesCsv());
+            if (product.getPorciones() != null) existing.setPorciones(product.getPorciones());
+            if (product.getImagen() != null) existing.setImagen(product.getImagen());
+            if (product.getBadge() != null) existing.setBadge(product.getBadge());
+            if (product.getDestacado() != null) existing.setDestacado(product.getDestacado());
+            if (product.getDisponible() != null) existing.setDisponible(product.getDisponible());
+            if (product.getStock() != null) existing.setStock(product.getStock());
+            if (product.getStockMinimo() != null) existing.setStockMinimo(product.getStockMinimo());
+
+            ProductEntity updated = productRepository.save(existing);
+            return ResponseEntity.ok(updated);
+        }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", "NOT_FOUND", "mensaje", "Producto no encontrado")));
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable int id) {
-        Optional<Map<String, Object>> opt = mockProductos.stream()
-                .filter(p -> (int) p.get("id") == id)
-                .findFirst();
-
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+        Optional<ProductEntity> opt = productRepository.findById(id);
         if (opt.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "NOT_FOUND", "mensaje", "Producto no encontrado"));
         }
 
-        Map<String, Object> p = opt.get();
-        int ventas = (int) p.getOrDefault("ventas", 0);
+        ProductEntity p = opt.get();
+        int ventas = p.getVentasHistoricas() != null ? p.getVentasHistoricas() : 0;
 
         // Regla dura de negocio: No se pueden eliminar productos con ventas históricas
         if (ventas > 0) {
@@ -76,16 +128,117 @@ public class CatalogController {
             ));
         }
 
-        mockProductos.remove(p);
+        productRepository.delete(p);
         return ResponseEntity.ok(Map.of("mensaje", "Producto eliminado correctamente", "id", id));
     }
 
+    // ==========================================
+    // CATEGORÍAS
+    // ==========================================
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<CategoryEntity>> listCategories() {
+        return ResponseEntity.ok(categoryRepository.findAll());
+    }
+
+    @GetMapping("/categories/{id}")
+    public ResponseEntity<?> getCategoryById(@PathVariable Long id) {
+        return categoryRepository.findById(id)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "NOT_FOUND", "mensaje", "Categoría no encontrada")));
+    }
+
+    @GetMapping("/categories/slug/{slug}")
+    public ResponseEntity<?> getCategoryBySlug(@PathVariable String slug) {
+        return categoryRepository.findBySlugIgnoreCase(slug)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "NOT_FOUND", "mensaje", "Categoría no encontrada para slug: " + slug)));
+    }
+
+    @PostMapping("/categories")
+    public ResponseEntity<?> createCategory(@RequestBody CategoryEntity category) {
+        if (categoryRepository.existsBySlugIgnoreCase(category.getSlug())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", "SLUG_DUPLICADO", "mensaje", "Ya existe una categoría con el slug: " + category.getSlug()));
+        }
+        if (category.getActivo() == null) category.setActivo(true);
+        CategoryEntity saved = categoryRepository.save(category);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+
+    @PutMapping("/categories/{id}")
+    public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody CategoryEntity category) {
+        return categoryRepository.findById(id).<ResponseEntity<?>>map(existing -> {
+            if (category.getNombre() != null) existing.setNombre(category.getNombre());
+            if (category.getSlug() != null) existing.setSlug(category.getSlug());
+            if (category.getDescripcion() != null) existing.setDescripcion(category.getDescripcion());
+            if (category.getImagen() != null) existing.setImagen(category.getImagen());
+            if (category.getActivo() != null) existing.setActivo(category.getActivo());
+            return ResponseEntity.ok(categoryRepository.save(existing));
+        }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", "NOT_FOUND", "mensaje", "Categoría no encontrada")));
+    }
+
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
+        return categoryRepository.findById(id).<ResponseEntity<?>>map(existing -> {
+            categoryRepository.delete(existing);
+            return ResponseEntity.ok(Map.of("mensaje", "Categoría eliminada", "id", id));
+        }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", "NOT_FOUND", "mensaje", "Categoría no encontrada")));
+    }
+
+    // ==========================================
+    // PROMOCIONES
+    // ==========================================
+
     @GetMapping("/promotions")
-    public ResponseEntity<?> listPromotions() {
-        return ResponseEntity.ok(List.of(
-                Map.of("codigo", "DULCE10", "descuentoPorcentaje", 10, "descripcion", "10% de descuento en el total de tu compra"),
-                Map.of("codigo", "CREME20", "descuentoPorcentaje", 20, "descripcion", "20% en pedidos sobre $30.000"),
-                Map.of("codigo", "BIENVENIDA", "descuentoPorcentaje", 15, "descripcion", "15% para clientes nuevos")
-        ));
+    public ResponseEntity<List<PromotionEntity>> listPromotions() {
+        return ResponseEntity.ok(promotionRepository.findAll());
+    }
+
+    @PostMapping("/promotions")
+    public ResponseEntity<?> createPromotion(@RequestBody PromotionEntity promotion) {
+        if (promotion.getCodigo() != null && promotionRepository.existsByCodigoIgnoreCase(promotion.getCodigo())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("error", "CODIGO_DUPLICADO", "mensaje", "Ya existe una promoción con ese código"));
+        }
+        if (promotion.getUsosActuales() == null) promotion.setUsosActuales(0);
+        if (promotion.getActivo() == null) promotion.setActivo(true);
+        PromotionEntity saved = promotionRepository.save(promotion);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+
+    // ==========================================
+    // BLOGS
+    // ==========================================
+
+    @GetMapping("/blogs")
+    public ResponseEntity<List<BlogPostEntity>> listBlogs() {
+        return ResponseEntity.ok(blogPostRepository.findAll());
+    }
+
+    @GetMapping("/blogs/{id}")
+    public ResponseEntity<?> getBlogById(@PathVariable Long id) {
+        return blogPostRepository.findById(id)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "NOT_FOUND", "mensaje", "Artículo no encontrado")));
+    }
+
+    @GetMapping("/blogs/slug/{slug}")
+    public ResponseEntity<?> getBlogBySlug(@PathVariable String slug) {
+        return blogPostRepository.findBySlugIgnoreCase(slug)
+                .<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "NOT_FOUND", "mensaje", "Artículo no encontrado para slug: " + slug)));
+    }
+
+    @PostMapping("/blogs")
+    public ResponseEntity<?> createBlog(@RequestBody BlogPostEntity blog) {
+        BlogPostEntity saved = blogPostRepository.save(blog);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 }

@@ -105,7 +105,8 @@ la migración.
 | FE-INT-05 | Perfil de cliente, direcciones dinámicas y tracking en tiempo real | F3 / INT | Pendiente | `CONV-UI-02`, `CONV-TIP-01` |
 | FE-INT-06 | Cotizaciones de personalización y registro de ventas POS en Kardex | F3 / INT | Pendiente | `CONV-EST-01`, `CONV-TIP-01` |
 | T89 | Reglas de negocio transversales: RUT Módulo 11, Región→Comuna y validadores puros | F3 / S7 | Hecho | `CONV-EST-01`, `CONV-TIP-01`, `CONV-TIP-03`, `CONV-ERR-02` |
-| T90 | Persistencia JPA MySQL (`cremeco_db`), `DataSeeder` automático y OpenAPI en los 6 microservicios | F3 / S7 | Pendiente | `CONV-NAM-05`, `CONV-EST-01`, `CONV-SEG-01` |
+| T90 | Persistencia JPA MySQL (`cremeco_db`), `DataSeeder` automático y OpenAPI en los 6 microservicios | F3 / S7 | Hecho | `CONV-NAM-05`, `CONV-EST-01`, `CONV-SEG-01` |
+| T91 | Vistas `/login` y `/registro` (maquetado previo, validadores puros y guardián de rutas RBAC en `admin-pwa`) | F3 / S7 | Pendiente | `CONV-UI-01`, `CONV-SEG-01`, `CONV-TIP-01` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
@@ -113,10 +114,13 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 ## 6. Próximo paso
 
-> Un solo ticket concreto a la vez.
+> Un solo ticket concreto a la vez. Rama activa de desarrollo: `dev`.
 
-- **T90 — Persistencia JPA MySQL (`cremeco_db`), DataSeeder automático y OpenAPI en microservicios:**
-  Configurar entidades JPA en `service-identity`, `service-catalog`, `service-order`, `service-inventory` y `service-notification`, conectar con MySQL 8 en Docker/VPS e implementar el DataSeeder para autollenar datos de prueba iniciales cuando las tablas estén vacías.
+- **T91 — Vistas `/login` y `/registro` (maquetado previo, validadores puros y guardián de rutas RBAC en `admin-pwa`):**
+  1. Diseñar maquetado base HTML/CSS en `MockUpPasteleria/validacion/` para las vistas de autenticación según DSY1104.
+  2. Implementar/conectar formularios con `auth.validator.ts` y servicio de identidad (`POST /api/identity/login`, `POST /api/identity/register`).
+  3. Incorporar botones de relleno rápido para pruebas (Administrador, Pastelero, Repartidor, Cliente con historial María González).
+  4. Implementar guardián de rutas RBAC estricto en `admin-pwa` para restringir acceso exclusivamente a usuarios con rol ADMIN o STAFF.
 
 ---
 
