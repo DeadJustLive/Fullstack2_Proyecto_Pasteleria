@@ -161,8 +161,18 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
   });
 
   if (!response.ok) {
-    const errorBody = (await response.json().catch(() => ({}))) as { mensaje?: string; message?: string };
-    throw new Error(errorBody.mensaje || errorBody.message || `Error HTTP ${response.status}: ${response.statusText}`);
+    const errorBody = (await response.json().catch(() => ({}))) as Record<string, string>;
+    const mensajeDetallado =
+      errorBody.mensaje ||
+      errorBody.message ||
+      errorBody.detalle ||
+      errorBody.error ||
+      (response.status === 500
+        ? "Error 500: Fallo interno en el servidor. Verifique si el backend y MySQL están conectados."
+        : response.status === 503
+        ? "Error 503: Servicio no disponible. El Backend Spring Boot (puerto 8080) no está iniciado."
+        : `Error HTTP ${response.status}: ${response.statusText}`);
+    throw new Error(mensajeDetallado);
   }
 
   return response.json() as Promise<T>;

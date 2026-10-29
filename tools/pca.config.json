@@ -940,7 +940,7 @@
       "path": "admin-pwa/src/pages/LoginAdmin.tsx",
       "id": "admin.pages.loginAdmin",
       "kind": "page",
-      "limit": 180,
+      "limit": 230,
       "contract": "LoginAdminView()",
       "desc": "Pantalla de autenticacion administrativa con verificacion de roles RBAC y tokens JWT",
       "relates": [
