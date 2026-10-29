@@ -26,6 +26,9 @@ public class FlowPaymentService {
     private final PaymentRepository paymentRepository;
     private final Optional<KafkaTemplate<String, Object>> kafkaTemplate;
 
+    @org.springframework.beans.factory.annotation.Value("${flow.store-url:http://localhost:5173}")
+    private String storeUrl;
+
     private static final String TOPIC_PAYMENT_CONFIRMED = "cremeco.payments.flow.confirmed";
 
     /**
@@ -87,7 +90,7 @@ public class FlowPaymentService {
         } else {
             // Sesión de redirección de desarrollo sandbox para Flow Chile
             token = "flow_sand_" + UUID.randomUUID().toString().replace("-", "").substring(0, 16);
-            checkoutUrl = "http://localhost:5173/pago/flow-gateway?token=" + token + "&orderId=" + commerceOrder + "&amount=" + request.getAmount() + "&email=" + request.getEmail();
+            checkoutUrl = storeUrl + "/pago/flow-gateway?token=" + token + "&orderId=" + commerceOrder + "&amount=" + request.getAmount() + "&email=" + request.getEmail();
         }
 
         // 4. Persistir registro de pago con estado 'pending'

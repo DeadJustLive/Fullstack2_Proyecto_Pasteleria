@@ -16,11 +16,14 @@ import {
   Wifi,
   X,
   LogOut,
+  TrendingUp,
+  UserCheck,
 } from "lucide-react";
 import { getAdminToken, getAdminUser, clearAdminSession } from "../services/api";
 
 const NAV_ITEMS = [
-  { to: "/", label: "Dashboard & Reportes", icon: BarChart3, end: true },
+  { to: "/", label: "Dashboard General", icon: BarChart3, end: true },
+  { to: "/reportes", label: "Reportes & Analíticas", icon: TrendingUp },
   { to: "/productos", label: "Productos & Catálogo", icon: Package },
   { to: "/categorias", label: "Categorías & Estructura", icon: FolderTree },
   { to: "/inventario", label: "Inventario & Stock", icon: Layers },
@@ -28,6 +31,7 @@ const NAV_ITEMS = [
   { to: "/usuarios", label: "Usuarios & Roles", icon: Users },
   { to: "/promociones", label: "Promociones & Descuentos", icon: Tag },
   { to: "/pos", label: "Punto de Venta POS", icon: Monitor },
+  { to: "/perfil", label: "Mi Perfil & Cuenta", icon: UserCheck },
   { to: "/componentes", label: "UI Kit & Modales", icon: Palette },
 ];
 
@@ -193,7 +197,7 @@ export function AdminLayout() {
             </div>
 
             <a
-              href="http://localhost:5173"
+              href={import.meta.env.VITE_STORE_URL || "http://localhost:5173"}
               target="_blank"
               rel="noreferrer"
               className="btn btn-sm btn-outline-secondary rounded-pill d-inline-flex align-items-center gap-1"

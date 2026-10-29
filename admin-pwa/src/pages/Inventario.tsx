@@ -1,12 +1,14 @@
 // @pca:start
 // @id(admin.pages.inventario)
 // @kind(page)
-// @limit(lines: 450)
+// @limit(lines: 480)
 // @contract(InventarioAdminView())
 // @relates(docs.especificacion_pwa_admin)
+// @relates(admin.services.api)
 // @desc(Control de stock con semaforo, movimientos Kardex y registro de mermas)
 // @pca:end
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { adminApi } from "../services/api";
 import {
   ArrowDown,
   ArrowUp,
@@ -57,6 +59,53 @@ export function Inventario() {
   const [busqueda, setBusqueda] = useState("");
   const [modalAjuste, setModalAjuste] = useState(false);
 
+  useEffect(() => {
+    let montado = true;
+    async function cargarInventario() {
+      try {
+        const [itemsData, kardexData] = await Promise.all([
+          adminApi.inventory.getItems(),
+          adminApi.inventory.getKardex(),
+        ]);
+        if (montado) {
+          if (Array.isArray(itemsData) && itemsData.length > 0) {
+            const adaptados: ItemStock[] = itemsData.map((it) => ({
+              id: it.id,
+              nombre: it.nombre,
+              categoria: it.categoria?.toLowerCase().includes("insumo") ? "insumo" : "producto_terminado",
+              stockActual: it.stockActual,
+              unidad: "un.",
+              stockMinimo: it.stockMinimo,
+              estado: it.estadoSemaforo === "ROJO" ? "critico" : it.estadoSemaforo === "AMARILLO" ? "reabastecer" : "optimo",
+            }));
+            setItems(adaptados);
+            if (adaptados[0]) setItemSeleccionado(adaptados[0].nombre);
+          }
+          if (Array.isArray(kardexData) && kardexData.length > 0) {
+            const adaptadosK: MovimientoKardex[] = kardexData.map((k) => ({
+              id: k.id,
+              fecha: k.fecha ? k.fecha.replace("T", " ").slice(0, 16) : new Date().toISOString().slice(0, 16).replace("T", " "),
+              tipo: (k.tipo as MovimientoKardex["tipo"]) || "AJUSTE",
+              item: k.productoNombre || k.producto || "Producto",
+              cantidad: k.cantidad,
+              unidad: "un.",
+              motivo: k.motivo || (k.boleta ? `Boleta ${k.boleta}` : "Ajuste inventario"),
+              responsable: "Caja/Bodega",
+              saldoResultante: k.saldo,
+            }));
+            setKardex(adaptadosK);
+          }
+        }
+      } catch {
+        // Fallback local
+      }
+    }
+    void cargarInventario();
+    return () => {
+      montado = false;
+    };
+  }, []);
+
   // Form ajuste
   const [itemSeleccionado, setItemSeleccionado] = useState(items[0]?.nombre ?? "");
   const [tipoAjuste, setTipoAjuste] = useState<"ENTRADA" | "SALIDA_MERMA" | "AJUSTE">("SALIDA_MERMA");
@@ -74,6 +123,14 @@ export function Inventario() {
 
     const delta = tipoAjuste === "ENTRADA" ? Math.abs(cantidadAjuste) : -Math.abs(cantidadAjuste);
     const nuevoStock = Math.max(0, itemTarget.stockActual + delta);
+
+    if (tipoAjuste === "SALIDA_MERMA") {
+      adminApi.inventory.registerMerma({
+        producto: itemSeleccionado,
+        cantidad: Math.abs(cantidadAjuste),
+        motivo: motivoAjuste,
+      }).catch(() => {});
+    }
 
     let nuevoEstado: ItemStock["estado"] = "optimo";
     if (nuevoStock <= itemTarget.stockMinimo * 0.5) {

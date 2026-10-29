@@ -22,11 +22,13 @@ export function Blog() {
     let montado = true;
     async function cargarArticulos() {
       try {
-        const res = await fetch("http://localhost:8080/api/catalog/blogs");
+        const apiBase = import.meta.env.VITE_API_URL || "/api";
+        const res = await fetch(`${apiBase}/catalog/blogs`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (montado && Array.isArray(data) && data.length > 0) {
-          const adaptados: BlogPost[] = data.map((b: any) => {
+          const adaptados: BlogPost[] = data.map((item: unknown) => {
+            const b = item as Record<string, unknown>;
             let cat: BlogCategoria = "recetas";
             if (b.categoria === "tips" || b.categoria === "consejos") cat = "tips";
             else if (b.categoria === "novedades") cat = "novedades";
@@ -34,20 +36,20 @@ export function Blog() {
 
             return {
               id: Number(b.id) || 0,
-              slug: b.slug,
-              titulo: b.titulo || "Artículo de Pastelería",
-              extracto: b.extracto || "",
+              slug: String(b.slug || ""),
+              titulo: String(b.titulo || "Artículo de Pastelería"),
+              extracto: String(b.extracto || ""),
               contenido:
                 typeof b.contenidoJson === "string"
                   ? b.contenidoJson.split("|||")
                   : Array.isArray(b.contenido)
-                  ? b.contenido
-                  : [b.extracto || ""],
-              imagen: b.imagen || "/imagen/torta.jpg",
+                  ? (b.contenido as string[])
+                  : [String(b.extracto || "")],
+              imagen: String(b.imagen || "/imagen/torta.jpg"),
               categoria: cat,
-              autor: b.autor || "Crème & Co",
-              fecha: b.fecha || "2026-10-01",
-              tiempoLectura: b.tiempoLectura || "3 min",
+              autor: String(b.autor || "Crème & Co"),
+              fecha: String(b.fecha || "2026-10-01"),
+              tiempoLectura: String(b.tiempoLectura || "3 min"),
               destacado: Boolean(b.destacado),
             };
           });

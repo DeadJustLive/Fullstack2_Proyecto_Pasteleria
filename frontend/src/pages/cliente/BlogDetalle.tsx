@@ -29,7 +29,8 @@ export function BlogDetalle() {
       if (!slug) return;
       setCargando(true);
       try {
-        const res = await fetch(`http://localhost:8080/api/catalog/blogs/slug/${slug}`);
+        const apiBase = import.meta.env.VITE_API_URL || "/api";
+        const res = await fetch(`${apiBase}/catalog/blogs/slug/${slug}`);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const b = await res.json();
         if (montado && b && b.slug) {

@@ -37,3 +37,4 @@ flow:
   secret-key: ${FLOW_SECRET_KEY:FLOW_SANDBOX_SECRET_KEY}
   url-confirmation: ${FLOW_URL_CONFIRMATION:http://localhost:8084/api/payments/flow/confirm}
   url-return: ${FLOW_URL_RETURN:http://localhost:5173/pago/exito}
+  store-url: ${STORE_URL:http://localhost:5173}

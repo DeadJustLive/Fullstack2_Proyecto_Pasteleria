@@ -9,9 +9,8 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins:
-              - "http://localhost:5173"
-              - "http://localhost:5174"
+            allowedOriginPatterns:
+              - "*"
             allowedMethods:
               - GET
               - POST
@@ -22,32 +21,32 @@ spring:
             allowCredentials: true
       routes:
         - id: service-identity
-          uri: http://localhost:8081
+          uri: ${SERVICE_IDENTITY_URL:http://localhost:8081}
           predicates:
             - Path=/api/identity/**
 
         - id: service-catalog
-          uri: http://localhost:8082
+          uri: ${SERVICE_CATALOG_URL:http://localhost:8082}
           predicates:
             - Path=/api/catalog/**
 
         - id: service-order
-          uri: http://localhost:8083
+          uri: ${SERVICE_ORDER_URL:http://localhost:8083}
           predicates:
             - Path=/api/orders/**
 
         - id: service-payment-flow
-          uri: http://localhost:8084
+          uri: ${SERVICE_PAYMENT_URL:http://localhost:8084}
           predicates:
             - Path=/api/payments/**
 
         - id: service-inventory
-          uri: http://localhost:8085
+          uri: ${SERVICE_INVENTORY_URL:http://localhost:8085}
           predicates:
             - Path=/api/inventory/**
 
         - id: service-notification
-          uri: http://localhost:8086
+          uri: ${SERVICE_NOTIFICATION_URL:http://localhost:8086}
           predicates:
             - Path=/api/notifications/**
 

@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import { AdminLayout } from "./layouts/AdminLayout";
 import { Dashboard } from "./pages/Dashboard";
+import { Reportes } from "./pages/Reportes";
+import { PerfilAdmin } from "./pages/PerfilAdmin";
 import { Productos } from "./pages/Productos";
 import { Categorias } from "./pages/Categorias";
 import { Inventario } from "./pages/Inventario";
@@ -17,6 +19,8 @@ export function App() {
       <Route path="login" element={<LoginAdmin />} />
       <Route element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
+        <Route path="reportes" element={<Reportes />} />
+        <Route path="perfil" element={<PerfilAdmin />} />
         <Route path="productos" element={<Productos />} />
         <Route path="categorias" element={<Categorias />} />
         <Route path="inventario" element={<Inventario />} />

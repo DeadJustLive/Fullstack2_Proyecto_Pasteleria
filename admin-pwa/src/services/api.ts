@@ -127,6 +127,14 @@ export function getAdminUser(): AdminUser | null {
   }
 }
 
+export function setAdminUser(user: AdminUser): void {
+  try {
+    localStorage.setItem(ADMIN_USER_KEY, JSON.stringify(user));
+  } catch {
+    // Manejo seguro
+  }
+}
+
 export function clearAdminSession(): void {
   try {
     localStorage.removeItem(ADMIN_TOKEN_KEY);
@@ -573,6 +581,16 @@ export const adminApi = {
     getOrdersByUser,
     updateStatus: (orderId: number, estado: string) =>
       request<OrderAdmin>(`/orders/${orderId}/status`, { method: "PUT", body: JSON.stringify({ estado }) }),
+  },
+
+  // Perfil del Administrador
+  profile: {
+    get: (email?: string) => request<AdminUser>(`/identity/profile${email ? `?email=${encodeURIComponent(email)}` : ""}`),
+    update: (data: Partial<AdminUser> & { password?: string }) =>
+      request<{ mensaje: string; usuario: AdminUser }>("/identity/profile", {
+        method: "PUT",
+        body: JSON.stringify(data),
+      }),
   },
 };
 

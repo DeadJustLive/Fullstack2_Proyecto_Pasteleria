@@ -143,6 +143,9 @@ public class IdentityController {
         if (data.containsKey("region")) user.setRegion((String) data.get("region"));
         if (data.containsKey("comuna")) user.setComuna((String) data.get("comuna"));
         if (data.containsKey("rut")) user.setRut((String) data.get("rut"));
+        if (data.containsKey("password") && data.get("password") != null && !((String) data.get("password")).toString().isBlank()) {
+            user.setPasswordHash(passwordEncoder.encode(data.get("password").toString()));
+        }
 
         userRepository.save(user);
         return ResponseEntity.ok(Map.of("mensaje", "Perfil actualizado con éxito", "usuario", toUserDto(user)));
@@ -196,6 +199,9 @@ public class IdentityController {
         if (data.containsKey("nombre")) user.setNombre((String) data.get("nombre"));
         if (data.containsKey("apellidos")) user.setApellidos((String) data.get("apellidos"));
         if (data.containsKey("rut")) user.setRut((String) data.get("rut"));
+        if (data.containsKey("password") && data.get("password") != null && !((String) data.get("password")).toString().isBlank()) {
+            user.setPasswordHash(passwordEncoder.encode(data.get("password").toString()));
+        }
         if (data.containsKey("telefono")) user.setTelefono((String) data.get("telefono"));
         if (data.containsKey("rol")) user.setRol((String) data.get("rol"));
         if (data.containsKey("estado")) user.setEstado((String) data.get("estado"));

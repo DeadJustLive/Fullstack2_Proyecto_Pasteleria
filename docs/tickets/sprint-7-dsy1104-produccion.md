@@ -334,3 +334,25 @@ Cumplir con el último punto del Anexo 1 (**Reportes y Perfil: Secciones indepen
 4. **Configuración VPS / Producción:**
    - Reemplazar toda referencia fija a `http://localhost:5173` / `http://localhost:808X` por variables de entorno (`VITE_API_URL`, `VITE_STORE_URL`, `FLOW_URL_RETURN`, `FLOW_URL_CONFIRMATION`).
    - Crear `.env.example`, script `iniciar_backend.sh` para Linux y `docker-compose.prod.yml` listo para desplegar en VPS.
+
+
+---
+
+### Estado Global de Sprint 7 (100% Completado)
+
+| Ticket | Título | Estado |
+| :--- | :--- | :--- |
+| **T89** | Reglas de negocio puras, RUT Módulo 11 y Región→Comuna | **Hecho** |
+| **T90** | Persistencia JPA MySQL, DataSeeder y OpenAPI microservicios | **Hecho** |
+| **T91** | `/login`, `/registro` y Guardián RBAC en Admin PWA | **Hecho** |
+| **T92** | Vistas informativas `/nosotros` y `/contacto` (notificaciones) | **Hecho** |
+| **T93** | Catálogo `/categorias`, detalle y `/ofertas` dinámicas | **Hecho** |
+| **T94** | Checkout completo, Flow Gateway sandbox, `/exito` y `/error` | **Hecho** |
+| **T95** | `/perfil`, tracking `#CC-XXXX` y cotizador `#COT-XXXX` | **Hecho** |
+| **T96** | Admin Órdenes y modal de boleta imprimible SII (19% IVA) | **Hecho** |
+| **T97** | Admin Productos CRUD, stock crítico $\le 5$ y reporte | **Hecho** |
+| **T98** | Admin Categorías CRUD y Promociones en MySQL | **Hecho** |
+| **T99** | Admin Usuarios, RUN Módulo 11, Historial y Permisos | **Hecho** |
+| **T100** | Admin `/reportes`, `/perfil`, POS/Kardex y VPS Docker | **Hecho** |
+
+**Resultado Sprint 7:** 12 de 12 tickets completados (**100.0%**).

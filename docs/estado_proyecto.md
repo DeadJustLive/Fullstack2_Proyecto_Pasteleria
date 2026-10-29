@@ -20,9 +20,9 @@
 
 | Campo | Valor |
 | :--- | :--- |
-| **Fase actual** | F3 — Ejecución por tickets |
-| **Siguiente fase** | F4 — Validación / Testing (cuando se complete la migración a design system) |
-| **Estado** | En curso — Home migrada al design system y responsividad mobile corregida |
+| **Fase actual** | F4 — Validación / Testing & Despliegue VPS |
+| **Siguiente fase** | F5 — Cierre / Extracción de Componentes Reutilizables |
+| **Estado** | Sprint 7 completado al 100% (T89–T100). Tienda Web + Admin PWA + 6 Microservicios Spring Boot + MySQL 8 + Flow + Docker Producción listos. |
 
 > Fases: F0 Setup → F1 Levantamiento → F2 Sprints → F3 Ejecución → F4 Validación → F5 Cierre. Ver `AGENTS.md`.
 
@@ -101,12 +101,21 @@ la migración.
 | FE-INT-01 | Cliente HTTP con inyección automática de JWT y autenticación real con `service-identity` | F3 / INT | Hecho | `CONV-TIP-01`, `CONV-SEG-01` |
 | FE-INT-02 | Catálogo dinámico y detalle de producto conectados con `service-catalog` | F3 / INT | Hecho | `CONV-UI-02`, `CONV-TIP-01` |
 | FE-INT-03 | Carrito de compras con validación remota de cupones y control de stock | F3 / INT | Hecho | `CONV-UI-01`, `CONV-TIP-01` |
-| FE-INT-04 | Checkout completo, creación de orden y verificación de pasarela Flow.cl | F3 / INT | Pendiente | `CONV-TIP-01`, `CONV-ERR-01` |
-| FE-INT-05 | Perfil de cliente, direcciones dinámicas y tracking en tiempo real | F3 / INT | Pendiente | `CONV-UI-02`, `CONV-TIP-01` |
-| FE-INT-06 | Cotizaciones de personalización y registro de ventas POS en Kardex | F3 / INT | Pendiente | `CONV-EST-01`, `CONV-TIP-01` |
+| FE-INT-04 | Checkout completo, creación de orden y verificación de pasarela Flow.cl | F3 / INT | Hecho | `CONV-TIP-01`, `CONV-ERR-01` |
+| FE-INT-05 | Perfil de cliente, direcciones dinámicas y tracking en tiempo real | F3 / INT | Hecho | `CONV-UI-02`, `CONV-TIP-01` |
+| FE-INT-06 | Cotizaciones de personalización y registro de ventas POS en Kardex | F3 / INT | Hecho | `CONV-EST-01`, `CONV-TIP-01` |
 | T89 | Reglas de negocio transversales: RUT Módulo 11, Región→Comuna y validadores puros | F3 / S7 | Hecho | `CONV-EST-01`, `CONV-TIP-01`, `CONV-TIP-03`, `CONV-ERR-02` |
 | T90 | Persistencia JPA MySQL (`cremeco_db`), `DataSeeder` automático y OpenAPI en los 6 microservicios | F3 / S7 | Hecho | `CONV-NAM-05`, `CONV-EST-01`, `CONV-SEG-01` |
-| T91 | Vistas `/login` y `/registro` (maquetado previo, validadores puros y guardián de rutas RBAC en `admin-pwa`) | F3 / S7 | Pendiente | `CONV-UI-01`, `CONV-SEG-01`, `CONV-TIP-01` |
+| T91 | Vistas `/login` y `/registro` (validadores puros, autofill demo y guardián de rutas RBAC en `admin-pwa`) | F3 / S7 | Hecho | `CONV-UI-01`, `CONV-SEG-01`, `CONV-TIP-01` |
+| T92 | Vistas informativas `/nosotros` y `/contacto` (formulario conectado a `service-notification`) | F3 / S7 | Hecho | `CONV-UI-01`, `CONV-UI-04` |
+| T93 | Vistas dinámicas de catálogo `/categorias`, `/categoria/:slug`, `/ofertas` y blog en MySQL | F3 / S7 | Hecho | `CONV-UI-02`, `CONV-TIP-01` |
+| T94 | Checkout completo DSY1104, pasarela Flow sandbox, `/pago/exito` (impresión SII) y `/pago/error` | F3 / S7 | Hecho | `CONV-UI-01`, `CONV-ERR-01` |
+| T95 | `/perfil` cliente, seguimiento `#CC-XXXX` con cambio de persona RUN Módulo 11 y personalización `#COT-XXXX` | F3 / S7 | Hecho | `CONV-UI-02`, `CONV-TIP-01` |
+| T96 | Módulo Admin: Órdenes & Boletas (`/ordenes`) y modal de boleta oficial con desglose 19% IVA SII | F3 / S7 | Hecho | `CONV-UI-01`, `CONV-DOC-01` |
+| T97 | Módulo Admin: Productos CRUD (`/productos`), pestaña stock crítico <= 5 y panel de reportes catálogo | F3 / S7 | Hecho | `CONV-UI-01`, `CONV-TIP-01` |
+| T98 | Módulo Admin: Categorías CRUD (`/categorias`) y cupones de Promociones persistidos en MySQL | F3 / S7 | Hecho | `CONV-UI-01`, `CONV-TIP-01` |
+| T99 | Módulo Admin: Usuarios CRUD completo, RUN Módulo 11, matriz de permisos e historial de compras | F3 / S7 | Hecho | `CONV-UI-01`, `CONV-SEG-01` |
+| T100 | Módulos Admin: `/reportes`, `/perfil`, Inventario/POS real conectado y configuración VPS Docker | F3 / S7 | Hecho | `CONV-UI-01`, `CONV-EST-01` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
@@ -114,15 +123,12 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 ## 6. Próximo paso
 
-> Un solo ticket concreto a la vez. Rama activa de desarrollo: `dev`.
+> Rama activa de desarrollo: `dev`. **Sprint 7 finalizado al 100%**.
 
-- **T91 — Vistas `/login` y `/registro` (maquetado previo, validadores puros y guardián de rutas RBAC en `admin-pwa`):**
-  1. Diseñar maquetado base HTML/CSS en `MockUpPasteleria/validacion/` para las vistas de autenticación según DSY1104.
-  2. Implementar/conectar formularios con `auth.validator.ts` y servicio de identidad (`POST /api/identity/login`, `POST /api/identity/register`).
-  3. Incorporar botones de relleno rápido para pruebas (Administrador, Pastelero, Repartidor, Cliente con historial María González).
-  4. Implementar guardián de rutas RBAC estricto en `admin-pwa` para restringir acceso exclusivamente a usuarios con rol ADMIN o STAFF.
-
----
+- **Fase F4 — Validación / Testing de Producción & Despliegue VPS:**
+  1. Ejecución de suite de validación completa e2e de los flujos de cliente y administrador.
+  2. Despliegue en contenedor Docker VPS mediante `docker compose -f docker-compose.prod.yml up -d` o script `iniciar_backend.sh`.
+  3. Verificación de persistencia en MySQL 8 (`cremeco_db`) y transacciones en pasarela Flow Chile.
 
 ## 7. Notas y decisiones
 

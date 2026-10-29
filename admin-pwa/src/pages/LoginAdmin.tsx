@@ -172,7 +172,7 @@ export function LoginAdmin() {
           </form>
 
           <div className="text-center mt-4 pt-3 border-top text-muted small">
-            <a href="http://localhost:5173" className="text-decoration-none text-muted">
+            <a href={import.meta.env.VITE_STORE_URL || "http://localhost:5173"} className="text-decoration-none text-muted">
               ← Volver a la Tienda Pública
             </a>
           </div>

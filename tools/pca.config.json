@@ -839,11 +839,12 @@
       "path": "admin-pwa/src/pages/Dashboard.tsx",
       "id": "admin.pages.dashboard",
       "kind": "page",
-      "limit": 260,
+      "limit": 280,
       "contract": "DashboardView()",
       "desc": "Resumen administrativo con metricas, ventas diarias y accesos rapidos",
       "relates": [
-        "docs.especificacion_pwa_admin"
+        "docs.especificacion_pwa_admin",
+        "admin.services.api"
       ]
     },
     {
@@ -862,22 +863,24 @@
       "path": "admin-pwa/src/pages/Inventario.tsx",
       "id": "admin.pages.inventario",
       "kind": "page",
-      "limit": 450,
+      "limit": 480,
       "contract": "InventarioAdminView()",
       "desc": "Control de stock con semaforo, movimientos Kardex y registro de mermas",
       "relates": [
-        "docs.especificacion_pwa_admin"
+        "docs.especificacion_pwa_admin",
+        "admin.services.api"
       ]
     },
     {
       "path": "admin-pwa/src/pages/Pos.tsx",
       "id": "admin.pages.pos",
       "kind": "page",
-      "limit": 300,
+      "limit": 420,
       "contract": "PosAdminView()",
       "desc": "Terminal punto de venta POS mostrador con generacion de boletas",
       "relates": [
-        "docs.especificacion_pwa_admin"
+        "docs.especificacion_pwa_admin",
+        "admin.services.api"
       ]
     },
     {
@@ -1099,6 +1102,30 @@
       "desc": "Tabla referencial de roles y privilegios del sistema",
       "relates": [
         "admin.pages.usuarios"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Reportes.tsx",
+      "id": "admin.pages.reportes",
+      "kind": "page",
+      "limit": 450,
+      "contract": "ReportesAdminView()",
+      "desc": "Modulo independiente de reportes financieros, KPIs, graficos y exportacion CSV",
+      "relates": [
+        "admin.services.api",
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/PerfilAdmin.tsx",
+      "id": "admin.pages.perfil",
+      "kind": "page",
+      "limit": 480,
+      "contract": "PerfilAdminView()",
+      "desc": "Gestion del perfil, credenciales, seguridad y sesion del administrador",
+      "relates": [
+        "admin.services.api",
+        "docs.especificacion_pwa_admin"
       ]
     }
   ],
