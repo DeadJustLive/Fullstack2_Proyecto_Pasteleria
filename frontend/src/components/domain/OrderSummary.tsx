@@ -8,6 +8,7 @@ interface OrderSummaryProps {
   descuento?: number;
   cupon?: string | null;
   onQuitarCupon?: () => void;
+  mostrarIva?: boolean;
 }
 
 export function OrderSummary({
@@ -17,13 +18,30 @@ export function OrderSummary({
   descuento = 0,
   cupon,
   onQuitarCupon,
+  mostrarIva = true,
 }: OrderSummaryProps) {
+  const neto = Math.round(subtotal / 1.19);
+  const iva = subtotal - neto;
+
   return (
     <>
       <div className="flex justify-between border-b border-dashed border-tertiary/20 py-2 font-body">
         <span>Subtotal</span>
         <span className="font-semibold">{formatPrecio(subtotal)}</span>
       </div>
+
+      {mostrarIva && (
+        <>
+          <div className="flex justify-between border-b border-dashed border-tertiary/10 py-1.5 font-body text-xs text-ink/70">
+            <span>↳ Subtotal neto</span>
+            <span>{formatPrecio(neto)}</span>
+          </div>
+          <div className="flex justify-between border-b border-dashed border-tertiary/10 py-1.5 font-body text-xs text-ink/70">
+            <span>↳ IVA (19%)</span>
+            <span>{formatPrecio(iva)}</span>
+          </div>
+        </>
+      )}
 
       {descuento > 0 && (
         <div className="flex justify-between border-b border-dashed border-tertiary/20 py-2 font-body text-secondary">
@@ -44,8 +62,8 @@ export function OrderSummary({
       )}
 
       <div className="flex justify-between border-b border-dashed border-tertiary/20 py-2 font-body">
-        <span>Envío a domicilio</span>
-        <span className="font-semibold">{formatPrecio(envio)}</span>
+        <span>Envío</span>
+        <span className="font-semibold">{envio === 0 ? "Gratis" : formatPrecio(envio)}</span>
       </div>
 
       <div className="flex justify-between pt-3 font-display text-lg font-bold text-tertiary">

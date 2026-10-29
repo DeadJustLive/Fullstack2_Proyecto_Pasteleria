@@ -211,6 +211,33 @@ public class CatalogController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
+    @PutMapping("/promotions/{id}")
+    public ResponseEntity<?> updatePromotion(@PathVariable Long id, @RequestBody PromotionEntity promotion) {
+        return promotionRepository.findById(id).<ResponseEntity<?>>map(existing -> {
+            if (promotion.getCodigo() != null) existing.setCodigo(promotion.getCodigo());
+            if (promotion.getTipo() != null) existing.setTipo(promotion.getTipo());
+            if (promotion.getDescuentoPorcentaje() != null) existing.setDescuentoPorcentaje(promotion.getDescuentoPorcentaje());
+            if (promotion.getValor() != null) existing.setValor(promotion.getValor());
+            if (promotion.getMinimoCompra() != null) existing.setMinimoCompra(promotion.getMinimoCompra());
+            if (promotion.getUsosActuales() != null) existing.setUsosActuales(promotion.getUsosActuales());
+            if (promotion.getLimiteUsos() != null) existing.setLimiteUsos(promotion.getLimiteUsos());
+            if (promotion.getExpira() != null) existing.setExpira(promotion.getExpira());
+            if (promotion.getActivo() != null) existing.setActivo(promotion.getActivo());
+            if (promotion.getDescripcion() != null) existing.setDescripcion(promotion.getDescripcion());
+            return ResponseEntity.ok(promotionRepository.save(existing));
+        }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", "NOT_FOUND", "mensaje", "Promoción no encontrada")));
+    }
+
+    @DeleteMapping("/promotions/{id}")
+    public ResponseEntity<?> deletePromotion(@PathVariable Long id) {
+        return promotionRepository.findById(id).<ResponseEntity<?>>map(existing -> {
+            promotionRepository.delete(existing);
+            return ResponseEntity.ok(Map.of("mensaje", "Promoción eliminada", "id", id));
+        }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", "NOT_FOUND", "mensaje", "Promoción no encontrada")));
+    }
+
     // ==========================================
     // BLOGS
     // ==========================================

@@ -11,6 +11,7 @@ import {
   Palette,
   ShieldCheck,
   Tag,
+  FolderTree,
   Users,
   Wifi,
   X,
@@ -21,6 +22,7 @@ import { getAdminToken, getAdminUser, clearAdminSession } from "../services/api"
 const NAV_ITEMS = [
   { to: "/", label: "Dashboard & Reportes", icon: BarChart3, end: true },
   { to: "/productos", label: "Productos & Catálogo", icon: Package },
+  { to: "/categorias", label: "Categorías & Estructura", icon: FolderTree },
   { to: "/inventario", label: "Inventario & Stock", icon: Layers },
   { to: "/ordenes", label: "Órdenes & Boletas", icon: ClipboardList },
   { to: "/usuarios", label: "Usuarios & Roles", icon: Users },

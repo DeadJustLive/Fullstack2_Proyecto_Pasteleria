@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago Aprobado y Boleta — Crème & Co (Validación DSY1104)</title>
+  <link rel="stylesheet" href="css/checkout-validacion.css">
+  <link rel="stylesheet" href="../css/dev-hub-button.css">
+</head>
+<body>
+
+  <header class="checkout-header">
+    <a href="../index.html" class="brand">🍰 Crème &amp; Co</a>
+    <span class="badge-validacion">Comprobante de Pago Electrónico</span>
+  </header>
+
+  <main class="checkout-main">
+    <div class="result-card">
+      <div class="status-icon-circle status-success">
+        ✓
+      </div>
+
+      <h1 class="result-title">¡Pago Exitoso y Confirmado!</h1>
+      <p class="result-subtitle">
+        Tu transacción ha sido validada por Flow Sandbox (Webpay Plus). Te hemos enviado una copia de este comprobante por correo electrónico.
+      </p>
+
+      <!-- Resumen rápido de la orden -->
+      <div class="order-badge-row">
+        <div>
+          <span style="font-size: 0.75rem; text-transform: uppercase; color: rgba(58, 42, 33, 0.6); display: block; font-weight: 700;">N° de Pedido</span>
+          <strong style="color: var(--color-tertiary); font-size: 1.1rem; font-family: monospace;" id="lblOrden">#CC-8941</strong>
+        </div>
+        <div style="text-align: right;">
+          <span style="font-size: 0.75rem; text-transform: uppercase; color: rgba(58, 42, 33, 0.6); display: block; font-weight: 700;">Estado de Transacción</span>
+          <span style="background: #DCFCE7; color: #16A34A; padding: 0.25rem 0.65rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700;">PAGADO (Webpay)</span>
+        </div>
+      </div>
+
+      <!-- Datos del Comprador y Despacho -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.85rem; background: #FCFAF8; padding: 1rem; border-radius: 0.75rem; border: 1px solid var(--color-border);">
+        <div>
+          <h4 style="color: var(--color-tertiary); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.35rem;">Datos del Cliente</h4>
+          <p><strong>Nombre:</strong> <span id="lblCliente">Camila Silva Tapia</span></p>
+          <p><strong>RUT:</strong> 18.432.198-7</p>
+          <p><strong>Email:</strong> camila.silva@cremeco.cl</p>
+          <p><strong>Teléfono:</strong> +56 9 8765 4321</p>
+        </div>
+        <div>
+          <h4 style="color: var(--color-tertiary); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.35rem;">Entrega y Método</h4>
+          <p><strong>Método:</strong> Despacho a Domicilio Refrigerado</p>
+          <p><strong>Dirección:</strong> Av. Providencia 1234, Depto 402</p>
+          <p><strong>Comuna / Región:</strong> Providencia, Región Metropolitana</p>
+          <p><strong>Medio de Pago:</strong> Tarjeta Débito Webpay (Flow)</p>
+        </div>
+      </div>
+
+      <!-- Tabla Detallada de Productos -->
+      <h3 style="font-size: 1rem; color: var(--color-tertiary); margin-bottom: 0.5rem;">Detalle de Productos:</h3>
+      <table class="invoice-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th class="num">Cant.</th>
+            <th class="num">Precio Unit.</th>
+            <th class="num">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>Torta Cuatro Leches Artesanal</strong>
+              <div style="font-size: 0.75rem; color: rgba(58, 42, 33, 0.6);">Relleno manjar artesanal y merengue tostado</div>
+            </td>
+            <td class="num">1</td>
+            <td class="num">$28.900</td>
+            <td class="num"><strong>$28.900</strong></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Cheesecake de Frutos Rojos</strong>
+              <div style="font-size: 0.75rem; color: rgba(58, 42, 33, 0.6);">Base de galleta artesanal y coulis natural</div>
+            </td>
+            <td class="num">1</td>
+            <td class="num">$16.500</td>
+            <td class="num"><strong>$16.500</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Desglose Financiero DSY1104 (Neto + IVA 19% + Total) -->
+      <div class="receipt-breakdown">
+        <div class="calc-row">
+          <span>Subtotal Neto (Afecto a IVA):</span>
+          <span>$38.151</span>
+        </div>
+        <div class="calc-row iva">
+          <span>IVA (19% DSY1104):</span>
+          <span>$7.249</span>
+        </div>
+        <div class="calc-row">
+          <span>Costo de Despacho (Exento):</span>
+          <span>$8.000</span>
+        </div>
+        <div class="calc-total">
+          <span class="calc-total-label">Total Pagado:</span>
+          <span class="calc-total-amount" id="lblTotal">$53.400</span>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem;">
+        <button type="button" class="btn-primary btn-print" onclick="window.print()">
+          🖨️ Imprimir Boleta / Comprobante
+        </button>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <a href="perfil-seguimiento.html" class="btn-outline btn-nav" style="margin-top: 0;">
+            📦 Seguir mi Pedido
+          </a>
+          <a href="../index.html" class="btn-outline btn-nav" style="margin-top: 0;">
+            🏠 Volver a la Tienda
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Leer parámetros URL para demostrar dinamismo
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("orden")) {
+      document.getElementById("lblOrden").textContent = "#" + params.get("orden");
+    }
+    if (params.get("total")) {
+      const tot = Number(params.get("total"));
+      if (!isNaN(tot)) {
+        document.getElementById("lblTotal").textContent = "$" + tot.toLocaleString("es-CL");
+      }
+    }
+  </script>
+
+  <!-- Botón Flotante (Modo Desarrollo) -->
+  <a href="../index.html" class="dev-btn-volver-hub" title="Volver al índice">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Volver al Hub
+  </a>
+</body>
+</html>

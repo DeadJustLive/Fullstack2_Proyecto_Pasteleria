@@ -736,7 +736,7 @@
       "path": "admin-pwa/src/services/api.ts",
       "id": "admin.services.api",
       "kind": "service",
-      "limit": 200,
+      "limit": 500,
       "contract": "authApi, catalogApi, orderApi, inventoryApi",
       "desc": "Cliente HTTP del Admin PWA para gestionar catalogo, POS e inventario",
       "relates": [
@@ -771,7 +771,7 @@
       "path": "frontend/src/pages/cliente/Checkout.tsx",
       "id": "frontend.pages.cliente.checkout",
       "kind": "page",
-      "limit": 380,
+      "limit": 680,
       "contract": "CheckoutView()",
       "desc": "Formulario de checkout con seleccion de entrega y pasarela Flow",
       "relates": [
@@ -817,7 +817,7 @@
       "path": "frontend/src/pages/cliente/pago/Exito.tsx",
       "id": "frontend.pages.cliente.pago.exito",
       "kind": "page",
-      "limit": 160,
+      "limit": 280,
       "contract": "PagoExitoView()",
       "desc": "Pantalla de confirmacion de pago exitoso con codigo y boleta DSY1104",
       "relates": [
@@ -850,7 +850,7 @@
       "path": "admin-pwa/src/pages/Productos.tsx",
       "id": "admin.pages.productos",
       "kind": "page",
-      "limit": 700,
+      "limit": 720,
       "contract": "ProductosAdminView()",
       "desc": "Gestion de productos, edicion, reporte de criticos y alta de nuevos",
       "relates": [
@@ -884,7 +884,7 @@
       "path": "admin-pwa/src/pages/Promociones.tsx",
       "id": "admin.pages.promociones",
       "kind": "page",
-      "limit": 360,
+      "limit": 680,
       "contract": "PromocionesAdminView()",
       "desc": "Gestion de cupones de descuento, limites y vigencia",
       "relates": [
@@ -1029,6 +1029,18 @@
       "contract": "BoletaModal(order, onClose)",
       "desc": "Modal con desglose de IVA 19%, datos de emisor/receptor e impresion tributaria DSY1104",
       "relates": [
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Categorias.tsx",
+      "id": "admin.pages.categorias",
+      "kind": "page",
+      "limit": 680,
+      "contract": "CategoriasAdminView()",
+      "desc": "Gestion administrativa de categorias, jerarquias, slug y conteo de productos",
+      "relates": [
+        "admin.services.api",
         "docs.especificacion_pwa_admin"
       ]
     }

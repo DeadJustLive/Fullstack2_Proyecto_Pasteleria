@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pago Rechazado — Crème & Co (Validación DSY1104)</title>
+  <link rel="stylesheet" href="css/checkout-validacion.css">
+  <link rel="stylesheet" href="../css/dev-hub-button.css">
+</head>
+<body>
+
+  <header class="checkout-header">
+    <a href="../index.html" class="brand">🍰 Crème &amp; Co</a>
+    <span class="badge-validacion" style="background: #FEE2E2; color: #DC2626;">Error en Transacción</span>
+  </header>
+
+  <main class="checkout-main">
+    <div class="result-card">
+      <div class="status-icon-circle status-error">
+        ✕
+      </div>
+
+      <h1 class="result-title">No pudimos procesar tu pago</h1>
+      <p class="result-subtitle" id="lblMensajeError">
+        La transacción no pudo ser autorizada por la pasarela de pagos.
+      </p>
+
+      <!-- Detalle técnico legible del error -->
+      <div style="background: #FEF2F2; border: 1px solid #FCA5A5; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1.5rem; font-size: 0.85rem;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+          <strong style="color: #991B1B;">Código de Rechazo:</strong>
+          <span style="font-family: monospace; font-weight: 700; color: #991B1B;" id="lblCodigo">ERR_FONDOS_INSUFICIENTES (Code 104)</span>
+        </div>
+        <p style="color: #7F1D1D; line-height: 1.4;" id="lblDetalle">
+          Tu banco emisor informó que la cuenta no dispone de saldo suficiente para cubrir el monto total de la operación.
+        </p>
+      </div>
+
+      <!-- Importante: Productos conservados en el Carrito (Regla DSY1104) -->
+      <div style="background: #FFFBEB; border: 1px solid #FCD34D; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1.5rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <span style="font-size: 1.2rem;">🛒</span>
+          <strong style="color: #92400E; font-size: 0.95rem;">Tus productos siguen a salvo en tu carrito</strong>
+        </div>
+        <p style="font-size: 0.8rem; color: #78350F; margin-bottom: 0.75rem;">
+          No se ha realizado ningún cobro a tu cuenta. Tus productos seleccionados no se han eliminado:
+        </p>
+        <ul style="list-style: none; font-size: 0.85rem; border-top: 1px dashed #FCD34D; padding-top: 0.5rem;">
+          <li style="display: flex; justify-content: space-between; padding: 0.25rem 0; color: #78350F;">
+            <span>• Torta Cuatro Leches Artesanal x1</span>
+            <strong>$28.900</strong>
+          </li>
+          <li style="display: flex; justify-content: space-between; padding: 0.25rem 0; color: #78350F;">
+            <span>• Cheesecake de Frutos Rojos x1</span>
+            <strong>$16.500</strong>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Opciones sugeridas -->
+      <div style="font-size: 0.85rem; color: rgba(58, 42, 33, 0.75); margin-bottom: 1.5rem;">
+        <strong style="display: block; margin-bottom: 0.35rem; color: var(--color-tertiary);">¿Qué puedes hacer ahora?</strong>
+        <ul style="padding-left: 1.25rem; line-height: 1.5;">
+          <li>Verificar el cupo o saldo disponible en tu cuenta bancaria.</li>
+          <li>Intentar el pago nuevamente utilizando otra tarjeta de débito/crédito en Flow.</li>
+          <li>Elegir transferencia bancaria manual directa como alternativa.</li>
+        </ul>
+      </div>
+
+      <!-- Acciones de reintento -->
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <a href="checkout.html" class="btn-primary" style="text-align: center;">
+          🔄 Volver a Intentar el Pago
+        </a>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <a href="carrito.html" class="btn-outline" style="margin-top: 0;">
+            ✏️ Modificar Carrito
+          </a>
+          <a href="../index.html" class="btn-outline" style="margin-top: 0;">
+            🏠 Volver al Inicio
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Selector interactivo según reason en URL (?reason=insufficient_funds | bank_rejected)
+    const params = new URLSearchParams(window.location.search);
+    const reason = params.get("reason") || params.get("error");
+
+    if (reason === "insufficient_funds") {
+      document.getElementById("lblCodigo").textContent = "ERR_FONDOS_INSUFICIENTES (Code 104)";
+      document.getElementById("lblMensajeError").textContent = "Fondos insuficientes en la cuenta del cliente.";
+      document.getElementById("lblDetalle").textContent = "La entidad bancaria rechazó la solicitud debido a que el saldo o cupo disponible es menor al total requerido.";
+    } else if (reason === "bank_rejected") {
+      document.getElementById("lblCodigo").textContent = "ERR_RECHAZO_BANCARIO (Code 105)";
+      document.getElementById("lblMensajeError").textContent = "Transacción denegada por la entidad emisora.";
+      document.getElementById("lblDetalle").textContent = "Tu banco bloqueó preventivamente la transacción o no superó la autenticación de seguridad de dos factores.";
+    }
+  </script>
+
+  <!-- Botón Flotante (Modo Desarrollo) -->
+  <a href="../index.html" class="dev-btn-volver-hub" title="Volver al índice">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Volver al Hub
+  </a>
+</body>
+</html>

@@ -1,3 +1,13 @@
+// @pca:start
+// @id(frontend.pages.cliente.pago.flowGateway)
+// @kind(page)
+// @limit(lines: 390)
+// @contract(FlowGatewayView())
+// @relates(frontend.pages.cliente.checkout)
+// @relates(frontend.pages.cliente.pago.exito)
+// @relates(frontend.pages.cliente.pago.error)
+// @desc(Pasarela interactiva de pruebas Flow Sandbox con escenarios de exito y rechazo DSY1104)
+// @pca:end
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
@@ -9,6 +19,8 @@ import {
   Lock,
   ArrowLeft,
   CheckCircle2,
+  XCircle,
+  AlertTriangle,
   Sparkles,
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
@@ -22,8 +34,8 @@ export function FlowGateway() {
   const [searchParams] = useSearchParams();
 
   const token = searchParams.get("token") || `flow_tok_${Date.now().toString(36)}`;
-  const orderId = searchParams.get("orderId") || `order_${Math.floor(Date.now() / 1000)}`;
-  const amount = Number(searchParams.get("amount")) || 15000;
+  const orderId = searchParams.get("orderId") || `CC-${Math.floor(1000 + Math.random() * 9000)}`;
+  const amount = Number(searchParams.get("amount")) || 53400;
   const email = searchParams.get("email") || "cliente@example.cl";
 
   const [metodoSeleccionado, setMetodoSeleccionado] = useState<MetodoFlow>("webpay");
@@ -38,12 +50,34 @@ export function FlowGateway() {
     cvv: "123",
   });
 
-  const handlePagar = () => {
+  const irAExito = () => {
     setProcesando(true);
     setTimeout(() => {
       setProcesando(false);
-      navigate(`/pago/exito?orderId=${encodeURIComponent(orderId)}&token=${encodeURIComponent(token)}&total=${amount}`);
-    }, 1800);
+      navigate(
+        `/pago/exito?orderId=${encodeURIComponent(orderId)}&token=${encodeURIComponent(token)}&total=${amount}`
+      );
+    }, 900);
+  };
+
+  const irAErrorFondos = () => {
+    setProcesando(true);
+    setTimeout(() => {
+      setProcesando(false);
+      navigate(
+        `/pago/error?reason=insufficient_funds&orderId=${encodeURIComponent(orderId)}&total=${amount}`
+      );
+    }, 900);
+  };
+
+  const irAErrorBancario = () => {
+    setProcesando(true);
+    setTimeout(() => {
+      setProcesando(false);
+      navigate(
+        `/pago/error?reason=bank_rejected&orderId=${encodeURIComponent(orderId)}&total=${amount}`
+      );
+    }, 900);
   };
 
   const handleCancelar = () => {
@@ -53,8 +87,8 @@ export function FlowGateway() {
   const handleRellenarTestFlow = () => {
     setTarjeta({
       numero: "4051 8856 0044 6623",
-      titular: "JUAN PÉREZ GONZÁLEZ",
-      rut: "11.111.111-1",
+      titular: "CAMILA SILVA TAPIA",
+      rut: "18.432.198-7",
       expiracion: "12/28",
       cvv: "123",
     });
@@ -73,7 +107,7 @@ export function FlowGateway() {
               <div className="flex items-center gap-2">
                 <span className="font-display text-2xl font-black tracking-tight text-white">flow</span>
                 <span className="rounded bg-white/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white">
-                  Sandbox Chile
+                  Sandbox Chile DSY1104
                 </span>
               </div>
               <p className="text-xs text-white/90">Pasarela de Pago Segura • Webpay Plus Transbank</p>
@@ -100,6 +134,45 @@ export function FlowGateway() {
             <span className="block text-white/70">Monto Total a Pagar</span>
             <strong className="text-base font-bold text-white">{formatPrecio(amount)}</strong>
           </div>
+        </div>
+      </div>
+
+      {/* Selector de Escenarios de Prueba DSY1104 */}
+      <div className="mb-6 rounded-xl border border-dashed border-[#0088cc] bg-[#0088cc]/5 p-4">
+        <div className="flex items-center justify-between gap-2 border-b border-[#0088cc]/15 pb-2">
+          <span className="text-xs font-bold uppercase tracking-wider text-[#0088cc]">
+            ⚡ Botones de simulación interactiva Flow Sandbox (DSY1104):
+          </span>
+          <span className="text-[11px] text-ink/60">Demostración en vivo</span>
+        </div>
+        <div className="mt-3 grid gap-2.5 sm:grid-cols-3">
+          <button
+            type="button"
+            disabled={procesando}
+            onClick={irAExito}
+            className="flex items-center justify-center gap-2 rounded-lg bg-green-600 px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-green-700 disabled:opacity-50"
+          >
+            <CheckCircle2 size={16} />
+            🟢 Aprobada (Webpay)
+          </button>
+          <button
+            type="button"
+            disabled={procesando}
+            onClick={irAErrorFondos}
+            className="flex items-center justify-center gap-2 rounded-lg bg-red-600 px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-red-700 disabled:opacity-50"
+          >
+            <XCircle size={16} />
+            🔴 Saldo Insuficiente
+          </button>
+          <button
+            type="button"
+            disabled={procesando}
+            onClick={irAErrorBancario}
+            className="flex items-center justify-center gap-2 rounded-lg bg-amber-600 px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:bg-amber-700 disabled:opacity-50"
+          >
+            <AlertTriangle size={16} />
+            🟡 Error Bancario
+          </button>
         </div>
       </div>
 
@@ -177,7 +250,7 @@ export function FlowGateway() {
                   className="inline-flex items-center gap-1 rounded-full bg-[#0088cc]/10 px-2.5 py-1 text-[11px] font-bold text-[#0088cc] hover:bg-[#0088cc]/20"
                 >
                   <Sparkles size={12} />
-                  Tarjeta de prueba Flow
+                  Rellenar tarjeta
                 </button>
               </div>
 
@@ -195,7 +268,7 @@ export function FlowGateway() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="mb-1 block text-xs font-semibold text-ink">Titular de la Tarjeta</label>
+                    <label className="mb-1 block text-xs font-semibold text-ink">Titular</label>
                     <input
                       type="text"
                       value={tarjeta.titular}
@@ -204,7 +277,7 @@ export function FlowGateway() {
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-xs font-semibold text-ink">RUT del Titular</label>
+                    <label className="mb-1 block text-xs font-semibold text-ink">RUT Titular</label>
                     <input
                       type="text"
                       value={tarjeta.rut}
@@ -241,16 +314,14 @@ export function FlowGateway() {
 
           {metodoSeleccionado === "bancos" && (
             <Card className="space-y-4 p-5">
-              <h3 className="font-display text-base font-bold text-tertiary">Transferencia Bancaria en Línea</h3>
-              <p className="text-xs text-ink/70">
-                Selecciona tu banco para conectarte con Webpay o Khipu de forma inmediata.
-              </p>
+              <h3 className="font-display text-base font-bold text-tertiary">Transferencia Bancaria</h3>
+              <p className="text-xs text-ink/70">Selecciona tu banco para conectarte:</p>
               <div className="grid grid-cols-2 gap-3 text-xs sm:grid-cols-3">
                 {["Banco de Chile", "Banco Santander", "BancoEstado", "BCI", "Scotiabank", "Itaú"].map((banco) => (
                   <button
                     key={banco}
                     type="button"
-                    onClick={handlePagar}
+                    onClick={irAExito}
                     className="rounded-lg border border-tertiary/20 p-3 text-center font-medium hover:border-[#0088cc] hover:bg-[#0088cc]/5"
                   >
                     {banco}
@@ -263,13 +334,13 @@ export function FlowGateway() {
           {metodoSeleccionado === "billeteras" && (
             <Card className="space-y-4 p-5">
               <h3 className="font-display text-base font-bold text-tertiary">Billeteras Digitales</h3>
-              <p className="text-xs text-ink/70">Paga escaneando con tu aplicación preferida en Chile:</p>
+              <p className="text-xs text-ink/70">Paga escaneando con tu aplicación preferida:</p>
               <div className="grid grid-cols-2 gap-3 text-xs sm:grid-cols-3">
-                {["Mach", "OnePay (Transbank)", "Check (Ripley)", "Mercado Pago", "Tenpo", "Copec Pay"].map((app) => (
+                {["Mach", "OnePay (Transbank)", "Check", "Mercado Pago", "Tenpo"].map((app) => (
                   <button
                     key={app}
                     type="button"
-                    onClick={handlePagar}
+                    onClick={irAExito}
                     className="rounded-lg border border-tertiary/20 p-3 text-center font-medium hover:border-[#0088cc] hover:bg-[#0088cc]/5"
                   >
                     {app}
@@ -281,16 +352,14 @@ export function FlowGateway() {
 
           {metodoSeleccionado === "efectivo" && (
             <Card className="space-y-4 p-5">
-              <h3 className="font-display text-base font-bold text-tertiary">Pago Presencial / En Efectivo</h3>
-              <p className="text-xs text-ink/70">
-                Genera tu cupón de pago con código de barra para pagar en sucursales autorizadas:
-              </p>
+              <h3 className="font-display text-base font-bold text-tertiary">Pago Presencial</h3>
+              <p className="text-xs text-ink/70">Genera cupón de pago para sucursales:</p>
               <div className="grid grid-cols-2 gap-3 text-xs">
-                {["Servipag", "Multicaja / Redelcom", "Caja Vecina", "Sencillito"].map((caja) => (
+                {["Servipag", "Caja Vecina", "Sencillito"].map((caja) => (
                   <button
                     key={caja}
                     type="button"
-                    onClick={handlePagar}
+                    onClick={irAExito}
                     className="rounded-lg border border-tertiary/20 p-3 text-center font-medium hover:border-[#0088cc] hover:bg-[#0088cc]/5"
                   >
                     {caja}
@@ -331,7 +400,7 @@ export function FlowGateway() {
             <div className="pt-2 space-y-2">
               <Button
                 type="button"
-                onClick={handlePagar}
+                onClick={irAExito}
                 disabled={procesando}
                 className="w-full bg-[#0088cc] text-white hover:bg-[#0077b5]"
               >
@@ -343,7 +412,7 @@ export function FlowGateway() {
                 ) : (
                   <span className="flex items-center justify-center gap-2">
                     <CheckCircle2 size={16} />
-                    Pagar {formatPrecio(amount)}
+                    Pagar {formatPrecio(amount)} (Aprobada)
                   </span>
                 )}
               </Button>

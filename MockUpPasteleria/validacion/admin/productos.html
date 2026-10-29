@@ -3,10 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Productos y Catálogo - Crème & Co Admin</title>
+  <title>Gestión de Productos y Catálogo - Crème & Co Admin</title>
   <link rel="stylesheet" href="../../css/variables.css">
   <link rel="stylesheet" href="../../css/base.css">
   <link rel="stylesheet" href="css/admin.css">
+  <style>
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .kpi-stat-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .kpi-stat-card__title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: rgba(58, 42, 33, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .kpi-stat-card__value {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-secondary);
+    }
+    .kpi-stat-card__sub {
+      font-size: 0.75rem;
+      color: rgba(58, 42, 33, 0.6);
+    }
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 2px solid var(--color-border);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+    }
+    .filter-tab {
+      background: none;
+      border: none;
+      padding: 0.5rem 0.85rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: rgba(58, 42, 33, 0.7);
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .filter-tab.active {
+      background: var(--color-tertiary);
+      color: #FFFFFF;
+    }
+    .filter-tab--danger.active {
+      background: #C62828;
+      color: #FFFFFF;
+    }
+    .stock-badge-critical {
+      background: #FFEBEE;
+      color: #C62828;
+      border: 1px solid #EF9A9A;
+      font-weight: 700;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.75; }
+    }
+    .product-detail-grid {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+    .product-detail-img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border);
+    }
+    .detail-field {
+      margin-bottom: 0.65rem;
+    }
+    .detail-field label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: rgba(58, 42, 33, 0.6);
+      text-transform: uppercase;
+      display: block;
+    }
+    .detail-field span {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--color-tertiary);
+    }
+  </style>
 </head>
 <body>
   <div class="admin-layout">
@@ -29,9 +131,17 @@
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
           Productos & Catálogo
         </a>
+        <a href="categorias.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+          Categorías & Jerarquías
+        </a>
         <a href="inventario.html" class="admin-nav__link">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
           Inventario & Stock
+        </a>
+        <a href="ordenes.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+          Órdenes & Pedidos
         </a>
         <a href="usuarios.html" class="admin-nav__link">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
@@ -40,10 +150,6 @@
         <a href="promociones.html" class="admin-nav__link">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
           Promociones & Descuentos
-        </a>
-        <a href="componentes.html" class="admin-nav__link">
-          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-          UI Kit: Botones & Modales
         </a>
       </nav>
 
@@ -65,42 +171,82 @@
     <main class="admin-main">
       <header class="admin-header">
         <div class="admin-header__title-group">
-          <h1>Catálogo de Productos y Disponibilidad</h1>
-          <p>Creación de tortas, precios, stock y sincronización con la tienda web</p>
+          <h1>Catálogo de Productos & Disponibilidad</h1>
+          <p>Gestión integral de recetas, precios, inventario de vitrina y métricas del catálogo</p>
         </div>
-        <div class="admin-header__actions">
-          <button class="btn btn-primary" onclick="abrirModalProducto()">
+        <div class="admin-header__actions" style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-outline" onclick="abrirModalReporte()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            Reportes Catálogo
+          </button>
+          <button class="btn btn-primary" onclick="abrirModalNuevo()">
             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-            Crear Producto
+            Nuevo Producto
           </button>
         </div>
       </header>
 
       <div class="admin-body">
-        <!-- Aviso de Regla de Negocio Integridad -->
-        <div style="background: rgba(255, 192, 203, 0.25); border: 1px solid var(--color-secondary); border-radius: var(--radius-md); padding: 1rem 1.25rem; display: flex; align-items: center; gap: 0.75rem;">
-          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--color-secondary); flex-shrink: 0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          <div style="font-size: 0.85rem; color: var(--color-ink);">
-            <strong>Regla de integridad transaccional:</strong> Un producto que ya cuenta con ventas históricas <strong>no puede ser eliminado físicamente</strong> para preservar la trazabilidad de los pedidos. En su lugar, utilice la opción <em>Desactivar</em> para retirarlo del catálogo público.
+        <!-- Sección de Reporte de Catálogo (Resumen KPI) -->
+        <div class="kpi-row" id="kpiContainer">
+          <div class="kpi-stat-card">
+            <span class="kpi-stat-card__title">Total Productos</span>
+            <span class="kpi-stat-card__value" id="kpiTotal">12</span>
+            <span class="kpi-stat-card__sub">En 4 categorías</span>
+          </div>
+          <div class="kpi-stat-card">
+            <span class="kpi-stat-card__title">Valor Catálogo (CLP)</span>
+            <span class="kpi-stat-card__value" id="kpiValorTotal">$3.420.000</span>
+            <span class="kpi-stat-card__sub">Stock x Precio Base</span>
+          </div>
+          <div class="kpi-stat-card">
+            <span class="kpi-stat-card__title">Producto Más Caro</span>
+            <span class="kpi-stat-card__value" style="font-size: 1.15rem;" id="kpiMasCaro">Torta Chocolate ($45.000)</span>
+            <span class="kpi-stat-card__sub">Línea Gourmet</span>
+          </div>
+          <div class="kpi-stat-card">
+            <span class="kpi-stat-card__title">Stock Crítico (≤ 5 un.)</span>
+            <span class="kpi-stat-card__value" style="color: #C62828;" id="kpiCriticosCount">2 Alertas</span>
+            <span class="kpi-stat-card__sub">Requieren reposición inmediata</span>
           </div>
         </div>
 
-        <!-- Tabla de Productos -->
+        <!-- Banner de Integridad Transaccional -->
+        <div style="background: rgba(255, 192, 203, 0.25); border: 1px solid var(--color-secondary); border-radius: var(--radius-md); padding: 0.85rem 1.15rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--color-secondary); flex-shrink: 0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <div style="font-size: 0.82rem; color: var(--color-ink);">
+            <strong>Regla DSY1104 / Anexo 1:</strong> Productos con ventas históricas <strong>no pueden ser eliminados</strong> para resguardar la consistencia contable. Utilice la desactivación de disponibilidad.
+          </div>
+        </div>
+
+        <!-- Tabla y Filtros -->
         <div class="admin-card">
           <div class="admin-card__header">
             <div>
               <h2 class="admin-card__title">Listado de Productos</h2>
-              <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7);">Sincronizados en tiempo real con la tienda web y terminal POS</p>
+              <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7);">Sincronizados en tiempo real con service-catalog y POS</p>
             </div>
-            <div style="display: flex; gap: 0.75rem;">
-              <input type="text" class="form-input" placeholder="Buscar por nombre..." style="width: 220px; font-size: 0.82rem;">
-              <select class="form-select" style="width: 150px; font-size: 0.82rem;">
-                <option value="">Todas las categorías</option>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <input type="text" id="busquedaInput" class="form-input" placeholder="Buscar por código o nombre..." oninput="filtrarProductos()" style="width: 240px; font-size: 0.82rem;">
+              <select id="categoriaSelect" class="form-select" onchange="filtrarProductos()" style="width: 170px; font-size: 0.82rem;">
+                <option value="todas">Todas las categorías</option>
                 <option value="tortas">Tortas Clásicas</option>
-                <option value="especiales">Tortas Especiales</option>
-                <option value="individual">Pastelería Individual</option>
+                <option value="postres">Postres Familiares</option>
+                <option value="individuales">Pastelería Individual</option>
+                <option value="sin-gluten">Línea Sin Gluten</option>
               </select>
             </div>
+          </div>
+
+          <!-- Filtro rápido / Tabs -->
+          <div class="filter-tabs">
+            <button class="filter-tab active" id="tabTodos" onclick="setFiltroStock('todos')">
+              Todos los productos (<span id="countTodos">4</span>)
+            </button>
+            <button class="filter-tab filter-tab--danger" id="tabCriticos" onclick="setFiltroStock('criticos')">
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+              Stock Crítico (≤ 5 un.) (<span id="countCriticos">2</span>)
+            </button>
           </div>
 
           <div class="table-responsive">
@@ -108,99 +254,17 @@
               <thead>
                 <tr>
                   <th>Foto</th>
-                  <th>Producto</th>
+                  <th>Código & Producto</th>
                   <th>Categoría</th>
                   <th>Precio Base</th>
-                  <th>Ventas Históricas</th>
-                  <th>En Tienda Web</th>
-                  <th>Cocina / Disponibilidad</th>
-                  <th>Acciones</th>
+                  <th>Stock Actual</th>
+                  <th>Estado</th>
+                  <th>Ventas</th>
+                  <th style="text-align: right;">Acciones</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=120&auto=format&fit=crop" style="width: 48px; height: 48px; border-radius: var(--radius-sm); object-cover: cover;">
-                  </td>
-                  <td>
-                    <div style="font-weight: 600; color: var(--color-tertiary);">Torta de Chocolate con Frutillas</div>
-                    <span style="font-size: 0.72rem; color: var(--color-secondary); font-weight: 600;">Badge: Más Vendido</span>
-                  </td>
-                  <td>Tortas Clásicas</td>
-                  <td><strong>$45.000</strong></td>
-                  <td><span class="status-badge status-badge--info">142 ventas</span></td>
-                  <td><span class="status-badge status-badge--success">Publicado</span></td>
-                  <td>
-                    <label style="display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; font-size: 0.8rem;">
-                      <input type="checkbox" checked onchange="alert('Disponibilidad actualizada en cocina.')"> Disponible
-                    </label>
-                  </td>
-                  <td>
-                    <div style="display: flex; gap: 0.35rem;">
-                      <button class="btn btn-outline btn-sm" onclick="alert('Abriendo editor...')">Editar</button>
-                      
-                      <!-- Botón Deshabilitado por tener ventas históricas -->
-                      <div class="tooltip-container">
-                        <button class="btn btn-danger btn-sm btn-disabled" aria-disabled="true">Eliminar</button>
-                        <span class="tooltip-text">No se puede eliminar: tiene ventas históricas registradas. Desactívelo en su lugar.</span>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=120&auto=format&fit=crop" style="width: 48px; height: 48px; border-radius: var(--radius-sm); object-cover: cover;">
-                  </td>
-                  <td>
-                    <div style="font-weight: 600; color: var(--color-tertiary);">Torta Red Velvet Especial</div>
-                    <span style="font-size: 0.72rem; color: var(--color-secondary); font-weight: 600;">Badge: Premium</span>
-                  </td>
-                  <td>Tortas Especiales</td>
-                  <td><strong>$48.000</strong></td>
-                  <td><span class="status-badge status-badge--info">89 ventas</span></td>
-                  <td><span class="status-badge status-badge--success">Publicado</span></td>
-                  <td>
-                    <label style="display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; font-size: 0.8rem;">
-                      <input type="checkbox" checked onchange="alert('Disponibilidad actualizada en cocina.')"> Disponible
-                    </label>
-                  </td>
-                  <td>
-                    <div style="display: flex; gap: 0.35rem;">
-                      <button class="btn btn-outline btn-sm">Editar</button>
-                      <div class="tooltip-container">
-                        <button class="btn btn-danger btn-sm btn-disabled" aria-disabled="true">Eliminar</button>
-                        <span class="tooltip-text">No se puede eliminar: tiene ventas históricas registradas. Desactívelo en su lugar.</span>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=120&auto=format&fit=crop" style="width: 48px; height: 48px; border-radius: var(--radius-sm); object-cover: cover;">
-                  </td>
-                  <td>
-                    <div style="font-weight: 600; color: var(--color-tertiary);">Torta Experimental Matcha & Berries</div>
-                    <span style="font-size: 0.72rem; color: rgba(58, 42, 33, 0.6);">Sin badge</span>
-                  </td>
-                  <td>Especiales</td>
-                  <td><strong>$52.000</strong></td>
-                  <td><span class="status-badge status-badge--neutral">0 ventas</span></td>
-                  <td><span class="status-badge status-badge--warning">Borrador</span></td>
-                  <td>
-                    <label style="display: inline-flex; align-items: center; gap: 0.35rem; cursor: pointer; font-size: 0.8rem;">
-                      <input type="checkbox" onchange="alert('Disponibilidad actualizada en cocina.')"> Agotado
-                    </label>
-                  </td>
-                  <td>
-                    <div style="display: flex; gap: 0.35rem;">
-                      <button class="btn btn-outline btn-sm">Editar</button>
-                      <!-- Producto SIN ventas históricas: SI se puede eliminar -->
-                      <button class="btn btn-danger btn-sm" onclick="if(confirm('¿Eliminar este borrador sin ventas?')) alert('Producto eliminado.');">Eliminar</button>
-                    </div>
-                  </td>
-                </tr>
+              <tbody id="productosTableBody">
+                <!-- Inyectado vía JS -->
               </tbody>
             </table>
           </div>
@@ -209,82 +273,594 @@
     </main>
   </div>
 
-  <!-- Modal Crear Producto -->
-  <div class="modal-overlay" id="modalProducto">
+  <!-- MODAL 1: Nuevo Producto -->
+  <div class="modal-overlay" id="modalNuevoProducto">
     <div class="modal-window">
       <div class="modal-header">
-        <h3>Nuevo Producto / Torta</h3>
-        <button class="btn btn-outline btn-sm" onclick="cerrarModalProducto()">&times;</button>
+        <h3>Nuevo Producto / Catálogo</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModalNuevo()">&times;</button>
+      </div>
+      <form id="formNuevoProducto" onsubmit="guardarNuevoProducto(event)">
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 140px 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Código *</label>
+              <input type="text" id="nuevoCodigo" class="form-input" placeholder="PROD-013" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nombre del Producto *</label>
+              <input type="text" id="nuevoNombre" class="form-input" placeholder="Ej: Torta Tres Leches Tradicional" required minlength="3">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Categoría *</label>
+              <select id="nuevaCategoria" class="form-select" required>
+                <option value="">Seleccione categoría...</option>
+                <option value="tortas">Tortas Clásicas</option>
+                <option value="postres">Postres Familiares</option>
+                <option value="individuales">Pastelería Individual</option>
+                <option value="sin-gluten">Línea Sin Gluten</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Precio Base (CLP) *</label>
+              <input type="number" id="nuevoPrecio" class="form-input" placeholder="32000" min="1000" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Stock Inicial *</label>
+              <input type="number" id="nuevoStock" class="form-input" placeholder="10" min="0" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Porciones / Formato</label>
+              <input type="text" id="nuevasPorciones" class="form-input" placeholder="12 a 15 personas">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">URL de Imagen</label>
+            <input type="url" id="nuevaImagen" class="form-input" placeholder="https://images.unsplash.com/photo-...">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Descripción</label>
+            <textarea id="nuevaDescripcion" class="form-textarea" rows="2" placeholder="Bizcocho artesanal humedecido en tres tipos de leche..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label style="display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.85rem;">
+              <input type="checkbox" id="nuevoDisponible" checked> Activar inmediatamente en la tienda web
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="cerrarModalNuevo()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Registrar Producto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Mostrar Detalle de Producto -->
+  <div class="modal-overlay" id="modalDetalleProducto">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Ficha Técnica del Producto</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModalDetalle()">&times;</button>
+      </div>
+      <div class="modal-body" id="detalleContenido">
+        <!-- Inyectado dinámicamente -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="cerrarModalDetalle()">Cerrar Ficha</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Editar Producto -->
+  <div class="modal-overlay" id="modalEditarProducto">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3>Editar Producto</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModalEditar()">&times;</button>
+      </div>
+      <form id="formEditarProducto" onsubmit="guardarEdicionProducto(event)">
+        <input type="hidden" id="editId">
+        <div class="modal-body">
+          <div style="display: grid; grid-template-columns: 140px 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Código</label>
+              <input type="text" id="editCodigo" class="form-input" disabled style="background:#eee;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nombre del Producto *</label>
+              <input type="text" id="editNombre" class="form-input" required minlength="3">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Categoría *</label>
+              <select id="editCategoria" class="form-select" required>
+                <option value="tortas">Tortas Clásicas</option>
+                <option value="postres">Postres Familiares</option>
+                <option value="individuales">Pastelería Individual</option>
+                <option value="sin-gluten">Línea Sin Gluten</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Precio Base (CLP) *</label>
+              <input type="number" id="editPrecio" class="form-input" min="1000" required>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <div class="form-group">
+              <label class="form-label">Stock Actual *</label>
+              <input type="number" id="editStock" class="form-input" min="0" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Estado en Tienda</label>
+              <select id="editDisponible" class="form-select">
+                <option value="true">Activo (Disponible en Tienda)</option>
+                <option value="false">Inactivo (Pausado / Agotado)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" onclick="cerrarModalEditar()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Actualizar Cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Reportes de Catálogo -->
+  <div class="modal-overlay" id="modalReporteCatalogo">
+    <div class="modal-window" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3>Reporte Integral de Catálogo e Inventario</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModalReporte()">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label class="form-label">Nombre del Producto</label>
-          <input type="text" class="form-input" placeholder="Ej: Torta Tres Leches con Merengue" required>
+        <div class="kpi-grid" style="margin-bottom: 1rem;">
+          <div class="kpi-card">
+            <span class="kpi-card__label">Total Productos Registrados</span>
+            <span class="kpi-card__value" id="repTotalProductos">0</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-card__label">Valor Total en CLP</span>
+            <span class="kpi-card__value" id="repValorTotal">$0</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-card__label">Producto Más Caro</span>
+            <span class="kpi-card__value" style="font-size: 1.1rem;" id="repMasCaro">-</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-card__label">Menor Stock</span>
+            <span class="kpi-card__value" style="font-size: 1.1rem; color: #C62828;" id="repMenorStock">-</span>
+          </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-          <div class="form-group">
-            <label class="form-label">Categoría</label>
-            <select class="form-select">
-              <option>Tortas Clásicas</option>
-              <option>Tortas Especiales</option>
-              <option>Pastelería Individual</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Precio Base (CLP)</label>
-            <input type="number" class="form-input" placeholder="42000" required>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">URL o Imagen</label>
-          <input type="text" class="form-input" placeholder="https://images.unsplash.com/photo-...">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Descripción para la Web</label>
-          <textarea class="form-textarea" rows="2" placeholder="Ingredientes seleccionados, bizcocho esponjoso..."></textarea>
-        </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
-          <div class="form-group">
-            <label class="form-label">Insignia (Badge)</label>
-            <select class="form-select">
-              <option value="">Sin insignia</option>
-              <option value="premium">Premium</option>
-              <option value="temporada">Temporada</option>
-              <option value="vendido">Más Vendido</option>
-              <option value="personalizable">Personalizable</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Estado en Tienda</label>
-            <select class="form-select">
-              <option value="true">Publicado Inmediatamente</option>
-              <option value="false">Guardar en Borrador</option>
-            </select>
-          </div>
+        <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--color-tertiary); margin-bottom: 0.5rem;">
+          Distribución por Categoría
+        </h4>
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th>Cant. Productos</th>
+                <th>Unidades en Stock</th>
+                <th>Subtotal Inventario</th>
+              </tr>
+            </thead>
+            <tbody id="repCategoriasBody">
+              <!-- Inyectado vía JS -->
+            </tbody>
+          </table>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-outline" onclick="cerrarModalProducto()">Cancelar</button>
-        <button class="btn btn-primary" onclick="guardarProducto()">Guardar y Publicar</button>
+        <button class="btn btn-outline" onclick="cerrarModalReporte()">Cerrar</button>
       </div>
     </div>
   </div>
 
   <script>
-    function abrirModalProducto() {
-      document.getElementById('modalProducto').classList.add('active');
+    // Modelo de datos inicial
+    let productos = [
+      {
+        id: 1,
+        codigo: "TORT-001",
+        nombre: "Torta de Chocolate Clásica con Frutillas",
+        categoria: "tortas",
+        precio: 45000,
+        stock: 12,
+        porciones: "12 a 16 personas",
+        disponible: true,
+        ventas: 142,
+        fechaCreacion: "2026-01-15",
+        descripcion: "Torta húmeda de chocolate con ganache al 70% de cacao y frutillas seleccionadas de Curicó.",
+        imagen: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=200&auto=format&fit=crop"
+      },
+      {
+        id: 2,
+        codigo: "TORT-002",
+        nombre: "Torta Red Velvet Especial",
+        categoria: "tortas",
+        precio: 48000,
+        stock: 4,
+        porciones: "15 personas",
+        disponible: true,
+        ventas: 89,
+        fechaCreacion: "2026-02-10",
+        descripcion: "Bizcocho aterciopelado rojo con frosting tradicional de queso crema y esencia de vainilla pura.",
+        imagen: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=200&auto=format&fit=crop"
+      },
+      {
+        id: 3,
+        codigo: "IND-003",
+        nombre: "Caja de Macarons Surtidos (12 uds)",
+        categoria: "individuales",
+        precio: 24000,
+        stock: 3,
+        porciones: "12 unidades",
+        disponible: true,
+        ventas: 64,
+        fechaCreacion: "2026-03-01",
+        descripcion: "Macarons franceses tradicionales con rellenos de pistacho, frutos del bosque, maracuyá y chocolate.",
+        imagen: "https://images.unsplash.com/photo-1569864321390-dc431f121fa5?q=80&w=200&auto=format&fit=crop"
+      },
+      {
+        id: 4,
+        codigo: "ESP-004",
+        nombre: "Torta Prototipo Matcha & Berries (Borrador)",
+        categoria: "sin-gluten",
+        precio: 36000,
+        stock: 8,
+        porciones: "10 personas",
+        disponible: false,
+        ventas: 0,
+        fechaCreacion: "2026-10-20",
+        descripcion: "Receta experimental con harina de arroz, té matcha ceremonial japonés y coulis de frambuesa.",
+        imagen: "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=200&auto=format&fit=crop"
+      }
+    ];
+
+    let filtroStockActual = 'todos';
+
+    function formatearCLP(monto) {
+      return "$" + Number(monto).toLocaleString("es-CL");
     }
-    function cerrarModalProducto() {
-      document.getElementById('modalProducto').classList.remove('active');
+
+    function renderTabla() {
+      const q = document.getElementById("busquedaInput").value.trim().toLowerCase();
+      const cat = document.getElementById("categoriaSelect").value;
+      const tbody = document.getElementById("productosTableBody");
+      tbody.innerHTML = "";
+
+      const criticos = productos.filter(p => p.stock <= 5);
+      document.getElementById("countTodos").textContent = productos.length;
+      document.getElementById("countCriticos").textContent = criticos.length;
+
+      const filtrados = productos.filter(p => {
+        const matchQ = !q || p.nombre.toLowerCase().includes(q) || p.codigo.toLowerCase().includes(q);
+        const matchCat = cat === "todas" || p.categoria === cat;
+        const matchStock = filtroStockActual === 'todos' || (filtroStockActual === 'criticos' && p.stock <= 5);
+        return matchQ && matchCat && matchStock;
+      });
+
+      if (filtrados.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 2rem; color: #888;">No se encontraron productos con los criterios seleccionados.</td></tr>`;
+        actualizarKPIs();
+        return;
+      }
+
+      filtrados.forEach(prod => {
+        const esCritico = prod.stock <= 5;
+        const tieneVentas = prod.ventas > 0;
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>
+            <img src="${prod.imagen}" alt="${prod.nombre}" style="width: 44px; height: 44px; border-radius: 6px; object-fit: cover;">
+          </td>
+          <td>
+            <div style="font-weight: 700; color: var(--color-tertiary);">${prod.nombre}</div>
+            <span style="font-size: 0.72rem; color: #777; font-family: monospace;">${prod.codigo}</span>
+          </td>
+          <td>
+            <span class="status-badge status-badge--neutral" style="text-transform: capitalize;">${prod.categoria}</span>
+          </td>
+          <td><strong>${formatearCLP(prod.precio)}</strong></td>
+          <td>
+            <span class="status-badge ${esCritico ? 'stock-badge-critical' : 'status-badge--success'}">
+              ${prod.stock} un. ${esCritico ? '⚠️ Crítico' : ''}
+            </span>
+          </td>
+          <td>
+            <span class="status-badge ${prod.disponible ? 'status-badge--success' : 'status-badge--warning'}">
+              ${prod.disponible ? 'Activo' : 'Inactivo'}
+            </span>
+          </td>
+          <td>
+            <span class="status-badge ${tieneVentas ? 'status-badge--info' : 'status-badge--neutral'}">
+              ${prod.ventas} ventas
+            </span>
+          </td>
+          <td style="text-align: right;">
+            <div style="display: inline-flex; gap: 0.35rem; align-items: center;">
+              <button class="btn btn-outline btn-sm" onclick="mostrarDetalle(${prod.id})" title="Ver ficha técnica">
+                Detalle
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="abrirModalEditar(${prod.id})" title="Editar campos">
+                Editar
+              </button>
+              ${esCritico ? `
+                <button class="btn btn-sm" style="background:#E8F5E9; color:#2E7D32; border:1px solid #A5D6A7;" onclick="reponerStockRapido(${prod.id})" title="Reponer stock de urgencia (+10)">
+                  +10 Reponer
+                </button>
+              ` : ''}
+              ${tieneVentas ? `
+                <div class="tooltip-container">
+                  <button class="btn btn-danger btn-sm btn-disabled" aria-disabled="true">Eliminar</button>
+                  <span class="tooltip-text">Bloqueado: cuenta con ventas históricas.</span>
+                </div>
+              ` : `
+                <button class="btn btn-danger btn-sm" onclick="eliminarProducto(${prod.id})" title="Eliminar borrador">Eliminar</button>
+              `}
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      actualizarKPIs();
     }
-    function guardarProducto() {
-      alert('Producto creado exitosamente en el catálogo.');
-      cerrarModalProducto();
+
+    function setFiltroStock(tipo) {
+      filtroStockActual = tipo;
+      document.getElementById("tabTodos").classList.toggle("active", tipo === 'todos');
+      document.getElementById("tabCriticos").classList.toggle("active", tipo === 'criticos');
+      renderTabla();
     }
+
+    function filtrarProductos() {
+      renderTabla();
+    }
+
+    function reponerStockRapido(id) {
+      const p = productos.find(x => x.id === id);
+      if (p) {
+        p.stock += 10;
+        alert(`Reposición exitosa: Se agregaron +10 unidades al producto '${p.nombre}'. Nuevo stock: ${p.stock} un.`);
+        renderTabla();
+      }
+    }
+
+    function eliminarProducto(id) {
+      const p = productos.find(x => x.id === id);
+      if (p && p.ventas === 0) {
+        if (confirm(`¿Deseas eliminar permanentemente el borrador '${p.nombre}'?`)) {
+          productos = productos.filter(x => x.id !== id);
+          renderTabla();
+        }
+      }
+    }
+
+    function actualizarKPIs() {
+      const total = productos.length;
+      const valorTotal = productos.reduce((sum, p) => sum + (p.precio * p.stock), 0);
+      const criticos = productos.filter(p => p.stock <= 5);
+
+      let masCaro = productos[0];
+      productos.forEach(p => {
+        if (!masCaro || p.precio > masCaro.precio) masCaro = p;
+      });
+
+      document.getElementById("kpiTotal").textContent = total;
+      document.getElementById("kpiValorTotal").textContent = formatearCLP(valorTotal);
+      document.getElementById("kpiMasCaro").textContent = masCaro ? `${masCaro.nombre.slice(0, 18)}... (${formatearCLP(masCaro.precio)})` : "-";
+      document.getElementById("kpiCriticosCount").textContent = `${criticos.length} Alertas`;
+    }
+
+    // Modal Nuevo Producto
+    function abrirModalNuevo() {
+      document.getElementById("formNuevoProducto").reset();
+      document.getElementById("modalNuevoProducto").classList.add("active");
+    }
+    function cerrarModalNuevo() {
+      document.getElementById("modalNuevoProducto").classList.remove("active");
+    }
+    function guardarNuevoProducto(e) {
+      e.preventDefault();
+      const codigo = document.getElementById("nuevoCodigo").value.trim();
+      const nombre = document.getElementById("nuevoNombre").value.trim();
+      const categoria = document.getElementById("nuevaCategoria").value;
+      const precio = Number(document.getElementById("nuevoPrecio").value);
+      const stock = Number(document.getElementById("nuevoStock").value);
+      const porciones = document.getElementById("nuevasPorciones").value.trim() || "Formato estándar";
+      const imagen = document.getElementById("nuevaImagen").value.trim() || "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=200&auto=format&fit=crop";
+      const descripcion = document.getElementById("nuevaDescripcion").value.trim();
+      const disponible = document.getElementById("nuevoDisponible").checked;
+
+      const nuevo = {
+        id: Date.now(),
+        codigo,
+        nombre,
+        categoria,
+        precio,
+        stock,
+        porciones,
+        disponible,
+        ventas: 0,
+        fechaCreacion: new Date().toISOString().slice(0, 10),
+        descripcion,
+        imagen
+      };
+
+      productos.unshift(nuevo);
+      cerrarModalNuevo();
+      renderTabla();
+      alert("Producto agregado exitosamente al catálogo.");
+    }
+
+    // Modal Mostrar Detalle
+    function mostrarDetalle(id) {
+      const prod = productos.find(x => x.id === id);
+      if (!prod) return;
+
+      const container = document.getElementById("detalleContenido");
+      container.innerHTML = `
+        <div class="product-detail-grid">
+          <img src="${prod.imagen}" alt="${prod.nombre}" class="product-detail-img">
+          <div>
+            <div class="detail-field">
+              <label>Código de Producto</label>
+              <span>${prod.codigo}</span>
+            </div>
+            <div class="detail-field">
+              <label>Nombre Completo</label>
+              <span>${prod.nombre}</span>
+            </div>
+            <div class="detail-field">
+              <label>Categoría</label>
+              <span style="text-transform: capitalize;">${prod.categoria}</span>
+            </div>
+          </div>
+        </div>
+
+        <hr style="border: none; border-top: 1px solid var(--color-border); margin: 0.75rem 0;">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div class="detail-field">
+            <label>Precio de Venta</label>
+            <span style="color: var(--color-secondary); font-size: 1.1rem;">${formatearCLP(prod.precio)}</span>
+          </div>
+          <div class="detail-field">
+            <label>Stock Actual</label>
+            <span>${prod.stock} unidades</span>
+          </div>
+          <div class="detail-field">
+            <label>Estado en Tienda Web</label>
+            <span class="status-badge ${prod.disponible ? 'status-badge--success' : 'status-badge--warning'}">
+              ${prod.disponible ? 'Disponible (Activo)' : 'Pausado (Inactivo)'}
+            </span>
+          </div>
+          <div class="detail-field">
+            <label>Ventas Históricas</label>
+            <span>${prod.ventas} unidades vendidas</span>
+          </div>
+          <div class="detail-field">
+            <label>Porciones / Formato</label>
+            <span>${prod.porciones}</span>
+          </div>
+          <div class="detail-field">
+            <label>Fecha de Creación</label>
+            <span>${prod.fechaCreacion}</span>
+          </div>
+        </div>
+
+        <div class="detail-field" style="margin-top: 0.5rem;">
+          <label>Descripción del Producto</label>
+          <p style="font-size: 0.85rem; color: var(--color-ink); margin: 0.25rem 0 0 0; line-height: 1.4;">
+            ${prod.descripcion || 'Sin descripción detallada ingresada.'}
+          </p>
+        </div>
+      `;
+
+      document.getElementById("modalDetalleProducto").classList.add("active");
+    }
+    function cerrarModalDetalle() {
+      document.getElementById("modalDetalleProducto").classList.remove("active");
+    }
+
+    // Modal Editar Producto
+    function abrirModalEditar(id) {
+      const prod = productos.find(x => x.id === id);
+      if (!prod) return;
+
+      document.getElementById("editId").value = prod.id;
+      document.getElementById("editCodigo").value = prod.codigo;
+      document.getElementById("editNombre").value = prod.nombre;
+      document.getElementById("editCategoria").value = prod.categoria;
+      document.getElementById("editPrecio").value = prod.precio;
+      document.getElementById("editStock").value = prod.stock;
+      document.getElementById("editDisponible").value = prod.disponible ? "true" : "false";
+
+      document.getElementById("modalEditarProducto").classList.add("active");
+    }
+    function cerrarModalEditar() {
+      document.getElementById("modalEditarProducto").classList.remove("active");
+    }
+    function guardarEdicionProducto(e) {
+      e.preventDefault();
+      const id = Number(document.getElementById("editId").value);
+      const prod = productos.find(x => x.id === id);
+      if (!prod) return;
+
+      prod.nombre = document.getElementById("editNombre").value.trim();
+      prod.categoria = document.getElementById("editCategoria").value;
+      prod.precio = Number(document.getElementById("editPrecio").value);
+      prod.stock = Number(document.getElementById("editStock").value);
+      prod.disponible = document.getElementById("editDisponible").value === "true";
+
+      cerrarModalEditar();
+      renderTabla();
+      alert("Producto modificado correctamente.");
+    }
+
+    // Modal Reporte Catálogo
+    function abrirModalReporte() {
+      const total = productos.length;
+      const valorTotal = productos.reduce((sum, p) => sum + (p.precio * p.stock), 0);
+      let masCaro = productos[0];
+      let menorStock = productos[0];
+
+      productos.forEach(p => {
+        if (!masCaro || p.precio > masCaro.precio) masCaro = p;
+        if (!menorStock || p.stock < menorStock.stock) menorStock = p;
+      });
+
+      document.getElementById("repTotalProductos").textContent = total;
+      document.getElementById("repValorTotal").textContent = formatearCLP(valorTotal);
+      document.getElementById("repMasCaro").textContent = masCaro ? `${masCaro.nombre.slice(0, 16)}... (${formatearCLP(masCaro.precio)})` : "-";
+      document.getElementById("repMenorStock").textContent = menorStock ? `${menorStock.nombre.slice(0, 16)}... (${menorStock.stock} un.)` : "-";
+
+      // Categorías
+      const categorias = ["tortas", "postres", "individuales", "sin-gluten"];
+      const tbody = document.getElementById("repCategoriasBody");
+      tbody.innerHTML = "";
+
+      categorias.forEach(cat => {
+        const prodsCat = productos.filter(p => p.categoria === cat);
+        const stockCat = prodsCat.reduce((sum, p) => sum + p.stock, 0);
+        const subtotalCat = prodsCat.reduce((sum, p) => sum + (p.precio * p.stock), 0);
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td style="text-transform: capitalize; font-weight: 600;">${cat}</td>
+          <td>${prodsCat.length}</td>
+          <td>${stockCat} un.</td>
+          <td><strong>${formatearCLP(subtotalCat)}</strong></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById("modalReporteCatalogo").classList.add("active");
+    }
+    function cerrarModalReporte() {
+      document.getElementById("modalReporteCatalogo").classList.remove("active");
+    }
+
+    // Inicializar
+    renderTabla();
   </script>
 </body>
 </html>

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout y Despacho — Crème & Co (Validación DSY1104)</title>
+  <link rel="stylesheet" href="css/checkout-validacion.css">
+  <link rel="stylesheet" href="../css/dev-hub-button.css">
+</head>
+<body>
+
+  <header class="checkout-header">
+    <a href="../index.html" class="brand">🍰 Crème &amp; Co</a>
+    <span class="badge-validacion">Validación DSY1104 — Proceso de Compra</span>
+  </header>
+
+  <main class="checkout-main">
+    <div class="checkout-hero">
+      <h1>Finalizar Compra y Despacho</h1>
+      <p>Completa tus datos de facturación y selecciona tu método de entrega y pago preferido.</p>
+    </div>
+
+    <!-- Botón de prueba rápida -->
+    <div class="test-scenarios">
+      <h4>⚡ Rellenar datos de prueba para demostración DSY1104:</h4>
+      <div class="test-buttons">
+        <button type="button" class="btn-chip" onclick="fillTest('Camila', 'Silva Tapia', 'camila.silva@cremeco.cl', '+56 9 8765 4321', '18.432.198-7', 'despacho', 'RM', 'Providencia', 'Av. Providencia 1234', 'Depto 402', 'Dejar en conserjería si no respondo.')">
+          ✨ Cliente Santiago (Camila Silva - Providencia)
+        </button>
+        <button type="button" class="btn-chip" onclick="fillTest('Diego', 'Araneda Castro', 'diego.araneda@cremeco.cl', '+56 9 9876 5432', '17.890.123-4', 'despacho', 'VA', 'Viña del Mar', 'Av. Libertad 450', 'Casa 2', 'Tocar timbre blanco.')">
+          🌊 Cliente Viña del Mar (Diego Araneda)
+        </button>
+        <button type="button" class="btn-chip" onclick="fillTest('Valentina', 'Rojas Muñoz', 'valentina.rojas@cremeco.cl', '+56 9 7654 3210', '19.234.567-8', 'retiro', '', '', '', '', 'Retiro en persona por la tarde.')">
+          🏬 Retiro en Tienda Providencia (Valentina Rojas)
+        </button>
+      </div>
+    </div>
+
+    <form id="checkoutForm" onsubmit="event.preventDefault(); procesarCheckout();">
+      <div class="checkout-grid">
+        
+        <!-- Columna Izquierda: Formularios -->
+        <div class="col-form">
+
+          <!-- 1. Datos Personales del Comprador -->
+          <div class="card-section">
+            <h2 class="card-title">👤 1. Datos del Comprador</h2>
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label for="nombre">Nombres *</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej: Camila Andrea" required minlength="2">
+              </div>
+              <div class="form-group">
+                <label for="apellidos">Apellidos *</label>
+                <input type="text" id="apellidos" name="apellidos" placeholder="Ej: Silva Tapia" required minlength="2">
+              </div>
+            </div>
+
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label for="email">Correo Electrónico (Boleta/Factura) *</label>
+                <input type="email" id="email" name="email" placeholder="camila@example.cl" required>
+              </div>
+              <div class="form-group">
+                <label for="telefono">Teléfono de Contacto *</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="+56 9 8765 4321" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rut">RUT Chileno (con guion y dígito verificador)</label>
+                <input type="text" id="rut" name="rut" placeholder="18.432.198-7" onblur="validarRutChileno(this)">
+                <span id="rutError" style="display: none; color: var(--color-error); font-size: 0.75rem; margin-top: 0.25rem;">
+                  RUT inválido (Módulo 11).
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Método de Entrega -->
+          <div class="card-section">
+            <h2 class="card-title">🚚 2. Método de Entrega</h2>
+            <div class="radio-cards">
+              <label class="radio-card active" id="cardDespacho">
+                <input type="radio" name="metodoEntrega" value="despacho" checked onchange="toggleMetodoEntrega('despacho')">
+                <div class="radio-info">
+                  <div class="radio-title">
+                    <span>Despacho a Domicilio</span>
+                    <span style="color: var(--color-secondary); font-weight: 800;">$8.000</span>
+                  </div>
+                  <p class="radio-desc">Entrega refrigerada asegurada en menos de 48 hrs hábiles a la dirección indicada.</p>
+                </div>
+              </label>
+
+              <label class="radio-card" id="cardRetiro">
+                <input type="radio" name="metodoEntrega" value="retiro" onchange="toggleMetodoEntrega('retiro')">
+                <div class="radio-info">
+                  <div class="radio-title">
+                    <span>Retiro en Tienda (Obrador Providencia)</span>
+                    <span style="color: var(--color-success); font-weight: 800;">Gratis</span>
+                  </div>
+                  <p class="radio-desc">Av. Providencia 1234, Providencia. Listo en 4 horas tras confirmación de pago.</p>
+                </div>
+              </label>
+            </div>
+
+            <!-- Campos de Dirección (Solo si es despacho) -->
+            <div id="seccionDireccion" style="margin-top: 1.5rem;">
+              <h3 style="font-size: 1rem; color: var(--color-tertiary); margin-bottom: 0.75rem;">Dirección de Entrega:</h3>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label for="region">Región *</label>
+                  <select id="region" name="region" required onchange="cargarComunas(this.value)">
+                    <option value="">-- Selecciona una región --</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="comuna">Comuna *</label>
+                  <select id="comuna" name="comuna" required disabled>
+                    <option value="">-- Primero selecciona una región --</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label for="calle">Calle y Número *</label>
+                  <input type="text" id="calle" name="calle" placeholder="Ej: Av. Providencia 1234" required minlength="5">
+                </div>
+                <div class="form-group">
+                  <label for="depto">Depto / Casa / Oficina (Opcional)</label>
+                  <input type="text" id="depto" name="depto" placeholder="Ej: Depto 402, Torre B">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="indicaciones">Indicaciones de Entrega (Opcional, máx 250 caracteres)</label>
+                  <textarea id="indicaciones" name="indicaciones" rows="2" maxlength="250" placeholder="Ej: Dejar con conserje, portón de madera, timbre 4..." oninput="actualizarContador(this)"></textarea>
+                  <div class="char-counter"><span id="charCount">0</span> / 250 caracteres</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Método de Pago -->
+          <div class="card-section">
+            <h2 class="card-title">💳 3. Método de Pago</h2>
+            <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7); margin-bottom: 1rem;">
+              🔒 Transacciones 100% protegidas. Nunca te pediremos datos de tu tarjeta en nuestra web.
+            </p>
+            <div class="radio-cards">
+              <label class="radio-card active" id="cardFlow">
+                <input type="radio" name="metodoPago" value="flow" checked onchange="toggleMetodoPago('flow')">
+                <div class="radio-info">
+                  <div class="radio-title">
+                    <span>Pasarela Flow.cl (Webpay / Tarjetas Débito y Crédito / Servipag)</span>
+                    <span style="background: #E0F2FE; color: #0284C7; font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 999px;">Recomendado</span>
+                  </div>
+                  <p class="radio-desc">Redirección a pasarela chilena Flow Sandbox para pago seguro con Webpay Plus.</p>
+                </div>
+              </label>
+
+              <label class="radio-card" id="cardTransferencia">
+                <input type="radio" name="metodoPago" value="transferencia" onchange="toggleMetodoPago('transferencia')">
+                <div class="radio-info">
+                  <div class="radio-title">
+                    <span>Transferencia Bancaria Electrónica</span>
+                  </div>
+                  <p class="radio-desc">Paga directamente desde la app de tu banco y envía tu comprobante.</p>
+                </div>
+              </label>
+
+              <label class="radio-card" id="cardMercadopago">
+                <input type="radio" name="metodoPago" value="mercadolibre" onchange="toggleMetodoPago('mercadolibre')">
+                <div class="radio-info">
+                  <div class="radio-title">
+                    <span>Mercado Pago / Mercado Libre</span>
+                  </div>
+                  <p class="radio-desc">Utiliza tu dinero disponible en cuenta o medios guardados.</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Columna Derecha: Resumen de Compra -->
+        <aside class="col-summary">
+          <div class="summary-card">
+            <h2 class="card-title">🛒 Resumen de Compra</h2>
+
+            <ul class="summary-items">
+              <li class="summary-item">
+                <div>
+                  <span class="summary-item-name">Torta Cuatro Leches Artesanal</span>
+                  <span class="summary-item-qty">x1</span>
+                </div>
+                <span class="summary-item-price">$28.900</span>
+              </li>
+              <li class="summary-item">
+                <div>
+                  <span class="summary-item-name">Cheesecake de Frutos Rojos</span>
+                  <span class="summary-item-qty">x1</span>
+                </div>
+                <span class="summary-item-price">$16.500</span>
+              </li>
+            </ul>
+
+            <div class="calc-table">
+              <div class="calc-row">
+                <span>Subtotal (Bruto productos):</span>
+                <span id="txtSubtotalBruto">$45.400</span>
+              </div>
+              <div class="calc-row iva">
+                <span>↳ Subtotal Neto (Base imponible):</span>
+                <span id="txtSubtotalNeto">$38.151</span>
+              </div>
+              <div class="calc-row iva">
+                <span>↳ IVA (19% DSY1104):</span>
+                <span id="txtIva">$7.249</span>
+              </div>
+              <div class="calc-row">
+                <span>Envío / Despacho:</span>
+                <span id="txtEnvio">$8.000</span>
+              </div>
+              <div class="calc-total">
+                <span class="calc-total-label">Total a Pagar:</span>
+                <span class="calc-total-amount" id="txtTotal">$53.400</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" id="btnSubmit">
+              Continuar al Pago Seguro →
+            </button>
+            <a href="carrito.html" class="btn-outline">
+              ← Modificar Carrito
+            </a>
+
+            <div style="margin-top: 1.25rem; font-size: 0.75rem; color: rgba(58, 42, 33, 0.65); text-align: center;">
+              Al confirmar, serás redirigido a la pasarela Flow para completar la transacción. Tu carrito se conservará hasta que el pago sea aprobado con éxito.
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </form>
+  </main>
+
+  <!-- Script interactivo con el diccionario de regiones de Chile -->
+  <script>
+    const REGIONES = [
+      { codigo: "AP", nombre: "Arica y Parinacota", comunas: ["Arica", "Camarones", "Putre", "General Lagos"] },
+      { codigo: "TA", nombre: "Tarapacá", comunas: ["Iquique", "Alto Hospicio", "Pozo Almonte", "Pica"] },
+      { codigo: "AN", nombre: "Antofagasta", comunas: ["Antofagasta", "Calama", "Mejillones", "Tocopilla"] },
+      { codigo: "AT", nombre: "Atacama", comunas: ["Copiapó", "Caldera", "Vallenar", "Huasco"] },
+      { codigo: "CO", nombre: "Coquimbo", comunas: ["La Serena", "Coquimbo", "Ovalle", "Vicuña", "Illapel"] },
+      { codigo: "VA", nombre: "Valparaíso", comunas: ["Valparaíso", "Viña del Mar", "Concón", "Quilpué", "Villa Alemana", "Quillota", "San Antonio"] },
+      { codigo: "RM", nombre: "Metropolitana de Santiago", comunas: ["Santiago", "Providencia", "Las Condes", "Ñuñoa", "Vitacura", "La Florida", "Maipú", "San Miguel", "Huechuraba", "Peñalolén", "Colina", "Puente Alto"] },
+      { codigo: "LI", nombre: "Libertador General Bernardo O'Higgins", comunas: ["Rancagua", "Machalí", "San Fernando", "Rengo", "Pichilemu"] },
+      { codigo: "ML", nombre: "Maule", comunas: ["Talca", "Curicó", "Linares", "Constitución", "Molina"] },
+      { codigo: "NB", nombre: "Ñuble", comunas: ["Chillán", "San Carlos", "Chillán Viejo", "Quirihue"] },
+      { codigo: "BI", nombre: "Biobío", comunas: ["Concepción", "Talcahuano", "San Pedro de la Paz", "Chiguayante", "Coronel", "Los Ángeles"] },
+      { codigo: "AR", nombre: "La Araucanía", comunas: ["Temuco", "Padre Las Casas", "Villarrica", "Pucón", "Angol"] },
+      { codigo: "LR", nombre: "Los Ríos", comunas: ["Valdivia", "La Unión", "Panguipulli", "Río Bueno"] },
+      { codigo: "LL", nombre: "Los Lagos", comunas: ["Puerto Montt", "Puerto Varas", "Osorno", "Castro", "Ancud"] },
+      { codigo: "AI", nombre: "Aysén", comunas: ["Coyhaique", "Aysén", "Chile Chico", "Cochrane"] },
+      { codigo: "MA", nombre: "Magallanes y Antártica", comunas: ["Punta Arenas", "Puerto Natales", "Porvenir"] }
+    ];
+
+    const SUB_TOTAL_BRUTO = 45400;
+    let costoEnvio = 8000;
+
+    // Poblar regiones al cargar
+    window.addEventListener("DOMContentLoaded", () => {
+      const selectRegion = document.getElementById("region");
+      REGIONES.forEach(reg => {
+        const opt = document.createElement("option");
+        opt.value = reg.codigo;
+        opt.textContent = reg.nombre;
+        selectRegion.appendChild(opt);
+      });
+      recalcularTotales();
+    });
+
+    function cargarComunas(codigoRegion) {
+      const selectComuna = document.getElementById("comuna");
+      selectComuna.innerHTML = '<option value="">-- Selecciona una comuna --</option>';
+      if (!codigoRegion) {
+        selectComuna.disabled = true;
+        return;
+      }
+      const reg = REGIONES.find(r => r.codigo === codigoRegion);
+      if (reg) {
+        reg.comunas.forEach(com => {
+          const opt = document.createElement("option");
+          opt.value = com;
+          opt.textContent = com;
+          selectComuna.appendChild(opt);
+        });
+        selectComuna.disabled = false;
+      }
+    }
+
+    function toggleMetodoEntrega(metodo) {
+      const seccion = document.getElementById("seccionDireccion");
+      const cardDespacho = document.getElementById("cardDespacho");
+      const cardRetiro = document.getElementById("cardRetiro");
+      const inputs = seccion.querySelectorAll("input, select");
+
+      if (metodo === "retiro") {
+        costoEnvio = 0;
+        seccion.style.display = "none";
+        inputs.forEach(i => i.required = false);
+        cardRetiro.classList.add("active");
+        cardDespacho.classList.remove("active");
+      } else {
+        costoEnvio = 8000;
+        seccion.style.display = "block";
+        document.getElementById("region").required = true;
+        document.getElementById("comuna").required = true;
+        document.getElementById("calle").required = true;
+        cardDespacho.classList.add("active");
+        cardRetiro.classList.remove("active");
+      }
+      recalcularTotales();
+    }
+
+    function toggleMetodoPago(metodo) {
+      document.getElementById("cardFlow").classList.toggle("active", metodo === "flow");
+      document.getElementById("cardTransferencia").classList.toggle("active", metodo === "transferencia");
+      document.getElementById("cardMercadopago").classList.toggle("active", metodo === "mercadolibre");
+    }
+
+    function recalcularTotales() {
+      const totalConEnvio = SUB_TOTAL_BRUTO + costoEnvio;
+      // Desglose IVA 19% chileno: Neto = Total / 1.19, IVA = Total - Neto
+      const neto = Math.round(SUB_TOTAL_BRUTO / 1.19);
+      const iva = SUB_TOTAL_BRUTO - neto;
+
+      document.getElementById("txtSubtotalBruto").textContent = "$" + SUB_TOTAL_BRUTO.toLocaleString("es-CL");
+      document.getElementById("txtSubtotalNeto").textContent = "$" + neto.toLocaleString("es-CL");
+      document.getElementById("txtIva").textContent = "$" + iva.toLocaleString("es-CL");
+      document.getElementById("txtEnvio").textContent = costoEnvio === 0 ? "Gratis" : "$" + costoEnvio.toLocaleString("es-CL");
+      document.getElementById("txtTotal").textContent = "$" + totalConEnvio.toLocaleString("es-CL");
+      document.getElementById("btnSubmit").textContent = `Pagar $${totalConEnvio.toLocaleString("es-CL")} vía Flow →`;
+    }
+
+    function actualizarContador(el) {
+      document.getElementById("charCount").textContent = el.value.length;
+    }
+
+    function validarRutChileno(el) {
+      const errorEl = document.getElementById("rutError");
+      const valor = el.value.trim().replace(/\./g, "").replace(/-/g, "").toUpperCase();
+      if (!valor) {
+        errorEl.style.display = "none";
+        return;
+      }
+      const cuerpo = valor.slice(0, -1);
+      const dv = valor.slice(-1);
+      if (!/^\d+$/.test(cuerpo)) {
+        errorEl.style.display = "block";
+        return;
+      }
+      let suma = 0;
+      let multiplo = 2;
+      for (let i = cuerpo.length - 1; i >= 0; i--) {
+        suma += parseInt(cuerpo.charAt(i), 10) * multiplo;
+        multiplo = multiplo < 7 ? multiplo + 1 : 2;
+      }
+      const dvr = 11 - (suma % 11);
+      let dvEsperado = dvr === 11 ? "0" : dvr === 10 ? "K" : dvr.toString();
+
+      if (dv !== dvEsperado) {
+        errorEl.style.display = "block";
+      } else {
+        errorEl.style.display = "none";
+      }
+    }
+
+    function fillTest(nom, ape, email, tel, rut, metodo, codReg, comuna, calle, depto, ind) {
+      document.getElementById("nombre").value = nom;
+      document.getElementById("apellidos").value = ape;
+      document.getElementById("email").value = email;
+      document.getElementById("telefono").value = tel;
+      document.getElementById("rut").value = rut;
+
+      if (metodo === "retiro") {
+        document.querySelector('input[name="metodoEntrega"][value="retiro"]').checked = true;
+        toggleMetodoEntrega("retiro");
+      } else {
+        document.querySelector('input[name="metodoEntrega"][value="despacho"]').checked = true;
+        toggleMetodoEntrega("despacho");
+        document.getElementById("region").value = codReg;
+        cargarComunas(codReg);
+        document.getElementById("comuna").value = comuna;
+        document.getElementById("calle").value = calle;
+        document.getElementById("depto").value = depto;
+      }
+      document.getElementById("indicaciones").value = ind;
+      actualizarContador(document.getElementById("indicaciones"));
+    }
+
+    function procesarCheckout() {
+      // Simula redirección a la pasarela Flow Sandbox
+      const ordenNum = Math.floor(1000 + Math.random() * 9000);
+      alert("Redirigiendo a pasarela Flow Sandbox para orden #CC-" + ordenNum + "...\n(El carrito no se vaciará hasta confirmar pago exitoso)");
+      window.location.href = "pago-exito.html?orden=CC-" + ordenNum + "&total=" + (SUB_TOTAL_BRUTO + costoEnvio);
+    }
+  </script>
+
+  <!-- Botón Flotante (Modo Desarrollo) -->
+  <a href="../index.html" class="dev-btn-volver-hub" title="Volver al índice">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Volver al Hub
+  </a>
+</body>
+</html>
