@@ -666,16 +666,16 @@ export const api = {
 
   // Pasarela Flow.cl
   payments: {
-    createFlowPayment: async (data: { orderId: number; amount: number; email: string; concept: string }) => {
+    createFlowPayment: async (data: { orderId: number | string; amount: number; email: string; concept: string }) => {
       const res = await request<{ redirectUrl?: string; checkoutUrl?: string; token?: string; paymentToken?: string }>("/payments/flow/create", {
         method: "POST",
         body: JSON.stringify({
           idempotencyKey: `idem_web_${data.orderId}_${Date.now()}`,
-          orderId: `order_${data.orderId}`,
+          orderId: String(data.orderId).startsWith("order_") ? String(data.orderId) : `order_${data.orderId}`,
           amount: data.amount,
           email: data.email,
           subject: data.concept || "Pedido Crème & Co",
-          urlReturn: window.location.origin + "/confirmacion",
+          urlReturn: window.location.origin + "/pago/exito",
         }),
       });
       return {

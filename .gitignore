@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# Environment variables
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
 # Salidas del anotador PCA (grafo regenerable)
 grafo.json
 grafo.mmd

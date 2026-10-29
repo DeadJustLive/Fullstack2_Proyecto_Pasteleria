@@ -202,9 +202,45 @@ export function Checkout() {
 
       // IMPORTANTE: NO vaciar carrito aquí. Se conserva hasta éxito de pago.
       if (metodoPago === "flow") {
-        navigate(
-          `/pago/flow-gateway?token=flow_${Date.now()}&orderId=${encodeURIComponent(orderCode)}&amount=${totalCalculado}&email=${encodeURIComponent(datos.email)}`
-        );
+        try {
+          // Creación híbrida e inteligente de la orden de pago en Flow
+          const paymentRes = await api.payments.createFlowPayment({
+            orderId: orderCode,
+            amount: totalCalculado,
+            email: datos.email,
+            concept: `Pedido Pastelería Crème & Co ${orderCode}`,
+          });
+
+          const redirectUrl = paymentRes.redirectUrl;
+
+          if (redirectUrl) {
+            // Caso 1: Pasarela Externa Oficial de Flow Chile (redirección bancaria real)
+            if (
+              (redirectUrl.includes("flow.cl") || redirectUrl.startsWith("http://") || redirectUrl.startsWith("https://")) &&
+              !redirectUrl.includes("/pago/flow-gateway")
+            ) {
+              window.location.href = redirectUrl;
+              return;
+            }
+
+            // Caso 2: URL interna de simulación devuelta por el microservicio
+            if (redirectUrl.includes("/pago/flow-gateway")) {
+              const localPath = redirectUrl.substring(redirectUrl.indexOf("/pago/flow-gateway"));
+              navigate(localPath);
+              return;
+            }
+          }
+
+          // Caso 3: Fallback con el token obtenido
+          navigate(
+            `/pago/flow-gateway?token=${encodeURIComponent(paymentRes.token || `flow_${Date.now()}`)}&orderId=${encodeURIComponent(orderCode)}&amount=${totalCalculado}&email=${encodeURIComponent(datos.email)}`
+          );
+        } catch {
+          // Caso 4: Modo offline resiliente o backend no disponible en entorno local
+          navigate(
+            `/pago/flow-gateway?token=flow_${Date.now()}&orderId=${encodeURIComponent(orderCode)}&amount=${totalCalculado}&email=${encodeURIComponent(datos.email)}`
+          );
+        }
       } else {
         vaciar();
         navigate(`/confirmacion?orderId=${encodeURIComponent(orderCode)}&total=${totalCalculado}`);
@@ -513,7 +549,7 @@ export function Checkout() {
                     </span>
                   </div>
                   <p className="mt-1 font-body text-xs leading-relaxed text-ink/75">
-                    Redirección interactiva a Flow con botones de prueba de pago aprobado y rechazado.
+                    Redirección segura a la pasarela Flow (Webpay). Si está en línea redirige a Flow Chile; de lo contrario inicia el simulador interactivo.
                   </p>
                 </div>
               </label>
