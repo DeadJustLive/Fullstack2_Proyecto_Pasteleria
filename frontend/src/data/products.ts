@@ -5,6 +5,7 @@ export const BADGE_LABEL: Record<BadgeTipo, string> = {
   temporada: "Temporada",
   vendido: "Más vendido",
   personalizable: "Personalizable",
+  oferta: "Oferta Especial",
 };
 
 export const CATEGORIAS: { value: string; label: string }[] = [
@@ -28,7 +29,9 @@ export const productos: Producto[] = [
   {
     id: 1,
     nombre: "Torta de Chocolate Clásica",
-    precio: 35000,
+    precio: 30800,
+    precioAnterior: 35000,
+    enOferta: true,
     imagen: "/imagen/chocolate.jpg",
     descripcion:
       "Bizcocho de cacao al 70% relleno de ganache y cubierto con crema de chocolate belga.",
@@ -40,7 +43,9 @@ export const productos: Producto[] = [
   {
     id: 2,
     nombre: "Tartaleta de Frutos Rojos",
-    precio: 28000,
+    precio: 23800,
+    precioAnterior: 28000,
+    enOferta: true,
     imagen: "/imagen/tartaleta.jpg",
     descripcion:
       "Base crocante de masa sablée con crema pastelera y frutos rojos de temporada.",
@@ -75,7 +80,9 @@ export const productos: Producto[] = [
   {
     id: 5,
     nombre: "Pancakes Sin Gluten",
-    precio: 22000,
+    precio: 19800,
+    precioAnterior: 22000,
+    enOferta: true,
     imagen: "/imagen/pancakes.webp",
     descripcion:
       "Torre de pancakes esponjosos elaborados con harina sin gluten y miel de maple.",

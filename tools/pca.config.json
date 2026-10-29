@@ -783,7 +783,7 @@
       "path": "frontend/src/pages/cliente/Blog.tsx",
       "id": "frontend.pages.cliente.blog",
       "kind": "page",
-      "limit": 180,
+      "limit": 240,
       "contract": "BlogView()",
       "desc": "Vista listado de articulos del blog de pasteleria",
       "relates": [
@@ -794,7 +794,7 @@
       "path": "frontend/src/pages/cliente/BlogDetalle.tsx",
       "id": "frontend.pages.cliente.blogDetalle",
       "kind": "page",
-      "limit": 150,
+      "limit": 190,
       "contract": "BlogDetalleView()",
       "desc": "Vista de lectura individual de un articulo del blog",
       "relates": [
@@ -942,6 +942,93 @@
       "desc": "Pantalla de autenticacion administrativa con verificacion de roles RBAC y tokens JWT",
       "relates": [
         "admin.services.api",
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Nosotros.tsx",
+      "id": "frontend.pages.cliente.nosotros",
+      "kind": "page",
+      "limit": 320,
+      "contract": "NosotrosView()",
+      "desc": "Vista institucional con historia, equipo de maestros pasteleros y pilares artesanales",
+      "relates": [
+        "frontend.ui.buttonLink",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Contacto.tsx",
+      "id": "frontend.pages.cliente.contacto",
+      "kind": "page",
+      "limit": 450,
+      "contract": "ContactoView()",
+      "desc": "Formulario de contacto con validacion de telefono y persistencia en service-notification",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.lib.authValidator",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Categorias.tsx",
+      "id": "frontend.pages.cliente.categorias",
+      "kind": "page",
+      "limit": 220,
+      "contract": "CategoriasView()",
+      "desc": "Grilla principal de las 5 categorias de la pasteleria conectada a service-catalog",
+      "relates": [
+        "frontend.services.api",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/CategoriaDetalle.tsx",
+      "id": "frontend.pages.cliente.categoriaDetalle",
+      "kind": "page",
+      "limit": 260,
+      "contract": "CategoriaDetalleView()",
+      "desc": "Vista de categoria especifica filtrada por slug con tarjetas de productos",
+      "relates": [
+        "frontend.domain.productCard",
+        "frontend.services.api",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Ofertas.tsx",
+      "id": "frontend.pages.cliente.ofertas",
+      "kind": "page",
+      "limit": 260,
+      "contract": "OfertasView()",
+      "desc": "Seccion dedicada de productos en oferta con precios tachados y calculo de ahorro",
+      "relates": [
+        "frontend.domain.productCard",
+        "frontend.services.api",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Ordenes.tsx",
+      "id": "admin.pages.ordenes",
+      "kind": "page",
+      "limit": 260,
+      "contract": "OrdenesView()",
+      "desc": "Manejo de pedidos, cambio de estados y visualizacion de boletas tributarias",
+      "relates": [
+        "admin.services.api",
+        "admin.components.boletaModal",
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/BoletaModal.tsx",
+      "id": "admin.components.boletaModal",
+      "kind": "component",
+      "limit": 350,
+      "contract": "BoletaModal(order, onClose)",
+      "desc": "Modal con desglose de IVA 19%, datos de emisor/receptor e impresion tributaria DSY1104",
+      "relates": [
         "docs.especificacion_pwa_admin"
       ]
     }

@@ -6,6 +6,7 @@ import { Inventario } from "./pages/Inventario";
 import { Usuarios } from "./pages/Usuarios";
 import { Promociones } from "./pages/Promociones";
 import { Pos } from "./pages/Pos";
+import { Ordenes } from "./pages/Ordenes";
 import { ComponentesShowcase } from "./pages/ComponentesShowcase";
 import { LoginAdmin } from "./pages/LoginAdmin";
 
@@ -17,6 +18,7 @@ export function App() {
         <Route index element={<Dashboard />} />
         <Route path="productos" element={<Productos />} />
         <Route path="inventario" element={<Inventario />} />
+        <Route path="ordenes" element={<Ordenes />} />
         <Route path="usuarios" element={<Usuarios />} />
         <Route path="promociones" element={<Promociones />} />
         <Route path="pos" element={<Pos />} />

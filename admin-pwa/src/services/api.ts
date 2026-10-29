@@ -22,6 +22,41 @@ export interface AdminUser {
   estado?: string;
 }
 
+export interface OrderItemAdmin {
+  id?: number;
+  nombre: string;
+  cantidad: number;
+  precio: number;
+  subtotal?: number;
+}
+
+export interface OrderAdmin {
+  id: number;
+  trackingCode: string;
+  cliente: string;
+  email?: string;
+  telefono?: string;
+  rut?: string;
+  tipoEntrega?: string; // DELIVERY o RETIRO
+  direccion?: string;
+  departamento?: string;
+  comuna?: string;
+  region?: string;
+  indicaciones?: string;
+  personaRetiroNombre?: string;
+  personaRetiroRut?: string;
+  personaRetiroTelefono?: string;
+  subtotal?: number;
+  descuento?: number;
+  costoEnvio?: number;
+  iva?: number;
+  total: number;
+  estado: string; // PAGADO, EN_PREPARACION, LISTO_RETIRO, EN_RUTA, ENTREGADO, CANCELADO
+  metodoPago?: string;
+  fecha: string;
+  items?: OrderItemAdmin[];
+}
+
 export function getAdminToken(): string | null {
   try {
     return localStorage.getItem(ADMIN_TOKEN_KEY);
@@ -142,9 +177,9 @@ export const adminApi = {
 
   // Pedidos
   orders: {
-    list: () => request<Array<{ id: number; trackingCode: string; cliente: string; estado: string; total: number; fecha: string; items?: Array<{ nombre: string; cantidad: number; precio: number }> }>>("/orders"),
+    list: () => request<OrderAdmin[]>("/orders"),
     updateStatus: (orderId: number, estado: string) =>
-      request<Record<string, unknown>>(`/orders/${orderId}/status`, {
+      request<OrderAdmin>(`/orders/${orderId}/status`, {
         method: "PUT",
         body: JSON.stringify({ estado }),
       }),

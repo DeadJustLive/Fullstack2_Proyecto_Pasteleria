@@ -7,12 +7,16 @@ import { Blog } from "@/pages/cliente/Blog";
 import { BlogDetalle } from "@/pages/cliente/BlogDetalle";
 import { Carrito } from "@/pages/cliente/Carrito";
 import { Catalogo } from "@/pages/cliente/Catalogo";
+import { Categorias } from "@/pages/cliente/Categorias";
+import { CategoriaDetalle } from "@/pages/cliente/CategoriaDetalle";
 import { Checkout } from "@/pages/cliente/Checkout";
 import { Confirmacion } from "@/pages/cliente/Confirmacion";
+import { Contacto } from "@/pages/cliente/Contacto";
 import { FlowGateway } from "@/pages/cliente/pago/FlowGateway";
 import { Home } from "@/pages/cliente/Home";
 import { Login } from "@/pages/cliente/Login";
-import { Registro } from "@/pages/cliente/Registro";
+import { Nosotros } from "@/pages/cliente/Nosotros";
+import { Ofertas } from "@/pages/cliente/Ofertas";
 import { PagoError } from "@/pages/cliente/pago/Error";
 import { PagoExito } from "@/pages/cliente/pago/Exito";
 import { PagoPendiente } from "@/pages/cliente/pago/Pendiente";
@@ -20,6 +24,7 @@ import { Perfil } from "@/pages/cliente/Perfil";
 import { PerfilSeguimiento } from "@/pages/cliente/PerfilSeguimiento";
 import { Personalizacion } from "@/pages/cliente/Personalizacion";
 import { ProductoDetalle } from "@/pages/cliente/ProductoDetalle";
+import { Registro } from "@/pages/cliente/Registro";
 
 function App() {
   return (
@@ -27,12 +32,17 @@ function App() {
       <Route element={<ClienteLayout />}>
         <Route index element={<Home />} />
         <Route path="catalogo" element={<Catalogo />} />
+        <Route path="categorias" element={<Categorias />} />
+        <Route path="categorias/:slug" element={<CategoriaDetalle />} />
+        <Route path="ofertas" element={<Ofertas />} />
         <Route path="producto/:id" element={<ProductoDetalle />} />
         <Route path="carrito" element={<Carrito />} />
         <Route path="checkout" element={<Checkout />} />
         <Route path="envio" element={<PerfilSeguimiento />} />
         <Route path="blog" element={<Blog />} />
         <Route path="blog/:slug" element={<BlogDetalle />} />
+        <Route path="nosotros" element={<Nosotros />} />
+        <Route path="contacto" element={<Contacto />} />
         <Route path="personalizacion" element={<Personalizacion />} />
         <Route path="confirmacion" element={<Confirmacion />} />
         <Route path="pago/flow-gateway" element={<FlowGateway />} />

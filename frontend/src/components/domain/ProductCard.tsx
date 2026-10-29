@@ -65,6 +65,8 @@ export function ProductCard({ producto, elevation, className }: ProductCardProps
         </span>
       ) : producto.badge ? (
         <Badge tipo={producto.badge}>{BADGE_LABEL[producto.badge]}</Badge>
+      ) : producto.enOferta ? (
+        <Badge tipo="oferta">Oferta</Badge>
       ) : null}
 
       <Link to={`/producto/${producto.id}`} tabIndex={-1} aria-hidden="true" className="block aspect-square w-full overflow-hidden">
@@ -85,7 +87,14 @@ export function ProductCard({ producto, elevation, className }: ProductCardProps
         </h3>
 
         <div className="flex items-center justify-between">
-          <span className="font-bold text-secondary">{formatPrecio(producto.precio)}</span>
+          <div className="flex items-baseline gap-2">
+            <span className="font-bold text-secondary">{formatPrecio(producto.precio)}</span>
+            {producto.precioAnterior && producto.precioAnterior > producto.precio && (
+              <span className="text-xs text-ink/50 line-through">
+                {formatPrecio(producto.precioAnterior)}
+              </span>
+            )}
+          </div>
           {!estaDisponible && <span className="font-body text-xs font-semibold text-red-600">No disponible</span>}
         </div>
 

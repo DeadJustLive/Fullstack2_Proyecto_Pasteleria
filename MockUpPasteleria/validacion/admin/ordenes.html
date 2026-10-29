@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Órdenes & Boletas — Crème & Co Admin</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/base.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <style>
+    /* Estilos dedicados para la Boleta Electrónica DSY1104 */
+    .receipt-box {
+      background: #FFFFFF;
+      border: 2px dashed #8B4513;
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      font-family: 'Source Sans 3', monospace, sans-serif;
+      color: #3A2A21;
+    }
+    .receipt-header {
+      text-align: center;
+      border-bottom: 1px dashed #D2B48C;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+    }
+    .receipt-header h3 {
+      font-family: var(--font-display);
+      color: #5D4037;
+      margin: 0 0 0.25rem 0;
+      font-size: 1.35rem;
+    }
+    .receipt-badge-sii {
+      display: inline-block;
+      border: 2px solid #C62828;
+      color: #C62828;
+      font-weight: 700;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .receipt-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      font-size: 0.82rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px dashed #D2B48C;
+    }
+    .receipt-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+    .receipt-table th {
+      border-bottom: 1px solid #3A2A21;
+      padding: 0.4rem 0.25rem;
+      text-align: left;
+    }
+    .receipt-table td {
+      padding: 0.45rem 0.25rem;
+      border-bottom: 1px dotted #D2B48C;
+    }
+    .receipt-totals {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.88rem;
+      border-top: 1px dashed #D2B48C;
+      padding-top: 0.75rem;
+    }
+    .receipt-totals-row {
+      display: flex;
+      justify-content: space-between;
+    }
+    .receipt-totals-row.grand-total {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #5D4037;
+      border-top: 2px solid #5D4037;
+      padding-top: 0.5rem;
+      margin-top: 0.35rem;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #boletaImprimible, #boletaImprimible * {
+        visibility: visible;
+      }
+      #boletaImprimible {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+      }
+      .modal-footer, .btn-close, .admin-sidebar, .admin-header {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar__header">
+        <div class="admin-sidebar__logo">C</div>
+        <div>
+          <span class="admin-sidebar__title">Crème & Co</span>
+          <span class="admin-sidebar__badge">Admin</span>
+        </div>
+      </div>
+
+      <nav class="admin-nav">
+        <a href="reportes.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+          Dashboard & Reportes
+        </a>
+        <a href="productos.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          Productos & Catálogo
+        </a>
+        <a href="inventario.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+          Inventario & Stock
+        </a>
+        <a href="ordenes.html" class="admin-nav__link admin-nav__link--active">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+          Órdenes & Boletas
+        </a>
+        <a href="usuarios.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          Usuarios & Roles
+        </a>
+        <a href="promociones.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
+          Promociones & Descuentos
+        </a>
+        <a href="componentes.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+          UI Kit: Botones & Modales
+        </a>
+      </nav>
+
+      <div class="admin-sidebar__footer">
+        <div class="admin-user">
+          <div class="admin-user__avatar">AG</div>
+          <div class="admin-user__info">
+            <span class="admin-user__name">Admin General</span>
+            <span class="admin-user__role">Superusuario</span>
+          </div>
+        </div>
+        <a href="auth.html" title="Cerrar Sesión" style="color: rgba(255, 245, 225, 0.7);">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-header">
+        <div class="admin-header__title-group">
+          <h1>Control de Órdenes & Boletas</h1>
+          <p>Trazabilidad de pedidos, estados de entrega y emisión de boletas electrónicas DSY1104</p>
+        </div>
+        <div class="admin-header__actions">
+          <button class="btn btn-primary" onclick="alert('Exportando listado de órdenes en formato CSV / Excel...')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            Exportar Órdenes
+          </button>
+        </div>
+      </header>
+
+      <div class="admin-body">
+        <!-- Tarjetas KPI -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-card__label">Órdenes Totales</span>
+            <span class="kpi-card__value">142</span>
+            <span class="kpi-card__trend kpi-card__trend--up">Octubre 2026</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-card__label">En Preparación</span>
+            <span class="kpi-card__value" style="color: #F57F17;">8</span>
+            <span class="kpi-card__trend">Cocina trabajando</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-card__label">Listas para Retiro</span>
+            <span class="kpi-card__value" style="color: #0277BD;">5</span>
+            <span class="kpi-card__trend">Mostrador tienda</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-card__label">Total Facturado</span>
+            <span class="kpi-card__value" style="color: #2E7D32;">$4.850.000</span>
+            <span class="kpi-card__trend kpi-card__trend--up">100% Boletas Emitidas</span>
+          </div>
+        </div>
+
+        <!-- Tabla de Órdenes -->
+        <div class="admin-card">
+          <div class="admin-card__header">
+            <div>
+              <h2 class="admin-card__title">Listado Maestro de Órdenes</h2>
+              <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7);">Pedidos web y mostrador sincronizados con MySQL</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <input type="text" id="filtroTexto" class="form-input" placeholder="Buscar por código (#CC-) o cliente..." style="width: 250px; font-size: 0.82rem;" oninput="filtrarOrdenes()">
+              <select id="filtroEstado" class="form-select" style="width: 170px; font-size: 0.82rem;" onchange="filtrarOrdenes()">
+                <option value="TODOS">Todos los estados</option>
+                <option value="PAGADO">Pagado</option>
+                <option value="EN_PREPARACION">En Preparación</option>
+                <option value="LISTO_RETIRO">Listo para Retiro</option>
+                <option value="EN_RUTA">En Ruta (Delivery)</option>
+                <option value="ENTREGADO">Entregado</option>
+                <option value="CANCELADO">Cancelado</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table" id="tablaOrdenes">
+              <thead>
+                <tr>
+                  <th>Código</th>
+                  <th>Fecha</th>
+                  <th>Cliente</th>
+                  <th>Método Entrega</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                  <th style="text-align: right;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-order="1">
+                  <td><strong style="color: var(--color-tertiary); font-family: monospace;">#CC-1001</strong></td>
+                  <td style="font-size: 0.82rem; color: #666;">24/10/2026 10:30</td>
+                  <td>
+                    <div style="font-weight: 600;">Camila Silva</div>
+                    <div style="font-size: 0.75rem; color: #888;">camila.silva@duocuc.cl · 18.452.912-3</div>
+                  </td>
+                  <td>
+                    <span class="status-badge status-badge--info">
+                      <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                      Retiro en Tienda
+                    </span>
+                    <div style="font-size: 0.72rem; color: #5D4037; margin-top: 2px;">Recoge: Diego Morales (19.821.433-2)</div>
+                  </td>
+                  <td><strong>$45.000</strong></td>
+                  <td>
+                    <select class="form-select" style="font-size: 0.78rem; padding: 0.25rem 0.5rem; width: 145px;" onchange="actualizarEstadoMockup(1, this.value)">
+                      <option value="PAGADO">PAGADO</option>
+                      <option value="EN_PREPARACION" selected>EN PREPARACIÓN</option>
+                      <option value="LISTO_RETIRO">LISTO RETIRO</option>
+                      <option value="ENTREGADO">ENTREGADO</option>
+                      <option value="CANCELADO">CANCELADO</option>
+                    </select>
+                  </td>
+                  <td style="text-align: right;">
+                    <button class="btn btn-secondary btn-sm" onclick="abrirBoleta(1)">
+                      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                      Mostrar Boleta
+                    </button>
+                  </td>
+                </tr>
+
+                <tr data-order="2">
+                  <td><strong style="color: var(--color-tertiary); font-family: monospace;">#CC-1002</strong></td>
+                  <td style="font-size: 0.82rem; color: #666;">24/10/2026 11:15</td>
+                  <td>
+                    <div style="font-weight: 600;">Ignacio Valenzuela</div>
+                    <div style="font-size: 0.75rem; color: #888;">ignacio.v@gmail.com · 16.782.341-K</div>
+                  </td>
+                  <td>
+                    <span class="status-badge status-badge--success">
+                      <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"></path></svg>
+                      Delivery Domicilio
+                    </span>
+                    <div style="font-size: 0.72rem; color: #5D4037; margin-top: 2px;">Av. Providencia 1234, Providencia</div>
+                  </td>
+                  <td><strong>$68.000</strong></td>
+                  <td>
+                    <select class="form-select" style="font-size: 0.78rem; padding: 0.25rem 0.5rem; width: 145px;" onchange="actualizarEstadoMockup(2, this.value)">
+                      <option value="PAGADO">PAGADO</option>
+                      <option value="EN_PREPARACION">EN PREPARACIÓN</option>
+                      <option value="EN_RUTA" selected>EN RUTA</option>
+                      <option value="ENTREGADO">ENTREGADO</option>
+                      <option value="CANCELADO">CANCELADO</option>
+                    </select>
+                  </td>
+                  <td style="text-align: right;">
+                    <button class="btn btn-secondary btn-sm" onclick="abrirBoleta(2)">
+                      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                      Mostrar Boleta
+                    </button>
+                  </td>
+                </tr>
+
+                <tr data-order="3">
+                  <td><strong style="color: var(--color-tertiary); font-family: monospace;">#CC-1003</strong></td>
+                  <td style="font-size: 0.82rem; color: #666;">24/10/2026 12:45</td>
+                  <td>
+                    <div style="font-weight: 600;">Francisca Pinto</div>
+                    <div style="font-size: 0.75rem; color: #888;">fran.pinto@profesor.duoc.cl · 12.940.321-8</div>
+                  </td>
+                  <td>
+                    <span class="status-badge status-badge--info">
+                      <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                      Retiro en Tienda
+                    </span>
+                    <div style="font-size: 0.72rem; color: #5D4037; margin-top: 2px;">Recoge titular (Francisca Pinto)</div>
+                  </td>
+                  <td><strong>$34.000</strong></td>
+                  <td>
+                    <select class="form-select" style="font-size: 0.78rem; padding: 0.25rem 0.5rem; width: 145px;" onchange="actualizarEstadoMockup(3, this.value)">
+                      <option value="PAGADO">PAGADO</option>
+                      <option value="EN_PREPARACION">EN PREPARACIÓN</option>
+                      <option value="LISTO_RETIRO" selected>LISTO RETIRO</option>
+                      <option value="ENTREGADO">ENTREGADO</option>
+                      <option value="CANCELADO">CANCELADO</option>
+                    </select>
+                  </td>
+                  <td style="text-align: right;">
+                    <button class="btn btn-secondary btn-sm" onclick="abrirBoleta(3)">
+                      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                      Mostrar Boleta
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Mostrar Boleta Electrónica DSY1104 -->
+  <div class="modal-overlay" id="modalBoleta">
+    <div class="modal-window" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="admin-card__title" style="margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          Boleta Electrónica Oficial DSY1104
+        </h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarBoleta()" style="padding: 0.2rem 0.5rem; border-radius: 50%;">✕</button>
+      </div>
+
+      <div class="modal-body" id="boletaImprimible">
+        <div class="receipt-box">
+          <div class="receipt-header">
+            <h3>PASTELERÍA CRÈME & CO SpA</h3>
+            <div style="font-size: 0.8rem; color: #5D4037;">Giro: Elaboración de Productos de Pastelería y Repostería Fina</div>
+            <div style="font-size: 0.8rem; color: #5D4037;">Casa Matriz: Av. Providencia 1234, Providencia, Santiago</div>
+            <div style="font-size: 0.8rem; color: #5D4037;">Teléfono: +56 9 8765 4321 · contacto@cremeco.cl</div>
+            <div class="receipt-badge-sii">R.U.T.: 76.543.210-K<br>BOLETA ELECTRÓNICA Nº <span id="boletaNumero">#CC-1001</span><br>S.I.I. — SANTIAGO ORIENTE</div>
+          </div>
+
+          <div class="receipt-meta-grid">
+            <div>
+              <strong>Fecha Emisión:</strong> <span id="boletaFecha">24/10/2026 10:30</span><br>
+              <strong>Cliente:</strong> <span id="boletaCliente">Camila Silva</span><br>
+              <strong>RUT:</strong> <span id="boletaRut">18.452.912-3</span><br>
+              <strong>Email:</strong> <span id="boletaEmail">camila.silva@duocuc.cl</span>
+            </div>
+            <div>
+              <strong>Método de Entrega:</strong> <span id="boletaEntrega">Retiro en Tienda</span><br>
+              <span id="boletaDetalleEntrega"><strong>Retira:</strong> Diego Morales (19.821.433-2)</span><br>
+              <strong>Medio de Pago:</strong> <span id="boletaPago">WebPay Plus / Flow</span><br>
+              <strong>Estado:</strong> <span id="boletaEstadoBadge" class="status-badge status-badge--success">PAGADO</span>
+            </div>
+          </div>
+
+          <table class="receipt-table">
+            <thead>
+              <tr>
+                <th>Cant.</th>
+                <th>Descripción</th>
+                <th style="text-align: right;">Unitario</th>
+                <th style="text-align: right;">Total</th>
+              </tr>
+            </thead>
+            <tbody id="boletaItems">
+              <tr>
+                <td>1</td>
+                <td>Torta Chocolate y Frutillas Especial (15 pers.)</td>
+                <td style="text-align: right;">$45.000</td>
+                <td style="text-align: right;">$45.000</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="receipt-totals">
+            <div class="receipt-totals-row">
+              <span>Subtotal Neto:</span>
+              <strong id="boletaNeto">$37.815</strong>
+            </div>
+            <div class="receipt-totals-row">
+              <span>I.V.A. (19%):</span>
+              <strong id="boletaIva">$7.185</strong>
+            </div>
+            <div class="receipt-totals-row" id="filaEnvio">
+              <span>Costo de Despacho:</span>
+              <strong id="boletaEnvio">$0</strong>
+            </div>
+            <div class="receipt-totals-row grand-total">
+              <span>TOTAL PAGADO:</span>
+              <span id="boletaTotal">$45.000 CLP</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 1.25rem; text-align: center; font-size: 0.72rem; color: #888; border-top: 1px dotted #ccc; padding-top: 0.5rem;">
+            Timbre Electrónico SII — Res. 99 de 2014 - Verifique documento en www.sii.cl<br>
+            ¡Gracias por preferir Crème & Co! Endulzamos tus momentos especiales.
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="cerrarBoleta()">Cerrar</button>
+        <button class="btn btn-primary" onclick="window.print()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          Imprimir Boleta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const DATOS_ORDENES = {
+      1: {
+        codigo: "#CC-1001",
+        fecha: "24/10/2026 10:30",
+        cliente: "Camila Silva",
+        rut: "18.452.912-3",
+        email: "camila.silva@duocuc.cl",
+        telefono: "+56 9 7788 9900",
+        entrega: "Retiro en Tienda",
+        detalleEntrega: "<strong>Persona autorizada retiro:</strong> Diego Morales (19.821.433-2) - Tel: +56 9 9123 4455",
+        pago: "WebPay Plus (Flow)",
+        estado: "PAGADO",
+        items: [
+          { cant: 1, desc: "Torta Cuatro Leches Tradicional (15 pers.)", unitario: 34000, total: 34000 },
+          { cant: 1, desc: "Caja Macarons Surtidos x6", unitario: 11000, total: 11000 }
+        ],
+        costoEnvio: 0,
+        total: 45000
+      },
+      2: {
+        codigo: "#CC-1002",
+        fecha: "24/10/2026 11:15",
+        cliente: "Ignacio Valenzuela",
+        rut: "16.782.341-K",
+        email: "ignacio.v@gmail.com",
+        telefono: "+56 9 6655 4433",
+        entrega: "Delivery Domicilio",
+        detalleEntrega: "<strong>Dirección:</strong> Av. Providencia 1234, Depto 402, Providencia, Región Metropolitana",
+        pago: "Servipag (Flow)",
+        estado: "EN_RUTA",
+        items: [
+          { cant: 2, desc: "Cheesecake Horneado Frutos Rojos (12 pers.)", unitario: 34000, total: 68000 }
+        ],
+        costoEnvio: 0,
+        total: 68000
+      },
+      3: {
+        codigo: "#CC-1003",
+        fecha: "24/10/2026 12:45",
+        cliente: "Francisca Pinto",
+        rut: "12.940.321-8",
+        email: "fran.pinto@profesor.duoc.cl",
+        telefono: "+56 9 5544 3322",
+        entrega: "Retiro en Tienda",
+        detalleEntrega: "<strong>Retira titular:</strong> Francisca Pinto (12.940.321-8)",
+        pago: "WebPay Plus (Flow)",
+        estado: "LISTO_RETIRO",
+        items: [
+          { cant: 1, desc: "Torta Hojarasca Manjar Lúcuma (20 pers.)", unitario: 34000, total: 34000 }
+        ],
+        costoEnvio: 0,
+        total: 34000
+      }
+    };
+
+    function abrirBoleta(id) {
+      const ord = DATOS_ORDENES[id];
+      if (!ord) return;
+
+      document.getElementById('boletaNumero').innerText = ord.codigo;
+      document.getElementById('boletaFecha').innerText = ord.fecha;
+      document.getElementById('boletaCliente').innerText = ord.cliente;
+      document.getElementById('boletaRut').innerText = ord.rut;
+      document.getElementById('boletaEmail').innerText = ord.email;
+      document.getElementById('boletaEntrega').innerText = ord.entrega;
+      document.getElementById('boletaDetalleEntrega').innerHTML = ord.detalleEntrega;
+      document.getElementById('boletaPago').innerText = ord.pago;
+      document.getElementById('boletaEstadoBadge').innerText = ord.estado;
+
+      const itemsTbody = document.getElementById('boletaItems');
+      itemsTbody.innerHTML = ord.items.map(it => `
+        <tr>
+          <td>${it.cant}</td>
+          <td>${it.desc}</td>
+          <td style="text-align: right;">$${it.unitario.toLocaleString('es-CL')}</td>
+          <td style="text-align: right;">$${it.total.toLocaleString('es-CL')}</td>
+        </tr>
+      `).join('');
+
+      const neto = Math.round(ord.total / 1.19);
+      const iva = ord.total - neto;
+
+      document.getElementById('boletaNeto').innerText = `$${neto.toLocaleString('es-CL')}`;
+      document.getElementById('boletaIva').innerText = `$${iva.toLocaleString('es-CL')}`;
+      document.getElementById('boletaEnvio').innerText = `$${ord.costoEnvio.toLocaleString('es-CL')}`;
+      document.getElementById('boletaTotal').innerText = `$${ord.total.toLocaleString('es-CL')} CLP`;
+
+      document.getElementById('modalBoleta').classList.add('active');
+    }
+
+    function cerrarBoleta() {
+      document.getElementById('modalBoleta').classList.remove('active');
+    }
+
+    function actualizarEstadoMockup(id, nuevoEstado) {
+      if (DATOS_ORDENES[id]) {
+        DATOS_ORDENES[id].estado = nuevoEstado;
+        alert(`Estado del pedido ${DATOS_ORDENES[id].codigo} actualizado a '${nuevoEstado}'.`);
+      }
+    }
+
+    function filtrarOrdenes() {
+      const q = document.getElementById('filtroTexto').value.toLowerCase();
+      const est = document.getElementById('filtroEstado').value;
+      const rows = document.querySelectorAll('#tablaOrdenes tbody tr');
+
+      rows.forEach(tr => {
+        const id = tr.getAttribute('data-order');
+        const ord = DATOS_ORDENES[id];
+        if (!ord) return;
+
+        const matchQ = ord.codigo.toLowerCase().includes(q) || ord.cliente.toLowerCase().includes(q);
+        const matchEst = est === 'TODOS' || ord.estado === est;
+
+        if (matchQ && matchEst) {
+          tr.style.display = '';
+        } else {
+          tr.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

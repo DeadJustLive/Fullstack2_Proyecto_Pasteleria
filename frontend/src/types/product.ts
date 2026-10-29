@@ -2,12 +2,14 @@ export type Categoria = "torta" | "tartaleta" | "cheesecake" | "pastel" | "panca
 
 export type Variacion = "personalizable" | "temporada" | "vendido" | "sin gluten";
 
-export type BadgeTipo = "premium" | "temporada" | "vendido" | "personalizable";
+export type BadgeTipo = "premium" | "temporada" | "vendido" | "personalizable" | "oferta";
 
 export interface Producto {
   id: number;
   nombre: string;
   precio: number;
+  precioAnterior?: number;
+  enOferta?: boolean;
   imagen: string;
   descripcion: string;
   categorias: Categoria[];

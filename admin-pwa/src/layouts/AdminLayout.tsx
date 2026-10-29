@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, Outlet, useLocation, Navigate, useNavigate } from "react-router-dom";
 import {
   BarChart3,
+  ClipboardList,
   ExternalLink,
   Layers,
   Menu,
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
   { to: "/", label: "Dashboard & Reportes", icon: BarChart3, end: true },
   { to: "/productos", label: "Productos & Catálogo", icon: Package },
   { to: "/inventario", label: "Inventario & Stock", icon: Layers },
+  { to: "/ordenes", label: "Órdenes & Boletas", icon: ClipboardList },
   { to: "/usuarios", label: "Usuarios & Roles", icon: Users },
   { to: "/promociones", label: "Promociones & Descuentos", icon: Tag },
   { to: "/pos", label: "Punto de Venta POS", icon: Monitor },

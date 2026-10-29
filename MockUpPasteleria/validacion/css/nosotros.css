@@ -1,0 +1,258 @@
+/* Estilos para Nosotros - Crème & Co */
+
+.nosotros-hero {
+  background: linear-gradient(rgba(58, 42, 33, 0.85), rgba(93, 64, 55, 0.9)), url('https://images.unsplash.com/photo-1517433670267-08bbd4be890f?q=80&w=1600&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  padding: 4rem 1rem;
+  text-align: center;
+  color: var(--color-neutral);
+}
+
+.nosotros-hero__container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.nosotros-hero__eyebrow {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+
+.nosotros-hero__title {
+  color: var(--color-neutral);
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+}
+
+.nosotros-hero__subtitle {
+  color: rgba(255, 245, 225, 0.9);
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+
+/* Sección Historia */
+.historia-section {
+  padding: 4rem 1rem;
+}
+
+.historia-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .historia-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 3.5rem;
+  }
+}
+
+.historia-content h2 {
+  text-align: left;
+  margin-bottom: 1.25rem;
+  color: var(--color-tertiary);
+}
+
+.historia-content p {
+  color: var(--color-ink);
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+.historia-image-wrapper {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.historia-image-wrapper img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+}
+
+.historia-badge {
+  position: absolute;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  background: white;
+  padding: 0.85rem 1.25rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.historia-badge-year {
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--color-secondary);
+}
+
+.historia-badge-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-tertiary);
+  line-height: 1.2;
+}
+
+/* Pilares de Calidad */
+.pilares-section {
+  background-color: white;
+  padding: 4rem 1rem;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.section-header {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 3rem;
+}
+
+.section-eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.pilares-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.pilar-card {
+  background: var(--color-neutral);
+  padding: 2rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  text-align: center;
+}
+
+.pilar-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.pilar-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  color: var(--color-tertiary);
+  font-size: 1.5rem;
+}
+
+.pilar-card h3 {
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.pilar-card p {
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  margin: 0 auto;
+}
+
+/* Maestros Pasteleros */
+.equipo-section {
+  padding: 4rem 1rem;
+}
+
+.equipo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.chef-card {
+  background: white;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.chef-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.chef-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+
+.chef-info {
+  padding: 1.5rem;
+}
+
+.chef-role {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.chef-name {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-tertiary);
+}
+
+.chef-bio {
+  font-size: 0.92rem;
+  color: var(--color-ink);
+  line-height: 1.5;
+}
+
+/* Stats / Insignias */
+.stats-banner {
+  background: var(--color-tertiary);
+  color: var(--color-neutral);
+  padding: 3rem 1rem;
+  border-radius: var(--radius-md);
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  text-align: center;
+}
+
+.stat-item h4 {
+  font-size: 2.25rem;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.stat-item p {
+  font-size: 0.9rem;
+  color: var(--color-neutral);
+  margin: 0 auto;
+}

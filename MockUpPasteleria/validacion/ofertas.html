@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ofertas Especiales - Crème & Co Pastelería</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <style>
+    .ofertas-hero {
+      background: linear-gradient(135deg, #FFE4E8 0%, #FFF5E1 100%);
+      padding: 3.5rem 1rem 3rem;
+      text-align: center;
+      border-bottom: 1px solid var(--color-border);
+      position: relative;
+    }
+    .ofertas-hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #D32F2F;
+      background: #FFEBEE;
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-full);
+      margin-bottom: 0.75rem;
+      border: 1px solid rgba(211, 47, 47, 0.2);
+    }
+    .ofertas-hero__title {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      color: var(--color-tertiary);
+      margin-bottom: 0.75rem;
+    }
+    .ofertas-hero__desc {
+      font-size: 1.1rem;
+      color: var(--color-ink);
+      opacity: 0.85;
+      max-width: 620px;
+      margin: 0 auto 1.5rem;
+    }
+
+    /* Coupon Box */
+    .coupon-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      background: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-full);
+      box-shadow: var(--shadow-sm);
+      border: 1px dashed var(--color-secondary);
+      max-width: 90%;
+    }
+    .coupon-code {
+      font-family: monospace;
+      font-weight: 700;
+      font-size: 1.1rem;
+      background: var(--color-neutral);
+      padding: 0.25rem 0.6rem;
+      border-radius: var(--radius-sm);
+      color: var(--color-secondary);
+      letter-spacing: 0.05em;
+    }
+
+    .ofertas-container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 3rem 1.25rem 4rem;
+    }
+
+    .ofertas-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .oferta-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .oferta-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .oferta-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 2;
+      background: #D32F2F;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-full);
+      box-shadow: 0 2px 6px rgba(211, 47, 47, 0.35);
+    }
+
+    .oferta-card__img-wrapper {
+      position: relative;
+      height: 220px;
+      overflow: hidden;
+      background: #faf3ee;
+    }
+    .oferta-card__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+    .oferta-card:hover .oferta-card__img {
+      transform: scale(1.04);
+    }
+
+    .oferta-card__body {
+      padding: 1.25rem 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .oferta-card__category {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-secondary);
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .oferta-card__title {
+      font-size: 1.15rem;
+      color: var(--color-tertiary);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .oferta-card__desc {
+      font-size: 0.85rem;
+      color: var(--color-ink);
+      opacity: 0.75;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    /* Price Section */
+    .oferta-pricing {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      background: #FFFBF7;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(139, 69, 19, 0.08);
+    }
+    .oferta-pricing__main {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+    }
+    .oferta-price-current {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #C2185B;
+    }
+    .oferta-price-old {
+      font-size: 1rem;
+      color: #8D6E63;
+      text-decoration: line-through;
+      font-weight: 500;
+    }
+    .oferta-savings {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #2E7D32;
+    }
+
+    .oferta-card__actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .btn-add-cart {
+      flex: 1;
+      background: var(--color-secondary);
+      color: white;
+      border: none;
+      padding: 0.7rem 1rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .btn-add-cart:hover {
+      background: var(--color-tertiary);
+    }
+    .btn-view-more {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid var(--color-secondary);
+      color: var(--color-secondary);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn-view-more:hover {
+      background: var(--color-secondary);
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header style="background: white; border-bottom: 1px solid var(--color-border); padding: 1rem 0;">
+    <div style="max-width: var(--container-max); margin: 0 auto; padding: 0 1.25rem; display: flex; align-items: center; justify-content: space-between;">
+      <a href="index.html" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none;">
+        <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--color-primary); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: var(--color-tertiary); font-size: 1.2rem;">C</div>
+        <span style="font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--color-tertiary);">Crème & Co</span>
+      </a>
+      <nav style="display: flex; gap: 1.75rem; align-items: center;">
+        <a href="index.html" style="color: var(--color-tertiary); font-weight: 500;">Inicio</a>
+        <a href="categorias.html" style="color: var(--color-tertiary); font-weight: 500;">Categorías</a>
+        <a href="ofertas.html" style="color: var(--color-secondary); font-weight: 700; border-bottom: 2px solid var(--color-secondary);">Ofertas</a>
+        <a href="servicios.html" style="color: var(--color-tertiary); font-weight: 500;">Servicios</a>
+        <a href="personalizacion.html" style="color: var(--color-tertiary); font-weight: 500;">Personalización</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="ofertas-hero">
+    <span class="ofertas-hero__badge">Promociones Exclusivas</span>
+    <h1 class="ofertas-hero__title">Ofertas Especiales</h1>
+    <p class="ofertas-hero__desc">Sabores irresistibles con descuentos por tiempo limitado. Aprovecha precios rebajados en nuestras tortas y preparaciones destacadas.</p>
+    
+    <div class="coupon-banner">
+      <span>¡Descuento extra en checkout! Usa el código:</span>
+      <span class="coupon-code">CREME10</span>
+      <span style="font-size: 0.85rem; color: #2E7D32; font-weight: 600;">(10% OFF adicional)</span>
+    </div>
+  </section>
+
+  <!-- Grid de Productos en Oferta -->
+  <main class="ofertas-container">
+    <div class="ofertas-grid">
+
+      <!-- Producto 1: Torta Ópera Francesa -->
+      <article class="oferta-card">
+        <span class="oferta-badge">-14% OFF</span>
+        <div class="oferta-card__img-wrapper">
+          <img src="/imagen/Torta-Opera-Francesa.webp" alt="Torta Ópera Francesa" class="oferta-card__img" onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop'">
+        </div>
+        <div class="oferta-card__body">
+          <span class="oferta-card__category">Tortas</span>
+          <h2 class="oferta-card__title">Torta Ópera Francesa</h2>
+          <p class="oferta-card__desc">Capas de bizcocho Joconde con café, ganache de chocolate belga y crema de mantequilla.</p>
+          
+          <div class="oferta-pricing">
+            <div class="oferta-pricing__main">
+              <span class="oferta-price-current">$24.990</span>
+              <span class="oferta-price-old">$28.990</span>
+            </div>
+            <span class="oferta-savings">Ahorras $4.000 (-14%)</span>
+          </div>
+
+          <div class="oferta-card__actions">
+            <button class="btn-add-cart">Añadir al Carrito</button>
+            <a href="producto.html?id=1" class="btn-view-more" title="Ver Detalle">Ver</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 2: Torta Selva Negra -->
+      <article class="oferta-card">
+        <span class="oferta-badge">-11% OFF</span>
+        <div class="oferta-card__img-wrapper">
+          <img src="/imagen/Torta-Selva-Negra-Tradicional.webp" alt="Torta Selva Negra" class="oferta-card__img" onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop'">
+        </div>
+        <div class="oferta-card__body">
+          <span class="oferta-card__category">Tortas</span>
+          <h2 class="oferta-card__title">Torta Selva Negra Tradicional</h2>
+          <p class="oferta-card__desc">Bizcocho de chocolate humedecido en kirsch con chantilly fresca, cerezas amarenas y virutas bitter.</p>
+          
+          <div class="oferta-pricing">
+            <div class="oferta-pricing__main">
+              <span class="oferta-price-current">$23.990</span>
+              <span class="oferta-price-old">$26.990</span>
+            </div>
+            <span class="oferta-savings">Ahorras $3.000 (-11%)</span>
+          </div>
+
+          <div class="oferta-card__actions">
+            <button class="btn-add-cart">Añadir al Carrito</button>
+            <a href="producto.html?id=3" class="btn-view-more" title="Ver Detalle">Ver</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 3: Pancakes Sin Gluten -->
+      <article class="oferta-card">
+        <span class="oferta-badge">-10% OFF</span>
+        <div class="oferta-card__img-wrapper">
+          <img src="/imagen/Pancakes.webp" alt="Pancakes Sin Gluten" class="oferta-card__img" onerror="this.src='https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=800&auto=format&fit=crop'">
+        </div>
+        <div class="oferta-card__body">
+          <span class="oferta-card__category">Sin Gluten</span>
+          <h2 class="oferta-card__title">Pancakes Sin Gluten Frutos del Bosque</h2>
+          <p class="oferta-card__desc">Torre esponjosa elaborada con harina de almendras y arroz, bañados en miel de maple.</p>
+          
+          <div class="oferta-pricing">
+            <div class="oferta-pricing__main">
+              <span class="oferta-price-current">$8.990</span>
+              <span class="oferta-price-old">$9.990</span>
+            </div>
+            <span class="oferta-savings">Ahorras $1.000 (-10%)</span>
+          </div>
+
+          <div class="oferta-card__actions">
+            <button class="btn-add-cart">Añadir al Carrito</button>
+            <a href="producto.html?id=6" class="btn-view-more" title="Ver Detalle">Ver</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 4: Tartaleta Frutos Rojos -->
+      <article class="oferta-card">
+        <span class="oferta-badge">-15% OFF</span>
+        <div class="oferta-card__img-wrapper">
+          <img src="/imagen/tartaleta.jpg" alt="Tartaleta de Frutos Rojos" class="oferta-card__img" onerror="this.src='https://images.unsplash.com/photo-1519869325930-281384150729?q=80&w=800&auto=format&fit=crop'">
+        </div>
+        <div class="oferta-card__body">
+          <span class="oferta-card__category">Tartaletas</span>
+          <h2 class="oferta-card__title">Tartaleta de Frutos Rojos</h2>
+          <p class="oferta-card__desc">Base crocante de masa sablée con crema pastelera y mix de frutillas, arándanos y frambuesas.</p>
+          
+          <div class="oferta-pricing">
+            <div class="oferta-pricing__main">
+              <span class="oferta-price-current">$23.800</span>
+              <span class="oferta-price-old">$28.000</span>
+            </div>
+            <span class="oferta-savings">Ahorras $4.200 (-15%)</span>
+          </div>
+
+          <div class="oferta-card__actions">
+            <button class="btn-add-cart">Añadir al Carrito</button>
+            <a href="producto.html?id=2" class="btn-view-more" title="Ver Detalle">Ver</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 5: Torta de Chocolate Clásica -->
+      <article class="oferta-card">
+        <span class="oferta-badge">-12% OFF</span>
+        <div class="oferta-card__img-wrapper">
+          <img src="/imagen/chocolate.jpg" alt="Torta de Chocolate Clásica" class="oferta-card__img" onerror="this.src='https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop'">
+        </div>
+        <div class="oferta-card__body">
+          <span class="oferta-card__category">Tortas</span>
+          <h2 class="oferta-card__title">Torta de Chocolate Clásica</h2>
+          <p class="oferta-card__desc">Bizcocho de cacao puro al 70% con capas de ganache suave y cobertura brillante.</p>
+          
+          <div class="oferta-pricing">
+            <div class="oferta-pricing__main">
+              <span class="oferta-price-current">$30.800</span>
+              <span class="oferta-price-old">$35.000</span>
+            </div>
+            <span class="oferta-savings">Ahorras $4.200 (-12%)</span>
+          </div>
+
+          <div class="oferta-card__actions">
+            <button class="btn-add-cart">Añadir al Carrito</button>
+            <a href="producto.html?id=1" class="btn-view-more" title="Ver Detalle">Ver</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Producto 6: Cheesecake de Frutos Rojos -->
+      <article class="oferta-card">
+        <span class="oferta-badge">-10% OFF</span>
+        <div class="oferta-card__img-wrapper">
+          <img src="/imagen/cheesecake.jpg" alt="Cheesecake de Frutos Rojos" class="oferta-card__img" onerror="this.src='https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=800&auto=format&fit=crop'">
+        </div>
+        <div class="oferta-card__body">
+          <span class="oferta-card__category">Cheesecakes</span>
+          <h2 class="oferta-card__title">Cheesecake de Frutos Rojos</h2>
+          <p class="oferta-card__desc">Horneado suave estilo Nueva York con coulis casero de moras y frambuesas.</p>
+          
+          <div class="oferta-pricing">
+            <div class="oferta-pricing__main">
+              <span class="oferta-price-current">$27.000</span>
+              <span class="oferta-price-old">$30.000</span>
+            </div>
+            <span class="oferta-savings">Ahorras $3.000 (-10%)</span>
+          </div>
+
+          <div class="oferta-card__actions">
+            <button class="btn-add-cart">Añadir al Carrito</button>
+            <a href="producto.html?id=4" class="btn-view-more" title="Ver Detalle">Ver</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: var(--color-tertiary); color: white; padding: 2.5rem 1.25rem; text-align: center; margin-top: 2rem;">
+    <p style="font-family: var(--font-display); font-size: 1.1rem; margin-bottom: 0.5rem;">Crème & Co Pastelería Fina</p>
+    <p style="font-size: 0.85rem; opacity: 0.75;">Ofertas válidas hasta agotar stock diario o fin de promoción. Santiago, Chile.</p>
+  </footer>
+</body>
+</html>

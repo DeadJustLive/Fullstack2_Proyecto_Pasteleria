@@ -1,0 +1,193 @@
+/* Estilos para Contacto - Crème & Co */
+
+.contacto-hero {
+  background: linear-gradient(rgba(58, 42, 33, 0.85), rgba(93, 64, 55, 0.9)), url('https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1600&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  padding: 4rem 1rem;
+  text-align: center;
+  color: var(--color-neutral);
+}
+
+.contacto-hero__container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contacto-hero__eyebrow {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+
+.contacto-hero__title {
+  color: var(--color-neutral);
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+}
+
+.contacto-hero__subtitle {
+  color: rgba(255, 245, 225, 0.9);
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+
+/* Layout de contacto: 2 columnas */
+.contacto-main {
+  padding: 4rem 1rem;
+}
+
+.contacto-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .contacto-grid {
+    grid-template-columns: 1.2fr 0.8fr;
+  }
+}
+
+/* Card del Formulario */
+.contacto-card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 2.5rem;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-tertiary);
+  margin-bottom: 0.5rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(93, 64, 55, 0.25);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-ink);
+  background: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.15);
+}
+
+.form-hint {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(58, 42, 33, 0.6);
+  margin-top: 0.35rem;
+}
+
+.form-error {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--color-error);
+  margin-top: 0.35rem;
+  font-weight: 500;
+}
+
+/* Info lateral del local */
+.local-info-card {
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 2.5rem;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.info-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.info-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-neutral);
+  color: var(--color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.25rem;
+}
+
+.info-text h4 {
+  font-size: 1.05rem;
+  color: var(--color-tertiary);
+  margin-bottom: 0.25rem;
+}
+
+.info-text p {
+  color: var(--color-ink);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.mapa-card {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  margin-top: 0.5rem;
+}
+
+.mapa-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Feedback banners */
+.feedback-banner {
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.feedback-banner--success {
+  background: #e8f5e9;
+  border: 1px solid #c8e6c9;
+  color: #2e7d32;
+}
+
+.feedback-banner--error {
+  background: #ffebee;
+  border: 1px solid #ffcdd2;
+  color: #c62828;
+}

@@ -19,6 +19,8 @@ export interface RawCatalogProduct {
   id: number;
   nombre?: string;
   precio?: number;
+  precioAnterior?: number;
+  enOferta?: boolean;
   imagen?: string;
   descripcion?: string;
   categoria?: string;
@@ -103,6 +105,8 @@ export function normalizeProduct(raw: RawCatalogProduct): Producto {
     id: typeof raw.id === "number" ? raw.id : Number(raw.id) || 0,
     nombre: raw.nombre || "Producto de Pastelería",
     precio: typeof raw.precio === "number" ? raw.precio : 0,
+    precioAnterior: typeof raw.precioAnterior === "number" ? raw.precioAnterior : undefined,
+    enOferta: raw.enOferta ?? (typeof raw.precioAnterior === "number" && typeof raw.precio === "number" && raw.precioAnterior > raw.precio),
     imagen: raw.imagen || "/imagen/chocolate.jpg",
     descripcion:
       raw.descripcion ||
@@ -185,10 +189,23 @@ export interface RegisterResponse {
 export const api = {
   // Catálogo
   catalog: {
-    getProducts: async (): Promise<Producto[]> => {
-      const data = await request<RawCatalogProduct[]>("/catalog/products");
+    getProducts: async (categoria?: string): Promise<Producto[]> => {
+      const endpoint = categoria ? `/catalog/products?categoria=${encodeURIComponent(categoria)}` : "/catalog/products";
+      const data = await request<RawCatalogProduct[]>(endpoint);
       return Array.isArray(data) ? data.map(normalizeProduct) : [];
     },
+    getCategories: async (): Promise<Array<{ id?: number; slug: string; nombre: string; descripcion?: string; imagen?: string; activo?: boolean }>> => {
+      return request<Array<{ id?: number; slug: string; nombre: string; descripcion?: string; imagen?: string; activo?: boolean }>>("/catalog/categories");
+    },
+    getCategoryBySlug: async (slug: string) => {
+      return request<{ id?: number; slug: string; nombre: string; descripcion?: string; imagen?: string; activo?: boolean }>(`/catalog/categories/slug/${slug}`);
+    },
+    getOffers: async (): Promise<Producto[]> => {
+      const data = await request<RawCatalogProduct[]>("/catalog/products/offers");
+      return Array.isArray(data) ? data.map(normalizeProduct) : [];
+    },
+    getBlogs: () => request<any[]>("/catalog/blogs"),
+    getBlogBySlug: (slug: string) => request<any>(`/catalog/blogs/slug/${slug}`),
     getProductById: async (id: number): Promise<Producto> => {
       const data = await request<RawCatalogProduct>(`/catalog/products/${id}`);
       return normalizeProduct(data);

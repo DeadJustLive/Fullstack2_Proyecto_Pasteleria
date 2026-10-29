@@ -28,20 +28,20 @@ Cerrar el 100% de las brechas entre el estado actual del proyecto, los requerimi
 
 ## Índice de tickets y Orden de Ejecución
 
-| Orden | ID | Título | Capa Principal | Prioridad | Depende de | Estado |
-| :---: | :--- | :--- | :--- | :--- | :--- | :--- |
-| **1°** | [T89](#ticket-t89--reglas-de-negocio-transversales-rut-módulo-11-región-comuna-y-validadores) | Reglas de negocio transversales: RUT Módulo 11, Región→Comuna y validadores puros | `frontend/` + `admin-pwa/` | Alta | — | Pendiente |
-| **2°** | [T90](#ticket-t90--persistencia-jpa-mysql-cremeco_db-dataseeder-automático-y-openapi-en-microservicios) | Persistencia JPA MySQL (`cremeco_db`), `DataSeeder` automático y OpenAPI en los 6 microservicios | `backend/` | Alta | — | Pendiente |
-| **3°** | [T91](#ticket-t91--vistas-públicas-de-autenticación-login-y-registro- + -guardián-rbac-en-admin-pwa) | Vistas públicas `/login` y `/registro` + Guardián RBAC y JWT en `admin-pwa` | `MockUp` → `frontend/` + `admin-pwa/` | Alta | T89, T90 | Pendiente |
-| **4°** | [T92](#ticket-t92--vistas-informativas-públicas-nosotros-y-contacto-conectado-a-bd) | Vistas informativas públicas: `/nosotros` y `/contacto` conectado a BD | `MockUp` → `frontend/` + `backend/` | Alta | T89, T90 | Pendiente |
-| **5°** | [T93](#ticket-t93--vistas-públicas-de-categorías-ofertas-y-blogs-desde-mysql) | Vistas públicas de `/categorias`, `/categorias/:slug`, `/ofertas` y Blogs desde MySQL | `MockUp` → `frontend/` + `service-catalog` | Alta | T90 | Pendiente |
-| **6°** | [T94](#ticket-t94--checkout-completo-dsy1104-escenarios-de-tarjetas-flow-sandbox-y-vistas-éxitoerror) | Checkout completo DSY1104, escenarios de tarjetas Flow Sandbox y vistas Éxito/Error con resumen | `MockUp` → `frontend/` + `service-order` + `service-payment-flow` | Alta | T89, T90 | Pendiente |
-| **7°** | [T95](#ticket-t95--perfil-de-cliente-seguimiento-real-y-cotizaciones-de-personalización-en-bd) | Perfil de cliente, seguimiento real `#CC-XXXX` y cotizaciones de personalización en BD | `frontend/` + `service-identity` + `service-order` | Alta | T90, T94 | Pendiente |
-| **8°** | [T96](#ticket-t96--módulo-admin-órdenes-y-vista-mostrar-boleta) | Módulo Admin: Órdenes y vista imprimible Mostrar Boleta (`/ordenes`) | `MockUp` → `admin-pwa/` + `service-order` | Alta | T90, T91 | Pendiente |
-| **9°** | [T97](#ticket-t97--módulo-admin-productos-completo-mostrar-editar-críticos-y-reportes) | Módulo Admin: Productos completo (Mostrar, Editar, Listado Críticos y Reportes) | `MockUp` → `admin-pwa/` + `service-catalog` | Alta | T90, T91 | Pendiente |
-| **10°** | [T98](#ticket-t98--módulo-admin-crud-de-categorías-y-promociones-en-mysql) | Módulo Admin: CRUD de Categorías (`/categorias`) y Promociones en MySQL | `MockUp` → `admin-pwa/` + `service-catalog` | Media | T90, T93 | Pendiente |
-| **11°** | [T99](#ticket-t99--módulo-admin-usuarios-completo-nuevo-mostrar-editar-e-historial-de-compras) | Módulo Admin: Usuarios completo (Nuevo, Mostrar, Editar e Historial de Compras) | `MockUp` → `admin-pwa/` + `service-identity` + `service-order` | Alta | T89, T90, T96 | Pendiente |
-| **12°** | [T100](#ticket-t100--módulos-admin-reportes-perfil-admin-inventariopos-real-y-despliegue-vps-docker) | Módulos Admin: `/reportes`, `/perfil`, Inventario/POS real y configuración VPS Docker | `MockUp` → `admin-pwa/` + `backend/` + `docker` | Alta | T96, T97, T99 | Pendiente |
+  Orden   ID   Título   Capa Principal   Prioridad   Depende de   Estado  
+  :---:   :---   :---   :---   :---   :---   :---  
+  **1°**   [T89](#ticket-t89--reglas-de-negocio-transversales-rut-módulo-11-región-comuna-y-validadores)   Reglas de negocio transversales: RUT Módulo 11, Región→Comuna y validadores puros   `frontend/` + `admin-pwa/`   Alta   —   Pendiente  
+  **2°**   [T90](#ticket-t90--persistencia-jpa-mysql-cremeco_db-dataseeder-automático-y-openapi-en-microservicios)   Persistencia JPA MySQL (`cremeco_db`), `DataSeeder` automático y OpenAPI en los 6 microservicios   `backend/`   Alta   —   Pendiente  
+  **3°**   [T91](#ticket-t91--vistas-públicas-de-autenticación-login-y-registro- + -guardián-rbac-en-admin-pwa)   Vistas públicas `/login` y `/registro` + Guardián RBAC y JWT en `admin-pwa`   `MockUp` → `frontend/` + `admin-pwa/`   Alta   T89, T90   Pendiente  
+  **4°**   [T92](#ticket-t92--vistas-informativas-públicas-nosotros-y-contacto-conectado-a-bd)   Vistas informativas públicas: `/nosotros` y `/contacto` conectado a BD   `MockUp` → `frontend/` + `backend/`   Alta   T89, T90   Pendiente  
+  **5°**   [T93](#ticket-t93--vistas-públicas-de-categorías-ofertas-y-blogs-desde-mysql)   Vistas públicas de `/categorias`, `/categorias/:slug`, `/ofertas` y Blogs desde MySQL   `MockUp` → `frontend/` + `service-catalog`   Alta   T90   Pendiente  
+  **6°**   [T94](#ticket-t94--checkout-completo-dsy1104-escenarios-de-tarjetas-flow-sandbox-y-vistas-éxitoerror)   Checkout completo DSY1104, escenarios de tarjetas Flow Sandbox y vistas Éxito/Error con resumen   `MockUp` → `frontend/` + `service-order` + `service-payment-flow`   Alta   T89, T90   Pendiente  
+  **7°**   [T95](#ticket-t95--perfil-de-cliente-seguimiento-real-y-cotizaciones-de-personalización-en-bd)   Perfil de cliente, seguimiento real `#CC-XXXX` y cotizaciones de personalización en BD   `frontend/` + `service-identity` + `service-order`   Alta   T90, T94   Pendiente  
+  **8°**   [T96](#ticket-t96--módulo-admin-órdenes-y-vista-mostrar-boleta)   Módulo Admin: Órdenes y vista imprimible Mostrar Boleta (`/ordenes`)   `MockUp` → `admin-pwa/` + `service-order`   Alta   T90, T91   Pendiente  
+  **9°**   [T97](#ticket-t97--módulo-admin-productos-completo-mostrar-editar-críticos-y-reportes)   Módulo Admin: Productos completo (Mostrar, Editar, Listado Críticos y Reportes)   `MockUp` → `admin-pwa/` + `service-catalog`   Alta   T90, T91   Pendiente  
+  **10°**   [T98](#ticket-t98--módulo-admin-crud-de-categorías-y-promociones-en-mysql)   Módulo Admin: CRUD de Categorías (`/categorias`) y Promociones en MySQL   `MockUp` → `admin-pwa/` + `service-catalog`   Media   T90, T93   Pendiente  
+  **11°**   [T99](#ticket-t99--módulo-admin-usuarios-completo-nuevo-mostrar-editar-e-historial-de-compras)   Módulo Admin: Usuarios completo (Nuevo, Mostrar, Editar e Historial de Compras)   `MockUp` → `admin-pwa/` + `service-identity` + `service-order`   Alta   T89, T90, T96   Pendiente  
+  **12°**   [T100](#ticket-t100--módulos-admin-reportes-perfil-admin-inventariopos-real-y-despliegue-vps-docker)   Módulos Admin: `/reportes`, `/perfil`, Inventario/POS real y configuración VPS Docker   `MockUp` → `admin-pwa/` + `backend/` + `docker`   Alta   T96, T97, T99   Pendiente  
 
 ---
 
@@ -78,13 +78,13 @@ Antes de maquetar y construir las vistas de Login, Registro, Checkout, Contacto 
 - [ ] Todos los validadores retornan un objeto tipado `{ valido: boolean; errores: Record<string, string> }` sin depender de React.
 
 #### Archivos afectados (previstos)
-| Archivo | `@kind` | `@limit` |
-| :--- | :--- | :--- |
-| `frontend/src/lib/validators/rut.validator.ts` | util | 90 |
-| `frontend/src/lib/data/regiones-chile.ts` | util | 180 |
-| `frontend/src/lib/validators/checkout.validator.ts` | util | 120 |
-| `frontend/src/lib/validators/auth.validator.ts` | util | 100 |
-| `admin-pwa/src/lib/validators.ts` | util | 140 |
+  Archivo   `@kind`   `@limit`  
+  :---   :---   :---  
+  `frontend/src/lib/validators/rut.validator.ts`   util   90  
+  `frontend/src/lib/data/regiones-chile.ts`   util   180  
+  `frontend/src/lib/validators/checkout.validator.ts`   util   120  
+  `frontend/src/lib/validators/auth.validator.ts`   util   100  
+  `admin-pwa/src/lib/validators.ts`   util   140  
 
 #### Casos límite (Edge Cases)
 - RUT ingresado sin puntos ni guion (`123456785`), con `k` minúscula o con todos los dígitos iguales (`11111111-1` vs secuencias inválidas vacías).

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto y Ubicación - Crème &amp; Co</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/contacto.css">
+</head>
+<body>
+  <header style="background: white; border-bottom: 1px solid var(--color-border); padding: 1rem 0;">
+    <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--color-primary); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: var(--color-tertiary);">C</div>
+        <span style="font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--color-tertiary);">Crème &amp; Co</span>
+      </div>
+      <nav style="display: flex; gap: 2rem;">
+        <a href="#" style="color: var(--color-tertiary); font-weight: 500;">Inicio</a>
+        <a href="servicios.html" style="color: var(--color-tertiary); font-weight: 500;">Servicios</a>
+        <a href="nosotros.html" style="color: var(--color-tertiary); font-weight: 500;">Nosotros</a>
+        <a href="contacto.html" style="color: var(--color-secondary); font-weight: 600;">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Contacto -->
+  <section class="contacto-hero">
+    <div class="contacto-hero__container">
+      <span class="contacto-hero__eyebrow">Ponte en Contacto</span>
+      <h1 class="contacto-hero__title">Estamos Aquí para Escucharte</h1>
+      <p class="contacto-hero__subtitle">
+        ¿Tienes dudas sobre pedidos especiales, eventos o alérgenos? Envíanos un mensaje o visítanos directamente en nuestro obrador de Providencia.
+      </p>
+    </div>
+  </section>
+
+  <!-- Contenido Principal -->
+  <main class="contacto-main">
+    <div class="container">
+      <div class="contacto-grid">
+        <!-- Formulario reactivo -->
+        <div class="contacto-card">
+          <h2 style="text-align: left; margin-bottom: 0.5rem;">Escríbenos un Mensaje</h2>
+          <p style="color: rgba(58, 42, 33, 0.75); margin-bottom: 2rem;">
+            Respondemos todas las consultas en menos de 24 horas hábiles.
+          </p>
+
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="nombre" class="form-label">Nombre Completo *</label>
+              <input type="text" id="nombre" name="nombre" class="form-input" placeholder="Ej: Marcela Morales" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Correo Electrónico *</label>
+              <input type="email" id="email" name="email" class="form-input" placeholder="ejemplo@correo.cl" required>
+              <span class="form-hint">Te enviaremos la respuesta y confirmación a esta casilla.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="telefono" class="form-label">Teléfono Móvil (Chile) *</label>
+              <input type="tel" id="telefono" name="telefono" class="form-input" placeholder="+56 9 1234 5678" required>
+              <span class="form-hint">Formato chileno: +56 9 XXXX XXXX o 9 dígitos.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="motivo" class="form-label">Motivo de Consulta *</label>
+              <select id="motivo" name="motivo" class="form-select" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option value="cotizacion">Cotización personalizada de torta</option>
+                <option value="eventos">Eventos corporativos o matrimonios</option>
+                <option value="alergenos">Consultas de ingredientes o alérgenos</option>
+                <option value="seguimiento">Estado o entrega de un pedido existente</option>
+                <option value="otro">Otro motivo o felicitaciones</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="mensaje" class="form-label">Tu Mensaje *</label>
+              <textarea id="mensaje" name="mensaje" rows="5" class="form-textarea" placeholder="Cuéntanos detalles de tu fecha, número de invitados, preferencias de sabores..." required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="background: var(--color-secondary); color: white; border: none; padding: 0.85rem 2rem; border-radius: var(--radius-full); font-weight: 600; font-size: 1rem; width: 100%; justify-content: center;">
+              Enviar Consulta
+            </button>
+          </form>
+        </div>
+
+        <!-- Información del Local y Horarios -->
+        <aside class="local-info-card">
+          <div>
+            <h3 style="color: var(--color-tertiary); margin-bottom: 0.5rem;">Información del Local</h3>
+            <p style="color: rgba(58, 42, 33, 0.75); font-size: 0.95rem;">
+              Ven a conocer nuestra vitrina diaria, degustar café de especialidad y retirar tus pedidos programados.
+            </p>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📍</div>
+            <div class="info-text">
+              <h4>Dirección</h4>
+              <p>Av. Providencia 2133, Local 12<br>Providencia, Región Metropolitana (Cerca de Metro Los Leones)</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">⏰</div>
+            <div class="info-text">
+              <h4>Horarios de Atención</h4>
+              <p><strong>Lunes a Viernes:</strong> 08:30 – 20:00 hrs<br>
+                 <strong>Sábados:</strong> 09:30 – 19:30 hrs<br>
+                 <strong>Domingos y Festivos:</strong> 10:00 – 15:00 hrs (Solo retiros programados)</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📞</div>
+            <div class="info-text">
+              <h4>Teléfono y WhatsApp</h4>
+              <p>+56 9 8765 4321<br>+56 2 2345 6789 (Fijo tienda)</p>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">✉️</div>
+            <div class="info-text">
+              <h4>Correo Directo</h4>
+              <p>contacto@cremeco.cl<br>pedidos@cremeco.cl</p>
+            </div>
+          </div>
+
+          <div class="mapa-card">
+            <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=800&auto=format&fit=crop" alt="Ubicación Providencia Crème &amp; Co">
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer style="background: white; border-top: 1px solid var(--color-border); padding: 3rem 0; text-align: center; color: var(--color-ink);">
+    <div class="container">
+      <p style="margin-bottom: 0.5rem; font-weight: 600; color: var(--color-tertiary);">Crème &amp; Co Pastelería Fina</p>
+      <p style="font-size: 0.9rem; color: rgba(58, 42, 33, 0.7);">Av. Providencia 2133, Providencia, Santiago • Santiago de Chile</p>
+      <p style="font-size: 0.85rem; margin-top: 1.5rem; color: rgba(58, 42, 33, 0.5);">© 2026 Crème &amp; Co. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+</body>
+</html>

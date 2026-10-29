@@ -1,25 +1,72 @@
 // @pca:start
 // @id(frontend.pages.cliente.blog)
 // @kind(page)
-// @limit(lines: 180)
+// @limit(lines: 240)
 // @contract(BlogView())
 // @relates(docs.reglas_ui)
 // @desc(Vista listado de articulos del blog de pasteleria)
 // @pca:end
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Clock, Heart, MessageCircle, Repeat2, Share2, Tag, TrendingUp } from "lucide-react";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { blogPosts, BLOG_CATEGORIAS } from "@/data/blog";
 import { cn, formatFechaLarga } from "@/lib/utils";
+import type { BlogPost, BlogCategoria } from "@/types/blog";
 
 export function Blog() {
+  const [posts, setPosts] = useState<BlogPost[]>(blogPosts);
   const [categoriaActiva, setCategoriaActiva] = useState<string>("todas");
+
+  useEffect(() => {
+    let montado = true;
+    async function cargarArticulos() {
+      try {
+        const res = await fetch("http://localhost:8080/api/catalog/blogs");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (montado && Array.isArray(data) && data.length > 0) {
+          const adaptados: BlogPost[] = data.map((b: any) => {
+            let cat: BlogCategoria = "recetas";
+            if (b.categoria === "tips" || b.categoria === "consejos") cat = "tips";
+            else if (b.categoria === "novedades") cat = "novedades";
+            else if (b.categoria === "historia") cat = "historia";
+
+            return {
+              id: Number(b.id) || 0,
+              slug: b.slug,
+              titulo: b.titulo || "Artículo de Pastelería",
+              extracto: b.extracto || "",
+              contenido:
+                typeof b.contenidoJson === "string"
+                  ? b.contenidoJson.split("|||")
+                  : Array.isArray(b.contenido)
+                  ? b.contenido
+                  : [b.extracto || ""],
+              imagen: b.imagen || "/imagen/torta.jpg",
+              categoria: cat,
+              autor: b.autor || "Crème & Co",
+              fecha: b.fecha || "2026-10-01",
+              tiempoLectura: b.tiempoLectura || "3 min",
+              destacado: Boolean(b.destacado),
+            };
+          });
+          setPosts(adaptados);
+        }
+      } catch {
+        // Fallback elegante al data local si el backend no responde
+      }
+    }
+    void cargarArticulos();
+    return () => {
+      montado = false;
+    };
+  }, []);
 
   const postsFiltrados =
     categoriaActiva === "todas"
-      ? blogPosts
-      : blogPosts.filter((post) => post.categoria === categoriaActiva);
+      ? posts
+      : posts.filter((post) => post.categoria === categoriaActiva);
 
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-6">
@@ -86,7 +133,7 @@ export function Blog() {
         </div>
       </header>
 
-      {/* Feed tipo Twitter */}
+      {/* Feed de Artículos */}
       <div className="flex flex-col divide-y divide-tertiary/10">
         {postsFiltrados.length === 0 ? (
           <p className="py-10 text-center font-body text-ink/60">

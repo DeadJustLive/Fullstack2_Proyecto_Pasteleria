@@ -21,6 +21,7 @@ const badgeVariants = cva(
         temporada: "bg-[#FFDBD0] text-tertiary",
         vendido: "bg-[#FFD9DF] text-tertiary",
         personalizable: "bg-neutral text-secondary",
+        oferta: "bg-red-600 text-white shadow-md",
       } satisfies Record<BadgeTipo, string>,
     },
     defaultVariants: {
