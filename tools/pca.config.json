@@ -617,6 +617,47 @@
         "docs.especificacion_microservicios",
         "docs.reglas_backend"
       ]
+    },
+    {
+      "path": "frontend/src/lib/validators/rut.validator.ts",
+      "id": "frontend.lib.validators.rut",
+      "kind": "util",
+      "limit": 90,
+      "contract": "exporta: validarRut, formatearRut, limpiarRut",
+      "desc": "Validador y formateador oficial de RUN/RUT chileno mediante algoritmo Módulo 11",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/lib/data/regiones-chile.ts",
+      "id": "frontend.lib.data.regionesChile",
+      "kind": "util",
+      "limit": 180,
+      "contract": "exporta: REGIONES_CHILE, obtenerComunasPorRegion, obtenerNombreRegion, validarRegionYComuna",
+      "desc": "Catálogo oficial de las 16 regiones de Chile y sus comunas para selectores anidados",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/lib/validators/auth.validator.ts",
+      "id": "frontend.lib.validators.auth",
+      "kind": "util",
+      "limit": 100,
+      "contract": "exporta: validarEmail, validarPassword, validarLoginForm, validarRegistroForm",
+      "desc": "Reglas de validación puras para formularios de autenticación y registro de usuario",
+      "relates": [
+        "frontend.lib.validators.rut"
+      ]
+    },
+    {
+      "path": "frontend/src/lib/validators/checkout.validator.ts",
+      "id": "frontend.lib.validators.checkout",
+      "kind": "util",
+      "limit": 120,
+      "contract": "exporta: validarCheckoutForm, CheckoutFormData",
+      "desc": "Reglas de validación puras para el formulario de Checkout según DSY1104 Anexo 1",
+      "relates": [
+        "frontend.lib.validators.rut",
+        "frontend.lib.data.regionesChile"
+      ]
     }
   ],
   "options": {

@@ -104,6 +104,8 @@ la migración.
 | FE-INT-04 | Checkout completo, creación de orden y verificación de pasarela Flow.cl | F3 / INT | Pendiente | `CONV-TIP-01`, `CONV-ERR-01` |
 | FE-INT-05 | Perfil de cliente, direcciones dinámicas y tracking en tiempo real | F3 / INT | Pendiente | `CONV-UI-02`, `CONV-TIP-01` |
 | FE-INT-06 | Cotizaciones de personalización y registro de ventas POS en Kardex | F3 / INT | Pendiente | `CONV-EST-01`, `CONV-TIP-01` |
+| T89 | Reglas de negocio transversales: RUT Módulo 11, Región→Comuna y validadores puros | F3 / S7 | Hecho | `CONV-EST-01`, `CONV-TIP-01`, `CONV-TIP-03`, `CONV-ERR-02` |
+| T90 | Persistencia JPA MySQL (`cremeco_db`), `DataSeeder` automático y OpenAPI en los 6 microservicios | F3 / S7 | Pendiente | `CONV-NAM-05`, `CONV-EST-01`, `CONV-SEG-01` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
@@ -113,8 +115,8 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 > Un solo ticket concreto a la vez.
 
-- **FE-INT-04 — Integración Completa de Checkout y Pasarela Flow.cl:**
-  Enviar modelo completo de orden y despacho a `service-order` (`POST /api/orders`), iniciar cobro en Flow (`POST /api/payments/flow/create`) y validar el token en `/confirmacion` con `api.payments.getStatus(token)`.
+- **T90 — Persistencia JPA MySQL (`cremeco_db`), DataSeeder automático y OpenAPI en microservicios:**
+  Configurar entidades JPA en `service-identity`, `service-catalog`, `service-order`, `service-inventory` y `service-notification`, conectar con MySQL 8 en Docker/VPS e implementar el DataSeeder para autollenar datos de prueba iniciales cuando las tablas estén vacías.
 
 ---
 

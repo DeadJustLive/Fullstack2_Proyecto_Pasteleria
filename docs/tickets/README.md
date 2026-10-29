@@ -25,6 +25,7 @@ están cerradas y F1/F2 están aprobados.
 | S4 | [`sprint-4-pos-inventario.md`](./sprint-4-pos-inventario.md) | T62–T70 | POS, caja, stock, insumos, recetas y offline |
 | S5 | [`sprint-5-gestion-ampliada.md`](./sprint-5-gestion-ampliada.md) | T71–T79 | Dashboard, reportes, blog, configuración y auditoría |
 | S6 | [`sprint-6-integraciones-cierre.md`](./sprint-6-integraciones-cierre.md) | T80–T88 | Flow, seguridad, E2E, performance y cierre |
+| S7 | [`sprint-7-dsy1104-produccion.md`](./sprint-7-dsy1104-produccion.md) | T89–T100 | Cumplimiento total Anexo 1 DSY1104 (Maquetado HTML/CSS -> Reglas -> React), MySQL DataSeeder, Escenarios Flow y VPS |
 
 ## Reglas de uso
 
