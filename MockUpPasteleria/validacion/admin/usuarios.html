@@ -3,10 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Usuarios y Roles - Crème & Co Admin</title>
+  <title>Usuarios e Historial de Compras — Crème & Co Admin</title>
   <link rel="stylesheet" href="../../css/variables.css">
   <link rel="stylesheet" href="../../css/base.css">
   <link rel="stylesheet" href="css/admin.css">
+  <style>
+    /* Estilos específicos para la gestión administrativa de usuarios */
+    .user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--color-tertiary, #5D4037);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .user-meta {
+      display: flex;
+      flex-direction: column;
+    }
+    .user-name {
+      font-weight: 600;
+      color: var(--color-tertiary, #5D4037);
+    }
+    .user-sub {
+      font-size: 0.78rem;
+      color: rgba(58, 42, 33, 0.7);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .stat-card {
+      background: #FDFBF7;
+      border: 1px solid rgba(93, 64, 55, 0.15);
+      border-radius: var(--radius-sm, 6px);
+      padding: 0.85rem;
+      text-align: center;
+    }
+    .stat-card__val {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--color-primary, #8B4513);
+      font-family: var(--font-display, serif);
+    }
+    .stat-card__lbl {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: rgba(58, 42, 33, 0.7);
+      margin-top: 0.2rem;
+    }
+    .badge-role {
+      display: inline-block;
+      padding: 0.25rem 0.55rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 4px;
+    }
+    .badge-role--admin { background: #FFEBEE; color: #C62828; border: 1px solid #FFCDD2; }
+    .badge-role--pastelero { background: #FFF3E0; color: #E65100; border: 1px solid #FFE0B2; }
+    .badge-role--repartidor { background: #E8F5E9; color: #2E7D32; border: 1px solid #C8E6C9; }
+    .badge-role--cliente { background: #E3F2FD; color: #1565C0; border: 1px solid #BBDEFB; }
+    
+    .status-badge--active { background: #E8F5E9; color: #2E7D32; }
+    .status-badge--inactive { background: #ECEFF1; color: #546E7A; }
+
+    /* Estilos boleta miniatura */
+    .receipt-preview {
+      background: #fff;
+      border: 1.5px dashed #8B4513;
+      border-radius: 6px;
+      padding: 1rem;
+      font-size: 0.85rem;
+      font-family: monospace;
+      color: #3A2A21;
+    }
+  </style>
 </head>
 <body>
   <div class="admin-layout">
@@ -15,7 +94,7 @@
       <div class="admin-sidebar__header">
         <div class="admin-sidebar__logo">C</div>
         <div>
-          <span class="admin-sidebar__title">Crème & Co</span>
+          <span class="admin-sidebar__title">Crème &amp; Co</span>
           <span class="admin-sidebar__badge">Admin</span>
         </div>
       </div>
@@ -23,27 +102,31 @@
       <nav class="admin-nav">
         <a href="reportes.html" class="admin-nav__link">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-          Dashboard & Reportes
+          Dashboard &amp; Reportes
         </a>
         <a href="productos.html" class="admin-nav__link">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-          Productos & Catálogo
+          Productos &amp; Catálogo
+        </a>
+        <a href="ordenes.html" class="admin-nav__link">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+          Órdenes &amp; Boletas
         </a>
         <a href="inventario.html" class="admin-nav__link">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
-          Inventario & Stock
+          Inventario &amp; Stock
         </a>
         <a href="usuarios.html" class="admin-nav__link admin-nav__link--active">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-          Usuarios & Roles
+          Usuarios &amp; Clientes
         </a>
         <a href="promociones.html" class="admin-nav__link">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
-          Promociones & Descuentos
+          Promociones &amp; Descuentos
         </a>
         <a href="componentes.html" class="admin-nav__link">
           <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-          UI Kit: Botones & Modales
+          UI Kit
         </a>
       </nav>
 
@@ -66,10 +149,10 @@
       <header class="admin-header">
         <div class="admin-header__title-group">
           <h1>Gestión de Usuarios y Roles (RBAC)</h1>
-          <p>Control de cuentas, asignación de roles y matriz de permisos por módulo</p>
+          <p>Control de cuentas de empleados, clientes y consulta de historial de compras con boletas DSY1104</p>
         </div>
         <div class="admin-header__actions">
-          <button class="btn btn-primary" onclick="abrirModalUsuario()">
+          <button class="btn btn-primary" onclick="abrirModalNuevoUsuario()">
             <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
             Nuevo Usuario
           </button>
@@ -82,166 +165,182 @@
           <div class="admin-card__header">
             <div>
               <h2 class="admin-card__title">Cuentas Registradas</h2>
-              <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7);">Empleados del local y clientes de la tienda online</p>
+              <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7);">Empleados del local y clientes con compras registradas</p>
             </div>
-            <div style="display: flex; gap: 0.75rem;">
-              <input type="text" class="form-input" placeholder="Buscar por nombre o correo..." style="width: 240px; font-size: 0.82rem;">
-              <select class="form-select" style="width: 140px; font-size: 0.82rem;">
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <input type="text" id="filtroTexto" class="form-input" placeholder="Buscar por nombre, email o RUN..." style="width: 250px; font-size: 0.82rem;" onkeyup="filtrarUsuarios()">
+              <select id="filtroRol" class="form-select" style="width: 150px; font-size: 0.82rem;" onchange="filtrarUsuarios()">
                 <option value="">Todos los roles</option>
                 <option value="ADMIN">ADMIN</option>
                 <option value="PASTELERO">PASTELERO</option>
-                <option value="CAJERO">CAJERO</option>
+                <option value="REPARTIDOR">REPARTIDOR</option>
                 <option value="CLIENTE">CLIENTE</option>
               </select>
             </div>
           </div>
 
           <div class="table-responsive">
-            <table class="admin-table">
+            <table class="admin-table" id="tablaUsuarios">
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Usuario</th>
-                  <th>Teléfono</th>
+                  <th>Nombre y Apellido</th>
+                  <th>Correo Electrónico</th>
+                  <th>RUN Chileno</th>
                   <th>Rol Asignado</th>
-                  <th>Permisos Clave</th>
                   <th>Estado</th>
-                  <th>Acciones</th>
+                  <th style="text-align: right;">Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <!-- Fila 1: Admin -->
+                <tr data-id="1" data-rol="ADMIN" data-estado="Activo">
                   <td><strong>#1</strong></td>
                   <td>
-                    <div style="font-weight: 600; color: var(--color-tertiary);">Matías Retamal</div>
-                    <div style="font-size: 0.78rem; color: rgba(58, 42, 33, 0.65);">matias.admin@cremeco.cl</div>
+                    <div style="display: flex; align-items: center; gap: 0.6rem;">
+                      <div class="user-avatar">MR</div>
+                      <div class="user-meta">
+                        <span class="user-name">Matías Retamal</span>
+                        <span class="user-sub">+56 9 8888 7777</span>
+                      </div>
+                    </div>
                   </td>
-                  <td>+56 9 8888 7777</td>
-                  <td><span class="status-badge status-badge--danger">ADMIN</span></td>
-                  <td style="font-size: 0.78rem; color: var(--color-tertiary);">Acceso Total (All Modules)</td>
-                  <td><span class="status-badge status-badge--success">Activo</span></td>
-                  <td>
-                    <div style="display: flex; gap: 0.35rem;">
-                      <button class="btn btn-outline btn-sm" onclick="abrirModalRoles('Matías Retamal', 'ADMIN')">Editar Rol</button>
+                  <td>matias.admin@cremeco.cl</td>
+                  <td><code>15.342.891-K</code></td>
+                  <td><span class="badge-role badge-role--admin">ADMIN</span></td>
+                  <td><span class="status-badge status-badge--active">Activo</span></td>
+                  <td style="text-align: right;">
+                    <div style="display: inline-flex; gap: 0.35rem;">
+                      <button class="btn btn-outline btn-sm" onclick="verFichaUsuario(1)">Ficha</button>
+                      <button class="btn btn-outline btn-sm" onclick="abrirEditarUsuario(1)">Editar</button>
+                      <button class="btn btn-outline btn-sm" onclick="verHistorialCompras(1)">Compras (0)</button>
                     </div>
                   </td>
                 </tr>
-                <tr>
+
+                <!-- Fila 2: Pastelero -->
+                <tr data-id="2" data-rol="PASTELERO" data-estado="Activo">
                   <td><strong>#2</strong></td>
                   <td>
-                    <div style="font-weight: 600; color: var(--color-tertiary);">Anaís Morales</div>
-                    <div style="font-size: 0.78rem; color: rgba(58, 42, 33, 0.65);">anais.cocina@cremeco.cl</div>
+                    <div style="display: flex; align-items: center; gap: 0.6rem;">
+                      <div class="user-avatar" style="background: #E65100;">AM</div>
+                      <div class="user-meta">
+                        <span class="user-name">Anaís Morales</span>
+                        <span class="user-sub">+56 9 7777 6666</span>
+                      </div>
+                    </div>
                   </td>
-                  <td>+56 9 7777 6666</td>
-                  <td><span class="status-badge status-badge--warning">PASTELERO</span></td>
-                  <td style="font-size: 0.78rem; color: var(--color-tertiary);">orders.status, catalog.read</td>
-                  <td><span class="status-badge status-badge--success">Activo</span></td>
-                  <td>
-                    <div style="display: flex; gap: 0.35rem;">
-                      <button class="btn btn-outline btn-sm" onclick="abrirModalRoles('Anaís Morales', 'PASTELERO')">Editar Rol</button>
+                  <td>anais.cocina@cremeco.cl</td>
+                  <td><code>17.892.431-2</code></td>
+                  <td><span class="badge-role badge-role--pastelero">PASTELERO</span></td>
+                  <td><span class="status-badge status-badge--active">Activo</span></td>
+                  <td style="text-align: right;">
+                    <div style="display: inline-flex; gap: 0.35rem;">
+                      <button class="btn btn-outline btn-sm" onclick="verFichaUsuario(2)">Ficha</button>
+                      <button class="btn btn-outline btn-sm" onclick="abrirEditarUsuario(2)">Editar</button>
+                      <button class="btn btn-outline btn-sm" onclick="verHistorialCompras(2)">Compras (0)</button>
                     </div>
                   </td>
                 </tr>
-                <tr>
+
+                <!-- Fila 3: Repartidor -->
+                <tr data-id="3" data-rol="REPARTIDOR" data-estado="Activo">
                   <td><strong>#3</strong></td>
                   <td>
-                    <div style="font-weight: 600; color: var(--color-tertiary);">Nicolás Valdés</div>
-                    <div style="font-size: 0.78rem; color: rgba(58, 42, 33, 0.65);">nicolas.caja@cremeco.cl</div>
+                    <div style="display: flex; align-items: center; gap: 0.6rem;">
+                      <div class="user-avatar" style="background: #2E7D32;">CN</div>
+                      <div class="user-meta">
+                        <span class="user-name">Claudio Navarrete</span>
+                        <span class="user-sub">+56 9 6655 4433</span>
+                      </div>
+                    </div>
                   </td>
-                  <td>+56 9 6666 5555</td>
-                  <td><span class="status-badge status-badge--info">CAJERO</span></td>
-                  <td style="font-size: 0.78rem; color: var(--color-tertiary);">pos.operate, inventory.read</td>
-                  <td><span class="status-badge status-badge--success">Activo</span></td>
-                  <td>
-                    <div style="display: flex; gap: 0.35rem;">
-                      <button class="btn btn-outline btn-sm" onclick="abrirModalRoles('Nicolás Valdés', 'CAJERO')">Editar Rol</button>
+                  <td>claudio.reparto@cremeco.cl</td>
+                  <td><code>19.452.123-5</code></td>
+                  <td><span class="badge-role badge-role--repartidor">REPARTIDOR</span></td>
+                  <td><span class="status-badge status-badge--active">Activo</span></td>
+                  <td style="text-align: right;">
+                    <div style="display: inline-flex; gap: 0.35rem;">
+                      <button class="btn btn-outline btn-sm" onclick="verFichaUsuario(3)">Ficha</button>
+                      <button class="btn btn-outline btn-sm" onclick="abrirEditarUsuario(3)">Editar</button>
+                      <button class="btn btn-outline btn-sm" onclick="verHistorialCompras(3)">Compras (0)</button>
                     </div>
                   </td>
                 </tr>
-                <tr>
+
+                <!-- Fila 4: Cliente con compras -->
+                <tr data-id="4" data-rol="CLIENTE" data-estado="Activo">
                   <td><strong>#4</strong></td>
                   <td>
-                    <div style="font-weight: 600; color: var(--color-tertiary);">María González</div>
-                    <div style="font-size: 0.78rem; color: rgba(58, 42, 33, 0.65);">maria.gonzalez@email.com</div>
+                    <div style="display: flex; align-items: center; gap: 0.6rem;">
+                      <div class="user-avatar" style="background: #1565C0;">CS</div>
+                      <div class="user-meta">
+                        <span class="user-name">Camila Silva</span>
+                        <span class="user-sub">+56 9 7788 9900</span>
+                      </div>
+                    </div>
                   </td>
-                  <td>+56 9 1234 5678</td>
-                  <td><span class="status-badge status-badge--neutral">CLIENTE</span></td>
-                  <td style="font-size: 0.78rem; color: var(--color-tertiary);">orders.me, profile.read</td>
-                  <td><span class="status-badge status-badge--success">Activo</span></td>
-                  <td>
-                    <div style="display: flex; gap: 0.35rem;">
-                      <button class="btn btn-outline btn-sm" onclick="abrirModalRoles('María González', 'CLIENTE')">Editar Rol</button>
+                  <td>camila.silva@duocuc.cl</td>
+                  <td><code>18.452.912-3</code></td>
+                  <td><span class="badge-role badge-role--cliente">CLIENTE</span></td>
+                  <td><span class="status-badge status-badge--active">Activo</span></td>
+                  <td style="text-align: right;">
+                    <div style="display: inline-flex; gap: 0.35rem;">
+                      <button class="btn btn-outline btn-sm" onclick="verFichaUsuario(4)">Ficha</button>
+                      <button class="btn btn-outline btn-sm" onclick="abrirEditarUsuario(4)">Editar</button>
+                      <button class="btn btn-primary btn-sm" onclick="verHistorialCompras(4)">Compras (2)</button>
                     </div>
                   </td>
                 </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
 
-        <!-- Matriz de Permisos RBAC -->
-        <div class="admin-card">
-          <div class="admin-card__header">
-            <div>
-              <h2 class="admin-card__title">Matriz de Permisos por Módulo y Rol</h2>
-              <p style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7);">Control granular de accesos del backend Spring Boot</p>
-            </div>
-            <button class="btn btn-secondary btn-sm" onclick="alert('Permisos guardados con éxito en la base de datos.')">Guardar Cambios Matriz</button>
-          </div>
+                <!-- Fila 5: Cliente con compras -->
+                <tr data-id="5" data-rol="CLIENTE" data-estado="Activo">
+                  <td><strong>#5</strong></td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 0.6rem;">
+                      <div class="user-avatar" style="background: #1565C0;">IV</div>
+                      <div class="user-meta">
+                        <span class="user-name">Ignacio Valenzuela</span>
+                        <span class="user-sub">+56 9 6655 4433</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>ignacio.v@gmail.com</td>
+                  <td><code>16.782.341-K</code></td>
+                  <td><span class="badge-role badge-role--cliente">CLIENTE</span></td>
+                  <td><span class="status-badge status-badge--active">Activo</span></td>
+                  <td style="text-align: right;">
+                    <div style="display: inline-flex; gap: 0.35rem;">
+                      <button class="btn btn-outline btn-sm" onclick="verFichaUsuario(5)">Ficha</button>
+                      <button class="btn btn-outline btn-sm" onclick="abrirEditarUsuario(5)">Editar</button>
+                      <button class="btn btn-primary btn-sm" onclick="verHistorialCompras(5)">Compras (1)</button>
+                    </div>
+                  </td>
+                </tr>
 
-          <div class="table-responsive">
-            <table class="matrix-table">
-              <thead>
-                <tr>
-                  <th>Módulo del Sistema</th>
-                  <th>ADMIN</th>
-                  <th>PASTELERO</th>
-                  <th>CAJERO</th>
-                  <th>CLIENTE</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Catálogo y Productos (catalog.*)</td>
-                  <td><input type="checkbox" checked disabled> Total</td>
-                  <td><input type="checkbox" checked> Ver / Disponibilidad</td>
-                  <td><input type="checkbox" checked> Solo lectura</td>
-                  <td><input type="checkbox" checked> Solo lectura</td>
-                </tr>
-                <tr>
-                  <td>Pedidos y Cocina (orders.*)</td>
-                  <td><input type="checkbox" checked disabled> Total</td>
-                  <td><input type="checkbox" checked> Cambiar estados</td>
-                  <td><input type="checkbox" checked> Ver y cobrar</td>
-                  <td><input type="checkbox" checked> Ver propios</td>
-                </tr>
-                <tr>
-                  <td>Punto de Venta POS (pos.*)</td>
-                  <td><input type="checkbox" checked disabled> Total</td>
-                  <td><input type="checkbox"> No autorizado</td>
-                  <td><input type="checkbox" checked> Operar caja</td>
-                  <td><input type="checkbox"> No autorizado</td>
-                </tr>
-                <tr>
-                  <td>Inventario y Stock (inventory.*)</td>
-                  <td><input type="checkbox" checked disabled> Total</td>
-                  <td><input type="checkbox" checked> Registrar mermas</td>
-                  <td><input type="checkbox" checked> Ver stock</td>
-                  <td><input type="checkbox"> No autorizado</td>
-                </tr>
-                <tr>
-                  <td>Usuarios y Auditoría (users.*)</td>
-                  <td><input type="checkbox" checked disabled> Total</td>
-                  <td><input type="checkbox"> No autorizado</td>
-                  <td><input type="checkbox"> No autorizado</td>
-                  <td><input type="checkbox"> No autorizado</td>
-                </tr>
-                <tr>
-                  <td>Cupones y Pagos (payments.*)</td>
-                  <td><input type="checkbox" checked disabled> Total</td>
-                  <td><input type="checkbox"> No autorizado</td>
-                  <td><input type="checkbox" checked> Aplicar cupones</td>
-                  <td><input type="checkbox" checked> Pagar Webpay</td>
+                <!-- Fila 6: Cliente Inactivo -->
+                <tr data-id="6" data-rol="CLIENTE" data-estado="Inactivo">
+                  <td><strong>#6</strong></td>
+                  <td>
+                    <div style="display: flex; align-items: center; gap: 0.6rem;">
+                      <div class="user-avatar" style="background: #78909C;">FP</div>
+                      <div class="user-meta">
+                        <span class="user-name">Francisca Pinto</span>
+                        <span class="user-sub">+56 9 5544 3322</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>fran.pinto@profesor.duoc.cl</td>
+                  <td><code>12.940.321-8</code></td>
+                  <td><span class="badge-role badge-role--cliente">CLIENTE</span></td>
+                  <td><span class="status-badge status-badge--inactive">Inactivo</span></td>
+                  <td style="text-align: right;">
+                    <div style="display: inline-flex; gap: 0.35rem;">
+                      <button class="btn btn-outline btn-sm" onclick="verFichaUsuario(6)">Ficha</button>
+                      <button class="btn btn-outline btn-sm" onclick="abrirEditarUsuario(6)">Editar</button>
+                      <button class="btn btn-primary btn-sm" onclick="verHistorialCompras(6)">Compras (1)</button>
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -251,60 +350,438 @@
     </main>
   </div>
 
-  <!-- Modal Asignar Roles -->
-  <div class="modal-overlay" id="modalRoles">
-    <div class="modal-window">
+  <!-- 1. MODAL NUEVO USUARIO -->
+  <div class="modal-overlay" id="modalNuevoUsuario">
+    <div class="modal-window" style="max-width: 540px;">
       <div class="modal-header">
-        <h3 id="modalRolesTitle">Designar Rol y Accesos</h3>
-        <button class="btn btn-outline btn-sm" onclick="cerrarModalRoles()">&times;</button>
+        <h3>Registrar Nuevo Usuario</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModal('modalNuevoUsuario')">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-          <label class="form-label">Usuario Seleccionado</label>
-          <input type="text" class="form-input" id="modalUsuarioNombre" readonly style="background: var(--color-neutral);">
+        <form id="formNuevoUsuario" onsubmit="event.preventDefault(); guardarNuevoUsuario();">
+          <div class="form-group" style="margin-bottom: 0.85rem;">
+            <label class="form-label">Nombre Completo *</label>
+            <input type="text" id="nuevoNombre" class="form-input" placeholder="Ej: Marcela Contreras" required>
+          </div>
+          <div class="form-group" style="margin-bottom: 0.85rem;">
+            <label class="form-label">Correo Electrónico *</label>
+            <input type="email" id="nuevoEmail" class="form-input" placeholder="nombre@cremeco.cl o gmail.com" required>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
+            <div class="form-group">
+              <label class="form-label">RUN Chileno (Módulo 11) *</label>
+              <input type="text" id="nuevoRut" class="form-input" placeholder="12.345.678-K" required onblur="validarRutInput(this)">
+              <small id="rutFeedback" style="font-size: 0.72rem; color: #C62828; display: none;">RUN inválido (verifique dígito)</small>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Teléfono Móvil</label>
+              <input type="tel" id="nuevoTelefono" class="form-input" placeholder="+56 9 1234 5678">
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
+            <div class="form-group">
+              <label class="form-label">Rol Asignado *</label>
+              <select id="nuevoRol" class="form-select" required>
+                <option value="CLIENTE">CLIENTE</option>
+                <option value="REPARTIDOR">REPARTIDOR</option>
+                <option value="PASTELERO">PASTELERO</option>
+                <option value="ADMIN">ADMIN</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Estado Inicial *</label>
+              <select id="nuevoEstado" class="form-select" required>
+                <option value="Activo">Activo (Habilitado)</option>
+                <option value="Inactivo">Inactivo (Suspendido)</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="cerrarModal('modalNuevoUsuario')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarNuevoUsuario()">Crear Usuario</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MODAL MOSTRAR FICHA DE USUARIO -->
+  <div class="modal-overlay" id="modalFichaUsuario">
+    <div class="modal-window" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3>Ficha Completa de Usuario</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModal('modalFichaUsuario')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(93, 64, 55, 0.15);">
+          <div class="user-avatar" id="fichaAvatar" style="width: 52px; height: 52px; font-size: 1.2rem;">CS</div>
+          <div>
+            <h4 id="fichaNombre" style="margin: 0; font-size: 1.15rem; color: var(--color-tertiary);">Camila Silva</h4>
+            <div id="fichaEmail" style="font-size: 0.82rem; color: rgba(58, 42, 33, 0.75);">camila.silva@duocuc.cl</div>
+            <div style="margin-top: 0.3rem; display: flex; gap: 0.4rem;">
+              <span id="fichaRolBadge" class="badge-role badge-role--cliente">CLIENTE</span>
+              <span id="fichaEstadoBadge" class="status-badge status-badge--active">Activo</span>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Rol Principal</label>
-          <select class="form-select" id="modalRolSelect">
-            <option value="ADMIN">ADMIN (Acceso total a gestión y finanzas)</option>
-            <option value="PASTELERO">PASTELERO (Cocina, pedidos y mermas)</option>
-            <option value="CAJERO">CAJERO (Terminal POS, ventas y cobros)</option>
-            <option value="CLIENTE">CLIENTE (Cuenta de compra en tienda)</option>
-          </select>
+
+        <!-- Estadísticas de Actividad -->
+        <h5 style="margin: 0 0 0.5rem 0; font-size: 0.88rem; text-transform: uppercase; color: var(--color-tertiary);">Estadísticas de Actividad</h5>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card__val" id="fichaTotalGastado">$45.000</div>
+            <div class="stat-card__lbl">Total Compras</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__val" id="fichaPedidosCount">2</div>
+            <div class="stat-card__lbl">Pedidos Hechos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__val" id="fichaTicketPromedio">$22.500</div>
+            <div class="stat-card__lbl">Ticket Promedio</div>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Estado de la Cuenta</label>
-          <select class="form-select">
-            <option value="true">Activo (Permite login)</option>
-            <option value="false">Desactivado (Bloqueo preventivo)</option>
-          </select>
+
+        <!-- Ficha de Datos Personales -->
+        <div style="background: #FFF; border: 1px solid rgba(93, 64, 55, 0.12); border-radius: 6px; padding: 0.85rem; font-size: 0.85rem;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem;">
+            <div><strong>RUN Chileno:</strong> <span id="fichaRut">18.452.912-3</span></div>
+            <div><strong>Teléfono:</strong> <span id="fichaTelefono">+56 9 7788 9900</span></div>
+            <div><strong>Fecha Registro:</strong> <span id="fichaFecha">15/03/2026</span></div>
+            <div><strong>Último Acceso:</strong> <span id="fichaUltimoAcceso">Hoy 14:15</span></div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-outline" onclick="cerrarModalRoles()">Cancelar</button>
-        <button class="btn btn-primary" onclick="guardarRol()">Actualizar Rol</button>
+        <button class="btn btn-outline" onclick="cerrarModal('modalFichaUsuario')">Cerrar</button>
+        <button class="btn btn-primary" onclick="cerrarModal('modalFichaUsuario'); verHistorialCompras(usuarioSeleccionadoId);">Ver Historial Compras</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MODAL EDITAR USUARIO -->
+  <div class="modal-overlay" id="modalEditarUsuario">
+    <div class="modal-window" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3>Editar Perfil de Usuario</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModal('modalEditarUsuario')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label class="form-label">Usuario</label>
+          <input type="text" id="editNombre" class="form-input" readonly style="background: #F4EBE1; color: #5D4037; font-weight: 600;">
+        </div>
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label class="form-label">Teléfono de Contacto</label>
+          <input type="tel" id="editTelefono" class="form-input" placeholder="+56 9 1234 5678">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 0.85rem;">
+          <div class="form-group">
+            <label class="form-label">Rol Asignado</label>
+            <select id="editRol" class="form-select">
+              <option value="ADMIN">ADMIN</option>
+              <option value="PASTELERO">PASTELERO</option>
+              <option value="REPARTIDOR">REPARTIDOR</option>
+              <option value="CLIENTE">CLIENTE</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Estado de Cuenta</label>
+            <select id="editEstado" class="form-select">
+              <option value="Activo">Activo (Habilitado)</option>
+              <option value="Inactivo">Inactivo (Suspendido)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="cerrarModal('modalEditarUsuario')">Cancelar</button>
+        <button class="btn btn-primary" onclick="guardarEdicionUsuario()">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. MODAL HISTORIAL DE COMPRAS DEL USUARIO -->
+  <div class="modal-overlay" id="modalHistorialCompras">
+    <div class="modal-window" style="max-width: 720px;">
+      <div class="modal-header">
+        <div>
+          <h3 id="historialTitle">Historial de Compras — Camila Silva</h3>
+          <p id="historialSubtitle" style="font-size: 0.8rem; color: rgba(58, 42, 33, 0.7); margin: 0;">2 compras registradas en el sistema</p>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModal('modalHistorialCompras')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Código Boleta</th>
+                <th>Fecha Emisión</th>
+                <th>Detalle Items</th>
+                <th>Total CLP</th>
+                <th>Estado</th>
+                <th style="text-align: right;">Acción</th>
+              </tr>
+            </thead>
+            <tbody id="historialTablaBody">
+              <!-- Renderizado dinámico vía JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="cerrarModal('modalHistorialCompras')">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. MODAL VER BOLETA ELECTRÓNICA SII (DSY1104) -->
+  <div class="modal-overlay" id="modalBoleta">
+    <div class="modal-window" style="max-width: 540px;">
+      <div class="modal-header">
+        <h3>Boleta Electrónica Oficial DSY1104</h3>
+        <button class="btn btn-outline btn-sm" onclick="cerrarModal('modalBoleta')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="receipt-preview" id="boletaContenido">
+          <div style="text-align: center; border-bottom: 1px dashed #8B4513; padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+            <strong>PASTELERÍA CRÈME &amp; CO SpA</strong><br>
+            R.U.T.: 76.543.210-K<br>
+            BOLETA ELECTRÓNICA Nº <span id="boletaNumero">1001</span>
+          </div>
+          <div><strong>Fecha:</strong> <span id="boletaFecha">2026-10-24 10:30</span></div>
+          <div><strong>Cliente:</strong> <span id="boletaCliente">Camila Silva</span></div>
+          <div><strong>R.U.T.:</strong> <span id="boletaRut">18.452.912-3</span></div>
+          <hr style="border: none; border-top: 1px dotted #8B4513; margin: 0.5rem 0;">
+          <div id="boletaItems">
+            <!-- Items -->
+          </div>
+          <hr style="border: none; border-top: 1px dashed #8B4513; margin: 0.5rem 0;">
+          <div style="display: flex; justify-content: space-between;"><span>Monto Neto:</span><span id="boletaNeto">$37.815</span></div>
+          <div style="display: flex; justify-content: space-between;"><span>19% I.V.A.:</span><span id="boletaIva">$7.185</span></div>
+          <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem; margin-top: 0.25rem;">
+            <span>TOTAL:</span><span id="boletaTotal">$45.000</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" onclick="cerrarModal('modalBoleta')">Volver</button>
+        <button class="btn btn-primary" onclick="window.print()">Imprimir Boleta</button>
       </div>
     </div>
   </div>
 
   <script>
-    function abrirModalRoles(nombre, rol) {
-      document.getElementById('modalUsuarioNombre').value = nombre;
-      document.getElementById('modalRolSelect').value = rol;
-      document.getElementById('modalRoles').classList.add('active');
+    // Datos maestros locales para validación y mock
+    const USUARIOS = [
+      { id: 1, nombre: 'Matías Retamal', email: 'matias.admin@cremeco.cl', rut: '15.342.891-K', telefono: '+56 9 8888 7777', rol: 'ADMIN', estado: 'Activo', fechaRegistro: '2026-01-10', ultimoAcceso: 'Hoy 14:15' },
+      { id: 2, nombre: 'Anaís Morales', email: 'anais.cocina@cremeco.cl', rut: '17.892.431-2', telefono: '+56 9 7777 6666', rol: 'PASTELERO', estado: 'Activo', fechaRegistro: '2026-02-14', ultimoAcceso: 'Hoy 11:30' },
+      { id: 3, nombre: 'Claudio Navarrete', email: 'claudio.reparto@cremeco.cl', rut: '19.452.123-5', telefono: '+56 9 6655 4433', rol: 'REPARTIDOR', estado: 'Activo', fechaRegistro: '2026-03-01', ultimoAcceso: 'Ayer 18:20' },
+      { id: 4, nombre: 'Camila Silva', email: 'camila.silva@duocuc.cl', rut: '18.452.912-3', telefono: '+56 9 7788 9900', rol: 'CLIENTE', estado: 'Activo', fechaRegistro: '2026-03-15', ultimoAcceso: '2026-10-24 10:30' },
+      { id: 5, nombre: 'Ignacio Valenzuela', email: 'ignacio.v@gmail.com', rut: '16.782.341-K', telefono: '+56 9 6655 4433', rol: 'CLIENTE', estado: 'Activo', fechaRegistro: '2026-04-20', ultimoAcceso: '2026-10-24 11:15' },
+      { id: 6, nombre: 'Francisca Pinto', email: 'fran.pinto@profesor.duoc.cl', rut: '12.940.321-8', telefono: '+56 9 5544 3322', rol: 'CLIENTE', estado: 'Inactivo', fechaRegistro: '2026-05-02', ultimoAcceso: '2026-10-24 12:45' }
+    ];
+
+    const ORDENES_HISTORIAL = [
+      { id: 1, trackingCode: 'CC-1001', usuarioId: 4, email: 'camila.silva@duocuc.cl', cliente: 'Camila Silva', rut: '18.452.912-3', fecha: '2026-10-24 10:30', items: '1x Torta Cuatro Leches, 1x Macarons x6', neto: 37815, iva: 7185, total: 45000, estado: 'EN_PREPARACION' },
+      { id: 5, trackingCode: 'CC-1005', usuarioId: 4, email: 'camila.silva@duocuc.cl', cliente: 'Camila Silva', rut: '18.452.912-3', fecha: '2026-10-18 16:40', items: '1x Tartaleta de Frutas Finas', neto: 16807, iva: 3193, total: 20000, estado: 'ENTREGADO' },
+      { id: 2, trackingCode: 'CC-1002', usuarioId: 5, email: 'ignacio.v@gmail.com', cliente: 'Ignacio Valenzuela', rut: '16.782.341-K', fecha: '2026-10-24 11:15', items: '2x Cheesecake Frutos Rojos', neto: 57143, iva: 10857, total: 68000, estado: 'EN_RUTA' },
+      { id: 3, trackingCode: 'CC-1003', usuarioId: 6, email: 'fran.pinto@profesor.duoc.cl', cliente: 'Francisca Pinto', rut: '12.940.321-8', fecha: '2026-10-24 12:45', items: '1x Torta Hojarasca Manjar', neto: 28571, iva: 5429, total: 34000, estado: 'LISTO_RETIRO' }
+    ];
+
+    let usuarioSeleccionadoId = null;
+
+    // Algoritmo de validación Módulo 11 (Oficial Chile)
+    function validarRutChileno(rutCompleto) {
+      if (!rutCompleto) return false;
+      const limpio = rutCompleto.replace(/[^0-9kK]/g, '').toUpperCase();
+      if (limpio.length < 2 || limpio.length > 9) return false;
+      const cuerpo = limpio.slice(0, -1);
+      const dv = limpio.slice(-1);
+      if (!/^\d+$/.test(cuerpo)) return false;
+      let suma = 0;
+      let m = 2;
+      for (let i = cuerpo.length - 1; i >= 0; i--) {
+        suma += parseInt(cuerpo[i], 10) * m;
+        m = m === 7 ? 2 : m + 1;
+      }
+      const resto = suma % 11;
+      const digitoCalculado = 11 - resto;
+      const dvEsperado = digitoCalculado === 11 ? '0' : digitoCalculado === 10 ? 'K' : String(digitoCalculado);
+      return dv === dvEsperado;
     }
-    function cerrarModalRoles() {
-      document.getElementById('modalRoles').classList.remove('active');
+
+    function validarRutInput(input) {
+      const fb = document.getElementById('rutFeedback');
+      if (input.value && !validarRutChileno(input.value)) {
+        fb.style.display = 'block';
+        input.style.borderColor = '#C62828';
+      } else {
+        fb.style.display = 'none';
+        input.style.borderColor = '';
+      }
     }
-    function guardarRol() {
-      alert('Rol actualizado y registrado en auditoría.');
-      cerrarModalRoles();
+
+    function abrirModal(id) {
+      document.getElementById(id).classList.add('active');
     }
-    function abrirModalUsuario() {
-      abrirModalRoles('Nuevo Empleado', 'CAJERO');
-      document.getElementById('modalUsuarioNombre').removeAttribute('readonly');
-      document.getElementById('modalUsuarioNombre').value = '';
-      document.getElementById('modalUsuarioNombre').placeholder = 'Ingrese nombre completo...';
+
+    function cerrarModal(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    function abrirModalNuevoUsuario() {
+      document.getElementById('formNuevoUsuario').reset();
+      document.getElementById('rutFeedback').style.display = 'none';
+      abrirModal('modalNuevoUsuario');
+    }
+
+    function guardarNuevoUsuario() {
+      const nombre = document.getElementById('nuevoNombre').value.trim();
+      const email = document.getElementById('nuevoEmail').value.trim();
+      const rut = document.getElementById('nuevoRut').value.trim();
+      const telefono = document.getElementById('nuevoTelefono').value.trim();
+      const rol = document.getElementById('nuevoRol').value;
+      const estado = document.getElementById('nuevoEstado').value;
+
+      if (!nombre || !email || !rut) {
+        alert('Por favor complete los campos obligatorios (*).');
+        return;
+      }
+      if (!validarRutChileno(rut)) {
+        alert('El RUN ingresado no es válido según algoritmo Módulo 11.');
+        return;
+      }
+
+      const nuevoId = USUARIOS.length + 1;
+      const nuevoObj = {
+        id: nuevoId,
+        nombre,
+        email,
+        rut,
+        telefono,
+        rol,
+        estado,
+        fechaRegistro: new Date().toISOString().split('T')[0],
+        ultimoAcceso: 'Recién registrado'
+      };
+      USUARIOS.push(nuevoObj);
+      cerrarModal('modalNuevoUsuario');
+      alert('Usuario ' + nombre + ' creado con éxito (ID #' + nuevoId + ').');
+      location.reload();
+    }
+
+    function verFichaUsuario(id) {
+      const u = USUARIOS.find(x => x.id === id);
+      if (!u) return;
+      usuarioSeleccionadoId = id;
+      document.getElementById('fichaAvatar').innerText = u.nombre.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
+      document.getElementById('fichaNombre').innerText = u.nombre;
+      document.getElementById('fichaEmail').innerText = u.email;
+      document.getElementById('fichaRut').innerText = u.rut;
+      document.getElementById('fichaTelefono').innerText = u.telefono || 'No registrado';
+      document.getElementById('fichaFecha').innerText = u.fechaRegistro || '2026-01-10';
+      document.getElementById('fichaUltimoAcceso').innerText = u.ultimoAcceso || 'Hoy';
+
+      const compras = ORDENES_HISTORIAL.filter(o => o.usuarioId === id || o.email === u.email);
+      const totalGastado = compras.reduce((acc, c) => acc + c.total, 0);
+      const ticketProm = compras.length > 0 ? Math.round(totalGastado / compras.length) : 0;
+
+      document.getElementById('fichaTotalGastado').innerText = '$' + totalGastado.toLocaleString('es-CL');
+      document.getElementById('fichaPedidosCount').innerText = compras.length;
+      document.getElementById('fichaTicketPromedio').innerText = '$' + ticketProm.toLocaleString('es-CL');
+
+      const rb = document.getElementById('fichaRolBadge');
+      rb.className = 'badge-role badge-role--' + u.rol.toLowerCase();
+      rb.innerText = u.rol;
+
+      const eb = document.getElementById('fichaEstadoBadge');
+      eb.className = 'status-badge status-badge--' + (u.estado === 'Activo' ? 'active' : 'inactive');
+      eb.innerText = u.estado;
+
+      abrirModal('modalFichaUsuario');
+    }
+
+    function abrirEditarUsuario(id) {
+      const u = USUARIOS.find(x => x.id === id);
+      if (!u) return;
+      usuarioSeleccionadoId = id;
+      document.getElementById('editNombre').value = u.nombre + ' (' + u.email + ')';
+      document.getElementById('editTelefono').value = u.telefono || '';
+      document.getElementById('editRol').value = u.rol;
+      document.getElementById('editEstado').value = u.estado;
+      abrirModal('modalEditarUsuario');
+    }
+
+    function guardarEdicionUsuario() {
+      const u = USUARIOS.find(x => x.id === usuarioSeleccionadoId);
+      if (!u) return;
+      u.telefono = document.getElementById('editTelefono').value.trim();
+      u.rol = document.getElementById('editRol').value;
+      u.estado = document.getElementById('editEstado').value;
+      cerrarModal('modalEditarUsuario');
+      alert('Usuario ' + u.nombre + ' actualizado correctamente.');
+    }
+
+    function verHistorialCompras(id) {
+      const u = USUARIOS.find(x => x.id === id);
+      if (!u) return;
+      usuarioSeleccionadoId = id;
+      document.getElementById('historialTitle').innerText = 'Historial de Compras — ' + u.nombre;
+      const compras = ORDENES_HISTORIAL.filter(o => o.usuarioId === id || o.email === u.email);
+      document.getElementById('historialSubtitle').innerText = compras.length + ' compras registradas en el sistema';
+
+      const tbody = document.getElementById('historialTablaBody');
+      tbody.innerHTML = '';
+
+      if (compras.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #888; padding: 1.5rem;">Este usuario aún no registra compras online ni en local.</td></tr>';
+      } else {
+        compras.forEach(c => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${c.trackingCode}</strong></td>
+            <td>${c.fecha}</td>
+            <td>${c.items}</td>
+            <td style="font-weight: 600; color: #5D4037;">$${c.total.toLocaleString('es-CL')}</td>
+            <td><span class="status-badge status-badge--active">${c.estado}</span></td>
+            <td style="text-align: right;">
+              <button class="btn btn-outline btn-sm" onclick="verBoletaModal('${c.trackingCode}')">Ver Boleta</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+      abrirModal('modalHistorialCompras');
+    }
+
+    function verBoletaModal(trackingCode) {
+      const ord = ORDENES_HISTORIAL.find(o => o.trackingCode === trackingCode);
+      if (!ord) return;
+      document.getElementById('boletaNumero').innerText = ord.trackingCode.replace('CC-', '');
+      document.getElementById('boletaFecha').innerText = ord.fecha;
+      document.getElementById('boletaCliente').innerText = ord.cliente;
+      document.getElementById('boletaRut').innerText = ord.rut;
+      document.getElementById('boletaItems').innerHTML = '<div>' + ord.items + '</div>';
+      document.getElementById('boletaNeto').innerText = '$' + ord.neto.toLocaleString('es-CL');
+      document.getElementById('boletaIva').innerText = '$' + ord.iva.toLocaleString('es-CL');
+      document.getElementById('boletaTotal').innerText = '$' + ord.total.toLocaleString('es-CL');
+      abrirModal('modalBoleta');
+    }
+
+    function filtrarUsuarios() {
+      const texto = document.getElementById('filtroTexto').value.toLowerCase();
+      const rol = document.getElementById('filtroRol').value;
+      const filas = document.querySelectorAll('#tablaUsuarios tbody tr');
+
+      filas.forEach(f => {
+        const rowText = f.innerText.toLowerCase();
+        const rowRol = f.getAttribute('data-rol');
+        const matchTexto = !texto || rowText.includes(texto);
+        const matchRol = !rol || rowRol === rol;
+        f.style.display = (matchTexto && matchRol) ? '' : 'none';
+      });
     }
   </script>
 </body>

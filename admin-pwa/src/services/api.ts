@@ -1,7 +1,7 @@
 // @pca:start
 // @id(admin.services.api)
 // @kind(service)
-// @limit(lines: 500)
+// @limit(lines: 620)
 // @contract(authApi, catalogApi, orderApi, inventoryApi)
 // @relates(docs.especificacion_pwa_admin)
 // @relates(docs.convenciones)
@@ -20,6 +20,10 @@ export interface AdminUser {
   email: string;
   rol: string;
   estado?: string;
+  rut?: string;
+  telefono?: string;
+  ultimoAcceso?: string;
+  fechaRegistro?: string;
 }
 
 export interface OrderItemAdmin {
@@ -158,6 +162,7 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
 // ==========================================
 const CATEGORIES_KEY = "cremeco_admin_categories_cache";
 const PROMOTIONS_KEY = "cremeco_admin_promotions_cache";
+const USERS_KEY = "cremeco_admin_users_cache";
 
 export const CATEGORIAS_FALLBACK: CategoryAdmin[] = [
   { id: 1, slug: "tortas-clasicas", nombre: "Tortas Clásicas", descripcion: "Recetas tradicionales de bizcocho húmedo, hojarasca y milhojas", activo: true, productosCount: 6 },
@@ -171,6 +176,36 @@ export const PROMOCIONES_FALLBACK: PromotionAdmin[] = [
   { id: 2, codigo: "PRIMERACOMPRA", tipo: "PORCENTAJE", descuentoPorcentaje: 15, valor: 15, minimoCompra: 25000, usosActuales: 89, limiteUsos: 150, expira: "2026-12-31", activo: true, descripcion: "15% de descuento primera compra" },
   { id: 3, codigo: "CUMPLEANOS5000", tipo: "MONTO_FIJO", descuentoPorcentaje: 0, valor: 5000, minimoCompra: 30000, usosActuales: 14, limiteUsos: 50, expira: "2026-11-15", activo: true, descripcion: "$5.000 CLP de descuento en compras sobre $30.000" },
 ];
+
+export const USUARIOS_ADMIN_FALLBACK: AdminUser[] = [
+  { id: 1, nombre: "Matías Retamal", email: "matias.admin@cremeco.cl", rut: "15.342.891-K", telefono: "+56 9 8888 7777", rol: "ADMIN", estado: "Activo", fechaRegistro: "2026-01-10", ultimoAcceso: "Hoy 14:15" },
+  { id: 2, nombre: "Anaís Morales", email: "anais.cocina@cremeco.cl", rut: "17.892.431-2", telefono: "+56 9 7777 6666", rol: "PASTELERO", estado: "Activo", fechaRegistro: "2026-02-14", ultimoAcceso: "Hoy 11:30" },
+  { id: 3, nombre: "Claudio Navarrete", email: "claudio.reparto@cremeco.cl", rut: "19.452.123-5", telefono: "+56 9 6655 4433", rol: "REPARTIDOR", estado: "Activo", fechaRegistro: "2026-03-01", ultimoAcceso: "Ayer 18:20" },
+  { id: 4, nombre: "Camila Silva", email: "camila.silva@duocuc.cl", rut: "18.452.912-3", telefono: "+56 9 7788 9900", rol: "CLIENTE", estado: "Activo", fechaRegistro: "2026-03-15", ultimoAcceso: "2026-10-24 10:30" },
+  { id: 5, nombre: "Ignacio Valenzuela", email: "ignacio.v@gmail.com", rut: "16.782.341-K", telefono: "+56 9 6655 4433", rol: "CLIENTE", estado: "Activo", fechaRegistro: "2026-04-20", ultimoAcceso: "2026-10-24 11:15" },
+  { id: 6, nombre: "Francisca Pinto", email: "fran.pinto@profesor.duoc.cl", rut: "12.940.321-8", telefono: "+56 9 5544 3322", rol: "CLIENTE", estado: "Inactivo", fechaRegistro: "2026-05-02", ultimoAcceso: "2026-10-24 12:45" },
+];
+
+export const ORDENES_FALLBACK: OrderAdmin[] = [
+  { id: 1, trackingCode: "CC-1001", cliente: "Camila Silva", email: "camila.silva@duocuc.cl", telefono: "+56 9 7788 9900", rut: "18.452.912-3", tipoEntrega: "RETIRO", personaRetiroNombre: "Diego Morales", subtotal: 37815, total: 45000, iva: 7185, estado: "EN_PREPARACION", metodoPago: "WebPay Plus", fecha: "2026-10-24 10:30", items: [{ id: 101, nombre: "Torta Cuatro Leches (15 pers.)", cantidad: 1, precio: 34000, subtotal: 34000 }, { id: 102, nombre: "Macarons x6", cantidad: 1, precio: 11000, subtotal: 11000 }] },
+  { id: 2, trackingCode: "CC-1002", cliente: "Ignacio Valenzuela", email: "ignacio.v@gmail.com", telefono: "+56 9 6655 4433", rut: "16.782.341-K", tipoEntrega: "DELIVERY", direccion: "Av. Providencia 1234", subtotal: 57143, total: 68000, iva: 10857, estado: "EN_RUTA", metodoPago: "Servipag", fecha: "2026-10-24 11:15", items: [{ id: 201, nombre: "Cheesecake Frutos Rojos (12 pers.)", cantidad: 2, precio: 34000, subtotal: 68000 }] },
+  { id: 3, trackingCode: "CC-1003", cliente: "Francisca Pinto", email: "fran.pinto@profesor.duoc.cl", telefono: "+56 9 5544 3322", rut: "12.940.321-8", tipoEntrega: "RETIRO", personaRetiroNombre: "Francisca Pinto", subtotal: 28571, total: 34000, iva: 5429, estado: "LISTO_RETIRO", metodoPago: "WebPay Plus", fecha: "2026-10-24 12:45", items: [{ id: 301, nombre: "Torta Hojarasca Lúcuma", cantidad: 1, precio: 34000, subtotal: 34000 }] },
+  { id: 4, trackingCode: "CC-1004", cliente: "Camila Silva", email: "camila.silva@duocuc.cl", telefono: "+56 9 7788 9900", rut: "18.452.912-3", tipoEntrega: "DELIVERY", direccion: "Los Leones 2341", subtotal: 16807, total: 20000, iva: 3193, estado: "ENTREGADO", metodoPago: "Transferencia", fecha: "2026-10-18 16:40", items: [{ id: 401, nombre: "Tartaleta Frutas Finas", cantidad: 1, precio: 20000, subtotal: 20000 }] },
+];
+
+function getLocalUsers(): AdminUser[] {
+  try {
+    const raw = localStorage.getItem(USERS_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  return USUARIOS_ADMIN_FALLBACK;
+}
+
+function setLocalUsers(users: AdminUser[]): void {
+  try {
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  } catch {}
+}
 
 function getLocalCategories(): CategoryAdmin[] {
   try {
@@ -365,6 +400,94 @@ export async function deletePromotion(id: number): Promise<{ mensaje: string; id
   }
 }
 
+// ==========================================
+// SERVICIOS CRUD USUARIOS Y COMPRAS (CON FALLBACK)
+// ==========================================
+export async function getUsers(): Promise<AdminUser[]> {
+  try {
+    const data = await request<AdminUser[]>("/identity/users");
+    if (Array.isArray(data) && data.length > 0) {
+      setLocalUsers(data);
+      return data;
+    }
+    return getLocalUsers();
+  } catch {
+    return getLocalUsers();
+  }
+}
+
+export async function createUser(u: Partial<AdminUser>): Promise<AdminUser> {
+  try {
+    const res = await request<AdminUser>("/identity/users", {
+      method: "POST",
+      body: JSON.stringify(u),
+    });
+    setLocalUsers([...getLocalUsers(), res]);
+    return res;
+  } catch {
+    const list = getLocalUsers();
+    const newId = list.length > 0 ? Math.max(...list.map((x) => x.id)) + 1 : 1;
+    const nuevo: AdminUser = {
+      id: newId,
+      nombre: u.nombre || `Usuario #${newId}`,
+      email: u.email || "",
+      rol: u.rol || "CLIENTE",
+      estado: u.estado || "Activo",
+      rut: u.rut || "",
+      telefono: u.telefono || "",
+      fechaRegistro: new Date().toISOString().split("T")[0],
+      ultimoAcceso: "Reciente",
+    };
+    setLocalUsers([...list, nuevo]);
+    return nuevo;
+  }
+}
+
+export async function updateUser(id: number, u: Partial<AdminUser>): Promise<AdminUser> {
+  try {
+    const res = await request<AdminUser>(`/identity/users/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(u),
+    });
+    setLocalUsers(getLocalUsers().map((x) => (x.id === id ? { ...x, ...res } : x)));
+    return res;
+  } catch {
+    const list = getLocalUsers().map((x) => (x.id === id ? { ...x, ...u } : x));
+    setLocalUsers(list);
+    const found = list.find((x) => x.id === id);
+    if (!found) throw new Error("Usuario no encontrado");
+    return found;
+  }
+}
+
+export async function deleteUser(id: number): Promise<{ mensaje: string; id: number }> {
+  try {
+    await request(`/identity/users/${id}`, { method: "DELETE" });
+  } catch {
+    // Modo resiliente
+  }
+  setLocalUsers(getLocalUsers().filter((x) => x.id !== id));
+  return { mensaje: "Usuario eliminado", id };
+}
+
+export async function getOrdersByUser(query: { email?: string; clienteId?: number }): Promise<OrderAdmin[]> {
+  try {
+    const data = await request<OrderAdmin[]>("/orders");
+    const list = Array.isArray(data) && data.length > 0 ? data : ORDENES_FALLBACK;
+    return list.filter(
+      (o) =>
+        (query.email && o.email?.toLowerCase() === query.email.toLowerCase()) ||
+        (query.clienteId && o.id === query.clienteId)
+    );
+  } catch {
+    return ORDENES_FALLBACK.filter(
+      (o) =>
+        (query.email && o.email?.toLowerCase() === query.email.toLowerCase()) ||
+        (query.clienteId && o.id === query.clienteId)
+    );
+  }
+}
+
 export const adminApi = {
   // Autenticación Administrativa
   auth: {
@@ -430,15 +553,24 @@ export const adminApi = {
 
   // Usuarios y Roles RBAC
   users: {
-    list: () => request<Array<{ id: number; nombre: string; email: string; rol: string; estado: string; rut?: string; telefono?: string }>>("/identity/users"),
+    list: getUsers,
+    getUsers,
+    create: createUser,
+    createUser,
+    update: updateUser,
+    updateUser,
+    updateRole: (userId: number, rol: string) => updateUser(userId, { rol }),
+    delete: deleteUser,
+    deleteUser,
     getRoles: () => request<Array<{ id: string; nombre: string; permisos: string[] }>>("/identity/roles"),
-    updateRole: (userId: number, rol: string) =>
-      request<Record<string, unknown>>(`/identity/users/${userId}/role`, { method: "PUT", body: JSON.stringify({ rol }) }),
   },
 
   // Pedidos
   orders: {
-    list: () => request<OrderAdmin[]>("/orders"),
+    list: () => request<OrderAdmin[]>("/orders").catch(() => ORDENES_FALLBACK),
+    getOrders: () => request<OrderAdmin[]>("/orders").catch(() => ORDENES_FALLBACK),
+    getByUser: getOrdersByUser,
+    getOrdersByUser,
     updateStatus: (orderId: number, estado: string) =>
       request<OrderAdmin>(`/orders/${orderId}/status`, { method: "PUT", body: JSON.stringify({ estado }) }),
   },

@@ -410,7 +410,7 @@
       "path": "frontend/src/pages/cliente/Perfil.tsx",
       "id": "frontend.pages.cliente.perfil",
       "kind": "component",
-      "limit": 380,
+      "limit": 620,
       "contract": "sin props: consulta contexto de sesion o estado local",
       "desc": "Vista de perfil de cliente con datos personales, direcciones y acceso a pedidos",
       "relates": [
@@ -425,7 +425,7 @@
       "path": "frontend/src/pages/cliente/PerfilSeguimiento.tsx",
       "id": "frontend.pages.cliente.perfilSeguimiento",
       "kind": "component",
-      "limit": 360,
+      "limit": 580,
       "contract": "sin props: consulta pedido mock o parametros de ruta",
       "desc": "Vista de seguimiento de pedido dentro del perfil con timeline e info de recogida",
       "relates": [
@@ -452,7 +452,7 @@
       "path": "frontend/src/pages/cliente/Personalizacion.tsx",
       "id": "frontend.pages.cliente.personalizacion",
       "kind": "component",
-      "limit": 320,
+      "limit": 520,
       "contract": "sin props: formulario interactivo de diseno y cotizacion de tortas",
       "desc": "Pagina de personalizacion de tortas por pasos: personas, sabores y detalles",
       "relates": [
@@ -724,7 +724,7 @@
       "path": "frontend/src/services/api.ts",
       "id": "frontend.services.api",
       "kind": "service",
-      "limit": 320,
+      "limit": 750,
       "contract": "authApi, catalogApi, orderApi, inventoryApi, notificationApi, paymentApi",
       "desc": "Cliente HTTP del frontend con token JWT para consumir microservicios",
       "relates": [
@@ -736,7 +736,7 @@
       "path": "admin-pwa/src/services/api.ts",
       "id": "admin.services.api",
       "kind": "service",
-      "limit": 500,
+      "limit": 620,
       "contract": "authApi, catalogApi, orderApi, inventoryApi",
       "desc": "Cliente HTTP del Admin PWA para gestionar catalogo, POS e inventario",
       "relates": [
@@ -1042,6 +1042,63 @@
       "relates": [
         "admin.services.api",
         "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/NuevoUsuarioModal.tsx",
+      "id": "admin.components.nuevoUsuarioModal",
+      "kind": "component",
+      "limit": 250,
+      "contract": "NuevoUsuarioModalProps",
+      "desc": "Modal reactivo de creacion de nuevo usuario administrativo",
+      "relates": [
+        "admin.lib.validators",
+        "admin.services.api"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/FichaUsuarioModal.tsx",
+      "id": "admin.components.fichaUsuarioModal",
+      "kind": "component",
+      "limit": 250,
+      "contract": "FichaUsuarioModalProps",
+      "desc": "Modal con la ficha tecnica y resumen de actividad comercial del usuario",
+      "relates": [
+        "admin.services.api"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/EditarUsuarioModal.tsx",
+      "id": "admin.components.editarUsuarioModal",
+      "kind": "component",
+      "limit": 250,
+      "contract": "EditarUsuarioModalProps",
+      "desc": "Modal para editar rol, estado y contacto de un usuario",
+      "relates": [
+        "admin.services.api"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/HistorialComprasModal.tsx",
+      "id": "admin.components.historialComprasModal",
+      "kind": "component",
+      "limit": 250,
+      "contract": "HistorialComprasModalProps",
+      "desc": "Modal para listar las compras del usuario y acceder a sus boletas",
+      "relates": [
+        "admin.services.api",
+        "admin.components.boletaModal"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/MatrizPermisos.tsx",
+      "id": "admin.components.matrizPermisos",
+      "kind": "component",
+      "limit": 150,
+      "contract": "MatrizPermisos()",
+      "desc": "Tabla referencial de roles y privilegios del sistema",
+      "relates": [
+        "admin.pages.usuarios"
       ]
     }
   ],

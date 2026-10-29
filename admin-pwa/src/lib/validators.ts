@@ -95,7 +95,7 @@ export function validarUsuarioAdmin(datos: {
   if (datos.rut && !validarRut(datos.rut)) {
     errores.rut = "El RUN ingresado no es válido (verifique dígito verificador).";
   }
-  const rolesPermitidos = ["ADMIN_GENERAL", "JEFE_COCINA", "CAJERO_MOSTRADOR", "CLIENTE", "ADMIN", "PASTELERO", "VENDEDOR"];
+  const rolesPermitidos = ["ADMIN_GENERAL", "JEFE_COCINA", "CAJERO_MOSTRADOR", "CLIENTE", "ADMIN", "PASTELERO", "VENDEDOR", "REPARTIDOR"];
   if (!datos.rol || !rolesPermitidos.includes(datos.rol)) {
     errores.rol = "El rol seleccionado no es válido.";
   }
