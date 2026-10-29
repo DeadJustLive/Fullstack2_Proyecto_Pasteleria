@@ -83,3 +83,5 @@ export function validarRut(rut: string): boolean {
 
   return dvIngresado === dvEsperado;
 }
+
+export const validarRutChileno = validarRut;

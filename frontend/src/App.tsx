@@ -11,6 +11,8 @@ import { Checkout } from "@/pages/cliente/Checkout";
 import { Confirmacion } from "@/pages/cliente/Confirmacion";
 import { FlowGateway } from "@/pages/cliente/pago/FlowGateway";
 import { Home } from "@/pages/cliente/Home";
+import { Login } from "@/pages/cliente/Login";
+import { Registro } from "@/pages/cliente/Registro";
 import { PagoError } from "@/pages/cliente/pago/Error";
 import { PagoExito } from "@/pages/cliente/pago/Exito";
 import { PagoPendiente } from "@/pages/cliente/pago/Pendiente";
@@ -37,8 +39,8 @@ function App() {
         <Route path="pago/exito" element={<PagoExito />} />
         <Route path="pago/error" element={<PagoError />} />
         <Route path="pago/pendiente" element={<PagoPendiente />} />
-        <Route path="login" element={<Placeholder title="Iniciar Sesión" owner="Nicolas" />} />
-        <Route path="registro" element={<Placeholder title="Registro" owner="Nicolas" />} />
+        <Route path="login" element={<Login />} />
+        <Route path="registro" element={<Registro />} />
         <Route path="perfil" element={<Perfil />} />
         <Route path="perfil/pedidos" element={<PerfilSeguimiento />} />
         <Route path="perfil/seguimiento" element={<PerfilSeguimiento />} />

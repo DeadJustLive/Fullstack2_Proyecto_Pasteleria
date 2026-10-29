@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Usuario — Crème & Co (Validación DSY1104)</title>
+  <link rel="stylesheet" href="css/auth-validacion.css">
+</head>
+<body>
+
+  <header class="auth-header">
+    <a href="../index.html" class="brand">🍰 Crème & Co</a>
+    <span style="font-size: 0.85rem; color: #5D4037;">Maquetado de Validación DSY1104</span>
+  </header>
+
+  <main class="auth-main">
+    <div class="auth-card wide">
+      <h1 class="auth-title">Crear Cuenta de Cliente</h1>
+      <p class="auth-subtitle">Regístrate para guardar tus direcciones, acceder a descuentos y seguir tus órdenes</p>
+
+      <!-- Botón de prueba rápida -->
+      <div class="test-scenarios">
+        <h4>⚡ Autocompletar datos de prueba válidos:</h4>
+        <div class="test-buttons">
+          <button type="button" class="btn-chip" onclick="fillRegister('Camila', 'Silva Tapia', '18.432.198-7', 'camila.nueva@cremeco.cl', '+56 9 8765 4321', 'Metropolitana de Santiago', 'Providencia')">
+            ✨ Cliente Providencia (Camila Silva)
+          </button>
+          <button type="button" class="btn-chip" onclick="fillRegister('Diego', 'Araneda Castro', '17.890.123-4', 'diego.araneda@cremeco.cl', '+56 9 9876 5432', 'Valparaíso', 'Viña del Mar')">
+            🌊 Cliente Viña del Mar (Diego Araneda)
+          </button>
+        </div>
+      </div>
+
+      <form id="registroForm" onsubmit="event.preventDefault(); submitRegister();">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nombre">Nombre(s) *</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej. Camila Andrea" required>
+          </div>
+          <div class="form-group">
+            <label for="apellidos">Apellidos *</label>
+            <input type="text" id="apellidos" name="apellidos" placeholder="Ej. Silva Tapia" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rut">RUT Chileno (con guion y dígito verificador) *</label>
+            <input type="text" id="rut" name="rut" placeholder="18.432.198-7" required onblur="formatAndValidateRut(this)">
+            <div id="rutError" class="error-text" style="display: none;">RUT inválido (algoritmo Módulo 11)</div>
+          </div>
+          <div class="form-group">
+            <label for="telefono">Teléfono de Contacto *</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="+56 9 8765 4321" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Correo Electrónico *</label>
+          <input type="email" id="email" name="email" placeholder="cliente@ejemplo.cl" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="region">Región *</label>
+            <select id="region" name="region" required onchange="handleRegionChange()">
+              <option value="">Selecciona tu región...</option>
+              <option value="Metropolitana de Santiago">Metropolitana de Santiago</option>
+              <option value="Valparaíso">Valparaíso</option>
+              <option value="Biobío">Biobío</option>
+              <option value="Araucanía">La Araucanía</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="comuna">Comuna *</label>
+            <select id="comuna" name="comuna" required>
+              <option value="">Selecciona tu comuna...</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password">Contraseña (mínimo 6 caracteres) *</label>
+            <input type="password" id="password" name="password" placeholder="••••••••" required minlength="6">
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirmar Contraseña *</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required minlength="6">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1rem; font-size: 0.85rem;">
+          <label style="display: flex; align-items: flex-start; gap: 0.5rem; font-weight: normal;">
+            <input type="checkbox" required style="width: auto; margin-top: 0.2rem;">
+            Acepto los términos y condiciones del servicio y las políticas de privacidad de Crème & Co Pastelería.
+          </label>
+        </div>
+
+        <button type="submit" class="btn-submit">Crear mi Cuenta</button>
+
+        <div class="auth-footer">
+          ¿Ya tienes una cuenta registrada? <a href="login.html">Inicia sesión aquí</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    const COMUNAS = {
+      'Metropolitana de Santiago': ['Santiago', 'Providencia', 'Las Condes', 'Ñuñoa', 'Vitacura', 'La Florida', 'Maipú'],
+      'Valparaíso': ['Valparaíso', 'Viña del Mar', 'Concón', 'Quilpué', 'Villa Alemana'],
+      'Biobío': ['Concepción', 'San Pedro de la Paz', 'Talcahuano', 'Chiguayante'],
+      'Araucanía': ['Temuco', 'Padre Las Casas', 'Villarrica', 'Pucón']
+    };
+
+    function handleRegionChange() {
+      const reg = document.getElementById('region').value;
+      const comunaSel = document.getElementById('comuna');
+      comunaSel.innerHTML = '<option value="">Selecciona tu comuna...</option>';
+      if (COMUNAS[reg]) {
+        COMUNAS[reg].forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c;
+          opt.textContent = c;
+          comunaSel.appendChild(opt);
+        });
+      }
+    }
+
+    function formatAndValidateRut(input) {
+      const val = input.value.trim();
+      if (!val) return;
+      // Simulación básica de validación Módulo 11 en mockup
+      const err = document.getElementById('rutError');
+      if (val.length < 8) {
+        err.style.display = 'block';
+      } else {
+        err.style.display = 'none';
+      }
+    }
+
+    function fillRegister(nom, ape, rut, mail, tel, reg, com) {
+      document.getElementById('nombre').value = nom;
+      document.getElementById('apellidos').value = ape;
+      document.getElementById('rut').value = rut;
+      document.getElementById('email').value = mail;
+      document.getElementById('telefono').value = tel;
+      document.getElementById('region').value = reg;
+      handleRegionChange();
+      document.getElementById('comuna').value = com;
+      document.getElementById('password').value = 'clave123';
+      document.getElementById('confirmPassword').value = 'clave123';
+    }
+
+    function submitRegister() {
+      const pass = document.getElementById('password').value;
+      const conf = document.getElementById('confirmPassword').value;
+      if (pass !== conf) {
+        alert('Las contraseñas ingresadas no coinciden.');
+        return;
+      }
+      alert('[Validación Mockup] Registro validado con éxito. Pasando a componente React conectado con backend.');
+    }
+  </script>
+</body>
+</html>

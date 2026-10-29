@@ -7,10 +7,12 @@ import { Usuarios } from "./pages/Usuarios";
 import { Promociones } from "./pages/Promociones";
 import { Pos } from "./pages/Pos";
 import { ComponentesShowcase } from "./pages/ComponentesShowcase";
+import { LoginAdmin } from "./pages/LoginAdmin";
 
 export function App() {
   return (
     <Routes>
+      <Route path="login" element={<LoginAdmin />} />
       <Route element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="productos" element={<Productos />} />

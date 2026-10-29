@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { NavLink, Outlet, useLocation, Navigate, useNavigate } from "react-router-dom";
 import {
   BarChart3,
   ExternalLink,
@@ -13,7 +13,9 @@ import {
   Users,
   Wifi,
   X,
+  LogOut,
 } from "lucide-react";
+import { getAdminToken, getAdminUser, clearAdminSession } from "../services/api";
 
 const NAV_ITEMS = [
   { to: "/", label: "Dashboard & Reportes", icon: BarChart3, end: true },
@@ -28,11 +30,34 @@ const NAV_ITEMS = [
 export function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const token = getAdminToken();
+  const user = getAdminUser();
+
+  // Guardián de rutas RBAC: si no hay token o sesión, redirigir a /login
+  if (!token || !user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  const handleLogout = () => {
+    clearAdminSession();
+    navigate("/login");
+  };
 
   const tituloActual =
     NAV_ITEMS.find((item) =>
       item.end ? location.pathname === item.to : location.pathname.startsWith(item.to)
     )?.label ?? "Panel de Administración";
+
+  const iniciales = user.nombre
+    ? user.nombre
+        .split(" ")
+        .map((n) => n[0])
+        .slice(0, 2)
+        .join("")
+        .toUpperCase()
+    : "AD";
 
   return (
     <div className="d-flex min-vh-100 bg-body-tertiary">
@@ -70,50 +95,70 @@ export function AdminLayout() {
           </div>
           <button
             type="button"
-            className="btn btn-sm btn-light d-lg-none"
+            className="btn btn-sm btn-outline-secondary d-lg-none p-1"
             onClick={() => setSidebarOpen(false)}
-            aria-label="Cerrar navegación"
+            aria-label="Cerrar menú"
           >
             <X size={18} />
           </button>
         </div>
 
-        <nav className="flex-grow-1 p-3 overflow-y-auto">
-          <div className="d-flex flex-column gap-1">
+        {/* Navegación Principal */}
+        <nav className="p-2 flex-grow-1">
+          <ul className="nav nav-pills flex-column gap-1">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
               return (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  end={item.end}
-                  onClick={() => setSidebarOpen(false)}
-                  className={({ isActive }) =>
-                    `pwa-nav-link ${isActive ? "active" : ""}`
-                  }
-                >
-                  <Icon size={18} className="flex-shrink-0" />
-                  <span>{item.label}</span>
-                </NavLink>
+                <li className="nav-item" key={item.to}>
+                  <NavLink
+                    to={item.to}
+                    end={item.end}
+                    className={({ isActive }) =>
+                      `nav-link d-flex align-items-center gap-2.5 px-3 py-2 rounded-3 text-secondary ${
+                        isActive ? "active bg-primary text-white fw-semibold shadow-sm" : ""
+                      }`
+                    }
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <Icon size={18} />
+                    <span>{item.label}</span>
+                  </NavLink>
+                </li>
               );
             })}
-          </div>
+          </ul>
         </nav>
 
-        <div className="p-3 border-top bg-light small text-muted">
-          <div className="d-flex align-items-center justify-content-between mb-1">
-            <span className="fw-bold text-secondary">Terminal PWA</span>
-            <span className="badge bg-success-subtle text-success border border-success-subtle d-inline-flex align-items-center gap-1">
-              <span
-                className="spinner-grow spinner-grow-sm text-success"
-                style={{ width: "6px", height: "6px" }}
-              />
-              Caja Abierta
-            </span>
+        {/* Footer Sidebar con Datos de Usuario */}
+        <div className="p-3 border-top mt-auto bg-light">
+          <div className="d-flex align-items-center justify-content-between mb-2">
+            <div className="d-flex align-items-center gap-2 overflow-hidden">
+              <div
+                className="d-flex align-items-center justify-content-center rounded-circle bg-secondary text-white fw-bold small flex-shrink-0"
+                style={{ width: "32px", height: "32px", fontSize: "0.8rem" }}
+              >
+                {iniciales}
+              </div>
+              <div className="overflow-hidden">
+                <span className="d-block text-truncate small fw-bold text-secondary">
+                  {user.nombre}
+                </span>
+                <span className="d-block text-truncate text-muted" style={{ fontSize: "0.75rem" }}>
+                  {user.email}
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="text-secondary opacity-75" style={{ fontSize: "0.72rem" }}>
-            React + Vite + Bootstrap 5 (Sin Tailwind)
-          </div>
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="btn btn-sm btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-1.5 py-1"
+            style={{ fontSize: "0.8rem" }}
+          >
+            <LogOut size={14} />
+            <span>Cerrar Sesión</span>
+          </button>
         </div>
       </aside>
 
@@ -140,7 +185,7 @@ export function AdminLayout() {
 
             <div className="d-none d-md-flex align-items-center gap-2 bg-light border rounded-pill px-3 py-1 small">
               <ShieldCheck size={16} className="text-secondary" />
-              <span className="fw-bold text-secondary">Rol: Admin General</span>
+              <span className="fw-bold text-secondary">Rol: {user.rol || "ADMIN"}</span>
             </div>
 
             <a
@@ -153,12 +198,15 @@ export function AdminLayout() {
               <ExternalLink size={13} />
             </a>
 
-            <div
-              className="d-flex align-items-center justify-content-center rounded-circle bg-secondary text-white fw-bold small shadow-sm"
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="btn btn-sm btn-outline-secondary rounded-circle d-flex align-items-center justify-content-center p-0 flex-shrink-0"
               style={{ width: "36px", height: "36px" }}
+              title="Cerrar sesión"
             >
-              AG
-            </div>
+              <LogOut size={16} />
+            </button>
           </div>
         </header>
 

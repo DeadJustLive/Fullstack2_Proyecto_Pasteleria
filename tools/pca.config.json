@@ -902,6 +902,48 @@
         "admin.lib.validators",
         "docs.especificacion_pwa_admin"
       ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Login.tsx",
+      "id": "frontend.pages.cliente.login",
+      "kind": "page",
+      "limit": 200,
+      "contract": "LoginView()",
+      "desc": "Vista publica de inicio de sesion con validaciones y credenciales de prueba",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.ui.input",
+        "frontend.lib.authValidator",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Registro.tsx",
+      "id": "frontend.pages.cliente.registro",
+      "kind": "page",
+      "limit": 380,
+      "contract": "RegistroView()",
+      "desc": "Vista publica de registro de nuevos clientes con selector regional y validacion de RUT",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.ui.input",
+        "frontend.lib.rutValidator",
+        "frontend.lib.authValidator",
+        "frontend.lib.regionesChile",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/LoginAdmin.tsx",
+      "id": "admin.pages.loginAdmin",
+      "kind": "page",
+      "limit": 180,
+      "contract": "LoginAdminView()",
+      "desc": "Pantalla de autenticacion administrativa con verificacion de roles RBAC y tokens JWT",
+      "relates": [
+        "admin.services.api",
+        "docs.especificacion_pwa_admin"
+      ]
     }
   ],
   "options": {
