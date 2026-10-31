@@ -1,0 +1,154 @@
+{
+  "_comment": "FIDA/OPL WAL Snapshot — Generado por fida_opl.py guard. NO editar a mano.",
+  "module": "HomeView",
+  "timestamp": "2026-10-31T16:01:08",
+  "decisions_hash": "e7e09fcccfd5e905",
+  "files": {
+    "interfaces/IHomeView.ts": {
+      "path": "fida-kit/examples/HomeView/interfaces/IHomeView.ts",
+      "id": "feature.homeview.interface",
+      "kind": "interface",
+      "contract": "IHomeViewProps, IHomeViewEvents, HomeViewContract",
+      "relates": [],
+      "hash": "2c71a7d99a199b03",
+      "clean_chars": 360,
+      "exported_symbols": [
+        "IHomeViewProps",
+        "IHomeViewEvents",
+        "HomeViewContract"
+      ],
+      "imports": [],
+      "functions": [],
+      "code_lines": [
+        "",
+        "/**",
+        " * FIDA - Interface Layer (I)",
+        " *",
+        " * Contract for: HomeView",
+        " * Created: 2026-10-31",
+        " *",
+        " * Define estrictamente qué datos entran (Props) y qué eventos salen (Events).",
+        " * ⚠️ Nivel de Impacto FIDA: ALTO (+50 pts) — Cambios aquí disparan el WAL documental.",
+        " */",
+        "",
+        "export interface IHomeViewProps {",
+        "  title?: string;",
+        "}",
+        "",
+        "export interface IHomeViewEvents {",
+        "  onAction?: () => void;",
+        "}",
+        "",
+        "export type HomeViewContract = IHomeViewProps & IHomeViewEvents;"
+      ]
+    },
+    "dependencies/dependencies.ts": {
+      "path": "fida-kit/examples/HomeView/dependencies/dependencies.ts",
+      "id": "feature.homeview.dependencies",
+      "kind": "dependencies",
+      "contract": "gateway: external imports and adapters for HomeView",
+      "relates": [
+        "feature.homeview.interface"
+      ],
+      "hash": "0f1051f8350ecf4a",
+      "clean_chars": 543,
+      "exported_symbols": [],
+      "imports": [
+        "../interfaces/IHomeView"
+      ],
+      "functions": [],
+      "code_lines": [
+        "",
+        "/**",
+        " * FIDA - Dependencies Layer (D)",
+        " *",
+        " * Import Gateway (\"Aduana\") for: HomeView",
+        " * Created: 2026-10-31",
+        " *",
+        " * Único punto de entrada para librerías externas, componentes globales o servicios.",
+        " * Ningún archivo en implementation/ o components/ puede importar del exterior sin pasar por aquí.",
+        " * ⚠️ Nivel de Impacto FIDA: ALTO (+40 pts) — Cambios aquí disparan revisión WAL.",
+        " */",
+        "",
+        "export type {",
+        "  IHomeViewProps,",
+        "  IHomeViewEvents,",
+        "  HomeViewContract,",
+        "} from \"../interfaces/IHomeView\";",
+        "",
+        "// === Componentes Globales / UI ===",
+        "// export { Button } from \"@/shared/ui/Button\";",
+        "",
+        "// === Hooks / Servicios Externos ===",
+        "// export { apiClient } from \"@/core/apiClient\";"
+      ]
+    },
+    "implementation/HomeView.view.tsx": {
+      "path": "fida-kit/examples/HomeView/implementation/HomeView.view.tsx",
+      "id": "feature.homeview.view",
+      "kind": "view",
+      "contract": "HomeViewView(props: HomeViewContract)",
+      "relates": [
+        "feature.homeview.interface",
+        "feature.homeview.dependencies"
+      ],
+      "hash": "f915c5a2ef5b9a44",
+      "clean_chars": 408,
+      "exported_symbols": [
+        "HomeViewView"
+      ],
+      "imports": [
+        "../dependencies/dependencies"
+      ],
+      "functions": [
+        "HomeViewView"
+      ],
+      "code_lines": [
+        "",
+        "/**",
+        " * FIDA - Feature & View Layer (F/V)",
+        " *",
+        " * View Implementation for: HomeView",
+        " * Created: 2026-10-31",
+        " *",
+        " * Implementación visual obediente al contrato IHomeView.",
+        " * Importa recursos externos exclusivamente desde ../dependencies/dependencies.",
+        " */",
+        "",
+        "import type { HomeViewContract } from \"../dependencies/dependencies\";",
+        "",
+        "export const HomeViewView = (props: HomeViewContract) => {",
+        "  const { title = \"HomeView\", onAction } = props;",
+        "  return {",
+        "    title,",
+        "    triggerAction: () => onAction?.(),",
+        "  };",
+        "};"
+      ]
+    },
+    "components/README.md": {
+      "path": "fida-kit/examples/HomeView/components/README.md",
+      "id": "feature.homeview.components.readme",
+      "kind": "doc",
+      "contract": "",
+      "relates": [
+        "feature.homeview.view"
+      ],
+      "hash": "e6131b0a2b82052a",
+      "clean_chars": 514,
+      "exported_symbols": [],
+      "imports": [],
+      "functions": [],
+      "code_lines": [
+        "# Componentes Locales — HomeView",
+        "",
+        "Esta carpeta aloja los subcomponentes que pertenecen **exclusivamente** a la vista `HomeView`.",
+        "",
+        "## Reglas FIDA para `components/`",
+        "1. **Aislamiento**: Ningún otro módulo fuera de `HomeView` puede importar archivos de esta carpeta.",
+        "2. **Promoción**: Si un componente de aquí necesita reutilizarse en otra vista, debe moverse a `shared/` y reexportarse a través de `../dependencies/dependencies.ts`.",
+        "3. **Aduana**: Los subcomponentes locales tampoco pueden importar librerías externas directamente; deben consumirlas desde `../dependencies/dependencies.ts`."
+      ]
+    }
+  }
+}

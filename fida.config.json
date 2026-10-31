@@ -1,0 +1,1241 @@
+{
+  "_annotation": {
+    "id": "fida.config",
+    "kind": "config",
+    "desc": "Índice central sincronizado de FIDA/OPL para Crème & Co",
+    "relates": [
+      "fida.tools.opl",
+      "tools.pca_annotator"
+    ]
+  },
+  "base_dir": ".",
+  "ignore_file": ".fidaignore",
+  "features_dir": "frontend/src/features",
+  "roots": [
+    "docs",
+    "tools",
+    "fida-kit",
+    "frontend/src",
+    "frontend/scripts",
+    "admin-pwa/src",
+    "backend"
+  ],
+  "include": [
+    "**/*.py",
+    "**/*.md",
+    "**/*.css",
+    "**/*.html",
+    "**/*.tsx",
+    "**/*.ts",
+    "**/*.mjs",
+    "**/*.java"
+  ],
+  "exclude": [
+    "**/grafo.*",
+    "**/*.bak",
+    "**/.snapshot*.json",
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/target/**",
+    "**/__pycache__/**",
+    ".env",
+    "**/.env"
+  ],
+  "defaults": {
+    "limits": {
+      "interface": 150,
+      "dependencies": 120,
+      "view": 300,
+      "controller": 250,
+      "component": 200,
+      "service": 350,
+      "model": 200,
+      "util": 200,
+      "doc": 600,
+      "test": 400
+    },
+    "wal_threshold": 60
+  },
+  "modules": [
+    "fida-kit/examples/HomeView/docs/fida.module.json"
+  ],
+  "files": [
+    {
+      "path": "admin-pwa/src/components/BoletaModal.tsx",
+      "id": "admin.components.boletaModal",
+      "kind": "component",
+      "limit": 350,
+      "contract": "BoletaModal(order, onClose)",
+      "desc": "Modal con desglose de IVA 19%, datos de emisor/receptor e impresion tributaria DSY1104",
+      "relates": [
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/EditarUsuarioModal.tsx",
+      "id": "admin.components.editarUsuarioModal",
+      "kind": "component",
+      "limit": 250,
+      "contract": "EditarUsuarioModalProps",
+      "desc": "Modal para editar rol, estado y contacto de un usuario",
+      "relates": [
+        "admin.services.api"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/FichaUsuarioModal.tsx",
+      "id": "admin.components.fichaUsuarioModal",
+      "kind": "component",
+      "limit": 250,
+      "contract": "FichaUsuarioModalProps",
+      "desc": "Modal con la ficha tecnica y resumen de actividad comercial del usuario",
+      "relates": [
+        "admin.services.api"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/HistorialComprasModal.tsx",
+      "id": "admin.components.historialComprasModal",
+      "kind": "component",
+      "limit": 250,
+      "contract": "HistorialComprasModalProps",
+      "desc": "Modal para listar las compras del usuario y acceder a sus boletas",
+      "relates": [
+        "admin.services.api",
+        "admin.components.boletaModal"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/MatrizPermisos.tsx",
+      "id": "admin.components.matrizPermisos",
+      "kind": "component",
+      "limit": 150,
+      "contract": "MatrizPermisos()",
+      "desc": "Tabla referencial de roles y privilegios del sistema",
+      "relates": [
+        "admin.pages.usuarios"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/NuevoUsuarioModal.tsx",
+      "id": "admin.components.nuevoUsuarioModal",
+      "kind": "component",
+      "limit": 250,
+      "contract": "NuevoUsuarioModalProps",
+      "desc": "Modal reactivo de creacion de nuevo usuario administrativo",
+      "relates": [
+        "admin.lib.validators",
+        "admin.services.api"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/lib/validators.ts",
+      "id": "admin.lib.validators",
+      "kind": "service",
+      "limit": 120,
+      "contract": "validarRutAdmin, validarProductoAdmin, validarUsuarioAdmin",
+      "desc": "Validaciones para formularios de gestion de catalogo y usuarios en Admin PWA",
+      "relates": [
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Categorias.tsx",
+      "id": "admin.pages.categorias",
+      "kind": "page",
+      "limit": 680,
+      "contract": "CategoriasAdminView()",
+      "desc": "Gestion administrativa de categorias, jerarquias, slug y conteo de productos",
+      "relates": [
+        "admin.services.api",
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Dashboard.tsx",
+      "id": "admin.pages.dashboard",
+      "kind": "page",
+      "limit": 280,
+      "contract": "DashboardView()",
+      "desc": "Resumen administrativo con metricas, ventas diarias y accesos rapidos",
+      "relates": [
+        "docs.especificacion_pwa_admin",
+        "admin.services.api"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Inventario.tsx",
+      "id": "admin.pages.inventario",
+      "kind": "page",
+      "limit": 480,
+      "contract": "InventarioAdminView()",
+      "desc": "Control de stock con semaforo, movimientos Kardex y registro de mermas",
+      "relates": [
+        "docs.especificacion_pwa_admin",
+        "admin.services.api"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/LoginAdmin.tsx",
+      "id": "admin.pages.loginAdmin",
+      "kind": "page",
+      "limit": 230,
+      "contract": "LoginAdminView()",
+      "desc": "Pantalla de autenticacion administrativa con verificacion de roles RBAC y tokens JWT",
+      "relates": [
+        "admin.services.api",
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Ordenes.tsx",
+      "id": "admin.pages.ordenes",
+      "kind": "page",
+      "limit": 260,
+      "contract": "OrdenesView()",
+      "desc": "Manejo de pedidos, cambio de estados y visualizacion de boletas tributarias",
+      "relates": [
+        "admin.services.api",
+        "admin.components.boletaModal",
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/PerfilAdmin.tsx",
+      "id": "admin.pages.perfil",
+      "kind": "page",
+      "limit": 480,
+      "contract": "PerfilAdminView()",
+      "desc": "Gestion del perfil, credenciales, seguridad y sesion del administrador",
+      "relates": [
+        "admin.services.api",
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Pos.tsx",
+      "id": "admin.pages.pos",
+      "kind": "page",
+      "limit": 420,
+      "contract": "PosAdminView()",
+      "desc": "Terminal punto de venta POS mostrador con generacion de boletas",
+      "relates": [
+        "docs.especificacion_pwa_admin",
+        "admin.services.api"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Productos.tsx",
+      "id": "admin.pages.productos",
+      "kind": "page",
+      "limit": 720,
+      "contract": "ProductosAdminView()",
+      "desc": "Gestion de productos, edicion, reporte de criticos y alta de nuevos",
+      "relates": [
+        "admin.lib.validators",
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Promociones.tsx",
+      "id": "admin.pages.promociones",
+      "kind": "page",
+      "limit": 680,
+      "contract": "PromocionesAdminView()",
+      "desc": "Gestion de cupones de descuento, limites y vigencia",
+      "relates": [
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Reportes.tsx",
+      "id": "admin.pages.reportes",
+      "kind": "page",
+      "limit": 450,
+      "contract": "ReportesAdminView()",
+      "desc": "Modulo independiente de reportes financieros, KPIs, graficos y exportacion CSV",
+      "relates": [
+        "admin.services.api",
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/pages/Usuarios.tsx",
+      "id": "admin.pages.usuarios",
+      "kind": "page",
+      "limit": 300,
+      "contract": "UsuariosAdminView()",
+      "desc": "Gestion de usuarios, roles RBAC y consulta de historial de compras",
+      "relates": [
+        "admin.lib.validators",
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/services/api.ts",
+      "id": "admin.services.api",
+      "kind": "service",
+      "limit": 620,
+      "contract": "authApi, catalogApi, orderApi, inventoryApi",
+      "desc": "Cliente HTTP del Admin PWA para gestionar catalogo, POS e inventario",
+      "relates": [
+        "docs.especificacion_pwa_admin",
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "docs/arquitectura_microservicios_kafka.md",
+      "id": "docs.arquitectura_microservicios_kafka",
+      "kind": "doc",
+      "limit": 450,
+      "desc": "Arquitectura de microservicios Spring Boot, comunicación asincrónica con Apache Kafka y pasarela de pago Flow",
+      "relates": [
+        "docs.especificacion_microservicios",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "docs/cicatrices_guerra.md",
+      "id": "docs.cicatrices_guerra",
+      "kind": "doc",
+      "limit": 300,
+      "desc": "Learning loop: errores commits, su causa y su solución",
+      "relates": [
+        "docs.convenciones",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "docs/convenciones.md",
+      "id": "docs.convenciones",
+      "kind": "doc",
+      "desc": "Convenciones generales del proyecto",
+      "relates": [
+        "docs.sistema_anotaciones"
+      ]
+    },
+    {
+      "path": "docs/diccionario_funciones_variables.md",
+      "id": "docs.diccionario_funciones_variables",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Diccionario técnico de funciones, variables y matriz de impacto Blast Radius",
+      "relates": [
+        "docs.convenciones",
+        "docs.reglas_ui",
+        "docs.arquitectura_microservicios_kafka"
+      ]
+    },
+    {
+      "path": "docs/especificacion_microservicios.md",
+      "id": "docs.especificacion_microservicios",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Especificación de microservicios y módulos de Spring Boot con sus entidades, endpoints y dependencias",
+      "relates": [
+        "docs.reglas_backend",
+        "interfaces.entity.user",
+        "interfaces.entity.rbac",
+        "interfaces.entity.catalog",
+        "interfaces.entity.order",
+        "interfaces.entity.payment",
+        "interfaces.entity.inventory",
+        "interfaces.entity.blog",
+        "interfaces.entity.audit"
+      ]
+    },
+    {
+      "path": "docs/especificacion_pwa_admin.md",
+      "id": "docs.especificacion_pwa_admin",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Especificación de vistas, flujos y permisos de la aplicación PWA de administración",
+      "relates": [
+        "docs.especificacion_microservicios",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "docs/estado_proyecto.md",
+      "id": "docs.estado_proyecto",
+      "kind": "doc",
+      "limit": 200,
+      "desc": "Tablero de control: fase, stack, sprints, tickets y próximo paso",
+      "relates": [
+        "docs.convenciones",
+        "docs.reglas_ui",
+        "docs.git"
+      ]
+    },
+    {
+      "path": "docs/git.md",
+      "id": "docs.git",
+      "kind": "doc",
+      "limit": 200,
+      "desc": "Estrategia de ramas, commits y flujo de versionado",
+      "relates": [
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "docs/reglas_backend.md",
+      "id": "docs.reglas_backend",
+      "kind": "doc",
+      "limit": 300,
+      "desc": "Reglas de backend: arquitectura modular Spring Boot, JPA, Flyway, RFC 7807 y convenciones de BD",
+      "relates": [
+        "docs.convenciones",
+        "docs.estado_proyecto"
+      ]
+    },
+    {
+      "path": "docs/reglas_ui.md",
+      "id": "docs.reglas_ui",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Reglas de UI: tokens, escalas, breakpoints, componentes y checklist responsive",
+      "relates": [
+        "docs.convenciones",
+        "frontend.ui.buttonVariants"
+      ]
+    },
+    {
+      "path": "docs/sistema_anotaciones.md",
+      "id": "docs.sistema_anotaciones",
+      "kind": "doc",
+      "desc": "Diccionario de anotaciones PCA y cómo usarlas",
+      "relates": [
+        "tools.pca_annotator"
+      ]
+    },
+    {
+      "path": "docs/tickets/sprint-7-dsy1104-produccion.md",
+      "id": "docs.tickets.sprint7",
+      "kind": "doc",
+      "limit": 500,
+      "desc": "Tickets T89 a T100 para integracion total con MySQL, Flow y entrega DSY1104",
+      "relates": [
+        "docs.estado_proyecto",
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "docs/tickets/sprint-8-fida-flow-produccion.md",
+      "id": "docs.tickets.sprint8",
+      "kind": "doc",
+      "limit": 480,
+      "relates": [
+        "docs.estado_proyecto",
+        "docs.convenciones",
+        "fida.tools.opl"
+      ],
+      "desc": "Tickets T101 a T105 con metodologia PCA y arquitectura FIDA + OPL para cierre de pasarela Flow.cl real y paso a produccion"
+    },
+    {
+      "path": "fida-kit/tools/fida_opl.py",
+      "id": "fida.tools.opl",
+      "kind": "service",
+      "limit": 450,
+      "contract": "cli: init|install-project|bootstrap|sync|annotate|check|graph|impact|guard|selftest",
+      "desc": "CLI unificada FIDA + OPL para scaffolding multi-lenguaje, instalador de proyecto, grafo, aduanas y guardián WAL",
+      "relates": [
+        "fida.tools.core",
+        "fida.tools.guard",
+        "fida.tools.templates",
+        "fida.tools.selftest"
+      ]
+    },
+    {
+      "path": "fida-kit/tools/fida_opl_core.py",
+      "id": "fida.tools.core",
+      "kind": "service",
+      "limit": 650,
+      "contract": "core: load_config, parse_annotations, annotate_file, build_graph, compute_impact, find_drift",
+      "desc": "Motor base de FIDA/OPL: parser de paréntesis balanceados, .fidaignore, inyección de bloques, grafo e impacto",
+      "relates": [
+        "fida.tools.opl",
+        "fida.tools.guard",
+        "fida.tools.selftest"
+      ]
+    },
+    {
+      "path": "fida-kit/tools/fida_opl_guard.py",
+      "id": "fida.tools.guard",
+      "kind": "service",
+      "limit": 520,
+      "contract": "guard: bootstrap_project, sync_manifests, verify_fida_boundaries, evaluate_wal_guard",
+      "desc": "Motor FIDA de autodescubrimiento, bootstrap de plantillas, sincronización modular, aduanas y guardián WAL",
+      "relates": [
+        "fida.tools.core",
+        "fida.tools.opl"
+      ]
+    },
+    {
+      "path": "fida-kit/tools/fida_opl_selftest.py",
+      "id": "fida.tools.selftest",
+      "kind": "test",
+      "limit": 450,
+      "contract": "run_selftest(): (passed, failures)",
+      "desc": "Suite de pruebas doradas de FIDA/OPL: parser balanceado, .fidaignore, bootstrap, sync, aduanas, dead deps, multi-lang y WAL atómico",
+      "relates": [
+        "fida.tools.core",
+        "fida.tools.guard",
+        "fida.tools.templates",
+        "fida.tools.opl"
+      ]
+    },
+    {
+      "path": "fida-kit/tools/fida_opl_templates.py",
+      "id": "fida.tools.templates",
+      "kind": "service",
+      "limit": 350,
+      "contract": "templates: scaffold_module_by_lang, install_project_kit, SUPPORTED_LANGS",
+      "desc": "Generador multi-lenguaje de módulos FIDA (ts, js, py, kt, rs) e instalador de 1 comando install-project",
+      "relates": [
+        "fida.tools.core",
+        "fida.tools.opl"
+      ]
+    },
+    {
+      "path": "frontend/scripts/optimize-images.mjs",
+      "id": "frontend.scripts.optimizeImages",
+      "kind": "service",
+      "limit": 160,
+      "contract": "cli: npm run optimize:images",
+      "desc": "Convierte PNG a WebP y re-codifica JPG de public/imagen sin degradar",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/BlogRecientes.tsx",
+      "id": "frontend.domain.blogRecientes",
+      "kind": "component",
+      "limit": 60,
+      "contract": "sin props",
+      "desc": "Grid de artículos recientes del blog en la Home",
+      "relates": [
+        "frontend.ui.buttonLink",
+        "frontend.ui.sectionTitle",
+        "frontend.data.articles"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/CarouselDestacados.tsx",
+      "id": "frontend.domain.carouselDestacados",
+      "kind": "component",
+      "limit": 160,
+      "contract": "props: productos: Producto[]",
+      "desc": "Carrusel de destacados con scroll-snap, flechas funcionales y teclado",
+      "relates": [
+        "frontend.domain.productCard",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/EstadoPedidoBadge.tsx",
+      "id": "frontend.domain.estadoPedidoBadge",
+      "kind": "component",
+      "limit": 80,
+      "contract": "props: estado: string, className?: string",
+      "desc": "Insignia con variante de color semantico segun el estado del pedido",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/HeroHome.tsx",
+      "id": "frontend.domain.heroHome",
+      "kind": "component",
+      "limit": 80,
+      "contract": "sin props",
+      "desc": "Banner principal de la Home (full-bleed con .hero-bg y .full-bleed)",
+      "relates": [
+        "frontend.ui.logoCremeCo",
+        "frontend.ui.buttonLink",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/LineaTiempoPedido.tsx",
+      "id": "frontend.domain.lineaTiempoPedido",
+      "kind": "component",
+      "limit": 140,
+      "contract": "props: hitos: HitoPedido[]",
+      "desc": "Linea de tiempo cronologica con estados completados, activo y pendientes",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/PerfilSidebar.tsx",
+      "id": "frontend.domain.perfilSidebar",
+      "kind": "component",
+      "limit": 110,
+      "contract": "props: tabActiva: 'datos' | 'pedidos' | 'seguimiento'",
+      "desc": "Barra lateral del perfil con usuario autenticado y enlaces de navegacion",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/ProductCard.tsx",
+      "id": "frontend.domain.productCard",
+      "kind": "component",
+      "limit": 140,
+      "contract": "props: producto: Producto, elevation?: string, className?: string",
+      "desc": "Tarjeta de producto: anadir al carrito real, enlaces reales y a11y",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.ui.buttonLink",
+        "frontend.ui.badge"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/SobreNosotros.tsx",
+      "id": "frontend.domain.sobreNosotros",
+      "kind": "component",
+      "limit": 60,
+      "contract": "sin props",
+      "desc": "Bloque de texto e imagen 'Quiénes Somos' de la Home",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/BackToTop.tsx",
+      "id": "frontend.ui.backToTop",
+      "kind": "component",
+      "limit": 80,
+      "contract": "sin props",
+      "desc": "Boton flotante que vuelve al inicio de la pagina (aparece al desplazar)",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.layouts.clienteLayout",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/Badge.tsx",
+      "id": "frontend.ui.badge",
+      "kind": "component",
+      "limit": 40,
+      "contract": "props: tipo: BadgeTipo + HTMLAttributes",
+      "desc": "Etiqueta flotante sobre la foto del producto",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/Button.tsx",
+      "id": "frontend.ui.button",
+      "kind": "component",
+      "limit": 50,
+      "contract": "props: variant, size, type, disabled + ButtonHTMLAttributes",
+      "desc": "Boton del design system (pildora, variantes CVA)",
+      "relates": [
+        "frontend.ui.buttonVariants",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/ButtonLink.tsx",
+      "id": "frontend.ui.buttonLink",
+      "kind": "component",
+      "limit": 50,
+      "contract": "props: to + ButtonVariantProps",
+      "desc": "Enlace con apariencia de boton del design system",
+      "relates": [
+        "frontend.ui.buttonVariants",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/Input.tsx",
+      "id": "frontend.ui.input",
+      "kind": "component",
+      "limit": 80,
+      "contract": "props: InputHTMLAttributes + InputProps",
+      "desc": "Campo de entrada de texto accesible con estados default, error y success",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/LogoCremeCo.tsx",
+      "id": "frontend.ui.logoCremeCo",
+      "kind": "component",
+      "limit": 120,
+      "contract": "props: className",
+      "desc": "Logotipo SVG inline de Crème & Co (decorativo, id unico con useId)",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/Modal.tsx",
+      "id": "frontend.ui.modal",
+      "kind": "component",
+      "limit": 90,
+      "contract": "props: abierto: boolean, titulo: string, onCerrar: () => void, children: ReactNode",
+      "desc": "Ventana modal accesible con cierre por escape y fondo bloqueado",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/SectionTitle.tsx",
+      "id": "frontend.ui.sectionTitle",
+      "kind": "component",
+      "limit": 55,
+      "contract": "props: eyebrow?, titulo, align?, spacing?, className?",
+      "desc": "Encabezado de seccion con eyebrow y titulo configurables via CVA",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/components/ui/buttonVariants.ts",
+      "id": "frontend.ui.buttonVariants",
+      "kind": "service",
+      "limit": 60,
+      "contract": "cva: variant(primary|secondary|outline|ghost) x size(sm|default|lg|icon)",
+      "desc": "Variantes compartidas por Button y ButtonLink del design system",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/data/articles.ts",
+      "id": "frontend.data.articles",
+      "kind": "service",
+      "limit": 40,
+      "contract": "export ARTICULOS: Articulo[]",
+      "desc": "Datos de los artículos del blog destacados en la Home",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/hooks/useCarousel.ts",
+      "id": "frontend.hooks.useCarousel",
+      "kind": "service",
+      "limit": 110,
+      "contract": "useCarousel(total: number) -> { trackRef, indice, enInicio, enFin, irA, desplazar }",
+      "desc": "Estado y acciones de un track horizontal con scroll-snap (indice y posiciones)",
+      "relates": [
+        "frontend.domain.carouselDestacados",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/audit.entity.ts",
+      "id": "interfaces.entity.audit",
+      "kind": "model",
+      "limit": 60,
+      "contract": "AuditLogEntity",
+      "desc": "Entidades de registro de auditoria y trazabilidad de operaciones",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/blog.entity.ts",
+      "id": "interfaces.entity.blog",
+      "kind": "model",
+      "limit": 60,
+      "contract": "BlogPostEntity",
+      "desc": "Entidades de publicaciones editoriales y articulos del blog",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/catalog.entity.ts",
+      "id": "interfaces.entity.catalog",
+      "kind": "model",
+      "limit": 110,
+      "contract": "CategoryEntity, ProductEntity, ProductVariationEntity, PersonalizationOptionEntity",
+      "desc": "Entidades de productos, categorias, variaciones y personalizacion",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/common.entity.ts",
+      "id": "interfaces.entity.common",
+      "kind": "model",
+      "limit": 60,
+      "contract": "BaseEntity, AuditableEntity, PaginationParams, PageResponse",
+      "desc": "Interfaces base de persistencia y paginacion para BD y JPA",
+      "relates": [
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/index.ts",
+      "id": "interfaces.index",
+      "kind": "model",
+      "limit": 30,
+      "contract": "export *",
+      "desc": "Barril central de exportacion para todas las interfaces de dominio",
+      "relates": [
+        "interfaces.entity.common",
+        "interfaces.entity.user",
+        "interfaces.entity.rbac",
+        "interfaces.entity.catalog",
+        "interfaces.entity.order",
+        "interfaces.entity.payment",
+        "interfaces.entity.inventory",
+        "interfaces.entity.blog",
+        "interfaces.entity.audit"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/inventory.entity.ts",
+      "id": "interfaces.entity.inventory",
+      "kind": "model",
+      "limit": 80,
+      "contract": "InventoryMovementEntity, CashRegisterEntity",
+      "desc": "Entidades de control de movimientos de inventario y sesiones de caja POS",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/order.entity.ts",
+      "id": "interfaces.entity.order",
+      "kind": "model",
+      "limit": 150,
+      "contract": "OrderEntity, OrderItemEntity, OrderStatusHistoryEntity, OrderPickupEntity, OrderDeliveryAddressEntity",
+      "desc": "Entidades de pedidos, items, historial de estados y recogedor",
+      "relates": [
+        "interfaces.entity.common",
+        "interfaces.entity.catalog",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/payment.entity.ts",
+      "id": "interfaces.entity.payment",
+      "kind": "model",
+      "limit": 80,
+      "contract": "PaymentEntity, CouponEntity",
+      "desc": "Entidades de transacciones de pago, pasarelas y cupones de descuento",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/rbac.entity.ts",
+      "id": "interfaces.entity.rbac",
+      "kind": "model",
+      "limit": 70,
+      "contract": "RoleEntity, PermissionEntity, UserRoleEntity, RolePermissionEntity",
+      "desc": "Entidades de roles, permisos y tablas intermedias RBAC para MySQL y JPA",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/interfaces/user.entity.ts",
+      "id": "interfaces.entity.user",
+      "kind": "model",
+      "limit": 80,
+      "contract": "UserEntity, UserAddressEntity, RefreshTokenEntity",
+      "desc": "Entidades de usuarios, direcciones y refresh tokens para MySQL y JPA",
+      "relates": [
+        "interfaces.entity.common",
+        "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "frontend/src/layouts/AdminLayout.tsx",
+      "id": "frontend.layout.admin",
+      "kind": "component",
+      "limit": 50,
+      "contract": "props: void",
+      "desc": "Layout esqueleto de admin en frontend web",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/layouts/ClienteLayout.tsx",
+      "id": "frontend.layouts.clienteLayout",
+      "kind": "component",
+      "limit": 120,
+      "contract": "sin props (shell de las rutas de cliente): Navbar + main + Footer",
+      "desc": "Shell del cliente: define el padding y el ancho del main (max-w-full + xl:max-w-page)",
+      "relates": [
+        "frontend.pages.cliente.home",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/lib/data/regiones-chile.ts",
+      "id": "frontend.lib.regionesChile",
+      "kind": "model",
+      "limit": 200,
+      "contract": "REGIONES_CHILE, obtenerComunasPorRegion, validarRegionYComuna",
+      "desc": "Diccionario oficial de las 16 regiones de Chile y sus comunas",
+      "relates": [
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "frontend/src/lib/validators/auth.validator.ts",
+      "id": "frontend.lib.authValidator",
+      "kind": "service",
+      "limit": 120,
+      "contract": "validarEmail, validarPassword, validarRegistro, validarLogin",
+      "desc": "Validaciones de formularios de autenticacion y registro de clientes",
+      "relates": [
+        "frontend.lib.rutValidator",
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "frontend/src/lib/validators/checkout.validator.ts",
+      "id": "frontend.lib.checkoutValidator",
+      "kind": "service",
+      "limit": 120,
+      "contract": "validarCheckoutDelivery, validarCheckoutRetiro",
+      "desc": "Validaciones del formulario de checkout segun requerimientos DSY1104",
+      "relates": [
+        "frontend.lib.rutValidator",
+        "frontend.lib.regionesChile",
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "frontend/src/lib/validators/rut.validator.ts",
+      "id": "frontend.lib.rutValidator",
+      "kind": "service",
+      "limit": 80,
+      "contract": "limpiarRut, formatearRut, validarRutChileno",
+      "desc": "Validador de RUT chileno con algoritmo Modulo 11 puro sin dependencias",
+      "relates": [
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Blog.tsx",
+      "id": "frontend.pages.cliente.blog",
+      "kind": "page",
+      "limit": 240,
+      "contract": "BlogView()",
+      "desc": "Vista listado de articulos del blog de pasteleria",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/BlogDetalle.tsx",
+      "id": "frontend.pages.cliente.blogDetalle",
+      "kind": "page",
+      "limit": 190,
+      "contract": "BlogDetalleView()",
+      "desc": "Vista de lectura individual de un articulo del blog",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Carrito.tsx",
+      "id": "frontend.pages.cliente.carrito",
+      "kind": "page",
+      "limit": 260,
+      "contract": "CarritoView()",
+      "desc": "Vista de carrito de compras con resumen de pedido y calculo de totales",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Catalogo.tsx",
+      "id": "frontend.pages.cliente.catalogo",
+      "kind": "page",
+      "limit": 280,
+      "contract": "CatalogoView()",
+      "desc": "Vista de catalogo con filtros de categoria y tarjetas de productos",
+      "relates": [
+        "frontend.domain.productCard",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/CategoriaDetalle.tsx",
+      "id": "frontend.pages.cliente.categoriaDetalle",
+      "kind": "page",
+      "limit": 260,
+      "contract": "CategoriaDetalleView()",
+      "desc": "Vista de categoria especifica filtrada por slug con tarjetas de productos",
+      "relates": [
+        "frontend.domain.productCard",
+        "frontend.services.api",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Categorias.tsx",
+      "id": "frontend.pages.cliente.categorias",
+      "kind": "page",
+      "limit": 220,
+      "contract": "CategoriasView()",
+      "desc": "Grilla principal de las 5 categorias de la pasteleria conectada a service-catalog",
+      "relates": [
+        "frontend.services.api",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Checkout.tsx",
+      "id": "frontend.pages.cliente.checkout",
+      "kind": "page",
+      "limit": 680,
+      "contract": "CheckoutView()",
+      "desc": "Formulario de checkout con seleccion de entrega y pasarela Flow",
+      "relates": [
+        "frontend.lib.checkoutValidator",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Contacto.tsx",
+      "id": "frontend.pages.cliente.contacto",
+      "kind": "page",
+      "limit": 450,
+      "contract": "ContactoView()",
+      "desc": "Formulario de contacto con validacion de telefono y persistencia en service-notification",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.lib.authValidator",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Home.tsx",
+      "id": "frontend.pages.cliente.home",
+      "kind": "component",
+      "limit": 60,
+      "contract": "sin props",
+      "desc": "Orquestador de la Home: compono las secciones de dominio",
+      "relates": [
+        "frontend.domain.heroHome",
+        "frontend.domain.carouselDestacados",
+        "frontend.domain.sobreNosotros",
+        "frontend.domain.blogRecientes",
+        "frontend.data.articles"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Login.tsx",
+      "id": "frontend.pages.cliente.login",
+      "kind": "page",
+      "limit": 200,
+      "contract": "LoginView()",
+      "desc": "Vista publica de inicio de sesion con validaciones y credenciales de prueba",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.ui.input",
+        "frontend.lib.authValidator",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Nosotros.tsx",
+      "id": "frontend.pages.cliente.nosotros",
+      "kind": "page",
+      "limit": 320,
+      "contract": "NosotrosView()",
+      "desc": "Vista institucional con historia, equipo de maestros pasteleros y pilares artesanales",
+      "relates": [
+        "frontend.ui.buttonLink",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Ofertas.tsx",
+      "id": "frontend.pages.cliente.ofertas",
+      "kind": "page",
+      "limit": 260,
+      "contract": "OfertasView()",
+      "desc": "Seccion dedicada de productos en oferta con precios tachados y calculo de ahorro",
+      "relates": [
+        "frontend.domain.productCard",
+        "frontend.services.api",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Perfil.tsx",
+      "id": "frontend.pages.cliente.perfil",
+      "kind": "component",
+      "limit": 620,
+      "contract": "sin props: consulta contexto de sesion o estado local",
+      "desc": "Vista de perfil de cliente con datos personales, direcciones y acceso a pedidos",
+      "relates": [
+        "frontend.domain.perfilSidebar",
+        "frontend.domain.estadoPedidoBadge",
+        "frontend.ui.button",
+        "frontend.ui.buttonLink",
+        "frontend.ui.modal"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/PerfilSeguimiento.tsx",
+      "id": "frontend.pages.cliente.perfilSeguimiento",
+      "kind": "component",
+      "limit": 580,
+      "contract": "sin props: consulta pedido mock o parametros de ruta",
+      "desc": "Vista de seguimiento de pedido dentro del perfil con timeline e info de recogida",
+      "relates": [
+        "frontend.domain.perfilSidebar",
+        "frontend.domain.lineaTiempoPedido",
+        "frontend.domain.estadoPedidoBadge",
+        "frontend.ui.button",
+        "frontend.ui.buttonLink",
+        "frontend.ui.modal"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Personalizacion.tsx",
+      "id": "frontend.pages.cliente.personalizacion",
+      "kind": "component",
+      "limit": 520,
+      "contract": "sin props: formulario interactivo de diseno y cotizacion de tortas",
+      "desc": "Pagina de personalizacion de tortas por pasos: personas, sabores y detalles",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.ui.modal",
+        "frontend.ui.input",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/ProductoDetalle.tsx",
+      "id": "frontend.pages.cliente.productoDetalle",
+      "kind": "page",
+      "limit": 300,
+      "contract": "ProductoDetalleView()",
+      "desc": "Vista detallada de producto con seleccion de porciones y agregar a carrito",
+      "relates": [
+        "frontend.ui.button",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Registro.tsx",
+      "id": "frontend.pages.cliente.registro",
+      "kind": "page",
+      "limit": 380,
+      "contract": "RegistroView()",
+      "desc": "Vista publica de registro de nuevos clientes con selector regional y validacion de RUT",
+      "relates": [
+        "frontend.ui.button",
+        "frontend.ui.input",
+        "frontend.lib.rutValidator",
+        "frontend.lib.authValidator",
+        "frontend.lib.regionesChile",
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/pago/Error.tsx",
+      "id": "frontend.pages.cliente.pago.error",
+      "kind": "page",
+      "limit": 160,
+      "contract": "PagoErrorView()",
+      "desc": "Pantalla de fallo de pago manteniendo resumen del carrito y boton reintentar",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/pago/Exito.tsx",
+      "id": "frontend.pages.cliente.pago.exito",
+      "kind": "page",
+      "limit": 280,
+      "contract": "PagoExitoView()",
+      "desc": "Pantalla de confirmacion de pago exitoso con codigo y boleta DSY1104",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "frontend/src/services/api.ts",
+      "id": "frontend.services.api",
+      "kind": "service",
+      "limit": 750,
+      "contract": "authApi, catalogApi, orderApi, inventoryApi, notificationApi, paymentApi",
+      "desc": "Cliente HTTP del frontend con token JWT para consumir microservicios",
+      "relates": [
+        "docs.especificacion_microservicios",
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "tools/README.md",
+      "id": "tools.readme",
+      "kind": "doc",
+      "desc": "Guía de uso del anotador PCA y cómo agregar lenguajes",
+      "relates": [
+        "tools.pca_annotator"
+      ]
+    },
+    {
+      "path": "tools/pca_annotator.py",
+      "id": "tools.pca_annotator",
+      "kind": "service",
+      "limit": 250,
+      "contract": "cli: annotate|graph|impact|check|selftest",
+      "desc": "CLI para inyectar anotaciones PCA, generar el grafo de impacto, detectar deriva y autoevaluarse",
+      "relates": [
+        "tools.pca_core",
+        "tools.pca_selftest",
+        "tools.readme",
+        "docs.sistema_anotaciones",
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "tools/pca_core.py",
+      "id": "tools.pca_core",
+      "kind": "service",
+      "limit": 430,
+      "contract": "core: load_config, annotate_file, build_graph, compute_impact, find_drift",
+      "desc": "Núcleo puro del anotador PCA: manifiesto, bloques, grafo e impacto sin CLI",
+      "relates": [
+        "tools.pca_annotator",
+        "tools.pca_selftest"
+      ]
+    },
+    {
+      "path": "tools/pca_selftest.py",
+      "id": "tools.pca_selftest",
+      "kind": "test",
+      "limit": 380,
+      "contract": "run_selftest(): (passed, failures)",
+      "desc": "Pruebas doradas del anotador PCA: parser, inyección, grafo, impacto, deriva y códigos de salida",
+      "relates": [
+        "tools.pca_core",
+        "tools.pca_annotator"
+      ]
+    }
+  ],
+  "options": {
+    "output_dir": "."
+  },
+  "languages": {
+    ".mjs": {
+      "line_prefix": "//"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+# .fidaignore — Exclusiones por defecto del kit FIDA + OPL
+.git/
+node_modules/
+dist/
+build/
+target/
+.env
+.env.*
+**/.env
+**/*.bak
+**/.snapshot*.json
+**/grafo.*

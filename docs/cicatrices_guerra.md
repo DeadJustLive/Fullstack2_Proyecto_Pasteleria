@@ -139,4 +139,6 @@
 // fix='En _assign, las relaciones se acumulan con una lista de deduplicados en vez de sobrescribirse. Senal de alarma: el numero de relaciones debe coincidir con la suma de relates del manifiesto, no con el numero de nodos.'
 ```
 
+// @learn-error id=FIDA-015 input="python fida-kit/tools/fida_opl.py selftest / guard en Windows PowerShell (cp1252)" expected="10 PASS y salida de emojis WAL sin excepción" actual="FAIL en test_multilang_init_and_install_project por ausencia de .fidaignore oculto y UnicodeEncodeError en cp1252 al imprimir iconos de guard" fix="Síntesis automática de .fidaignore por defecto en fida_opl_templates.py y reconfiguración UTF-8 de sys.stdout/sys.stderr en fida_opl.py"
+
 *(El alumno y la IA añadirán más errores debajo de esta línea durante el desarrollo del Taller 4)*

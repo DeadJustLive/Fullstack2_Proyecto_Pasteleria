@@ -116,7 +116,7 @@ la migración.
 | T98 | Módulo Admin: Categorías CRUD (`/categorias`) y cupones de Promociones persistidos en MySQL | F3 / S7 | Hecho | `CONV-UI-01`, `CONV-TIP-01` |
 | T99 | Módulo Admin: Usuarios CRUD completo, RUN Módulo 11, matriz de permisos e historial de compras | F3 / S7 | Hecho | `CONV-UI-01`, `CONV-SEG-01` |
 | T100 | Módulos Admin: `/reportes`, `/perfil`, Inventario/POS real conectado y configuración VPS Docker | F3 / S7 | Hecho | `CONV-UI-01`, `CONV-EST-01` |
-| T101 | Instalación y calibración de gobernanza FIDA + OPL (`fida-kit`) en la raíz (`.fidaignore`, `fida.config.json`, `selftest` 10/10) | F3 / S8 | Pendiente | `CONV-DOC-01`, `CONV-SEG-02` |
+| T101 | Instalación y calibración de gobernanza FIDA + OPL (`fida-kit`) en la raíz (`.fidaignore`, `fida.config.json`, `selftest` 10/10) | F3 / S8 | Hecho | `CONV-DOC-01`, `CONV-SEG-02` |
 | T102 | Carga automática de variables de entorno en Spring Boot (`spring.config.import`) y `iniciar_backend.bat` (`.env` blindado) | F3 / S8 | Pendiente | `CONV-SEG-01`, `CONV-ERR-01` |
 | T103 | Puente de retorno `POST /api/payments/flow/return` (`303 See Other`) y verificación E2E Flow.cl real | F3 / S8 | Pendiente | `CONV-SEG-03`, `CONV-ERR-01` |
 | T104 | Integración del Patrón de Diseño FIDA (5 subcarpetas, Aduana `dependencies.ts` y WAL Guard) en módulo `FlowPayment` | F3 / S8 | Pendiente | `CONV-EST-01`, `CONV-TIP-02`, `CONV-DOC-01` |

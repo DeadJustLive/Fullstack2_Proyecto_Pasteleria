@@ -220,6 +220,23 @@ def install_project_kit(target_root, kit_root):
         if src.exists() and not dst.exists():
             shutil.copy2(src, dst)
             installed.append(str(dst.relative_to(target_root)))
+        elif fname == ".fidaignore" and not dst.exists():
+            dst.write_text(
+                "# .fidaignore — Exclusiones para FIDA + OPL\n"
+                ".git/\n"
+                "node_modules/\n"
+                "dist/\n"
+                "build/\n"
+                "target/\n"
+                ".env\n"
+                ".env.*\n"
+                "**/.env\n"
+                "**/*.bak\n"
+                "**/.snapshot*.json\n"
+                "**/grafo.*\n",
+                encoding="utf-8",
+            )
+            installed.append(".fidaignore")
 
     cfg_dst = target_root / "fida.config.json"
     if not cfg_dst.exists():
