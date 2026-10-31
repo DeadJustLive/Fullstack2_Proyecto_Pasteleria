@@ -284,6 +284,17 @@
       ]
     },
     {
+      "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/controller/FlowWebhookController.java",
+      "id": "backend.payment.flowWebhookController",
+      "kind": "controller",
+      "limit": 110,
+      "contract": "handleFormWebhook, handleJsonWebhook, handleBrowserReturn",
+      "relates": [
+        "backend.payment.flowService"
+      ],
+      "desc": "Controlador de webhooks asincronos y puente HTTP 303 para retorno POST desde Flow.cl"
+    },
+    {
       "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/service/FlowClientService.java",
       "id": "backend.payment.flowClient",
       "kind": "service",
@@ -293,6 +304,17 @@
         "backend.payment.flowSignature"
       ],
       "desc": "Cliente HTTP para comunicacion firmada con API oficial de Flow.cl"
+    },
+    {
+      "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/service/FlowPaymentService.java",
+      "id": "backend.payment.flowService",
+      "kind": "service",
+      "limit": 350,
+      "contract": "createPayment, processWebhook, resolveFrontendReturnRedirectUrl, refundPayment, getStatus",
+      "relates": [
+        "backend.payment.flowClient"
+      ],
+      "desc": "Servicio de orquestacion de pagos Flow.cl con idempotencia, webhooks, redireccion 303 y Kafka"
     },
     {
       "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/service/FlowSignatureService.java",

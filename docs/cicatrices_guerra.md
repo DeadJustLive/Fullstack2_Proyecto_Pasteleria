@@ -143,4 +143,6 @@
 
 // @learn-error id=BACK-016 input="Arranque de service-payment-flow y microservicios con backend/.env" expected="Inyección automática de FLOW_API_KEY, FLOW_SECRET_KEY y credenciales MySQL desde .env" actual="Spring Boot ignoraba archivos .env por falta de spring.config.import y usaba el placeholder FLOW_SANDBOX_API_KEY cayendo al simulador local" fix="Agregado spring.config.import optional:file:.env[.properties] y optional:file:backend/.env[.properties] en los 7 application.yml, carga silenciosa en iniciar_backend.bat/sh y sanitización de comillas/espacios en FlowSignatureService y FlowClientService"
 
+// @learn-error id=BACK-017 input="Retorno del comprador tras pagar o cancelar en Flow.cl (POST a urlReturn)" expected="Redirección limpia del navegador a /pago/exito si status=2 o /pago/error si status=3/4" actual="Flow enviaba HTTP POST con token a la ruta estática /pago/exito del SPA sin verificar estado real del cobro" fix="Creado endpoint puente POST/GET /api/payments/flow/return en FlowWebhookController que verifica getStatus en Flow y responde con HTTP 303 See Other (GET) a /pago/exito o /pago/error según el resultado real"
+
 *(El alumno y la IA añadirán más errores debajo de esta línea durante el desarrollo del Taller 4)*

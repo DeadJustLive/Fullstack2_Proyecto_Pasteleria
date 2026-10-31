@@ -33,7 +33,7 @@ Finalizar el **6% restante** del proyecto Crème & Co aplicando rigurosamente la
 | :---: | :--- | :--- | :--- | :---: | :--- | :---: |
 | **1°** | [T101](#ticket-t101--instalación-y-calibración-de-gobernanza-fida--opl-fida-kit-en-la-raíz) | Instalación y calibración de gobernanza FIDA + OPL (`fida-kit`) en la raíz | `fida-kit/` + Raíz | Alta | — | Hecho |
 | **2°** | [T102](#ticket-t102--carga-automática-de-variables-de-entorno-en-spring-boot-y-orquestadores) | Carga automática de variables de entorno en Spring Boot y orquestadores (`.env` blindado) | `backend/` + Scripts | Alta | T101 | Hecho |
-| **3°** | [T103](#ticket-t103--puente-de-retorno-post-apipaymentsflowreturn-y-verificación-e2e-flowcl) | Puente de retorno `POST /api/payments/flow/return` y verificación E2E Flow.cl | `service-payment-flow` + `frontend/` | Alta | T102 | Pendiente |
+| **3°** | [T103](#ticket-t103--puente-de-retorno-post-apipaymentsflowreturn-y-verificación-e2e-flowcl) | Puente de retorno `POST /api/payments/flow/return` y verificación E2E Flow.cl | `service-payment-flow` + `frontend/` | Alta | T102 | Hecho |
 | **4°** | [T104](#ticket-t104--integración-del-patrón-de-diseño-fida-5-subcarpetas-aduana-y-wal-guard) | Integración del Patrón de Diseño FIDA (5 subcarpetas, Aduana y WAL Guard) | `frontend/src/features/` | Alta | T101, T103 | Pendiente |
 | **5°** | [T105](#ticket-t105--autodescubrimiento-global-bootstrap-auditoría-estricta-y-sellado-a-producción) | Autodescubrimiento global (`bootstrap`), auditoría estricta y sellado a producción | Monorepo Completo | Alta | T103, T104 | Pendiente |
 

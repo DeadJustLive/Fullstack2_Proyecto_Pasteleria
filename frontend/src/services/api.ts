@@ -685,7 +685,6 @@ export const api = {
           amount: data.amount,
           email: data.email,
           subject: data.concept || "Pedido Crème & Co",
-          urlReturn: window.location.origin + "/pago/exito",
         }),
       });
       return {
@@ -694,7 +693,14 @@ export const api = {
       };
     },
     getStatus: (token: string) =>
-      request<{ status: string; flowOrder: number; amount: number }>(`/payments/flow/status?token=${token}`),
+      request<{
+        success?: boolean;
+        status: string;
+        flowOrder?: number | string;
+        gatewayTransactionId?: string;
+        orderId?: string;
+        amount?: number;
+      }>(`/payments/flow/status?token=${encodeURIComponent(token)}`),
   },
 
   // Identidad y Autenticación

@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { useCart } from "@/context/cart";
 import { formatPrecio } from "@/lib/utils";
+import { api } from "@/services/api";
 
 interface StoredOrderItem {
   id: number;
@@ -61,11 +62,15 @@ export function PagoExito() {
   const [searchParams] = useSearchParams();
   const { vaciar } = useCart();
   const [orden, setOrden] = useState<StoredOrder | null>(null);
+  const [flowOrderRef, setFlowOrderRef] = useState<string | null>(
+    searchParams.get("flowOrder")
+  );
 
+  const urlToken = searchParams.get("token");
   const urlOrderId = searchParams.get("orderId") || searchParams.get("external_reference") || "CC-8941";
   const urlTotal = Number(searchParams.get("total")) || 53400;
 
-  // Al llegar a la pantalla de éxito se vacía el carrito definitivamente (clearCart)
+  // Al llegar a la pantalla de éxito se vacía el carrito definitivamente y se verifica el token con Flow
   useEffect(() => {
     vaciar();
 
@@ -77,7 +82,21 @@ export function PagoExito() {
     } catch {
       // Continuar con fallback
     }
-  }, [vaciar]);
+
+    if (urlToken) {
+      api.payments
+        .getStatus(urlToken)
+        .then((statusRes) => {
+          const trxId = statusRes.gatewayTransactionId || statusRes.flowOrder;
+          if (trxId) {
+            setFlowOrderRef(String(trxId));
+          }
+        })
+        .catch(() => {
+          // Resiliencia si la verificación ya se hizo en /return
+        });
+    }
+  }, [vaciar, urlToken]);
 
   const orderId = orden?.orderId || urlOrderId;
   const comprador = orden?.comprador || {
@@ -145,6 +164,11 @@ export function PagoExito() {
             <span className="font-mono text-lg font-black text-tertiary">
               #{orderId}
             </span>
+            {flowOrderRef && (
+              <span className="block font-mono text-[11px] font-semibold text-secondary">
+                Ref. Flow: #{flowOrderRef}
+              </span>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-800">
