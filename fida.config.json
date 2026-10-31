@@ -57,7 +57,8 @@
     "wal_threshold": 60
   },
   "modules": [
-    "fida-kit/examples/HomeView/docs/fida.module.json"
+    "fida-kit/examples/HomeView/docs/fida.module.json",
+    "frontend/src/features/FlowPayment/docs/fida.module.json"
   ],
   "files": [
     {
@@ -1207,7 +1208,8 @@
       "contract": "PagoExitoView()",
       "desc": "Pantalla de confirmacion de pago exitoso con codigo y boleta DSY1104",
       "relates": [
-        "docs.reglas_ui"
+        "docs.reglas_ui",
+        "feature.flowpayment.view"
       ]
     },
     {

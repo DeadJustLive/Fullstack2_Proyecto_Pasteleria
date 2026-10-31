@@ -4,6 +4,7 @@
 // @limit(lines: 280)
 // @contract(PagoExitoView())
 // @relates(docs.reglas_ui)
+// @relates(feature.flowpayment.view)
 // @desc(Pantalla de confirmacion de pago exitoso con codigo y boleta DSY1104)
 // @pca:end
 import { useEffect, useState } from "react";
@@ -15,14 +16,13 @@ import {
   Home,
   Truck,
   User,
-  ShieldCheck,
 } from "lucide-react";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { useCart } from "@/context/cart";
 import { formatPrecio } from "@/lib/utils";
-import { api } from "@/services/api";
+import { FlowPaymentView } from "@/features/FlowPayment/implementation/FlowPayment.view";
 
 interface StoredOrderItem {
   id: number;
@@ -70,7 +70,7 @@ export function PagoExito() {
   const urlOrderId = searchParams.get("orderId") || searchParams.get("external_reference") || "CC-8941";
   const urlTotal = Number(searchParams.get("total")) || 53400;
 
-  // Al llegar a la pantalla de éxito se vacía el carrito definitivamente y se verifica el token con Flow
+  // Al llegar a la pantalla de éxito se vacía el carrito definitivamente
   useEffect(() => {
     vaciar();
 
@@ -82,21 +82,7 @@ export function PagoExito() {
     } catch {
       // Continuar con fallback
     }
-
-    if (urlToken) {
-      api.payments
-        .getStatus(urlToken)
-        .then((statusRes) => {
-          const trxId = statusRes.gatewayTransactionId || statusRes.flowOrder;
-          if (trxId) {
-            setFlowOrderRef(String(trxId));
-          }
-        })
-        .catch(() => {
-          // Resiliencia si la verificación ya se hizo en /return
-        });
-    }
-  }, [vaciar, urlToken]);
+  }, [vaciar]);
 
   const orderId = orden?.orderId || urlOrderId;
   const comprador = orden?.comprador || {
@@ -171,10 +157,14 @@ export function PagoExito() {
             )}
           </div>
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-800">
-              <ShieldCheck size={14} />
-              PAGADO (Webpay Plus)
-            </span>
+            <FlowPaymentView
+              orderId={orderId}
+              amount={totalFinal}
+              token={urlToken}
+              initialFlowOrder={flowOrderRef}
+              mode="receipt"
+              onVerified={(trx) => setFlowOrderRef(trx)}
+            />
           </div>
         </div>
 
