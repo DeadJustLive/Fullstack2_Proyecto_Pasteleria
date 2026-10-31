@@ -1,0 +1,62 @@
+{
+  "module": "[MODULE_NAME]",
+  "module_id": "feature.[MODULE_ID]",
+  "created_at": "[DATE]",
+  "wal_threshold": 60,
+  "files": [
+    {
+      "path": "interfaces/I[MODULE_NAME].ts",
+      "id": "feature.[MODULE_ID].interface",
+      "kind": "interface",
+      "limit": 150,
+      "contract": "I[MODULE_NAME]Props, I[MODULE_NAME]Events, [MODULE_NAME]Contract",
+      "desc": "Contrato público de datos y eventos para el módulo [MODULE_NAME]",
+      "relates": []
+    },
+    {
+      "path": "dependencies/dependencies.ts",
+      "id": "feature.[MODULE_ID].dependencies",
+      "kind": "dependencies",
+      "limit": 120,
+      "contract": "gateway: external imports and adapters for [MODULE_NAME]",
+      "desc": "Aduana de importaciones externas y adaptadores del módulo [MODULE_NAME]",
+      "relates": [
+        "feature.[MODULE_ID].interface"
+      ]
+    },
+    {
+      "path": "implementation/[MODULE_NAME].view.tsx",
+      "id": "feature.[MODULE_ID].view",
+      "kind": "view",
+      "limit": 300,
+      "contract": "[MODULE_NAME]View(props: [MODULE_NAME]Contract)",
+      "desc": "Implementación visual principal del módulo [MODULE_NAME]",
+      "relates": [
+        "feature.[MODULE_ID].interface",
+        "feature.[MODULE_ID].dependencies"
+      ]
+    },
+    {
+      "path": "components/README.md",
+      "id": "feature.[MODULE_ID].components.readme",
+      "kind": "doc",
+      "limit": 200,
+      "desc": "Inventario de subcomponentes exclusivos del módulo [MODULE_NAME]",
+      "relates": [
+        "feature.[MODULE_ID].view"
+      ]
+    },
+    {
+      "path": "docs/decisions.md",
+      "id": "feature.[MODULE_ID].decisions",
+      "kind": "doc",
+      "limit": 600,
+      "desc": "Registro de decisiones arquitectónicas y de diseño del módulo [MODULE_NAME]",
+      "relates": [
+        "feature.[MODULE_ID].interface",
+        "feature.[MODULE_ID].dependencies",
+        "feature.[MODULE_ID].view"
+      ]
+    }
+  ]
+}

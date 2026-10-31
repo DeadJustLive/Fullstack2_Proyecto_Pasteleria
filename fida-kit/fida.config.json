@@ -1,0 +1,124 @@
+{
+  "_annotation": {
+    "id": "fida.config",
+    "kind": "config",
+    "desc": "Índice central sincronizado de FIDA/OPL (se actualiza automáticamente con 'fida_opl.py sync')",
+    "relates": [
+      "fida.tools.opl"
+    ]
+  },
+  "base_dir": ".",
+  "ignore_file": ".fidaignore",
+  "features_dir": "src/features",
+  "roots": [
+    "src",
+    "tools",
+    "examples"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.py",
+    "**/*.rs",
+    "**/*.kt",
+    "**/*.css",
+    "**/*.html",
+    "**/*.md"
+  ],
+  "exclude": [
+    "**/grafo.*",
+    "**/*.bak",
+    "**/.snapshot*.json"
+  ],
+  "defaults": {
+    "limits": {
+      "interface": 150,
+      "dependencies": 120,
+      "view": 300,
+      "controller": 250,
+      "component": 200,
+      "service": 350,
+      "model": 200,
+      "util": 200,
+      "doc": 600,
+      "test": 400
+    },
+    "wal_threshold": 60
+  },
+  "modules": [
+    "examples/HomeView/docs/fida.module.json"
+  ],
+  "files": [
+    {
+      "path": "tools/fida_opl.py",
+      "id": "fida.tools.opl",
+      "kind": "service",
+      "limit": 450,
+      "contract": "cli: init|install-project|bootstrap|sync|annotate|check|graph|impact|guard|selftest",
+      "desc": "CLI unificada FIDA + OPL para scaffolding multi-lenguaje, instalador de proyecto, grafo, aduanas y guardián WAL",
+      "relates": [
+        "fida.tools.core",
+        "fida.tools.guard",
+        "fida.tools.templates",
+        "fida.tools.selftest"
+      ]
+    },
+    {
+      "path": "tools/fida_opl_core.py",
+      "id": "fida.tools.core",
+      "kind": "service",
+      "limit": 650,
+      "contract": "core: load_config, parse_annotations, annotate_file, build_graph, compute_impact, find_drift",
+      "desc": "Motor base de FIDA/OPL: parser de paréntesis balanceados, .fidaignore, inyección de bloques, grafo e impacto",
+      "relates": [
+        "fida.tools.opl",
+        "fida.tools.guard",
+        "fida.tools.selftest"
+      ]
+    },
+    {
+      "path": "tools/fida_opl_guard.py",
+      "id": "fida.tools.guard",
+      "kind": "service",
+      "limit": 520,
+      "contract": "guard: bootstrap_project, sync_manifests, verify_fida_boundaries, evaluate_wal_guard",
+      "desc": "Motor FIDA de autodescubrimiento, bootstrap de plantillas, sincronización modular, aduanas y guardián WAL",
+      "relates": [
+        "fida.tools.core",
+        "fida.tools.opl"
+      ]
+    },
+    {
+      "path": "tools/fida_opl_selftest.py",
+      "id": "fida.tools.selftest",
+      "kind": "test",
+      "limit": 450,
+      "contract": "run_selftest(): (passed, failures)",
+      "desc": "Suite de pruebas doradas de FIDA/OPL: parser balanceado, .fidaignore, bootstrap, sync, aduanas, dead deps, multi-lang y WAL atómico",
+      "relates": [
+        "fida.tools.core",
+        "fida.tools.guard",
+        "fida.tools.templates",
+        "fida.tools.opl"
+      ]
+    },
+    {
+      "path": "tools/fida_opl_templates.py",
+      "id": "fida.tools.templates",
+      "kind": "service",
+      "limit": 350,
+      "contract": "templates: scaffold_module_by_lang, install_project_kit, SUPPORTED_LANGS",
+      "desc": "Generador multi-lenguaje de módulos FIDA (ts, js, py, kt, rs) e instalador de 1 comando install-project",
+      "relates": [
+        "fida.tools.core",
+        "fida.tools.opl"
+      ]
+    }
+  ],
+  "options": {
+    "output_dir": "."
+  },
+  "languages": {}
+}

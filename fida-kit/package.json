@@ -1,0 +1,33 @@
+{
+  "name": "fida-kit",
+  "version": "1.0.0",
+  "description": "Kit de inicio para la macro-arquitectura FIDA (Feature/View, Interface, Dependencies, Artifacts). Template portable y agnóstico al framework para proyectos TypeScript/JavaScript.",
+  "author": "",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "guardian": "npx ts-node --esm scripts/fida-guardian.ts",
+    "guardian:help": "echo 'Uso: npm run guardian -- ./ruta/al/modulo'",
+    "init": "bash scripts/fida-init.sh",
+    "init:help": "echo 'Uso: npm run init -- NombreModulo ./ruta/destino/'"
+  },
+  "devDependencies": {
+    "ts-morph": "^22.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "fida",
+    "architecture",
+    "macro-architecture",
+    "typescript",
+    "module-structure",
+    "ast",
+    "drift-detection",
+    "code-quality"
+  ]
+}
