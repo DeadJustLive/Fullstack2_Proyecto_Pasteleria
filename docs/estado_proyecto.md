@@ -22,7 +22,7 @@
 | :--- | :--- |
 | **Fase actual** | F4 — Validación / Testing & Despliegue VPS |
 | **Siguiente fase** | F5 — Cierre / Extracción de Componentes Reutilizables |
-| **Estado** | Sprint 7 completado al 100% (T89–T100). Tienda Web + Admin PWA + 6 Microservicios Spring Boot + MySQL 8 + Flow + Docker Producción listos. |
+| **Estado** | Sprints 7 y 8 completados al 100% (T89–T105). Tienda Web + Admin PWA + 6 Microservicios Spring Boot + MySQL 8 + Flow.cl Real E2E + Gobernanza FIDA + OPL listos. |
 
 > Fases: F0 Setup → F1 Levantamiento → F2 Sprints → F3 Ejecución → F4 Validación → F5 Cierre. Ver `AGENTS.md`.
 
@@ -120,7 +120,7 @@ la migración.
 | T102 | Carga automática de variables de entorno en Spring Boot (`spring.config.import`) y `iniciar_backend.bat` (`.env` blindado) | F3 / S8 | Hecho | `CONV-SEG-01`, `CONV-ERR-01` |
 | T103 | Puente de retorno `POST /api/payments/flow/return` (`303 See Other`) y verificación E2E Flow.cl real | F3 / S8 | Hecho | `CONV-SEG-03`, `CONV-ERR-01` |
 | T104 | Integración del Patrón de Diseño FIDA (5 subcarpetas, Aduana `dependencies.ts` y WAL Guard) en módulo `FlowPayment` | F3 / S8 | Hecho | `CONV-EST-01`, `CONV-TIP-02`, `CONV-DOC-01` |
-| T105 | Autodescubrimiento global (`bootstrap`), auditoría estricta (`check --strict` + `guard`) y sellado final a producción | F4 / S8 | Pendiente | `CONV-DOC-05`, `CONV-TIP-04` |
+| T105 | Autodescubrimiento global (`bootstrap`), auditoría estricta (`check --strict` + `guard`) y sellado final a producción | F4 / S8 | Hecho | `CONV-DOC-05`, `CONV-TIP-04` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 

@@ -1,9 +1,9 @@
 <!-- @pca:start
 @id(feature.flowpayment.components.readme)
 @kind(doc)
-@limit(lines: 200)
+@limit(lines: 150)
 @relates(feature.flowpayment.view)
-@desc(Inventario de subcomponentes exclusivos del módulo FlowPayment)
+@desc(Guía de subcomponentes privados del módulo FlowPayment)
 @pca:end -->
 # Componentes Locales — FlowPayment
 

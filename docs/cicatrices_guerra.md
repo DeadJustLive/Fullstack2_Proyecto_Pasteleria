@@ -145,4 +145,6 @@
 
 // @learn-error id=BACK-017 input="Retorno del comprador tras pagar o cancelar en Flow.cl (POST a urlReturn)" expected="Redirección limpia del navegador a /pago/exito si status=2 o /pago/error si status=3/4" actual="Flow enviaba HTTP POST con token a la ruta estática /pago/exito del SPA sin verificar estado real del cobro" fix="Creado endpoint puente POST/GET /api/payments/flow/return en FlowWebhookController que verifica getStatus en Flow y responde con HTTP 303 See Other (GET) a /pago/exito o /pago/error según el resultado real"
 
+// @learn-error id=BACK-018 input="mvn package -DskipTests en service-identity durante T105" expected="Compilación exitosa de los 9 módulos Maven" actual="IdentityController.java tenía truncamiento en línea 121 tras edición previa" fix="Restauración íntegra de métodos register, getProfile, updateProfile, listUsers, createUserFromAdmin, updateUserFromAdmin, changeRole, listRoles y toUserDto en IdentityController.java y empaquetado exitoso de los 9 JARs"
+
 *(El alumno y la IA añadirán más errores debajo de esta línea durante el desarrollo del Taller 4)*

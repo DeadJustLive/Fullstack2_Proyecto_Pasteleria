@@ -318,7 +318,7 @@ def _decisions_hash(mod_root):
 def build_module_snapshot(mod_root, base_dir, languages):
     mod_root = Path(mod_root).resolve()
     files_state = {}
-    for sub in ("interfaces", "dependencies", "implementation", "components"):
+    for sub in ("interfaces", "dependencies", "implementation", "components", "src/main/java"):
         sub_dir = mod_root / sub
         if not sub_dir.exists():
             continue

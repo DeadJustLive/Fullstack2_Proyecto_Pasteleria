@@ -1,7 +1,7 @@
 {
   "_comment": "FIDA/OPL WAL Snapshot — Generado por fida_opl.py guard. NO editar a mano.",
   "module": "HomeView",
-  "timestamp": "2026-10-31T16:01:08",
+  "timestamp": "2026-10-31T16:50:40",
   "decisions_hash": "e7e09fcccfd5e905",
   "files": {
     "interfaces/IHomeView.ts": {

@@ -1,3 +1,10 @@
+// @pca:start
+// @id(backend.payment.paymentRecord)
+// @kind(model)
+// @limit(lines: 120)
+// @contract(PaymentRecord(id, idempotencyKey, orderId, status, amount, paymentToken, checkoutUrl))
+// @desc(Entidad JPA de persistencia de transacciones Flow con clave de idempotencia)
+// @pca:end
 package com.cremeco.payment.flow.model;
 
 import jakarta.persistence.*;

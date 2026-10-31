@@ -1,0 +1,85 @@
+{
+  "module": "service-payment-flow",
+  "module_id": "backend.payment",
+  "created_at": "2026-10-31",
+  "wal_threshold": 60,
+  "files": [
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/controller/FlowPaymentController.java",
+      "id": "backend.payment.flowController",
+      "kind": "controller",
+      "limit": 100,
+      "contract": "createPayment, refundPayment, getStatus, getStatusByToken",
+      "desc": "Controlador REST de creacion de cobros idempotentes, reembolsos y consulta de estado en Flow.cl",
+      "relates": [
+        "backend.payment.flowService"
+      ]
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/controller/FlowWebhookController.java",
+      "id": "backend.payment.flowWebhookController",
+      "kind": "controller",
+      "limit": 110,
+      "contract": "handleFormWebhook, handleJsonWebhook, handleBrowserReturn",
+      "desc": "Controlador de webhooks asincronos y puente HTTP 303 para retorno POST desde Flow.cl",
+      "relates": [
+        "backend.payment.flowService"
+      ]
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/model/PaymentRecord.java",
+      "id": "backend.payment.paymentRecord",
+      "kind": "model",
+      "limit": 120,
+      "contract": "PaymentRecord(id, idempotencyKey, orderId, status, amount, paymentToken, checkoutUrl)",
+      "desc": "Entidad JPA de persistencia de transacciones Flow con clave de idempotencia",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/service/FlowClientService.java",
+      "id": "backend.payment.flowClient",
+      "kind": "service",
+      "limit": 200,
+      "contract": "createPaymentOrder, getPaymentStatus, refundPayment, isConfiguredWithRealCredentials",
+      "desc": "Cliente HTTP para comunicacion firmada con API oficial de Flow.cl",
+      "relates": [
+        "backend.payment.flowSignature"
+      ]
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/service/FlowPaymentService.java",
+      "id": "backend.payment.flowService",
+      "kind": "service",
+      "limit": 350,
+      "contract": "createPayment, processWebhook, resolveFrontendReturnRedirectUrl, refundPayment, getStatus",
+      "desc": "Servicio de orquestacion de pagos Flow.cl con idempotencia, webhooks, redireccion 303 y Kafka",
+      "relates": [
+        "backend.payment.flowClient"
+      ]
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/service/FlowSignatureService.java",
+      "id": "backend.payment.flowSignature",
+      "kind": "service",
+      "limit": 90,
+      "contract": "calculateSignature(params), validateSignature(params, signatureReceived)",
+      "desc": "Servicio de firma criptografica HMAC-SHA256 para pasarela Flow Chile",
+      "relates": []
+    },
+    {
+      "path": "docs/decisions.md",
+      "id": "backend.payment.decisions",
+      "kind": "doc",
+      "limit": 600,
+      "desc": "Registro de decisiones arquitectónicas y de diseño (ADR) del microservicio service-payment-flow",
+      "relates": [
+        "backend.payment.flowController",
+        "backend.payment.flowWebhookController",
+        "backend.payment.flowService",
+        "backend.payment.flowClient",
+        "backend.payment.flowSignature",
+        "backend.payment.paymentRecord"
+      ]
+    }
+  ]
+}
