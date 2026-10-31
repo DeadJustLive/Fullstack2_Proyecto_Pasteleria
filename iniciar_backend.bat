@@ -8,6 +8,21 @@ echo           CRÈME & CO - ORQUESTADOR DE BACKEND Y MICROSERVICIOS
 echo ======================================================================
 echo.
 
+:: 0. Cargar variables de entorno silenciosamente desde .env y backend\.env (sin imprimir valores)
+if exist ".env" (
+    echo [ENV] Cargando variables de entorno desde .env...
+    for /f "usebackq eol=# tokens=1,* delims==" %%A in (".env") do (
+        if not "%%A"=="" set "%%A=%%~B"
+    )
+)
+if exist "backend\.env" (
+    echo [ENV] Cargando variables de entorno desde backend\.env...
+    for /f "usebackq eol=# tokens=1,* delims==" %%A in ("backend\.env") do (
+        if not "%%A"=="" set "%%A=%%~B"
+    )
+)
+echo.
+
 :: 1. Verificar Java
 echo [1/4] Verificando instalación de Java JDK 17/21...
 where java >nul 2>&1

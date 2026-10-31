@@ -1,5 +1,14 @@
+// @pca:start
+// @id(backend.payment.flowClient)
+// @kind(service)
+// @limit(lines: 200)
+// @contract(createPaymentOrder, getPaymentStatus, refundPayment, isConfiguredWithRealCredentials)
+// @relates(backend.payment.flowSignature)
+// @desc(Cliente HTTP para comunicacion firmada con API oficial de Flow.cl)
+// @pca:end
 package com.cremeco.payment.flow.service;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,9 +43,58 @@ public class FlowClientService {
     @Value("${flow.url-return}")
     private String urlReturn;
 
-    /**
-     * Crea una orden de pago en Flow.cl y retorna la URL para redirigir al pagador.
-     */
+    private static String sanitize(String value) {
+        return value == null ? "" : value.trim().replaceAll("^[\"']|[\"']$", "");
+    }
+
+    @PostConstruct
+    public void initDiagnostics() {
+        this.flowApiUrl = sanitize(this.flowApiUrl).replaceAll("/+$", "");
+        this.apiKey = sanitize(this.apiKey);
+        this.urlConfirmation = sanitize(this.urlConfirmation);
+        this.urlReturn = sanitize(this.urlReturn);
+
+        if (isConfiguredWithRealCredentials()) {
+            log.info("[Flow.cl] Credenciales detectadas desde entorno. Modo Pasarela Externa ACTIVO ({})", this.flowApiUrl);
+        } else {
+            log.warn("[Flow.cl] Usando llaves placeholder por defecto. Se activará el Simulador Híbrido Local.");
+        }
+    }
+
+    public boolean isConfiguredWithRealCredentials() {
+        return apiKey != null && !apiKey.isBlank()
+                && !"FLOW_SANDBOX_API_KEY".equalsIgnoreCase(apiKey)
+                && !apiKey.startsWith("reemplazar_");
+    }
+
+    private String resolveSafeUrlReturn(String customUrlReturn) {
+        String candidate = (customUrlReturn != null && !customUrlReturn.isBlank())
+                ? sanitize(customUrlReturn) : this.urlReturn;
+        if (candidate.endsWith("/pago/exito") || candidate.contains(":5173/pago/")) {
+            return "http://localhost:8080/api/payments/flow/return";
+        }
+        return candidate;
+    }
+
+    private Map<String, Object> postSignedForm(String endpoint, Map<String, String> params, String actionLabel) {
+        params.put("s", signatureService.calculateSignature(params));
+        MultiValueMap<String, String> formBody = new LinkedMultiValueMap<>();
+        params.forEach(formBody::add);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(formBody, headers);
+
+        try {
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    endpoint, HttpMethod.POST, request, new ParameterizedTypeReference<>() {});
+            return response.getBody();
+        } catch (HttpStatusCodeException ex) {
+            log.error("[Flow.cl HTTP {}] Error en {}: {}", ex.getStatusCode(), actionLabel, ex.getResponseBodyAsString());
+            throw ex;
+        }
+    }
+
     public Map<String, Object> createPaymentOrder(
             String commerceOrder,
             String subject,
@@ -46,8 +104,6 @@ public class FlowClientService {
             String customUrlConfirmation,
             String idempotencyKey
     ) {
-        String endpoint = flowApiUrl + "/payment/create";
-
         Map<String, String> params = new HashMap<>();
         params.put("apiKey", apiKey);
         params.put("commerceOrder", commerceOrder);
@@ -55,66 +111,42 @@ public class FlowClientService {
         params.put("currency", "CLP");
         params.put("amount", String.valueOf(amountClp));
         params.put("email", email);
-        params.put("urlConfirmation", customUrlConfirmation != null && !customUrlConfirmation.isBlank() ? customUrlConfirmation : urlConfirmation);
-        params.put("urlReturn", customUrlReturn != null && !customUrlReturn.isBlank() ? customUrlReturn : urlReturn);
+        params.put("urlConfirmation", customUrlConfirmation != null && !customUrlConfirmation.isBlank()
+                ? sanitize(customUrlConfirmation) : urlConfirmation);
+        params.put("urlReturn", resolveSafeUrlReturn(customUrlReturn));
 
         if (idempotencyKey != null && !idempotencyKey.isBlank()) {
             params.put("optional", String.format("{\"idempotencyKey\":\"%s\"}", idempotencyKey));
         }
 
-        // Generar firma HMAC-SHA256 oficial
-        String signature = signatureService.calculateSignature(params);
-        params.put("s", signature);
-
-        MultiValueMap<String, String> formBody = new LinkedMultiValueMap<>();
-        params.forEach(formBody::add);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(formBody, headers);
-
-        log.info("Creando orden en Flow: commerceOrder={}, amount={}", commerceOrder, amountClp);
-        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
-                endpoint,
-                HttpMethod.POST,
-                request,
-                new ParameterizedTypeReference<>() {}
-        );
-
-        return response.getBody();
+        log.info("Creando orden en Flow ({}): commerceOrder={}, amount={}, urlReturn={}",
+                flowApiUrl, commerceOrder, amountClp, params.get("urlReturn"));
+        return postSignedForm(flowApiUrl + "/payment/create", params, "/payment/create");
     }
 
-    /**
-     * Consulta el estado de un pago en Flow mediante su token.
-     */
     public Map<String, Object> getPaymentStatus(String token) {
         if (token == null || token.isBlank()) {
             throw new IllegalArgumentException("Token de Flow requerido");
         }
-
+        String cleanToken = token.trim();
         Map<String, String> params = new HashMap<>();
         params.put("apiKey", apiKey);
-        params.put("token", token);
+        params.put("token", cleanToken);
 
         String signature = signatureService.calculateSignature(params);
-
         String endpoint = String.format("%s/payment/getStatus?apiKey=%s&token=%s&s=%s",
-                flowApiUrl, apiKey, token, signature);
+                flowApiUrl, apiKey, cleanToken, signature);
 
-        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
-                endpoint,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<>() {}
-        );
-
-        return response.getBody();
+        try {
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    endpoint, HttpMethod.GET, null, new ParameterizedTypeReference<>() {});
+            return response.getBody();
+        } catch (HttpStatusCodeException ex) {
+            log.error("[Flow.cl HTTP {}] Error en /payment/getStatus: {}", ex.getStatusCode(), ex.getResponseBodyAsString());
+            throw ex;
+        }
     }
 
-    /**
-     * Solicita un reembolso de pago en Flow.cl.
-     */
     public Map<String, Object> refundPayment(
             String refundCommerceOrder,
             String receiverEmail,
@@ -123,14 +155,12 @@ public class FlowClientService {
             String originalFlowTrxId,
             String urlCallBack
     ) {
-        String endpoint = flowApiUrl + "/refund/create";
-
         Map<String, String> params = new HashMap<>();
         params.put("apiKey", apiKey);
         params.put("refundCommerceOrder", refundCommerceOrder);
         params.put("receiverEmail", receiverEmail);
         params.put("amount", String.valueOf(amount));
-        params.put("urlCallBack", urlCallBack != null && !urlCallBack.isBlank() ? urlCallBack : urlConfirmation);
+        params.put("urlCallBack", urlCallBack != null && !urlCallBack.isBlank() ? sanitize(urlCallBack) : urlConfirmation);
 
         if (originalFlowTrxId != null && !originalFlowTrxId.isBlank()) {
             params.put("flowTrxId", originalFlowTrxId);
@@ -140,25 +170,7 @@ public class FlowClientService {
             throw new IllegalArgumentException("Se requiere originalCommerceOrder o originalFlowTrxId para reembolso");
         }
 
-        String signature = signatureService.calculateSignature(params);
-        params.put("s", signature);
-
-        MultiValueMap<String, String> formBody = new LinkedMultiValueMap<>();
-        params.forEach(formBody::add);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(formBody, headers);
-
         log.info("Creando reembolso en Flow: refundOrderId={}, amount={}", refundCommerceOrder, amount);
-        ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
-                endpoint,
-                HttpMethod.POST,
-                request,
-                new ParameterizedTypeReference<>() {}
-        );
-
-        return response.getBody();
+        return postSignedForm(flowApiUrl + "/refund/create", params, "/refund/create");
     }
 }

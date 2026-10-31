@@ -4,13 +4,16 @@ server:
 spring:
   application:
     name: service-order
-
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - optional:file:backend/.env[.properties]
+      - optional:file:../.env[.properties]
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:cremeco_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8
-    username: ${MYSQL_USER:cremeco_user}
-    password: ${MYSQL_PASSWORD:cremeco_password}
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:cremeco_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8}
+    username: ${SPRING_DATASOURCE_USERNAME:${MYSQL_USER:cremeco_user}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${MYSQL_PASSWORD:cremeco_password}}
     driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,7 +22,6 @@ spring:
       hibernate:
         format_sql: false
         dialect: org.hibernate.dialect.MySQLDialect
-
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
     producer:

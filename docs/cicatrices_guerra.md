@@ -141,4 +141,6 @@
 
 // @learn-error id=FIDA-015 input="python fida-kit/tools/fida_opl.py selftest / guard en Windows PowerShell (cp1252)" expected="10 PASS y salida de emojis WAL sin excepción" actual="FAIL en test_multilang_init_and_install_project por ausencia de .fidaignore oculto y UnicodeEncodeError en cp1252 al imprimir iconos de guard" fix="Síntesis automática de .fidaignore por defecto en fida_opl_templates.py y reconfiguración UTF-8 de sys.stdout/sys.stderr en fida_opl.py"
 
+// @learn-error id=BACK-016 input="Arranque de service-payment-flow y microservicios con backend/.env" expected="Inyección automática de FLOW_API_KEY, FLOW_SECRET_KEY y credenciales MySQL desde .env" actual="Spring Boot ignoraba archivos .env por falta de spring.config.import y usaba el placeholder FLOW_SANDBOX_API_KEY cayendo al simulador local" fix="Agregado spring.config.import optional:file:.env[.properties] y optional:file:backend/.env[.properties] en los 7 application.yml, carga silenciosa en iniciar_backend.bat/sh y sanitización de comillas/espacios en FlowSignatureService y FlowClientService"
+
 *(El alumno y la IA añadirán más errores debajo de esta línea durante el desarrollo del Taller 4)*

@@ -1,3 +1,10 @@
+// @pca:start
+// @id(backend.payment.flowSignature)
+// @kind(service)
+// @limit(lines: 90)
+// @contract(calculateSignature(params), validateSignature(params, signatureReceived))
+// @desc(Servicio de firma criptografica HMAC-SHA256 para pasarela Flow Chile)
+// @pca:end
 package com.cremeco.payment.flow.service;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +24,13 @@ public class FlowSignatureService {
     @Value("${flow.secret-key}")
     private String secretKey;
 
+    private String cleanKey() {
+        if (secretKey == null) {
+            return "";
+        }
+        return secretKey.trim().replaceAll("^[\"']|[\"']$", "");
+    }
+
     /**
      * Calcula la firma HMAC-SHA256 ordenando los parámetros alfabéticamente (A-Z).
      * Regla oficial de Flow: concatena llave y valor sucesivamente sin separadores.
@@ -31,7 +45,7 @@ public class FlowSignatureService {
             }
         }
 
-        return hmacSha256(toSign.toString(), secretKey);
+        return hmacSha256(toSign.toString(), cleanKey());
     }
 
     /**

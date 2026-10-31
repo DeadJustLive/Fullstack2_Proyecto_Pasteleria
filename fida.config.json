@@ -284,6 +284,25 @@
       ]
     },
     {
+      "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/service/FlowClientService.java",
+      "id": "backend.payment.flowClient",
+      "kind": "service",
+      "limit": 200,
+      "contract": "createPaymentOrder, getPaymentStatus, refundPayment, isConfiguredWithRealCredentials",
+      "relates": [
+        "backend.payment.flowSignature"
+      ],
+      "desc": "Cliente HTTP para comunicacion firmada con API oficial de Flow.cl"
+    },
+    {
+      "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/service/FlowSignatureService.java",
+      "id": "backend.payment.flowSignature",
+      "kind": "service",
+      "limit": 90,
+      "contract": "calculateSignature(params), validateSignature(params, signatureReceived)",
+      "desc": "Servicio de firma criptografica HMAC-SHA256 para pasarela Flow Chile"
+    },
+    {
       "path": "docs/arquitectura_microservicios_kafka.md",
       "id": "docs.arquitectura_microservicios_kafka",
       "kind": "doc",

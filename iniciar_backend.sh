@@ -12,12 +12,17 @@ echo "========================================================"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT_DIR"
 
-# 1. Verificar archivo de variables de entorno
-if [ ! -f ".env" ]; then
+# 1. Verificar y exportar variables de entorno silenciosamente (sin mostrar valores)
+if [ ! -f ".env" ] && [ ! -f "backend/.env" ]; then
     echo "⚠️  No se encontró archivo .env. Copiando desde .env.example..."
     cp .env.example .env
     echo "✅ Archivo .env creado. Por favor revise sus credenciales de Flow y MySQL si es necesario."
 fi
+
+set -a
+[ -f ".env" ] && source ".env"
+[ -f "backend/.env" ] && source "backend/.env"
+set +a
 
 # 2. Verificar dependencias de compilación
 if command -v mvn &> /dev/null; then
