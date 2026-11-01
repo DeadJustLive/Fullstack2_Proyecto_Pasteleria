@@ -1,11 +1,12 @@
 // @pca:start
 // @id(frontend.pages.cliente.personalizacion)
 // @kind(component)
-// @limit(lines: 520)
+// @limit(lines: 540)
 // @contract(sin props: formulario interactivo de diseno y cotizacion de tortas)
 // @relates(frontend.ui.button)
 // @relates(frontend.ui.modal)
 // @relates(frontend.ui.input)
+// @relates(feature.customcakequote.view)
 // @relates(docs.reglas_ui)
 // @desc(Pagina de personalizacion de tortas por pasos: personas, sabores y detalles)
 // @pca:end
@@ -16,6 +17,7 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Modal } from "@/components/ui/Modal";
+import { CustomCakeQuoteView } from "@/features/CustomCakeQuote/implementation/CustomCakeQuote.view";
 import { cn, formatPrecio } from "@/lib/utils";
 import { useAuth } from "@/context/auth";
 import { api, type CustomQuoteResponse } from "@/services/api";
@@ -410,6 +412,12 @@ export function Personalizacion() {
                   <strong>Atención Personalizada:</strong> Cada cotización se revisa manualmente por la jefa de cocina para confirmar disponibilidad y entregarte una propuesta final.
                 </p>
               </div>
+
+              <CustomCakeQuoteView
+                portions={personas}
+                selectedFlavorsCount={saboresSeleccionados.length}
+                estimatedAmount={montoEstimado}
+              />
             </div>
 
             <Button

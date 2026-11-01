@@ -1,0 +1,195 @@
+{
+  "_comment": "FIDA/OPL WAL Snapshot — Generado por fida_opl.py guard. NO editar a mano.",
+  "module": "CustomerTracking",
+  "timestamp": "2026-10-31T21:07:36",
+  "decisions_hash": "369507b9fb134d8b",
+  "files": {
+    "interfaces/ICustomerTracking.ts": {
+      "path": "frontend/src/features/CustomerTracking/interfaces/ICustomerTracking.ts",
+      "id": "feature.customertracking.interface",
+      "kind": "interface",
+      "contract": "ICustomerTrackingProps, CustomerTrackingContract",
+      "relates": [],
+      "hash": "b2874eff5d67a725",
+      "clean_chars": 383,
+      "exported_symbols": [
+        "ICustomerTrackingProps",
+        "CustomerTrackingContract"
+      ],
+      "imports": [],
+      "functions": [],
+      "code_lines": [
+        "",
+        "/**",
+        " * FIDA - Interface Layer (I)",
+        " *",
+        " * Contract for: CustomerTracking",
+        " * Created: 2026-10-31",
+        " *",
+        " * Define estrictamente qué datos entran (Props) y qué eventos salen (Events).",
+        " * ⚠️ Nivel de Impacto FIDA: ALTO (+60 pts) — Cambios aquí disparan el WAL documental.",
+        " */",
+        "",
+        "export interface ICustomerTrackingProps {",
+        "  trackingCode: string;",
+        "  orderStatus: string;",
+        "  deliveryType: \"RETIRO\" | \"DELIVERY\";",
+        "}",
+        "",
+        "export type CustomerTrackingContract = ICustomerTrackingProps;"
+      ]
+    },
+    "dependencies/dependencies.ts": {
+      "path": "frontend/src/features/CustomerTracking/dependencies/dependencies.ts",
+      "id": "feature.customertracking.dependencies",
+      "kind": "dependencies",
+      "contract": "gateway: external imports and adapters for CustomerTracking",
+      "relates": [
+        "feature.customertracking.interface"
+      ],
+      "hash": "9bb4621b4b2dec00",
+      "clean_chars": 422,
+      "exported_symbols": [],
+      "imports": [
+        "../interfaces/ICustomerTracking",
+        "lucide-react"
+      ],
+      "functions": [],
+      "code_lines": [
+        "",
+        "/**",
+        " * FIDA - Dependencies Layer (D)",
+        " *",
+        " * Import Gateway (\"Aduana\") for: CustomerTracking",
+        " * Created: 2026-10-31",
+        " *",
+        " * Único punto de entrada para librerías externas, componentes globales o servicios.",
+        " * Ningún archivo en implementation/ o components/ puede importar del exterior sin pasar por aquí.",
+        " */",
+        "",
+        "export type {",
+        "  ICustomerTrackingProps,",
+        "  CustomerTrackingContract,",
+        "} from \"../interfaces/ICustomerTracking\";",
+        "",
+        "// === Iconos Autorizados ===",
+        "export { Snowflake, ShieldAlert } from \"lucide-react\";"
+      ]
+    },
+    "implementation/CustomerTracking.view.tsx": {
+      "path": "frontend/src/features/CustomerTracking/implementation/CustomerTracking.view.tsx",
+      "id": "feature.customertracking.view",
+      "kind": "view",
+      "contract": "CustomerTrackingView(props: CustomerTrackingContract)",
+      "relates": [
+        "feature.customertracking.interface",
+        "feature.customertracking.dependencies",
+        "feature.customertracking.slaBanner"
+      ],
+      "hash": "ae41d55d0ec2903b",
+      "clean_chars": 737,
+      "exported_symbols": [
+        "CustomerTrackingView"
+      ],
+      "imports": [
+        "../dependencies/dependencies",
+        "../components/TrackingSlaBanner"
+      ],
+      "functions": [
+        "CustomerTrackingView"
+      ],
+      "code_lines": [
+        "",
+        "import {",
+        "  ShieldAlert,",
+        "  type CustomerTrackingContract,",
+        "  type ICustomerTrackingProps,",
+        "} from \"../dependencies/dependencies\";",
+        "import { TrackingSlaBanner } from \"../components/TrackingSlaBanner\";",
+        "",
+        "export function CustomerTrackingView(props: CustomerTrackingContract) {",
+        "  const {",
+        "    trackingCode,",
+        "    orderStatus,",
+        "    deliveryType,",
+        "  }: ICustomerTrackingProps = props;",
+        "",
+        "  return (",
+        "    <div className=\"flex flex-wrap items-center justify-between gap-2 rounded-xl border border-secondary/20 bg-neutral/40 px-4 py-3 text-xs text-ink/80\">",
+        "      <div className=\"flex items-center gap-2 font-body text-tertiary\">",
+        "        <ShieldAlert size={16} className=\"shrink-0 text-secondary\" />",
+        "        <span>",
+        "          Protocolo de Trazabilidad <strong>#{trackingCode.replace(\"#\", \"\")}</strong> ({orderStatus})",
+        "        </span>",
+        "      </div>",
+        "      <TrackingSlaBanner deliveryType={deliveryType} />",
+        "    </div>",
+        "  );",
+        "}"
+      ]
+    },
+    "components/README.md": {
+      "path": "frontend/src/features/CustomerTracking/components/README.md",
+      "id": "feature.customertracking.components.readme",
+      "kind": "doc",
+      "contract": "",
+      "relates": [
+        "feature.customertracking.view"
+      ],
+      "hash": "ec21761704362216",
+      "clean_chars": 538,
+      "exported_symbols": [],
+      "imports": [],
+      "functions": [],
+      "code_lines": [
+        "# Componentes Locales — CustomerTracking",
+        "",
+        "Esta carpeta aloja los subcomponentes que pertenecen **exclusivamente** a la vista `CustomerTracking`.",
+        "",
+        "## Reglas FIDA para `components/`",
+        "1. **Aislamiento**: Ningún otro módulo fuera de `CustomerTracking` puede importar archivos de esta carpeta.",
+        "2. **Promoción**: Si un componente de aquí necesita reutilizarse en otra vista, debe moverse a `shared/` y reexportarse a través de `../dependencies/dependencies.ts`.",
+        "3. **Aduana**: Los subcomponentes locales tampoco pueden importar librerías externas directamente; deben consumirlas desde `../dependencies/dependencies.ts`."
+      ]
+    },
+    "components/TrackingSlaBanner.tsx": {
+      "path": "frontend/src/features/CustomerTracking/components/TrackingSlaBanner.tsx",
+      "id": "feature.customertracking.slaBanner",
+      "kind": "component",
+      "contract": "TrackingSlaBanner",
+      "relates": [
+        "feature.customertracking.dependencies"
+      ],
+      "hash": "2b45497a11ee517b",
+      "clean_chars": 423,
+      "exported_symbols": [
+        "TrackingSlaBanner"
+      ],
+      "imports": [
+        "../dependencies/dependencies"
+      ],
+      "functions": [
+        "TrackingSlaBanner"
+      ],
+      "code_lines": [
+        "",
+        "import { Snowflake } from \"../dependencies/dependencies\";",
+        "",
+        "interface TrackingSlaBannerProps {",
+        "  deliveryType: \"RETIRO\" | \"DELIVERY\";",
+        "}",
+        "",
+        "export function TrackingSlaBanner({ deliveryType }: TrackingSlaBannerProps) {",
+        "  return (",
+        "    <span className=\"inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-800\">",
+        "      <Snowflake size={13} />",
+        "      {deliveryType === \"RETIRO\"",
+        "        ? \"Cámara Refrigerada (2°C - 5°C)\"",
+        "        : \"Transporte con Cadena de Frío Activa\"}",
+        "    </span>",
+        "  );",
+        "}"
+      ]
+    }
+  }
+}

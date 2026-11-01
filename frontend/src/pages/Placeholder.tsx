@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.pages.placeholder)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(Placeholder)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (Placeholder.tsx))
+// @pca:end
 import { Card } from "@/components/ui/Card";
 
 interface PlaceholderProps {

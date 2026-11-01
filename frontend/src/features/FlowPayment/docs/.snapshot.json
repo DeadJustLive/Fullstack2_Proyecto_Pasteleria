@@ -1,7 +1,7 @@
 {
   "_comment": "FIDA/OPL WAL Snapshot — Generado por fida_opl.py guard. NO editar a mano.",
   "module": "FlowPayment",
-  "timestamp": "2026-10-31T16:50:40",
+  "timestamp": "2026-10-31T21:07:36",
   "decisions_hash": "9fbf03cc764c4480",
   "files": {
     "interfaces/IFlowPayment.ts": {

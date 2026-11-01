@@ -121,6 +121,10 @@ la migración.
 | T103 | Puente de retorno `POST /api/payments/flow/return` (`303 See Other`) y verificación E2E Flow.cl real | F3 / S8 | Hecho | `CONV-SEG-03`, `CONV-ERR-01` |
 | T104 | Integración del Patrón de Diseño FIDA (5 subcarpetas, Aduana `dependencies.ts` y WAL Guard) en módulo `FlowPayment` | F3 / S8 | Hecho | `CONV-EST-01`, `CONV-TIP-02`, `CONV-DOC-01` |
 | T105 | Autodescubrimiento global (`bootstrap`), auditoría estricta (`check --strict` + `guard`) y sellado final a producción | F4 / S8 | Hecho | `CONV-DOC-05`, `CONV-TIP-04` |
+| T106 | Módulos FIDA de 5 subcarpetas en `frontend/src/features/` (`CatalogDiscovery`, `CheckoutSummary`, `CustomerTracking`, `CustomCakeQuote`) | F5 / S9 | Hecho | `CONV-EST-01`, `CONV-TIP-02` |
+| T107 | Módulos FIDA de 5 subcarpetas en `admin-pwa/src/features/` (`AdminBoletaSii`, `AdminCriticalStock`, `AdminKardexPos`, `AdminRbacMatrix`) | F5 / S9 | Hecho | `CONV-EST-01`, `CONV-TIP-02` |
+| T108 | Gobernanza FIDA + WAL Guard en los 6 microservicios Backend restantes (`api-gateway`, `identity`, `catalog`, `order`, `inventory`, `notification`) | F5 / S9 | Hecho | `CONV-DOC-01`, `CONV-EST-01` |
+| T109 | Autodescubrimiento global (`bootstrap --apply`), sincronización de manifiestos y sellado 100% FIDA + OPL (0 archivos sin anotar) | F5 / S9 | Hecho | `CONV-DOC-05`, `CONV-TIP-04` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 

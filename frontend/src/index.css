@@ -1,3 +1,9 @@
+/* @pca:start
+ * @id(frontend.index)
+ * @kind(component)
+ * @limit(lines: 200)
+ * @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (index.css))
+ * @pca:end */
 @import "tailwindcss";
 
 /* =========================================================

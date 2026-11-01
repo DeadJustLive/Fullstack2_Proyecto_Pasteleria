@@ -1,0 +1,33 @@
+{
+  "_comment": "FIDA/OPL WAL Snapshot — Generado por fida_opl.py guard. NO editar a mano.",
+  "module": "api-gateway",
+  "timestamp": "2026-10-31T21:07:36",
+  "decisions_hash": "b29749694b9486e5",
+  "files": {
+    "src/main/java/com/cremeco/gateway/ApiGatewayApplication.java": {
+      "path": "backend/api-gateway/src/main/java/com/cremeco/gateway/ApiGatewayApplication.java",
+      "id": "backend.api_gateway.main.java.com.cremeco.gateway.apigatewayapplication",
+      "kind": "component",
+      "contract": "",
+      "relates": [],
+      "hash": "2cbccde44197477c",
+      "clean_chars": 291,
+      "exported_symbols": [],
+      "imports": [],
+      "functions": [],
+      "code_lines": [
+        "package com.cremeco.gateway;",
+        "",
+        "import org.springframework.boot.SpringApplication;",
+        "import org.springframework.boot.autoconfigure.SpringBootApplication;",
+        "",
+        "@SpringBootApplication",
+        "public class ApiGatewayApplication {",
+        "    public static void main(String[] args) {",
+        "        SpringApplication.run(ApiGatewayApplication.class, args);",
+        "    }",
+        "}"
+      ]
+    }
+  }
+}

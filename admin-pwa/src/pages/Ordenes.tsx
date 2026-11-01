@@ -5,6 +5,7 @@
 // @contract(OrdenesView())
 // @relates(admin.services.api)
 // @relates(admin.components.boletaModal)
+// @relates(admin.feature.boletasii.view)
 // @relates(docs.especificacion_pwa_admin)
 // @desc(Manejo de pedidos, cambio de estados y visualizacion de boletas tributarias)
 // @pca:end
@@ -12,6 +13,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { ClipboardList, Search, RefreshCw, Receipt, Store, MapPin, Clock, CheckCircle2, AlertCircle, UserCheck } from "lucide-react";
 import { adminApi, type OrderAdmin } from "../services/api";
 import { BoletaModal } from "../components/BoletaModal";
+import { AdminBoletaSiiView } from "../features/AdminBoletaSii/implementation/AdminBoletaSii.view";
 
 const ESTADOS_VALIDOS = ["TODOS", "PAGADO", "EN_PREPARACION", "LISTO_RETIRO", "EN_RUTA", "ENTREGADO", "CANCELADO"] as const;
 type EstadoFiltro = (typeof ESTADOS_VALIDOS)[number];
@@ -100,6 +102,12 @@ export function Ordenes() {
           <button type="button" className="btn-close" aria-label="Close" onClick={() => setNotificacion(null)} />
         </div>
       )}
+
+      <AdminBoletaSiiView
+        totalOrders={ordenesFiltradas.length}
+        totalGrossAmount={ordenesFiltradas.reduce((acc, o) => acc + o.total, 0)}
+        totalIvaAmount={ordenesFiltradas.reduce((acc, o) => acc + (o.iva ?? Math.round((o.total * 19) / 119)), 0)}
+      />
 
       <div className="card admin-card p-3 mb-4">
         <div className="row g-3 align-items-center">

@@ -1,3 +1,9 @@
+// @pca:start
+// @id(fida_kit.scripts.fida_guardian)
+// @kind(component)
+// @limit(lines: 200)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (fida-guardian.ts))
+// @pca:end
 #!/usr/bin/env ts-node
 /**
  * FIDA Guardian — AST Drift Detection Script

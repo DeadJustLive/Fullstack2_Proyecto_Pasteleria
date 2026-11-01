@@ -1,0 +1,75 @@
+{
+  "module": "CheckoutSummary",
+  "module_id": "feature.checkoutsummary",
+  "created_at": "2026-10-31",
+  "wal_threshold": 60,
+  "files": [
+    {
+      "path": "components/CheckoutSecurityBadge.tsx",
+      "id": "feature.checkoutsummary.securityBadge",
+      "kind": "component",
+      "limit": 200,
+      "contract": "CheckoutSecurityBadge",
+      "desc": "Subcomponente privado de insignia de seguridad transaccional para CheckoutSummary",
+      "relates": [
+        "feature.checkoutsummary.dependencies"
+      ]
+    },
+    {
+      "path": "components/README.md",
+      "id": "feature.checkoutsummary.components.readme",
+      "kind": "doc",
+      "limit": 150,
+      "desc": "Guía de subcomponentes privados del módulo CheckoutSummary",
+      "relates": [
+        "feature.checkoutsummary.view"
+      ]
+    },
+    {
+      "path": "dependencies/dependencies.ts",
+      "id": "feature.checkoutsummary.dependencies",
+      "kind": "dependencies",
+      "limit": 120,
+      "contract": "gateway: external imports and adapters for CheckoutSummary",
+      "desc": "Aduana de importaciones externas y adaptadores del módulo CheckoutSummary",
+      "relates": [
+        "feature.checkoutsummary.interface"
+      ]
+    },
+    {
+      "path": "docs/decisions.md",
+      "id": "feature.checkoutsummary.decisions",
+      "kind": "doc",
+      "limit": 600,
+      "desc": "Registro de decisiones arquitectónicas y de diseño del módulo CheckoutSummary",
+      "relates": [
+        "feature.checkoutsummary.interface",
+        "feature.checkoutsummary.dependencies",
+        "feature.checkoutsummary.view",
+        "feature.checkoutsummary.securityBadge"
+      ]
+    },
+    {
+      "path": "implementation/CheckoutSummary.view.tsx",
+      "id": "feature.checkoutsummary.view",
+      "kind": "view",
+      "limit": 300,
+      "contract": "CheckoutSummaryView(props: CheckoutSummaryContract)",
+      "desc": "Implementación visual principal del módulo FIDA CheckoutSummary con verificación de orden",
+      "relates": [
+        "feature.checkoutsummary.interface",
+        "feature.checkoutsummary.dependencies",
+        "feature.checkoutsummary.securityBadge"
+      ]
+    },
+    {
+      "path": "interfaces/ICheckoutSummary.ts",
+      "id": "feature.checkoutsummary.interface",
+      "kind": "interface",
+      "limit": 150,
+      "contract": "ICheckoutSummaryProps, CheckoutSummaryContract",
+      "desc": "Contrato público de datos y eventos para el módulo FIDA CheckoutSummary",
+      "relates": []
+    }
+  ]
+}

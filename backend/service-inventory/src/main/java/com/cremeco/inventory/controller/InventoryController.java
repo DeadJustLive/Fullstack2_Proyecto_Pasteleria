@@ -1,3 +1,9 @@
+// @pca:start
+// @id(backend.service_inventory.main.java.com.cremeco.inventory.controller.inventorycontroller)
+// @kind(controller)
+// @limit(lines: 250)
+// @desc(Archivo controller auto-registrado por FIDA/OPL bootstrap (InventoryController.java))
+// @pca:end
 package com.cremeco.inventory.controller;
 
 import com.cremeco.inventory.model.InventoryItemEntity;

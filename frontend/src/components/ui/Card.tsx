@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.components.ui.card)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(CardProps, Card)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (Card.tsx))
+// @pca:end
 // Panel reutilizable con borde, fondo y sombra del design system.
 import type { HTMLAttributes } from "react";
 import { cva, type VariantProps } from "class-variance-authority";

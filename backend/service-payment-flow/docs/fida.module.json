@@ -5,6 +5,29 @@
   "wal_threshold": 60,
   "files": [
     {
+      "path": "docs/decisions.md",
+      "id": "backend.payment.decisions",
+      "kind": "doc",
+      "limit": 600,
+      "desc": "Registro de decisiones arquitectónicas y de diseño (ADR) del microservicio service-payment-flow",
+      "relates": [
+        "backend.payment.flowController",
+        "backend.payment.flowWebhookController",
+        "backend.payment.flowService",
+        "backend.payment.flowClient",
+        "backend.payment.flowSignature",
+        "backend.payment.paymentRecord"
+      ]
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/FlowPaymentApplication.java",
+      "id": "backend.service_payment_flow.main.java.com.cremeco.payment.flow.flowpaymentapplication",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (FlowPaymentApplication.java)",
+      "relates": []
+    },
+    {
       "path": "src/main/java/com/cremeco/payment/flow/controller/FlowPaymentController.java",
       "id": "backend.payment.flowController",
       "kind": "controller",
@@ -27,12 +50,60 @@
       ]
     },
     {
+      "path": "src/main/java/com/cremeco/payment/flow/dto/PaymentCreateRequest.java",
+      "id": "backend.service_payment_flow.main.java.com.cremeco.payment.flow.dto.paymentcreaterequest",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (PaymentCreateRequest.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/dto/PaymentCreateResponse.java",
+      "id": "backend.service_payment_flow.main.java.com.cremeco.payment.flow.dto.paymentcreateresponse",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (PaymentCreateResponse.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/dto/PaymentStatusDto.java",
+      "id": "backend.service_payment_flow.main.java.com.cremeco.payment.flow.dto.paymentstatusdto",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (PaymentStatusDto.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/dto/RefundPaymentRequest.java",
+      "id": "backend.service_payment_flow.main.java.com.cremeco.payment.flow.dto.refundpaymentrequest",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (RefundPaymentRequest.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/dto/RefundPaymentResponse.java",
+      "id": "backend.service_payment_flow.main.java.com.cremeco.payment.flow.dto.refundpaymentresponse",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (RefundPaymentResponse.java)",
+      "relates": []
+    },
+    {
       "path": "src/main/java/com/cremeco/payment/flow/model/PaymentRecord.java",
       "id": "backend.payment.paymentRecord",
       "kind": "model",
       "limit": 120,
       "contract": "PaymentRecord(id, idempotencyKey, orderId, status, amount, paymentToken, checkoutUrl)",
       "desc": "Entidad JPA de persistencia de transacciones Flow con clave de idempotencia",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/repository/PaymentRepository.java",
+      "id": "backend.service_payment_flow.main.java.com.cremeco.payment.flow.repository.paymentrepository",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (PaymentRepository.java)",
       "relates": []
     },
     {
@@ -67,19 +138,20 @@
       "relates": []
     },
     {
-      "path": "docs/decisions.md",
-      "id": "backend.payment.decisions",
-      "kind": "doc",
-      "limit": 600,
-      "desc": "Registro de decisiones arquitectónicas y de diseño (ADR) del microservicio service-payment-flow",
-      "relates": [
-        "backend.payment.flowController",
-        "backend.payment.flowWebhookController",
-        "backend.payment.flowService",
-        "backend.payment.flowClient",
-        "backend.payment.flowSignature",
-        "backend.payment.paymentRecord"
-      ]
+      "path": "src/test/java/com/cremeco/payment/flow/service/FlowPaymentServiceTest.java",
+      "id": "backend.service_payment_flow.test.java.com.cremeco.payment.flow.service.flowpaymentservicetest",
+      "kind": "test",
+      "limit": 400,
+      "desc": "Archivo test auto-registrado por FIDA/OPL bootstrap (FlowPaymentServiceTest.java)",
+      "relates": []
+    },
+    {
+      "path": "src/test/java/com/cremeco/payment/flow/service/FlowSignatureServiceTest.java",
+      "id": "backend.service_payment_flow.test.java.com.cremeco.payment.flow.service.flowsignatureservicetest",
+      "kind": "test",
+      "limit": 400,
+      "desc": "Archivo test auto-registrado por FIDA/OPL bootstrap (FlowSignatureServiceTest.java)",
+      "relates": []
     }
   ]
 }

@@ -5,17 +5,13 @@
 // @contract(InventarioAdminView())
 // @relates(docs.especificacion_pwa_admin)
 // @relates(admin.services.api)
+// @relates(admin.feature.kardexpos.view)
 // @desc(Control de stock con semaforo, movimientos Kardex y registro de mermas)
 // @pca:end
 import { useState, useEffect } from "react";
 import { adminApi } from "../services/api";
-import {
-  ArrowDown,
-  ArrowUp,
-  History,
-  PackagePlus,
-  Search,
-} from "lucide-react";
+import { ArrowDown, ArrowUp, History, PackagePlus, Search } from "lucide-react";
+import { AdminKardexPosView } from "../features/AdminKardexPos/implementation/AdminKardexPos.view";
 
 interface ItemStock {
   id: number;
@@ -184,6 +180,14 @@ export function Inventario() {
           <span>Registrar Ajuste / Merma</span>
         </button>
       </div>
+
+      <AdminKardexPosView
+        totalMovements={kardex.length}
+        posMovementsCount={kardex.filter((m) => m.tipo === "VENTA_POS").length}
+        mermasCount={kardex.filter((m) => m.tipo === "SALIDA_MERMA").length}
+        lastMovementDate={kardex[0]?.fecha}
+        onOpenAdjustmentModal={() => setModalAjuste(true)}
+      />
 
       {/* Semáforo de Existencias */}
       <div className="row g-3 mb-4">

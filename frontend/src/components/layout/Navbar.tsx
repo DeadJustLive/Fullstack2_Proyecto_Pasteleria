@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.components.layout.navbar)
+// @kind(component)
+// @limit(lines: 250)
+// @contract(Navbar)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (Navbar.tsx))
+// @pca:end
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, ShoppingCart, X } from "lucide-react";

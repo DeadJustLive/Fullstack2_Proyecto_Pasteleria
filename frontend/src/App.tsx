@@ -1,3 +1,9 @@
+// @pca:start
+// @id(frontend.app)
+// @kind(component)
+// @limit(lines: 200)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (App.tsx))
+// @pca:end
 import { Route, Routes } from "react-router-dom";
 import { AdminLayout } from "@/layouts/AdminLayout";
 import { ClienteLayout } from "@/layouts/ClienteLayout";

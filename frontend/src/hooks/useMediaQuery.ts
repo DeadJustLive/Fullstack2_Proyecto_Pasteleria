@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.hooks.usemediaquery)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(useMediaQuery)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (useMediaQuery.ts))
+// @pca:end
 import { useEffect, useState } from "react";
 
 export function useMediaQuery(query: string): boolean {

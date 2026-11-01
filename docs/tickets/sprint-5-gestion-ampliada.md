@@ -1,3 +1,9 @@
+<!-- @pca:start
+@id(docs.tickets.sprint_5_gestion_ampliada)
+@kind(doc)
+@limit(lines: 1200)
+@desc(Archivo doc auto-registrado por FIDA/OPL bootstrap (sprint-5-gestion-ampliada.md))
+@pca:end -->
 # Sprint 5 — Gestión ampliada
 
 > **Fase:** F3 — Ejecución por tickets · **Sprint:** S5 · **Tickets:** T71–T79

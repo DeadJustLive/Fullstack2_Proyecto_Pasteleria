@@ -1,3 +1,11 @@
+// @pca:start
+// @id(admin_pwa.main)
+// @kind(component)
+// @limit(lines: 200)
+// @relates(admin_pwa.app)
+// @relates(admin_pwa.styles.admin)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (main.tsx))
+// @pca:end
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";

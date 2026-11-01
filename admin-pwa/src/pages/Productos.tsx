@@ -4,6 +4,7 @@
 // @limit(lines: 720)
 // @contract(ProductosAdminView())
 // @relates(admin.lib.validators)
+// @relates(admin.feature.criticalstock.view)
 // @relates(docs.especificacion_pwa_admin)
 // @desc(Gestion de productos, edicion, reporte de criticos y alta de nuevos)
 // @pca:end
@@ -11,6 +12,7 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import { AlertCircle, AlertTriangle, BarChart3, Check, Edit2, Eye, Lock, Plus, Radio, RefreshCw, Search, Trash2 } from "lucide-react";
 import { adminApi } from "../services/api";
 import { validarProductoAdmin } from "../lib/validators";
+import { AdminCriticalStockView } from "../features/AdminCriticalStock/implementation/AdminCriticalStock.view";
 
 const CHANNEL_NAME = "cremeco_products_realtime";
 const STORAGE_KEY = "cremeco_products_availability";
@@ -298,6 +300,12 @@ export function Productos() {
           <strong>Regla de integridad transaccional:</strong> Productos con historial de ventas <strong>no pueden eliminarse físicamente</strong>. Use el interruptor de disponibilidad web para pausar la venta.
         </div>
       </div>
+
+      <AdminCriticalStockView
+        criticalCount={totalCriticos}
+        totalCatalogCount={lista.length}
+        onFocusCritical={() => setTabFiltro("criticos")}
+      />
 
       {/* Filtros y Tabs */}
       <div className="card admin-card p-3 mb-4">

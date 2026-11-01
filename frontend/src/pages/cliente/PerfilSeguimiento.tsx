@@ -1,11 +1,12 @@
 // @pca:start
 // @id(frontend.pages.cliente.perfilSeguimiento)
 // @kind(component)
-// @limit(lines: 580)
+// @limit(lines: 600)
 // @contract(sin props: consulta pedido mock o parametros de ruta)
 // @relates(frontend.domain.perfilSidebar)
 // @relates(frontend.domain.lineaTiempoPedido)
 // @relates(frontend.domain.estadoPedidoBadge)
+// @relates(feature.customertracking.view)
 // @relates(frontend.ui.button)
 // @relates(frontend.ui.buttonLink)
 // @relates(frontend.ui.modal)
@@ -17,6 +18,7 @@ import { Calendar, Clock, ShoppingBag, User, Search, CheckCircle, AlertCircle, T
 import { PerfilSidebar } from "@/components/domain/PerfilSidebar";
 import { EstadoPedidoBadge } from "@/components/domain/EstadoPedidoBadge";
 import { LineaTiempoPedido, type HitoPedido } from "@/components/domain/LineaTiempoPedido";
+import { CustomerTrackingView } from "@/features/CustomerTracking/implementation/CustomerTracking.view";
 import { Button } from "@/components/ui/Button";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Card } from "@/components/ui/Card";
@@ -329,6 +331,12 @@ export function PerfilSeguimiento() {
 
           {orden ? (
             <>
+              <CustomerTrackingView
+                trackingCode={orden.trackingCode}
+                orderStatus={orden.estado}
+                deliveryType={esRetiro ? "RETIRO" : "DELIVERY"}
+              />
+
               {/* 1. Cabecera del Pedido y Recogedor */}
               <Card className="flex flex-col gap-6 p-6 sm:p-8">
                 <div className="flex flex-wrap items-start justify-between gap-4 border-b border-tertiary/10 pb-6">

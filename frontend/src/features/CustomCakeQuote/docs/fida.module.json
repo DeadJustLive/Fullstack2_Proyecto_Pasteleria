@@ -1,0 +1,75 @@
+{
+  "module": "CustomCakeQuote",
+  "module_id": "feature.customcakequote",
+  "created_at": "2026-10-31",
+  "wal_threshold": 60,
+  "files": [
+    {
+      "path": "components/CakePortionBadge.tsx",
+      "id": "feature.customcakequote.portionBadge",
+      "kind": "component",
+      "limit": 200,
+      "contract": "CakePortionBadge",
+      "desc": "Subcomponente privado de insignia de pisos y porciones para CustomCakeQuote",
+      "relates": [
+        "feature.customcakequote.dependencies"
+      ]
+    },
+    {
+      "path": "components/README.md",
+      "id": "feature.customcakequote.components.readme",
+      "kind": "doc",
+      "limit": 150,
+      "desc": "Guía de subcomponentes privados del módulo CustomCakeQuote",
+      "relates": [
+        "feature.customcakequote.view"
+      ]
+    },
+    {
+      "path": "dependencies/dependencies.ts",
+      "id": "feature.customcakequote.dependencies",
+      "kind": "dependencies",
+      "limit": 120,
+      "contract": "gateway: external imports and adapters for CustomCakeQuote",
+      "desc": "Aduana de importaciones externas y adaptadores del módulo CustomCakeQuote",
+      "relates": [
+        "feature.customcakequote.interface"
+      ]
+    },
+    {
+      "path": "docs/decisions.md",
+      "id": "feature.customcakequote.decisions",
+      "kind": "doc",
+      "limit": 600,
+      "desc": "Registro de decisiones arquitectónicas y de diseño del módulo CustomCakeQuote",
+      "relates": [
+        "feature.customcakequote.interface",
+        "feature.customcakequote.dependencies",
+        "feature.customcakequote.view",
+        "feature.customcakequote.portionBadge"
+      ]
+    },
+    {
+      "path": "implementation/CustomCakeQuote.view.tsx",
+      "id": "feature.customcakequote.view",
+      "kind": "view",
+      "limit": 300,
+      "contract": "CustomCakeQuoteView(props: CustomCakeQuoteContract)",
+      "desc": "Implementación visual principal del módulo FIDA CustomCakeQuote con ficha técnica de pastelería",
+      "relates": [
+        "feature.customcakequote.interface",
+        "feature.customcakequote.dependencies",
+        "feature.customcakequote.portionBadge"
+      ]
+    },
+    {
+      "path": "interfaces/ICustomCakeQuote.ts",
+      "id": "feature.customcakequote.interface",
+      "kind": "interface",
+      "limit": 150,
+      "contract": "ICustomCakeQuoteProps, CustomCakeQuoteContract",
+      "desc": "Contrato público de datos y eventos para el módulo FIDA CustomCakeQuote",
+      "relates": []
+    }
+  ]
+}

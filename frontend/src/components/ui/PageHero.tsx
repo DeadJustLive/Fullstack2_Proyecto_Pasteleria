@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.components.ui.pagehero)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(PageHero)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (PageHero.tsx))
+// @pca:end
 // Encabezado de pagina: eyebrow opcional + titulo + descripcion.
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";

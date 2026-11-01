@@ -1,3 +1,23 @@
+// @pca:start
+// @id(admin_pwa.app)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(App)
+// @relates(admin_pwa.layouts.adminlayout)
+// @relates(admin.pages.dashboard)
+// @relates(admin.pages.reportes)
+// @relates(admin.pages.perfil)
+// @relates(admin.pages.productos)
+// @relates(admin.pages.categorias)
+// @relates(admin.pages.inventario)
+// @relates(admin.pages.usuarios)
+// @relates(admin.pages.promociones)
+// @relates(admin.pages.pos)
+// @relates(admin.pages.ordenes)
+// @relates(admin_pwa.pages.componentesshowcase)
+// @relates(admin.pages.loginAdmin)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (App.tsx))
+// @pca:end
 import { Routes, Route } from "react-router-dom";
 import { AdminLayout } from "./layouts/AdminLayout";
 import { Dashboard } from "./pages/Dashboard";

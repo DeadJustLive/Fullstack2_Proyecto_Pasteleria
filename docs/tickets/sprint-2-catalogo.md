@@ -1,3 +1,9 @@
+<!-- @pca:start
+@id(docs.tickets.sprint_2_catalogo)
+@kind(doc)
+@limit(lines: 1000)
+@desc(Archivo doc auto-registrado por FIDA/OPL bootstrap (sprint-2-catalogo.md))
+@pca:end -->
 # Sprint 2 — Catálogo (T43–T51)
 
 ## Propósito

@@ -1,0 +1,211 @@
+{
+  "_comment": "FIDA/OPL WAL Snapshot — Generado por fida_opl.py guard. NO editar a mano.",
+  "module": "CheckoutSummary",
+  "timestamp": "2026-10-31T21:07:36",
+  "decisions_hash": "b0b42cc0cd95b030",
+  "files": {
+    "interfaces/ICheckoutSummary.ts": {
+      "path": "frontend/src/features/CheckoutSummary/interfaces/ICheckoutSummary.ts",
+      "id": "feature.checkoutsummary.interface",
+      "kind": "interface",
+      "contract": "ICheckoutSummaryProps, CheckoutSummaryContract",
+      "relates": [],
+      "hash": "9d21a7fb048503ee",
+      "clean_chars": 430,
+      "exported_symbols": [
+        "ICheckoutSummaryProps",
+        "CheckoutSummaryContract"
+      ],
+      "imports": [],
+      "functions": [],
+      "code_lines": [
+        "",
+        "/**",
+        " * FIDA - Interface Layer (I)",
+        " *",
+        " * Contract for: CheckoutSummary",
+        " * Created: 2026-10-31",
+        " *",
+        " * Define estrictamente qué datos entran (Props) y qué eventos salen (Events).",
+        " * ⚠️ Nivel de Impacto FIDA: ALTO (+60 pts) — Cambios aquí disparan el WAL documental.",
+        " */",
+        "",
+        "export interface ICheckoutSummaryProps {",
+        "  totalAmount: number;",
+        "  itemCount: number;",
+        "  deliveryMethod: \"despacho\" | \"retiro\";",
+        "  paymentMethod: \"flow\" | \"transferencia\" | \"mercadolibre\";",
+        "}",
+        "",
+        "export type CheckoutSummaryContract = ICheckoutSummaryProps;"
+      ]
+    },
+    "dependencies/dependencies.ts": {
+      "path": "frontend/src/features/CheckoutSummary/dependencies/dependencies.ts",
+      "id": "feature.checkoutsummary.dependencies",
+      "kind": "dependencies",
+      "contract": "gateway: external imports and adapters for CheckoutSummary",
+      "relates": [
+        "feature.checkoutsummary.interface"
+      ],
+      "hash": "bfdfeac7bca07e14",
+      "clean_chars": 479,
+      "exported_symbols": [],
+      "imports": [
+        "../interfaces/ICheckoutSummary",
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "functions": [],
+      "code_lines": [
+        "",
+        "/**",
+        " * FIDA - Dependencies Layer (D)",
+        " *",
+        " * Import Gateway (\"Aduana\") for: CheckoutSummary",
+        " * Created: 2026-10-31",
+        " *",
+        " * Único punto de entrada para librerías externas, componentes globales o servicios.",
+        " * Ningún archivo en implementation/ o components/ puede importar del exterior sin pasar por aquí.",
+        " */",
+        "",
+        "export type {",
+        "  ICheckoutSummaryProps,",
+        "  CheckoutSummaryContract,",
+        "} from \"../interfaces/ICheckoutSummary\";",
+        "",
+        "// === Iconos Autorizados ===",
+        "export { ShieldCheck, Lock } from \"lucide-react\";",
+        "",
+        "// === Utilidades del Dominio ===",
+        "export { formatPrecio } from \"@/lib/utils\";"
+      ]
+    },
+    "implementation/CheckoutSummary.view.tsx": {
+      "path": "frontend/src/features/CheckoutSummary/implementation/CheckoutSummary.view.tsx",
+      "id": "feature.checkoutsummary.view",
+      "kind": "view",
+      "contract": "CheckoutSummaryView(props: CheckoutSummaryContract)",
+      "relates": [
+        "feature.checkoutsummary.interface",
+        "feature.checkoutsummary.dependencies",
+        "feature.checkoutsummary.securityBadge"
+      ],
+      "hash": "25ec583751c01965",
+      "clean_chars": 1050,
+      "exported_symbols": [
+        "CheckoutSummaryView"
+      ],
+      "imports": [
+        "../dependencies/dependencies",
+        "../components/CheckoutSecurityBadge"
+      ],
+      "functions": [
+        "CheckoutSummaryView"
+      ],
+      "code_lines": [
+        "",
+        "import {",
+        "  ShieldCheck,",
+        "  formatPrecio,",
+        "  type CheckoutSummaryContract,",
+        "  type ICheckoutSummaryProps,",
+        "} from \"../dependencies/dependencies\";",
+        "import { CheckoutSecurityBadge } from \"../components/CheckoutSecurityBadge\";",
+        "",
+        "export function CheckoutSummaryView(props: CheckoutSummaryContract) {",
+        "  const {",
+        "    totalAmount,",
+        "    itemCount,",
+        "    deliveryMethod,",
+        "    paymentMethod,",
+        "  }: ICheckoutSummaryProps = props;",
+        "",
+        "  return (",
+        "    <div className=\"mt-4 flex flex-col gap-2 rounded-xl border border-secondary/20 bg-neutral/40 p-3 text-xs text-ink/80\">",
+        "      <div className=\"flex flex-wrap items-center justify-between gap-2\">",
+        "        <span className=\"flex items-center gap-1.5 font-semibold text-tertiary\">",
+        "          <ShieldCheck size={15} className=\"shrink-0 text-secondary\" />",
+        "          Respaldo de Orden ({itemCount} {itemCount === 1 ? \"ítem\" : \"ítems\"})",
+        "        </span>",
+        "        <CheckoutSecurityBadge paymentMethod={paymentMethod} />",
+        "      </div>",
+        "      <div className=\"flex items-center justify-between border-t border-tertiary/10 pt-1.5 text-[11px] text-ink/70\">",
+        "        <span>Modalidad: {deliveryMethod === \"retiro\" ? \"Retiro en Tienda\" : \"Despacho Refrigerado\"}</span>",
+        "        <span className=\"font-bold text-secondary\">{formatPrecio(totalAmount)}</span>",
+        "      </div>",
+        "    </div>",
+        "  );",
+        "}"
+      ]
+    },
+    "components/CheckoutSecurityBadge.tsx": {
+      "path": "frontend/src/features/CheckoutSummary/components/CheckoutSecurityBadge.tsx",
+      "id": "feature.checkoutsummary.securityBadge",
+      "kind": "component",
+      "contract": "CheckoutSecurityBadge",
+      "relates": [
+        "feature.checkoutsummary.dependencies"
+      ],
+      "hash": "ea2364689abf0336",
+      "clean_chars": 509,
+      "exported_symbols": [
+        "CheckoutSecurityBadge"
+      ],
+      "imports": [
+        "../dependencies/dependencies"
+      ],
+      "functions": [
+        "CheckoutSecurityBadge"
+      ],
+      "code_lines": [
+        "",
+        "import { Lock } from \"../dependencies/dependencies\";",
+        "",
+        "interface CheckoutSecurityBadgeProps {",
+        "  paymentMethod: \"flow\" | \"transferencia\" | \"mercadolibre\";",
+        "}",
+        "",
+        "export function CheckoutSecurityBadge({ paymentMethod }: CheckoutSecurityBadgeProps) {",
+        "  const gatewayLabel =",
+        "    paymentMethod === \"flow\"",
+        "      ? \"Flow.cl HMAC-SHA256\"",
+        "      : paymentMethod === \"transferencia\"",
+        "        ? \"Banca Electrónica\"",
+        "        : \"Mercado Pago TLS\";",
+        "",
+        "  return (",
+        "    <span className=\"inline-flex items-center gap-1 rounded-full bg-green-100 px-2.5 py-0.5 text-[11px] font-bold text-green-800\">",
+        "      <Lock size={11} />",
+        "      {gatewayLabel}",
+        "    </span>",
+        "  );",
+        "}"
+      ]
+    },
+    "components/README.md": {
+      "path": "frontend/src/features/CheckoutSummary/components/README.md",
+      "id": "feature.checkoutsummary.components.readme",
+      "kind": "doc",
+      "contract": "",
+      "relates": [
+        "feature.checkoutsummary.view"
+      ],
+      "hash": "1570b50302f8abea",
+      "clean_chars": 535,
+      "exported_symbols": [],
+      "imports": [],
+      "functions": [],
+      "code_lines": [
+        "# Componentes Locales — CheckoutSummary",
+        "",
+        "Esta carpeta aloja los subcomponentes que pertenecen **exclusivamente** a la vista `CheckoutSummary`.",
+        "",
+        "## Reglas FIDA para `components/`",
+        "1. **Aislamiento**: Ningún otro módulo fuera de `CheckoutSummary` puede importar archivos de esta carpeta.",
+        "2. **Promoción**: Si un componente de aquí necesita reutilizarse en otra vista, debe moverse a `shared/` y reexportarse a través de `../dependencies/dependencies.ts`.",
+        "3. **Aduana**: Los subcomponentes locales tampoco pueden importar librerías externas directamente; deben consumirlas desde `../dependencies/dependencies.ts`."
+      ]
+    }
+  }
+}

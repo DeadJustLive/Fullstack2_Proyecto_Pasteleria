@@ -1,0 +1,56 @@
+{
+  "module": "backend.notification",
+  "module_id": "feature.service-notification",
+  "created_at": "2026-10-31",
+  "wal_threshold": 60,
+  "files": [
+    {
+      "path": "docs/decisions.md",
+      "id": "backend.service_notification.docs.decisions",
+      "kind": "doc",
+      "limit": 600,
+      "desc": "Archivo doc auto-registrado por FIDA/OPL bootstrap (decisions.md)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/notification/ServiceNotificationApplication.java",
+      "id": "backend.service_notification.main.java.com.cremeco.notification.servicenotificationapplication",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (ServiceNotificationApplication.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/notification/controller/NotificationController.java",
+      "id": "backend.service_notification.main.java.com.cremeco.notification.controller.notificationcontroller",
+      "kind": "controller",
+      "limit": 250,
+      "desc": "Archivo controller auto-registrado por FIDA/OPL bootstrap (NotificationController.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/notification/model/ContactMessageEntity.java",
+      "id": "backend.service_notification.main.java.com.cremeco.notification.model.contactmessageentity",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (ContactMessageEntity.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/notification/repository/ContactMessageRepository.java",
+      "id": "backend.service_notification.main.java.com.cremeco.notification.repository.contactmessagerepository",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (ContactMessageRepository.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/notification/seeder/NotificationDataSeeder.java",
+      "id": "backend.service_notification.main.java.com.cremeco.notification.seeder.notificationdataseeder",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (NotificationDataSeeder.java)",
+      "relates": []
+    }
+  ]
+}

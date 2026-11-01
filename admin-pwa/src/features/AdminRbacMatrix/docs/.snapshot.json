@@ -1,0 +1,244 @@
+{
+  "_comment": "FIDA/OPL WAL Snapshot — Generado por fida_opl.py guard. NO editar a mano.",
+  "module": "AdminRbacMatrix",
+  "timestamp": "2026-10-31T21:07:36",
+  "decisions_hash": "f3ab18a4a670aabf",
+  "files": {
+    "interfaces/IAdminRbacMatrix.ts": {
+      "path": "admin-pwa/src/features/AdminRbacMatrix/interfaces/IAdminRbacMatrix.ts",
+      "id": "admin.feature.rbacmatrix.interface",
+      "kind": "interface",
+      "contract": "RbacSecurityLevel, IAdminRbacMatrixProps, IAdminRbacMatrixEvents, AdminRbacMatrixContract",
+      "relates": [],
+      "hash": "756561c58c949f5e",
+      "clean_chars": 540,
+      "exported_symbols": [
+        "RbacSecurityLevel",
+        "IAdminRbacMatrixProps",
+        "IAdminRbacMatrixEvents",
+        "AdminRbacMatrixContract"
+      ],
+      "imports": [],
+      "functions": [],
+      "code_lines": [
+        "",
+        "/**",
+        " * FIDA - Interface Layer (I)",
+        " *",
+        " * Contract for: AdminRbacMatrix",
+        " * Created: 2026-10-31",
+        " *",
+        " * Define estrictamente qué datos entran (Props) y qué eventos salen (Events).",
+        " * ⚠️ Nivel de Impacto FIDA: ALTO (+60 pts) — Cambios aquí disparan el WAL documental.",
+        " */",
+        "",
+        "export type RbacSecurityLevel = \"enforced\" | \"standby\";",
+        "",
+        "export interface IAdminRbacMatrixProps {",
+        "  totalUsers: number;",
+        "  adminUsersCount: number;",
+        "  staffUsersCount: number;",
+        "  activeTab: \"usuarios\" | \"matriz\";",
+        "}",
+        "",
+        "export interface IAdminRbacMatrixEvents {",
+        "  onToggleMatrixTab?: () => void;",
+        "}",
+        "",
+        "export type AdminRbacMatrixContract = IAdminRbacMatrixProps & IAdminRbacMatrixEvents;"
+      ]
+    },
+    "dependencies/dependencies.ts": {
+      "path": "admin-pwa/src/features/AdminRbacMatrix/dependencies/dependencies.ts",
+      "id": "admin.feature.rbacmatrix.dependencies",
+      "kind": "dependencies",
+      "contract": "gateway: external imports and adapters for AdminRbacMatrix",
+      "relates": [
+        "admin.feature.rbacmatrix.interface"
+      ],
+      "hash": "7f8cb5ea86badf11",
+      "clean_chars": 463,
+      "exported_symbols": [],
+      "imports": [
+        "../interfaces/IAdminRbacMatrix",
+        "lucide-react"
+      ],
+      "functions": [],
+      "code_lines": [
+        "",
+        "/**",
+        " * FIDA - Dependencies Layer (D)",
+        " *",
+        " * Import Gateway (\"Aduana\") for: AdminRbacMatrix",
+        " * Created: 2026-10-31",
+        " *",
+        " * Único punto de entrada para librerías externas, componentes globales o servicios.",
+        " * Ningún archivo en implementation/ o components/ puede importar del exterior sin pasar por aquí.",
+        " */",
+        "",
+        "export type {",
+        "  RbacSecurityLevel,",
+        "  IAdminRbacMatrixProps,",
+        "  IAdminRbacMatrixEvents,",
+        "  AdminRbacMatrixContract,",
+        "} from \"../interfaces/IAdminRbacMatrix\";",
+        "",
+        "// === Iconos Autorizados ===",
+        "export { KeyRound, Lock, ShieldCheck } from \"lucide-react\";"
+      ]
+    },
+    "implementation/AdminRbacMatrix.view.tsx": {
+      "path": "admin-pwa/src/features/AdminRbacMatrix/implementation/AdminRbacMatrix.view.tsx",
+      "id": "admin.feature.rbacmatrix.view",
+      "kind": "view",
+      "contract": "AdminRbacMatrixView(props: AdminRbacMatrixContract)",
+      "relates": [
+        "admin.feature.rbacmatrix.interface",
+        "admin.feature.rbacmatrix.dependencies",
+        "admin.feature.rbacmatrix.roleBadge"
+      ],
+      "hash": "c7b84b2992c8d618",
+      "clean_chars": 1373,
+      "exported_symbols": [
+        "AdminRbacMatrixView"
+      ],
+      "imports": [
+        "../dependencies/dependencies",
+        "../components/RbacRoleBadge"
+      ],
+      "functions": [
+        "AdminRbacMatrixView"
+      ],
+      "code_lines": [
+        "",
+        "import {",
+        "  KeyRound,",
+        "  type AdminRbacMatrixContract,",
+        "  type IAdminRbacMatrixEvents,",
+        "  type IAdminRbacMatrixProps,",
+        "  type RbacSecurityLevel,",
+        "} from \"../dependencies/dependencies\";",
+        "import { RbacRoleBadge } from \"../components/RbacRoleBadge\";",
+        "",
+        "export function AdminRbacMatrixView(props: AdminRbacMatrixContract) {",
+        "  const {",
+        "    totalUsers,",
+        "    adminUsersCount,",
+        "    staffUsersCount,",
+        "    activeTab,",
+        "  }: IAdminRbacMatrixProps = props;",
+        "  const { onToggleMatrixTab }: IAdminRbacMatrixEvents = props;",
+        "",
+        "  const level: RbacSecurityLevel = totalUsers > 0 ? \"enforced\" : \"standby\";",
+        "",
+        "  return (",
+        "    <div className=\"card admin-card p-3 mb-3 border-start border-4 border-secondary\">",
+        "      <div className=\"d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2\">",
+        "        <div className=\"d-flex align-items-center gap-2 flex-wrap\">",
+        "          <KeyRound size={18} className=\"text-secondary\" />",
+        "          <span className=\"fw-bold text-secondary small\">",
+        "            Seguridad de Acceso &amp; Roles RBAC:",
+        "          </span>",
+        "          <RbacRoleBadge level={level} adminUsersCount={adminUsersCount} />",
+        "        </div>",
+        "        <div className=\"d-flex align-items-center gap-3 small text-muted flex-wrap\">",
+        "          <span>",
+        "            Cuentas activas: <strong className=\"text-secondary\">{totalUsers}</strong>",
+        "          </span>",
+        "          <span>",
+        "            Operativos (Pastelería/Reparto):{\" \"}",
+        "            <strong className=\"text-secondary\">{staffUsersCount}</strong>",
+        "          </span>",
+        "          {onToggleMatrixTab && (",
+        "            <button",
+        "              type=\"button\"",
+        "              onClick={onToggleMatrixTab}",
+        "              className=\"btn btn-sm btn-link p-0 text-decoration-none\"",
+        "            >",
+        "              {activeTab === \"matriz\" ? \"Ver cuentas\" : \"Ver matriz RBAC\"}",
+        "            </button>",
+        "          )}",
+        "        </div>",
+        "      </div>",
+        "    </div>",
+        "  );",
+        "}"
+      ]
+    },
+    "components/RbacRoleBadge.tsx": {
+      "path": "admin-pwa/src/features/AdminRbacMatrix/components/RbacRoleBadge.tsx",
+      "id": "admin.feature.rbacmatrix.roleBadge",
+      "kind": "component",
+      "contract": "RbacRoleBadge",
+      "relates": [
+        "admin.feature.rbacmatrix.dependencies"
+      ],
+      "hash": "daf24c7413512640",
+      "clean_chars": 667,
+      "exported_symbols": [
+        "RbacRoleBadge"
+      ],
+      "imports": [
+        "../dependencies/dependencies"
+      ],
+      "functions": [
+        "RbacRoleBadge"
+      ],
+      "code_lines": [
+        "",
+        "import {",
+        "  Lock,",
+        "  ShieldCheck,",
+        "  type RbacSecurityLevel,",
+        "} from \"../dependencies/dependencies\";",
+        "",
+        "interface RbacRoleBadgeProps {",
+        "  level: RbacSecurityLevel;",
+        "  adminUsersCount: number;",
+        "}",
+        "",
+        "export function RbacRoleBadge({ level, adminUsersCount }: RbacRoleBadgeProps) {",
+        "  if (level === \"enforced\") {",
+        "    return (",
+        "      <span className=\"badge bg-primary-subtle text-primary border border-primary-subtle d-inline-flex align-items-center gap-1.5 px-2.5 py-1\">",
+        "        <ShieldCheck size={13} />",
+        "        <span>RBAC JWT Activo ({adminUsersCount} Admin)</span>",
+        "      </span>",
+        "    );",
+        "  }",
+        "",
+        "  return (",
+        "    <span className=\"badge bg-secondary-subtle text-secondary border border-secondary-subtle d-inline-flex align-items-center gap-1.5 px-2.5 py-1\">",
+        "      <Lock size={13} />",
+        "      <span>Matriz RBAC en espera</span>",
+        "    </span>",
+        "  );",
+        "}"
+      ]
+    },
+    "components/README.md": {
+      "path": "admin-pwa/src/features/AdminRbacMatrix/components/README.md",
+      "id": "admin.feature.rbacmatrix.components.readme",
+      "kind": "doc",
+      "contract": "",
+      "relates": [
+        "admin.feature.rbacmatrix.view"
+      ],
+      "hash": "1fbfd4f05c24144b",
+      "clean_chars": 545,
+      "exported_symbols": [],
+      "imports": [],
+      "functions": [],
+      "code_lines": [
+        "# Componentes Locales — AdminRbacMatrix",
+        "",
+        "Esta carpeta aloja los subcomponentes que pertenecen **exclusivamente** a la vista `AdminRbacMatrix`.",
+        "",
+        "## Reglas FIDA para `components/`",
+        "1. **Aislamiento**: Ningún otro módulo fuera de `AdminRbacMatrix` puede importar archivos de esta carpeta.",
+        "2. **Promoción**: Si un componente de aquí necesita reutilizarse en otra vista, debe moverse a `components/` global y reexportarse a través de `../dependencies/dependencies.ts`.",
+        "3. **Aduana**: Los subcomponentes locales tampoco pueden importar librerías externas directamente; deben consumirlas desde `../dependencies/dependencies.ts`."
+      ]
+    }
+  }
+}

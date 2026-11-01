@@ -4,7 +4,7 @@
 @limit(lines: 480)
 @relates(docs.estado_proyecto)
 @relates(docs.convenciones)
-@relates(fida.tools.opl)
+@relates(docs.tickets.readme)
 @desc(Tickets T101 a T105 con metodologia PCA y arquitectura FIDA + OPL para cierre de pasarela Flow.cl real y paso a produccion)
 @pca:end -->
 # Sprint 8 — Integración Real Flow.cl, Patrón de Diseño FIDA + OPL y Sellado a Producción

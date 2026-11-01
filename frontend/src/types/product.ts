@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.types.product)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(Categoria, Variacion, BadgeTipo, Producto)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (product.ts))
+// @pca:end
 export type Categoria = "torta" | "tartaleta" | "cheesecake" | "pastel" | "pancakes";
 
 export type Variacion = "personalizable" | "temporada" | "vendido" | "sin gluten";

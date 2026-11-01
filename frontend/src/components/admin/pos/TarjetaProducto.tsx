@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.components.admin.pos.tarjetaproducto)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(TarjetaProducto)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (TarjetaProducto.tsx))
+// @pca:end
 import { formatPrecio } from "@/lib/utils";
 import type { Producto } from "@/types/product";
 

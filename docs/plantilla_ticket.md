@@ -1,3 +1,9 @@
+<!-- @pca:start
+@id(docs.plantilla_ticket)
+@kind(doc)
+@limit(lines: 600)
+@desc(Archivo doc auto-registrado por FIDA/OPL bootstrap (plantilla_ticket.md))
+@pca:end -->
 # Plantilla de Ticket
 
 > **Instrucción para la IA:** Cada tarea se ejecuta desde un ticket. No programes sin un ticket asociado. Si falta información, detente y pregunta antes de avanzar.

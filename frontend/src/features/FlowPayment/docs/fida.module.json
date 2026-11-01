@@ -5,27 +5,6 @@
   "wal_threshold": 60,
   "files": [
     {
-      "path": "interfaces/IFlowPayment.ts",
-      "id": "feature.flowpayment.interface",
-      "kind": "interface",
-      "limit": 150,
-      "contract": "FlowVerificationState, IFlowPaymentProps, IFlowPaymentEvents, FlowPaymentContract",
-      "desc": "Contrato público de datos y eventos para el módulo FIDA FlowPayment",
-      "relates": []
-    },
-    {
-      "path": "dependencies/dependencies.ts",
-      "id": "feature.flowpayment.dependencies",
-      "kind": "dependencies",
-      "limit": 120,
-      "contract": "gateway: external imports and adapters for FlowPayment",
-      "desc": "Aduana de importaciones externas y adaptadores del módulo FlowPayment",
-      "relates": [
-        "feature.flowpayment.interface",
-        "frontend.services.api"
-      ]
-    },
-    {
       "path": "components/FlowStatusBadge.tsx",
       "id": "feature.flowpayment.statusBadge",
       "kind": "component",
@@ -37,16 +16,25 @@
       ]
     },
     {
-      "path": "implementation/FlowPayment.view.tsx",
-      "id": "feature.flowpayment.view",
-      "kind": "view",
-      "limit": 300,
-      "contract": "FlowPaymentView(props: FlowPaymentContract)",
-      "desc": "Implementación visual principal del módulo FIDA FlowPayment con verificación en vivo",
+      "path": "components/README.md",
+      "id": "feature.flowpayment.components.readme",
+      "kind": "doc",
+      "limit": 150,
+      "desc": "Guía de subcomponentes privados del módulo FlowPayment",
+      "relates": [
+        "feature.flowpayment.view"
+      ]
+    },
+    {
+      "path": "dependencies/dependencies.ts",
+      "id": "feature.flowpayment.dependencies",
+      "kind": "dependencies",
+      "limit": 120,
+      "contract": "gateway: external imports and adapters for FlowPayment",
+      "desc": "Aduana de importaciones externas y adaptadores del módulo FlowPayment",
       "relates": [
         "feature.flowpayment.interface",
-        "feature.flowpayment.dependencies",
-        "feature.flowpayment.statusBadge"
+        "frontend.services.api"
       ]
     },
     {
@@ -63,14 +51,26 @@
       ]
     },
     {
-      "path": "components/README.md",
-      "id": "feature.flowpayment.components.readme",
-      "kind": "doc",
-      "limit": 150,
-      "desc": "Guía de subcomponentes privados del módulo FlowPayment",
+      "path": "implementation/FlowPayment.view.tsx",
+      "id": "feature.flowpayment.view",
+      "kind": "view",
+      "limit": 300,
+      "contract": "FlowPaymentView(props: FlowPaymentContract)",
+      "desc": "Implementación visual principal del módulo FIDA FlowPayment con verificación en vivo",
       "relates": [
-        "feature.flowpayment.view"
+        "feature.flowpayment.interface",
+        "feature.flowpayment.dependencies",
+        "feature.flowpayment.statusBadge"
       ]
+    },
+    {
+      "path": "interfaces/IFlowPayment.ts",
+      "id": "feature.flowpayment.interface",
+      "kind": "interface",
+      "limit": 150,
+      "contract": "FlowVerificationState, IFlowPaymentProps, IFlowPaymentEvents, FlowPaymentContract",
+      "desc": "Contrato público de datos y eventos para el módulo FIDA FlowPayment",
+      "relates": []
     }
   ]
 }

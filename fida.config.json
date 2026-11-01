@@ -57,11 +57,48 @@
     "wal_threshold": 60
   },
   "modules": [
+    "admin-pwa/src/features/AdminBoletaSii/docs/fida.module.json",
+    "admin-pwa/src/features/AdminCriticalStock/docs/fida.module.json",
+    "admin-pwa/src/features/AdminKardexPos/docs/fida.module.json",
+    "admin-pwa/src/features/AdminRbacMatrix/docs/fida.module.json",
+    "backend/api-gateway/docs/fida.module.json",
+    "backend/service-catalog/docs/fida.module.json",
+    "backend/service-identity/docs/fida.module.json",
+    "backend/service-inventory/docs/fida.module.json",
+    "backend/service-notification/docs/fida.module.json",
+    "backend/service-order/docs/fida.module.json",
     "backend/service-payment-flow/docs/fida.module.json",
     "fida-kit/examples/HomeView/docs/fida.module.json",
+    "frontend/src/features/CatalogDiscovery/docs/fida.module.json",
+    "frontend/src/features/CheckoutSummary/docs/fida.module.json",
+    "frontend/src/features/CustomCakeQuote/docs/fida.module.json",
+    "frontend/src/features/CustomerTracking/docs/fida.module.json",
     "frontend/src/features/FlowPayment/docs/fida.module.json"
   ],
   "files": [
+    {
+      "path": "admin-pwa/src/App.tsx",
+      "id": "admin_pwa.app",
+      "kind": "component",
+      "limit": 200,
+      "contract": "App",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (App.tsx)",
+      "relates": [
+        "admin_pwa.layouts.adminlayout",
+        "admin.pages.dashboard",
+        "admin.pages.reportes",
+        "admin.pages.perfil",
+        "admin.pages.productos",
+        "admin.pages.categorias",
+        "admin.pages.inventario",
+        "admin.pages.usuarios",
+        "admin.pages.promociones",
+        "admin.pages.pos",
+        "admin.pages.ordenes",
+        "admin_pwa.pages.componentesshowcase",
+        "admin.pages.loginAdmin"
+      ]
+    },
     {
       "path": "admin-pwa/src/components/BoletaModal.tsx",
       "id": "admin.components.boletaModal",
@@ -70,7 +107,8 @@
       "contract": "BoletaModal(order, onClose)",
       "desc": "Modal con desglose de IVA 19%, datos de emisor/receptor e impresion tributaria DSY1104",
       "relates": [
-        "docs.especificacion_pwa_admin"
+        "docs.especificacion_pwa_admin",
+        "admin.services.api"
       ]
     },
     {
@@ -131,6 +169,17 @@
       ]
     },
     {
+      "path": "admin-pwa/src/layouts/AdminLayout.tsx",
+      "id": "admin_pwa.layouts.adminlayout",
+      "kind": "component",
+      "limit": 260,
+      "contract": "AdminLayout",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (AdminLayout.tsx)",
+      "relates": [
+        "admin.services.api"
+      ]
+    },
+    {
       "path": "admin-pwa/src/lib/validators.ts",
       "id": "admin.lib.validators",
       "kind": "service",
@@ -139,6 +188,17 @@
       "desc": "Validaciones para formularios de gestion de catalogo y usuarios en Admin PWA",
       "relates": [
         "docs.convenciones"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/main.tsx",
+      "id": "admin_pwa.main",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (main.tsx)",
+      "relates": [
+        "admin_pwa.app",
+        "admin_pwa.styles.admin"
       ]
     },
     {
@@ -152,6 +212,15 @@
         "admin.services.api",
         "docs.especificacion_pwa_admin"
       ]
+    },
+    {
+      "path": "admin-pwa/src/pages/ComponentesShowcase.tsx",
+      "id": "admin_pwa.pages.componentesshowcase",
+      "kind": "component",
+      "limit": 350,
+      "contract": "ComponentesShowcase",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (ComponentesShowcase.tsx)",
+      "relates": []
     },
     {
       "path": "admin-pwa/src/pages/Dashboard.tsx",
@@ -174,7 +243,8 @@
       "desc": "Control de stock con semaforo, movimientos Kardex y registro de mermas",
       "relates": [
         "docs.especificacion_pwa_admin",
-        "admin.services.api"
+        "admin.services.api",
+        "admin.feature.kardexpos.view"
       ]
     },
     {
@@ -199,6 +269,7 @@
       "relates": [
         "admin.services.api",
         "admin.components.boletaModal",
+        "admin.feature.boletasii.view",
         "docs.especificacion_pwa_admin"
       ]
     },
@@ -235,7 +306,9 @@
       "desc": "Gestion de productos, edicion, reporte de criticos y alta de nuevos",
       "relates": [
         "admin.lib.validators",
-        "docs.especificacion_pwa_admin"
+        "admin.feature.criticalstock.view",
+        "docs.especificacion_pwa_admin",
+        "admin.services.api"
       ]
     },
     {
@@ -246,7 +319,8 @@
       "contract": "PromocionesAdminView()",
       "desc": "Gestion de cupones de descuento, limites y vigencia",
       "relates": [
-        "docs.especificacion_pwa_admin"
+        "docs.especificacion_pwa_admin",
+        "admin.services.api"
       ]
     },
     {
@@ -270,7 +344,15 @@
       "desc": "Gestion de usuarios, roles RBAC y consulta de historial de compras",
       "relates": [
         "admin.lib.validators",
-        "docs.especificacion_pwa_admin"
+        "admin.feature.rbacmatrix.view",
+        "docs.especificacion_pwa_admin",
+        "admin.services.api",
+        "admin.components.nuevoUsuarioModal",
+        "admin.components.fichaUsuarioModal",
+        "admin.components.editarUsuarioModal",
+        "admin.components.historialComprasModal",
+        "admin.components.boletaModal",
+        "admin.components.matrizPermisos"
       ]
     },
     {
@@ -286,72 +368,36 @@
       ]
     },
     {
-      "path": "backend/service-identity/src/main/java/com/cremeco/identity/controller/IdentityController.java",
-      "id": "backend.identity.controller",
-      "kind": "controller",
-      "limit": 350,
-      "contract": "login, register, getProfile, updateProfile, listUsers, createUser, updateUser, deleteUser",
-      "desc": "Controlador REST de autenticacion JWT, perfil de cliente y administracion RBAC de usuarios"
-    },
-    {
-      "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/controller/FlowPaymentController.java",
-      "id": "backend.payment.flowController",
-      "kind": "controller",
-      "limit": 100,
-      "contract": "createPayment, refundPayment, getStatus, getStatusByToken",
-      "relates": [
-        "backend.payment.flowService"
-      ],
-      "desc": "Controlador REST de creacion de cobros idempotentes, reembolsos y consulta de estado en Flow.cl"
-    },
-    {
-      "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/controller/FlowWebhookController.java",
-      "id": "backend.payment.flowWebhookController",
-      "kind": "controller",
-      "limit": 110,
-      "contract": "handleFormWebhook, handleJsonWebhook, handleBrowserReturn",
-      "relates": [
-        "backend.payment.flowService"
-      ],
-      "desc": "Controlador de webhooks asincronos y puente HTTP 303 para retorno POST desde Flow.cl"
-    },
-    {
-      "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/model/PaymentRecord.java",
-      "id": "backend.payment.paymentRecord",
-      "kind": "model",
-      "limit": 120,
-      "contract": "PaymentRecord(id, idempotencyKey, orderId, status, amount, paymentToken, checkoutUrl)",
-      "desc": "Entidad JPA de persistencia de transacciones Flow con clave de idempotencia"
-    },
-    {
-      "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/service/FlowClientService.java",
-      "id": "backend.payment.flowClient",
-      "kind": "service",
+      "path": "admin-pwa/src/styles/admin.css",
+      "id": "admin_pwa.styles.admin",
+      "kind": "component",
       "limit": 200,
-      "contract": "createPaymentOrder, getPaymentStatus, refundPayment, isConfiguredWithRealCredentials",
-      "relates": [
-        "backend.payment.flowSignature"
-      ],
-      "desc": "Cliente HTTP para comunicacion firmada con API oficial de Flow.cl"
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (admin.css)",
+      "relates": []
     },
     {
-      "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/service/FlowPaymentService.java",
-      "id": "backend.payment.flowService",
-      "kind": "service",
-      "limit": 350,
-      "contract": "createPayment, processWebhook, resolveFrontendReturnRedirectUrl, refundPayment, getStatus",
-      "relates": [
-        "backend.payment.flowClient"
-      ],
-      "desc": "Servicio de orquestacion de pagos Flow.cl con idempotencia, webhooks, redireccion 303 y Kafka"
+      "path": "admin-pwa/src/vite-env.d.ts",
+      "id": "admin_pwa.vite_env_d",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (vite-env.d.ts)",
+      "relates": []
     },
     {
-      "path": "backend/service-payment-flow/src/main/java/com/cremeco/payment/flow/service/FlowSignatureService.java",
-      "id": "backend.payment.flowSignature",
-      "kind": "service",
-      "limit": 90,
-      "contract": "calculateSignature(params), validateSignature(params, signatureReceived)",
-      "desc": "Servicio de firma criptografica HMAC-SHA256 para pasarela Flow Chile"
+      "path": "backend/common-events/src/main/java/com/cremeco/common/events/OrderPlacedEvent.java",
+      "id": "backend.common_events.main.java.com.cremeco.common.events.orderplacedevent",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (OrderPlacedEvent.java)",
+      "relates": []
+    },
+    {
+      "path": "backend/common-events/src/main/java/com/cremeco/common/events/PaymentConfirmedEvent.java",
+      "id": "backend.common_events.main.java.com.cremeco.common.events.paymentconfirmedevent",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (PaymentConfirmedEvent.java)",
+      "relates": []
     },
     {
       "path": "docs/arquitectura_microservicios_kafka.md",
@@ -362,6 +408,18 @@
       "relates": [
         "docs.especificacion_microservicios",
         "docs.reglas_backend"
+      ]
+    },
+    {
+      "path": "docs/backlog_requisitos.md",
+      "id": "docs.backlog_requisitos",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Backlog F1: actores, epicas, requisitos, reglas de negocio, edge cases y supuestos",
+      "relates": [
+        "docs.estado_proyecto",
+        "docs.plan_sprints",
+        "docs.convenciones"
       ]
     },
     {
@@ -379,6 +437,7 @@
       "path": "docs/convenciones.md",
       "id": "docs.convenciones",
       "kind": "doc",
+      "limit": 600,
       "desc": "Convenciones generales del proyecto",
       "relates": [
         "docs.sistema_anotaciones"
@@ -394,6 +453,18 @@
         "docs.convenciones",
         "docs.reglas_ui",
         "docs.arquitectura_microservicios_kafka"
+      ]
+    },
+    {
+      "path": "docs/elementos_pendientes_conexion_backend.md",
+      "id": "docs.elementos_pendientes_conexion_backend",
+      "kind": "doc",
+      "limit": 400,
+      "desc": "Auditoría y levantamiento de elementos frontend pendientes de conexión con el backend para generación de tickets",
+      "relates": [
+        "docs.estado_proyecto",
+        "docs.especificacion_microservicios",
+        "docs.plantilla_ticket"
       ]
     },
     {
@@ -448,6 +519,52 @@
       ]
     },
     {
+      "path": "docs/plan_frontend_first.md",
+      "id": "docs.plan_frontend_first",
+      "kind": "doc",
+      "limit": 260,
+      "desc": "Ola Frontend-first: tablero FE-xx, dependencias, carriles paralelos y decisiones",
+      "relates": [
+        "docs.plan_sprints",
+        "docs.backlog_requisitos",
+        "docs.estado_proyecto",
+        "docs.git"
+      ]
+    },
+    {
+      "path": "docs/plan_sprints.md",
+      "id": "docs.plan_sprints",
+      "kind": "doc",
+      "limit": 500,
+      "desc": "Plan F2: olas, sprints, tablero de tickets, dependencias y reglas de paralelizacion",
+      "relates": [
+        "docs.backlog_requisitos",
+        "docs.estado_proyecto",
+        "docs.convenciones",
+        "docs.git"
+      ]
+    },
+    {
+      "path": "docs/plantilla_ticket.md",
+      "id": "docs.plantilla_ticket",
+      "kind": "doc",
+      "limit": 600,
+      "desc": "Archivo doc auto-registrado por FIDA/OPL bootstrap (plantilla_ticket.md)",
+      "relates": []
+    },
+    {
+      "path": "docs/proximo_paso_integracion.md",
+      "id": "docs.proximo_paso_integracion",
+      "kind": "doc",
+      "limit": 150,
+      "desc": "Ficha de próximo paso técnico: Ticket FE-INT-04 Checkout y Pasarela Flow.cl",
+      "relates": [
+        "docs.estado_proyecto",
+        "docs.plantilla_ticket",
+        "docs.elementos_pendientes_conexion_backend"
+      ]
+    },
+    {
       "path": "docs/reglas_backend.md",
       "id": "docs.reglas_backend",
       "kind": "doc",
@@ -473,10 +590,95 @@
       "path": "docs/sistema_anotaciones.md",
       "id": "docs.sistema_anotaciones",
       "kind": "doc",
+      "limit": 600,
       "desc": "Diccionario de anotaciones PCA y cómo usarlas",
       "relates": [
         "tools.pca_annotator"
       ]
+    },
+    {
+      "path": "docs/tickets/README.md",
+      "id": "docs.tickets.readme",
+      "kind": "doc",
+      "limit": 160,
+      "desc": "Indice y reglas de los tickets detallados por sprint",
+      "relates": [
+        "docs.plantilla_ticket",
+        "docs.plan_sprints",
+        "docs.backlog_requisitos"
+      ]
+    },
+    {
+      "path": "docs/tickets/sprint-0-fundaciones.md",
+      "id": "docs.tickets.sprint0",
+      "kind": "doc",
+      "limit": 900,
+      "desc": "Tickets del Sprint 0: fundaciones del monorepo, MySQL, Spring Boot, OpenAPI, PWA admin y pruebas",
+      "relates": [
+        "docs.tickets.readme",
+        "docs.plan_sprints",
+        "docs.backlog_requisitos",
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "docs/tickets/sprint-1-identidad-rbac.md",
+      "id": "docs.tickets.sprint_1_identidad_rbac",
+      "kind": "doc",
+      "limit": 1100,
+      "desc": "Archivo doc auto-registrado por FIDA/OPL bootstrap (sprint-1-identidad-rbac.md)",
+      "relates": []
+    },
+    {
+      "path": "docs/tickets/sprint-2-catalogo.md",
+      "id": "docs.tickets.sprint_2_catalogo",
+      "kind": "doc",
+      "limit": 1000,
+      "desc": "Archivo doc auto-registrado por FIDA/OPL bootstrap (sprint-2-catalogo.md)",
+      "relates": []
+    },
+    {
+      "path": "docs/tickets/sprint-3-compra.md",
+      "id": "docs.tickets.sprint3.compra",
+      "kind": "doc",
+      "limit": 860,
+      "desc": "Tickets T52-T61 del Sprint 3: pedidos, cupones, envios, pagos simulados y checkout",
+      "relates": [
+        "docs.plan_sprints",
+        "docs.backlog_requisitos",
+        "docs.plantilla_ticket",
+        "docs.convenciones"
+      ]
+    },
+    {
+      "path": "docs/tickets/sprint-4-pos-inventario.md",
+      "id": "docs.tickets.sprint4",
+      "kind": "doc",
+      "limit": 900,
+      "desc": "Tickets T62-T70: inventario, insumos, recetas, caja, POS online/offline y PWA",
+      "relates": [
+        "docs.plan_sprints",
+        "docs.backlog_requisitos",
+        "docs.plantilla_ticket",
+        "docs.convenciones",
+        "docs.sistema_anotaciones"
+      ]
+    },
+    {
+      "path": "docs/tickets/sprint-5-gestion-ampliada.md",
+      "id": "docs.tickets.sprint_5_gestion_ampliada",
+      "kind": "doc",
+      "limit": 1200,
+      "desc": "Archivo doc auto-registrado por FIDA/OPL bootstrap (sprint-5-gestion-ampliada.md)",
+      "relates": []
+    },
+    {
+      "path": "docs/tickets/sprint-6-integraciones-cierre.md",
+      "id": "docs.tickets.sprint_6_integraciones_cierre",
+      "kind": "doc",
+      "limit": 1000,
+      "desc": "Archivo doc auto-registrado por FIDA/OPL bootstrap (sprint-6-integraciones-cierre.md)",
+      "relates": []
     },
     {
       "path": "docs/tickets/sprint-7-dsy1104-produccion.md",
@@ -494,76 +696,23 @@
       "id": "docs.tickets.sprint8",
       "kind": "doc",
       "limit": 480,
+      "desc": "Tickets T101 a T105 con metodologia PCA y arquitectura FIDA + OPL para cierre de pasarela Flow.cl real y paso a produccion",
       "relates": [
         "docs.estado_proyecto",
         "docs.convenciones",
-        "fida.tools.opl"
-      ],
-      "desc": "Tickets T101 a T105 con metodologia PCA y arquitectura FIDA + OPL para cierre de pasarela Flow.cl real y paso a produccion"
-    },
-    {
-      "path": "fida-kit/tools/fida_opl.py",
-      "id": "fida.tools.opl",
-      "kind": "service",
-      "limit": 450,
-      "contract": "cli: init|install-project|bootstrap|sync|annotate|check|graph|impact|guard|selftest",
-      "desc": "CLI unificada FIDA + OPL para scaffolding multi-lenguaje, instalador de proyecto, grafo, aduanas y guardián WAL",
-      "relates": [
-        "fida.tools.core",
-        "fida.tools.guard",
-        "fida.tools.templates",
-        "fida.tools.selftest"
+        "docs.tickets.readme"
       ]
     },
     {
-      "path": "fida-kit/tools/fida_opl_core.py",
-      "id": "fida.tools.core",
-      "kind": "service",
-      "limit": 650,
-      "contract": "core: load_config, parse_annotations, annotate_file, build_graph, compute_impact, find_drift",
-      "desc": "Motor base de FIDA/OPL: parser de paréntesis balanceados, .fidaignore, inyección de bloques, grafo e impacto",
+      "path": "docs/tickets/sprint-9-fida-arquitectura-total.md",
+      "id": "docs.tickets.sprint9",
+      "kind": "doc",
+      "limit": 480,
+      "desc": "Tickets T106 a T109 para adopcion integral no destructiva del patron FIDA + OPL en frontend, admin-pwa y los 6 microservicios backend restantes",
       "relates": [
-        "fida.tools.opl",
-        "fida.tools.guard",
-        "fida.tools.selftest"
-      ]
-    },
-    {
-      "path": "fida-kit/tools/fida_opl_guard.py",
-      "id": "fida.tools.guard",
-      "kind": "service",
-      "limit": 520,
-      "contract": "guard: bootstrap_project, sync_manifests, verify_fida_boundaries, evaluate_wal_guard",
-      "desc": "Motor FIDA de autodescubrimiento, bootstrap de plantillas, sincronización modular, aduanas y guardián WAL",
-      "relates": [
-        "fida.tools.core",
-        "fida.tools.opl"
-      ]
-    },
-    {
-      "path": "fida-kit/tools/fida_opl_selftest.py",
-      "id": "fida.tools.selftest",
-      "kind": "test",
-      "limit": 450,
-      "contract": "run_selftest(): (passed, failures)",
-      "desc": "Suite de pruebas doradas de FIDA/OPL: parser balanceado, .fidaignore, bootstrap, sync, aduanas, dead deps, multi-lang y WAL atómico",
-      "relates": [
-        "fida.tools.core",
-        "fida.tools.guard",
-        "fida.tools.templates",
-        "fida.tools.opl"
-      ]
-    },
-    {
-      "path": "fida-kit/tools/fida_opl_templates.py",
-      "id": "fida.tools.templates",
-      "kind": "service",
-      "limit": 350,
-      "contract": "templates: scaffold_module_by_lang, install_project_kit, SUPPORTED_LANGS",
-      "desc": "Generador multi-lenguaje de módulos FIDA (ts, js, py, kt, rs) e instalador de 1 comando install-project",
-      "relates": [
-        "fida.tools.core",
-        "fida.tools.opl"
+        "docs.estado_proyecto",
+        "docs.convenciones",
+        "docs.tickets.readme"
       ]
     },
     {
@@ -578,6 +727,68 @@
       ]
     },
     {
+      "path": "frontend/src/App.tsx",
+      "id": "frontend.app",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (App.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/admin/pos/FilaTicket.tsx",
+      "id": "frontend.components.admin.pos.filaticket",
+      "kind": "component",
+      "limit": 200,
+      "contract": "FilaTicket",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (FilaTicket.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/admin/pos/PillCategoria.tsx",
+      "id": "frontend.components.admin.pos.pillcategoria",
+      "kind": "component",
+      "limit": 200,
+      "contract": "PillCategoria",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (PillCategoria.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/admin/pos/TarjetaProducto.tsx",
+      "id": "frontend.components.admin.pos.tarjetaproducto",
+      "kind": "component",
+      "limit": 200,
+      "contract": "TarjetaProducto",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (TarjetaProducto.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/dev/Skeleton.tsx",
+      "id": "frontend.components.dev.skeleton",
+      "kind": "component",
+      "limit": 200,
+      "contract": "Skeleton",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (Skeleton.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/domain/BannerServicios.tsx",
+      "id": "frontend.components.domain.bannerservicios",
+      "kind": "component",
+      "limit": 200,
+      "contract": "BannerServiciosProps, BannerServicios",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (BannerServicios.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/domain/BlogCard.tsx",
+      "id": "frontend.components.domain.blogcard",
+      "kind": "component",
+      "limit": 200,
+      "contract": "BlogCardProps, BlogCard",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (BlogCard.tsx)",
+      "relates": []
+    },
+    {
       "path": "frontend/src/components/domain/BlogRecientes.tsx",
       "id": "frontend.domain.blogRecientes",
       "kind": "component",
@@ -588,6 +799,19 @@
         "frontend.ui.buttonLink",
         "frontend.ui.sectionTitle",
         "frontend.data.articles"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/CarouselBanner.tsx",
+      "id": "frontend.domain.carouselBanner",
+      "kind": "component",
+      "limit": 210,
+      "contract": "props: productos: Producto[]",
+      "desc": "Carrusel centrado para banner del catálogo con imagen central y botones en los bordes",
+      "relates": [
+        "frontend.hooks.useCarousel",
+        "frontend.domain.productCard",
+        "docs.reglas_ui"
       ]
     },
     {
@@ -614,6 +838,15 @@
       ]
     },
     {
+      "path": "frontend/src/components/domain/FiltroCheckbox.tsx",
+      "id": "frontend.components.domain.filtrocheckbox",
+      "kind": "component",
+      "limit": 200,
+      "contract": "FiltroCheckbox",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (FiltroCheckbox.tsx)",
+      "relates": []
+    },
+    {
       "path": "frontend/src/components/domain/HeroHome.tsx",
       "id": "frontend.domain.heroHome",
       "kind": "component",
@@ -636,6 +869,42 @@
       "relates": [
         "docs.reglas_ui"
       ]
+    },
+    {
+      "path": "frontend/src/components/domain/MiniCarrito.tsx",
+      "id": "frontend.components.domain.minicarrito",
+      "kind": "component",
+      "limit": 200,
+      "contract": "MiniCarrito",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (MiniCarrito.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/domain/ModalLogin.tsx",
+      "id": "frontend.components.domain.modallogin",
+      "kind": "component",
+      "limit": 200,
+      "contract": "ModalLogin",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (ModalLogin.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/domain/ModalRegistro.tsx",
+      "id": "frontend.components.domain.modalregistro",
+      "kind": "component",
+      "limit": 200,
+      "contract": "ModalRegistro",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (ModalRegistro.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/domain/OrderSummary.tsx",
+      "id": "frontend.components.domain.ordersummary",
+      "kind": "component",
+      "limit": 200,
+      "contract": "OrderSummary",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (OrderSummary.tsx)",
+      "relates": []
     },
     {
       "path": "frontend/src/components/domain/PerfilSidebar.tsx",
@@ -671,6 +940,33 @@
       "relates": [
         "docs.reglas_ui"
       ]
+    },
+    {
+      "path": "frontend/src/components/layout/Footer.tsx",
+      "id": "frontend.components.layout.footer",
+      "kind": "component",
+      "limit": 200,
+      "contract": "Footer",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (Footer.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/layout/MenuPerfil.tsx",
+      "id": "frontend.components.layout.menuperfil",
+      "kind": "component",
+      "limit": 200,
+      "contract": "MenuPerfil",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (MenuPerfil.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/layout/Navbar.tsx",
+      "id": "frontend.components.layout.navbar",
+      "kind": "component",
+      "limit": 250,
+      "contract": "Navbar",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (Navbar.tsx)",
+      "relates": []
     },
     {
       "path": "frontend/src/components/ui/BackToTop.tsx",
@@ -721,6 +1017,42 @@
       ]
     },
     {
+      "path": "frontend/src/components/ui/CantidadStepper.tsx",
+      "id": "frontend.components.ui.cantidadstepper",
+      "kind": "component",
+      "limit": 200,
+      "contract": "CantidadStepper",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (CantidadStepper.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/ui/Card.tsx",
+      "id": "frontend.components.ui.card",
+      "kind": "component",
+      "limit": 200,
+      "contract": "CardProps, Card",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (Card.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/ui/EmptyState.tsx",
+      "id": "frontend.components.ui.emptystate",
+      "kind": "component",
+      "limit": 200,
+      "contract": "EmptyStateProps, EmptyState",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (EmptyState.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/ui/FloatingCartButton.tsx",
+      "id": "frontend.components.ui.floatingcartbutton",
+      "kind": "component",
+      "limit": 200,
+      "contract": "FloatingCartButton",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (FloatingCartButton.tsx)",
+      "relates": []
+    },
+    {
       "path": "frontend/src/components/ui/Input.tsx",
       "id": "frontend.ui.input",
       "kind": "component",
@@ -754,6 +1086,24 @@
       ]
     },
     {
+      "path": "frontend/src/components/ui/PageHero.tsx",
+      "id": "frontend.components.ui.pagehero",
+      "kind": "component",
+      "limit": 200,
+      "contract": "PageHero",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (PageHero.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/components/ui/PasswordInput.tsx",
+      "id": "frontend.components.ui.passwordinput",
+      "kind": "component",
+      "limit": 200,
+      "contract": "PasswordInput",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (PasswordInput.tsx)",
+      "relates": []
+    },
+    {
       "path": "frontend/src/components/ui/SectionTitle.tsx",
       "id": "frontend.ui.sectionTitle",
       "kind": "component",
@@ -776,6 +1126,42 @@
       ]
     },
     {
+      "path": "frontend/src/context/AuthProvider.tsx",
+      "id": "frontend.context.authprovider",
+      "kind": "component",
+      "limit": 200,
+      "contract": "AuthProvider",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (AuthProvider.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/context/CartProvider.tsx",
+      "id": "frontend.context.cartprovider",
+      "kind": "component",
+      "limit": 260,
+      "contract": "CartProvider",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (CartProvider.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/context/auth.ts",
+      "id": "frontend.context.auth",
+      "kind": "component",
+      "limit": 200,
+      "contract": "Usuario, AuthContextValue, AuthContext, useAuth",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (auth.ts)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/context/cart.ts",
+      "id": "frontend.context.cart",
+      "kind": "component",
+      "limit": 200,
+      "contract": "CartItem, CartContextValue, ENVIO, CUPONES, CartContext, useCart",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (cart.ts)",
+      "relates": []
+    },
+    {
       "path": "frontend/src/data/articles.ts",
       "id": "frontend.data.articles",
       "kind": "service",
@@ -785,6 +1171,24 @@
       "relates": [
         "docs.reglas_ui"
       ]
+    },
+    {
+      "path": "frontend/src/data/blog.ts",
+      "id": "frontend.data.blog",
+      "kind": "component",
+      "limit": 200,
+      "contract": "BLOG_CATEGORIAS, blogPosts",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (blog.ts)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/data/products.ts",
+      "id": "frontend.data.products",
+      "kind": "component",
+      "limit": 200,
+      "contract": "BADGE_LABEL, CATEGORIAS, VARIACIONES, PRECIO_MAX, productos",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (products.ts)",
+      "relates": []
     },
     {
       "path": "frontend/src/hooks/useCarousel.ts",
@@ -797,6 +1201,32 @@
         "frontend.domain.carouselDestacados",
         "docs.reglas_ui"
       ]
+    },
+    {
+      "path": "frontend/src/hooks/useMediaQuery.ts",
+      "id": "frontend.hooks.usemediaquery",
+      "kind": "component",
+      "limit": 200,
+      "contract": "useMediaQuery",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (useMediaQuery.ts)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/hooks/useRealtimeProducts.ts",
+      "id": "frontend.hooks.userealtimeproducts",
+      "kind": "component",
+      "limit": 200,
+      "contract": "getStoredAvailability, saveStoredAvailability, applyAvailability, useRealtimeProducts",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (useRealtimeProducts.ts)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/index.css",
+      "id": "frontend.index",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (index.css)",
+      "relates": []
     },
     {
       "path": "frontend/src/interfaces/audit.entity.ts",
@@ -960,6 +1390,24 @@
       ]
     },
     {
+      "path": "frontend/src/lib/storage.ts",
+      "id": "frontend.lib.storage",
+      "kind": "component",
+      "limit": 200,
+      "contract": "leerStorage, guardarStorage, borrarStorage",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (storage.ts)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/lib/utils.ts",
+      "id": "frontend.lib.utils",
+      "kind": "component",
+      "limit": 200,
+      "contract": "cn, formatPrecio, formatFechaLarga",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (utils.ts)",
+      "relates": []
+    },
+    {
       "path": "frontend/src/lib/validators/auth.validator.ts",
       "id": "frontend.lib.authValidator",
       "kind": "service",
@@ -981,7 +1429,8 @@
       "relates": [
         "frontend.lib.rutValidator",
         "frontend.lib.regionesChile",
-        "docs.convenciones"
+        "docs.convenciones",
+        "frontend.lib.authValidator"
       ]
     },
     {
@@ -994,6 +1443,35 @@
       "relates": [
         "docs.convenciones"
       ]
+    },
+    {
+      "path": "frontend/src/main.tsx",
+      "id": "frontend.main",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (main.tsx)",
+      "relates": [
+        "frontend.index",
+        "frontend.app"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/Placeholder.tsx",
+      "id": "frontend.pages.placeholder",
+      "kind": "component",
+      "limit": 200,
+      "contract": "Placeholder",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (Placeholder.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/pages/admin/Pos.tsx",
+      "id": "frontend.pages.admin.pos",
+      "kind": "component",
+      "limit": 200,
+      "contract": "Pos",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (Pos.tsx)",
+      "relates": []
     },
     {
       "path": "frontend/src/pages/cliente/Blog.tsx",
@@ -1032,11 +1510,12 @@
       "path": "frontend/src/pages/cliente/Catalogo.tsx",
       "id": "frontend.pages.cliente.catalogo",
       "kind": "page",
-      "limit": 280,
+      "limit": 300,
       "contract": "CatalogoView()",
       "desc": "Vista de catalogo con filtros de categoria y tarjetas de productos",
       "relates": [
         "frontend.domain.productCard",
+        "feature.catalogdiscovery.view",
         "docs.reglas_ui"
       ]
     },
@@ -1069,13 +1548,23 @@
       "path": "frontend/src/pages/cliente/Checkout.tsx",
       "id": "frontend.pages.cliente.checkout",
       "kind": "page",
-      "limit": 680,
+      "limit": 700,
       "contract": "CheckoutView()",
       "desc": "Formulario de checkout con seleccion de entrega y pasarela Flow",
       "relates": [
         "frontend.lib.checkoutValidator",
+        "feature.checkoutsummary.view",
         "docs.reglas_ui"
       ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/Confirmacion.tsx",
+      "id": "frontend.pages.cliente.confirmacion",
+      "kind": "component",
+      "limit": 200,
+      "contract": "Confirmacion",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (Confirmacion.tsx)",
+      "relates": []
     },
     {
       "path": "frontend/src/pages/cliente/Contacto.tsx",
@@ -1163,13 +1652,14 @@
       "path": "frontend/src/pages/cliente/PerfilSeguimiento.tsx",
       "id": "frontend.pages.cliente.perfilSeguimiento",
       "kind": "component",
-      "limit": 580,
+      "limit": 600,
       "contract": "sin props: consulta pedido mock o parametros de ruta",
       "desc": "Vista de seguimiento de pedido dentro del perfil con timeline e info de recogida",
       "relates": [
         "frontend.domain.perfilSidebar",
         "frontend.domain.lineaTiempoPedido",
         "frontend.domain.estadoPedidoBadge",
+        "feature.customertracking.view",
         "frontend.ui.button",
         "frontend.ui.buttonLink",
         "frontend.ui.modal"
@@ -1179,13 +1669,14 @@
       "path": "frontend/src/pages/cliente/Personalizacion.tsx",
       "id": "frontend.pages.cliente.personalizacion",
       "kind": "component",
-      "limit": 520,
+      "limit": 540,
       "contract": "sin props: formulario interactivo de diseno y cotizacion de tortas",
       "desc": "Pagina de personalizacion de tortas por pasos: personas, sabores y detalles",
       "relates": [
         "frontend.ui.button",
         "frontend.ui.modal",
         "frontend.ui.input",
+        "feature.customcakequote.view",
         "docs.reglas_ui"
       ]
     },
@@ -1241,6 +1732,28 @@
       ]
     },
     {
+      "path": "frontend/src/pages/cliente/pago/FlowGateway.tsx",
+      "id": "frontend.pages.cliente.pago.flowGateway",
+      "kind": "page",
+      "limit": 460,
+      "contract": "FlowGatewayView()",
+      "desc": "Pasarela interactiva de pruebas Flow Sandbox con escenarios de exito y rechazo DSY1104",
+      "relates": [
+        "frontend.pages.cliente.checkout",
+        "frontend.pages.cliente.pago.exito",
+        "frontend.pages.cliente.pago.error"
+      ]
+    },
+    {
+      "path": "frontend/src/pages/cliente/pago/Pendiente.tsx",
+      "id": "frontend.pages.cliente.pago.pendiente",
+      "kind": "component",
+      "limit": 200,
+      "contract": "PagoPendiente",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (Pendiente.tsx)",
+      "relates": []
+    },
+    {
       "path": "frontend/src/services/api.ts",
       "id": "frontend.services.api",
       "kind": "service",
@@ -1253,9 +1766,45 @@
       ]
     },
     {
+      "path": "frontend/src/types/blog.ts",
+      "id": "frontend.types.blog",
+      "kind": "component",
+      "limit": 200,
+      "contract": "BlogCategoria, BlogPost",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (blog.ts)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/types/product.ts",
+      "id": "frontend.types.product",
+      "kind": "component",
+      "limit": 200,
+      "contract": "Categoria, Variacion, BadgeTipo, Producto",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (product.ts)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/types/ticket.ts",
+      "id": "frontend.types.ticket",
+      "kind": "component",
+      "limit": 200,
+      "contract": "ItemTicket",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (ticket.ts)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/vite-env.d.ts",
+      "id": "frontend.vite_env_d",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (vite-env.d.ts)",
+      "relates": []
+    },
+    {
       "path": "tools/README.md",
       "id": "tools.readme",
       "kind": "doc",
+      "limit": 600,
       "desc": "Guía de uso del anotador PCA y cómo agregar lenguajes",
       "relates": [
         "tools.pca_annotator"

@@ -1,3 +1,9 @@
+<!-- @pca:start
+@id(docs.tickets.sprint_6_integraciones_cierre)
+@kind(doc)
+@limit(lines: 1000)
+@desc(Archivo doc auto-registrado por FIDA/OPL bootstrap (sprint-6-integraciones-cierre.md))
+@pca:end -->
 # Sprint 6 — Integraciones y Cierre
 
 > **Fase:** F3 — Ejecución por tickets (cierre) · **Sprint:** S6 · **Tickets:** T80–T88

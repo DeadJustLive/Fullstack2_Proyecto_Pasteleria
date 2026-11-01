@@ -1,9 +1,10 @@
 // @pca:start
 // @id(frontend.pages.cliente.checkout)
 // @kind(page)
-// @limit(lines: 680)
+// @limit(lines: 700)
 // @contract(CheckoutView())
 // @relates(frontend.lib.checkoutValidator)
+// @relates(feature.checkoutsummary.view)
 // @relates(docs.reglas_ui)
 // @desc(Formulario de checkout con seleccion de entrega y pasarela Flow)
 // @pca:end
@@ -25,6 +26,7 @@ import { Card } from "@/components/ui/Card";
 import { PageHero } from "@/components/ui/PageHero";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { OrderSummary } from "@/components/domain/OrderSummary";
+import { CheckoutSummaryView } from "@/features/CheckoutSummary/implementation/CheckoutSummary.view";
 import { useCart } from "@/context/cart";
 import { formatPrecio } from "@/lib/utils";
 import { api } from "@/services/api";
@@ -643,6 +645,13 @@ export function Checkout() {
               envio={costoEnvio}
               total={totalCalculado}
               mostrarIva
+            />
+
+            <CheckoutSummaryView
+              totalAmount={totalCalculado}
+              itemCount={items.length}
+              deliveryMethod={metodoEntrega}
+              paymentMethod={metodoPago}
             />
 
             <Button

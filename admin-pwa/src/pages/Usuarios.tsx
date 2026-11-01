@@ -4,6 +4,7 @@
 // @limit(lines: 300)
 // @contract(UsuariosAdminView())
 // @relates(admin.lib.validators)
+// @relates(admin.feature.rbacmatrix.view)
 // @relates(docs.especificacion_pwa_admin)
 // @desc(Gestion de usuarios, roles RBAC y consulta de historial de compras)
 // @pca:end
@@ -16,6 +17,7 @@ import { EditarUsuarioModal } from "../components/EditarUsuarioModal";
 import { HistorialComprasModal } from "../components/HistorialComprasModal";
 import { BoletaModal } from "../components/BoletaModal";
 import { MatrizPermisos } from "../components/MatrizPermisos";
+import { AdminRbacMatrixView } from "../features/AdminRbacMatrix/implementation/AdminRbacMatrix.view";
 
 export function Usuarios() {
   const [usuarios, setUsuarios] = useState<AdminUser[]>([]);
@@ -108,6 +110,14 @@ export function Usuarios() {
           <button type="button" className="btn-close" aria-label="Close" onClick={() => setNotificacion(null)} />
         </div>
       )}
+
+      <AdminRbacMatrixView
+        totalUsers={usuarios.length}
+        adminUsersCount={usuarios.filter((u) => u.rol.toUpperCase().includes("ADMIN")).length}
+        staffUsersCount={usuarios.filter((u) => ["PASTELERO", "REPARTIDOR"].includes(u.rol.toUpperCase())).length}
+        activeTab={tabActivo}
+        onToggleMatrixTab={() => setTabActivo((prev) => (prev === "matriz" ? "usuarios" : "matriz"))}
+      />
 
       {/* Tabs */}
       <ul className="nav nav-pills bg-white border p-1 rounded-pill small mb-4 d-inline-flex">

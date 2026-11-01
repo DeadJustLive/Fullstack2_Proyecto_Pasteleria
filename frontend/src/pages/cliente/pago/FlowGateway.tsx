@@ -1,7 +1,7 @@
 // @pca:start
 // @id(frontend.pages.cliente.pago.flowGateway)
 // @kind(page)
-// @limit(lines: 390)
+// @limit(lines: 460)
 // @contract(FlowGatewayView())
 // @relates(frontend.pages.cliente.checkout)
 // @relates(frontend.pages.cliente.pago.exito)

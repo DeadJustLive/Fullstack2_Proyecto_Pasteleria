@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.context.cartprovider)
+// @kind(component)
+// @limit(lines: 260)
+// @contract(CartProvider)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (CartProvider.tsx))
+// @pca:end
 import { useEffect, useReducer, type ReactNode } from "react";
 import {
   CartContext,

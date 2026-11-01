@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.components.domain.modallogin)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(ModalLogin)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (ModalLogin.tsx))
+// @pca:end
 import { useState, type FormEvent } from "react";
 import { AlertCircle } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";

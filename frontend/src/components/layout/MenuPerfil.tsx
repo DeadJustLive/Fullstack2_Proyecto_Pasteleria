@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.components.layout.menuperfil)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(MenuPerfil)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (MenuPerfil.tsx))
+// @pca:end
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/auth";
 

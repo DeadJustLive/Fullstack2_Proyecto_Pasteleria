@@ -1,3 +1,10 @@
+// @pca:start
+// @id(admin_pwa.pages.componentesshowcase)
+// @kind(component)
+// @limit(lines: 350)
+// @contract(ComponentesShowcase)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (ComponentesShowcase.tsx))
+// @pca:end
 import { useState } from "react";
 import {
   AlertCircle,

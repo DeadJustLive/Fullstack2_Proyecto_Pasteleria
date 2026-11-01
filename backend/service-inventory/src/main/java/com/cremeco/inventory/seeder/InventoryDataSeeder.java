@@ -1,3 +1,9 @@
+// @pca:start
+// @id(backend.service_inventory.main.java.com.cremeco.inventory.seeder.inventorydataseeder)
+// @kind(component)
+// @limit(lines: 200)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (InventoryDataSeeder.java))
+// @pca:end
 package com.cremeco.inventory.seeder;
 
 import com.cremeco.inventory.model.InventoryItemEntity;

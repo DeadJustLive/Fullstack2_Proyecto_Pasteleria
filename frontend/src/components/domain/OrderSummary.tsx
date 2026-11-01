@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.components.domain.ordersummary)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(OrderSummary)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (OrderSummary.tsx))
+// @pca:end
 // Filas del resumen de compra: subtotal, descuento, envio y total.
 import { formatPrecio } from "@/lib/utils";
 

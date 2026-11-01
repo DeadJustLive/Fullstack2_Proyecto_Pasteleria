@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.components.domain.blogcard)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(BlogCardProps, BlogCard)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (BlogCard.tsx))
+// @pca:end
 import { Link } from "react-router-dom";
 import { Calendar, Clock, User } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";

@@ -1,3 +1,9 @@
+// @pca:start
+// @id(backend.service_order.main.java.com.cremeco.order.repository.orderitemrepository)
+// @kind(component)
+// @limit(lines: 200)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (OrderItemRepository.java))
+// @pca:end
 package com.cremeco.order.repository;
 
 import com.cremeco.order.model.OrderItemEntity;

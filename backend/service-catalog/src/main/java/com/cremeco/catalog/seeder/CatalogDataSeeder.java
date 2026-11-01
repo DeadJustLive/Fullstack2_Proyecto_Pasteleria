@@ -1,3 +1,9 @@
+// @pca:start
+// @id(backend.service_catalog.main.java.com.cremeco.catalog.seeder.catalogdataseeder)
+// @kind(component)
+// @limit(lines: 240)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (CatalogDataSeeder.java))
+// @pca:end
 package com.cremeco.catalog.seeder;
 
 import com.cremeco.catalog.model.BlogPostEntity;

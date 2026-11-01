@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.components.admin.pos.filaticket)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(FilaTicket)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (FilaTicket.tsx))
+// @pca:end
 import { CantidadStepper } from "@/components/ui/CantidadStepper";
 import { formatPrecio } from "@/lib/utils";
 import type { ItemTicket } from "@/types/ticket";

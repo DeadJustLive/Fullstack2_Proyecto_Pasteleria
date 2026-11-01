@@ -1,3 +1,11 @@
+// @pca:start
+// @id(admin_pwa.layouts.adminlayout)
+// @kind(component)
+// @limit(lines: 260)
+// @contract(AdminLayout)
+// @relates(admin.services.api)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (AdminLayout.tsx))
+// @pca:end
 import { useState } from "react";
 import { NavLink, Outlet, useLocation, Navigate, useNavigate } from "react-router-dom";
 import {

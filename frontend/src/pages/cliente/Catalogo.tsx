@@ -1,9 +1,10 @@
 // @pca:start
 // @id(frontend.pages.cliente.catalogo)
 // @kind(page)
-// @limit(lines: 280)
+// @limit(lines: 300)
 // @contract(CatalogoView())
 // @relates(frontend.domain.productCard)
+// @relates(feature.catalogdiscovery.view)
 // @relates(docs.reglas_ui)
 // @desc(Vista de catalogo con filtros de categoria y tarjetas de productos)
 // @pca:end
@@ -14,6 +15,7 @@ import { Input } from "@/components/ui/Input";
 import { CarouselBanner } from "@/components/domain/CarouselBanner";
 import { FiltroCheckbox } from "@/components/domain/FiltroCheckbox";
 import { ProductCard } from "@/components/domain/ProductCard";
+import { CatalogDiscoveryView } from "@/features/CatalogDiscovery/implementation/CatalogDiscovery.view";
 
 import { cn, formatPrecio } from "@/lib/utils";
 import { CATEGORIAS, PRECIO_MAX, VARIACIONES } from "@/data/products";
@@ -221,6 +223,14 @@ export function Catalogo() {
         </aside>
 
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="col-span-full">
+            <CatalogDiscoveryView
+              totalProducts={filtrados.length}
+              activeCategory={filtros.categorias[0]}
+              searchQuery={filtros.busqueda}
+              onClearFilters={limpiar}
+            />
+          </div>
           {error && productos.length > 0 && (
             <div className="col-span-full rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
               Modo sin conexión: mostrando catálogo almacenado localmente.

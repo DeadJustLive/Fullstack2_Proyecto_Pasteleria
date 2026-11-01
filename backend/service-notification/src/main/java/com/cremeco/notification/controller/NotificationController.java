@@ -1,3 +1,9 @@
+// @pca:start
+// @id(backend.service_notification.main.java.com.cremeco.notification.controller.notificationcontroller)
+// @kind(controller)
+// @limit(lines: 250)
+// @desc(Archivo controller auto-registrado por FIDA/OPL bootstrap (NotificationController.java))
+// @pca:end
 package com.cremeco.notification.controller;
 
 import com.cremeco.notification.model.ContactMessageEntity;

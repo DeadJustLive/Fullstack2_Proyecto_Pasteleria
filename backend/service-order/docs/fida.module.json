@@ -1,0 +1,88 @@
+{
+  "module": "backend.order",
+  "module_id": "feature.service-order",
+  "created_at": "2026-10-31",
+  "wal_threshold": 60,
+  "files": [
+    {
+      "path": "docs/decisions.md",
+      "id": "backend.service_order.docs.decisions",
+      "kind": "doc",
+      "limit": 600,
+      "desc": "Archivo doc auto-registrado por FIDA/OPL bootstrap (decisions.md)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/order/ServiceOrderApplication.java",
+      "id": "backend.service_order.main.java.com.cremeco.order.serviceorderapplication",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (ServiceOrderApplication.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/order/controller/OrderController.java",
+      "id": "backend.service_order.main.java.com.cremeco.order.controller.ordercontroller",
+      "kind": "controller",
+      "limit": 250,
+      "desc": "Archivo controller auto-registrado por FIDA/OPL bootstrap (OrderController.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/order/model/CustomQuoteEntity.java",
+      "id": "backend.service_order.main.java.com.cremeco.order.model.customquoteentity",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (CustomQuoteEntity.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/order/model/OrderEntity.java",
+      "id": "backend.service_order.main.java.com.cremeco.order.model.orderentity",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (OrderEntity.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/order/model/OrderItemEntity.java",
+      "id": "backend.service_order.main.java.com.cremeco.order.model.orderitementity",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (OrderItemEntity.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/order/repository/CustomQuoteRepository.java",
+      "id": "backend.service_order.main.java.com.cremeco.order.repository.customquoterepository",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (CustomQuoteRepository.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/order/repository/OrderItemRepository.java",
+      "id": "backend.service_order.main.java.com.cremeco.order.repository.orderitemrepository",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (OrderItemRepository.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/order/repository/OrderRepository.java",
+      "id": "backend.service_order.main.java.com.cremeco.order.repository.orderrepository",
+      "kind": "component",
+      "limit": 200,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (OrderRepository.java)",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/order/seeder/OrderDataSeeder.java",
+      "id": "backend.service_order.main.java.com.cremeco.order.seeder.orderdataseeder",
+      "kind": "component",
+      "limit": 260,
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (OrderDataSeeder.java)",
+      "relates": []
+    }
+  ]
+}

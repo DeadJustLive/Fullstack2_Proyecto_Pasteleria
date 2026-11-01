@@ -1,3 +1,9 @@
+// @pca:start
+// @id(backend.service_catalog.main.java.com.cremeco.catalog.controller.catalogcontroller)
+// @kind(controller)
+// @limit(lines: 300)
+// @desc(Archivo controller auto-registrado por FIDA/OPL bootstrap (CatalogController.java))
+// @pca:end
 package com.cremeco.catalog.controller;
 
 import com.cremeco.catalog.model.BlogPostEntity;

@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.components.ui.emptystate)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(EmptyStateProps, EmptyState)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (EmptyState.tsx))
+// @pca:end
 // Estado vacio centrado con titulo, descripcion y accion opcional.
 import type { ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";

@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.lib.utils)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(cn, formatPrecio, formatFechaLarga)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (utils.ts))
+// @pca:end
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 

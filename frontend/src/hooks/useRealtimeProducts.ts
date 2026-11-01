@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.hooks.userealtimeproducts)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(getStoredAvailability, saveStoredAvailability, applyAvailability, useRealtimeProducts)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (useRealtimeProducts.ts))
+// @pca:end
 import { useEffect, useState, useCallback } from "react";
 import type { Producto } from "@/types/product";
 import { productos as productosEstaticos } from "@/data/products";

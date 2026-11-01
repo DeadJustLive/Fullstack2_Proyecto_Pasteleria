@@ -1,3 +1,9 @@
+// @pca:start
+// @id(backend.service_order.main.java.com.cremeco.order.model.customquoteentity)
+// @kind(component)
+// @limit(lines: 200)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (CustomQuoteEntity.java))
+// @pca:end
 package com.cremeco.order.model;
 
 import jakarta.persistence.*;

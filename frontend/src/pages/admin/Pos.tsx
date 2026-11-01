@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.pages.admin.pos)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(Pos)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (Pos.tsx))
+// @pca:end
 import { useMemo, useState } from "react";
 import { Banknote, CheckCircle2, CreditCard, ShoppingCart, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/Button";

@@ -1,3 +1,9 @@
+<!-- @pca:start
+@id(docs.tickets.sprint_1_identidad_rbac)
+@kind(doc)
+@limit(lines: 1100)
+@desc(Archivo doc auto-registrado por FIDA/OPL bootstrap (sprint-1-identidad-rbac.md))
+@pca:end -->
 # Sprint 1 — Identidad y RBAC (T30–T42)
 
 > **Fase:** F3 — Ejecución por tickets · **Sprint:** S1 · **Backlog:** E02 (RF-010 a RF-020)

@@ -1,3 +1,10 @@
+// @pca:start
+// @id(frontend.components.admin.pos.pillcategoria)
+// @kind(component)
+// @limit(lines: 200)
+// @contract(PillCategoria)
+// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (PillCategoria.tsx))
+// @pca:end
 // Pill de categoria del POS con estado activo.
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
