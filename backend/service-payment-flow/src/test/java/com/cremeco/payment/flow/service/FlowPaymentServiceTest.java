@@ -45,7 +45,7 @@ class FlowPaymentServiceTest {
 
     @BeforeEach
     void setUp() {
-        flowPaymentService = new FlowPaymentService(flowClientService, paymentRepository, Optional.of(kafkaTemplate));
+        flowPaymentService = new FlowPaymentService(flowClientService, new FlowUrlHelper(), paymentRepository, Optional.of(kafkaTemplate));
     }
 
     @Test

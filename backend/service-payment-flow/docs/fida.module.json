@@ -32,7 +32,7 @@
       "id": "backend.payment.flowController",
       "kind": "controller",
       "limit": 100,
-      "contract": "createPayment, refundPayment, getStatus, getStatusByToken",
+      "contract": "createPayment, refundPayment, getStatus, getStatusByToken, getDiagnostics",
       "desc": "Controlador REST de creacion de cobros idempotentes, reembolsos y consulta de estado en Flow.cl",
       "relates": [
         "backend.payment.flowService"
@@ -48,6 +48,14 @@
       "relates": [
         "backend.payment.flowService"
       ]
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/dto/FlowDiagnosticsResponse.java",
+      "id": "backend.service_payment_flow.main.java.com.cremeco.payment.flow.dto.flowdiagnosticsresponse",
+      "kind": "component",
+      "limit": 80,
+      "desc": "DTO de diagnostico de conectividad y configuracion de Flow.cl",
+      "relates": []
     },
     {
       "path": "src/main/java/com/cremeco/payment/flow/dto/PaymentCreateRequest.java",
@@ -122,10 +130,11 @@
       "id": "backend.payment.flowService",
       "kind": "service",
       "limit": 350,
-      "contract": "createPayment, processWebhook, resolveFrontendReturnRedirectUrl, refundPayment, getStatus",
+      "contract": "createPayment, processWebhook, resolveFrontendReturnRedirectUrl, refundPayment, getStatus, getDiagnostics",
       "desc": "Servicio de orquestacion de pagos Flow.cl con idempotencia, webhooks, redireccion 303 y Kafka",
       "relates": [
-        "backend.payment.flowClient"
+        "backend.payment.flowClient",
+        "backend.payment.flowUrlHelper"
       ]
     },
     {
@@ -136,6 +145,17 @@
       "contract": "calculateSignature(params), validateSignature(params, signatureReceived)",
       "desc": "Servicio de firma criptografica HMAC-SHA256 para pasarela Flow Chile",
       "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/payment/flow/service/FlowUrlHelper.java",
+      "id": "backend.payment.flowUrlHelper",
+      "kind": "service",
+      "limit": 100,
+      "contract": "cleanStoreUrl, urlEncode, buildSimulatorUrl, evaluateConfirmationWarnings",
+      "desc": "Utilidades para sanitizacion de URLs, simulador y validacion de accesibilidad de webhooks Flow",
+      "relates": [
+        "backend.payment.flowService"
+      ]
     },
     {
       "path": "src/test/java/com/cremeco/payment/flow/service/FlowPaymentServiceTest.java",

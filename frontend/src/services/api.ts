@@ -677,7 +677,7 @@ export const api = {
   // Pasarela Flow.cl
   payments: {
     createFlowPayment: async (data: { orderId: number | string; amount: number; email: string; concept: string }) => {
-      const res = await request<{ redirectUrl?: string; checkoutUrl?: string; token?: string; paymentToken?: string }>("/payments/flow/create", {
+      const res = await request<{ redirectUrl?: string; checkoutUrl?: string; token?: string; paymentToken?: string; mode?: string; diagnosticReason?: string }>("/payments/flow/create", {
         method: "POST",
         body: JSON.stringify({
           idempotencyKey: `idem_web_${data.orderId}_${Date.now()}`,
@@ -690,17 +690,14 @@ export const api = {
       return {
         redirectUrl: res.checkoutUrl || res.redirectUrl || "",
         token: res.paymentToken || res.token || "",
+        mode: res.mode,
+        diagnosticReason: res.diagnosticReason,
       };
     },
+    getDiagnostics: () =>
+      request<{ configuredWithRealCredentials: boolean; flowApiUrl: string; apiKeyMasked: string; urlConfirmation: string; urlReturn: string; storeUrl: string; strictRealMode: boolean }>("/payments/flow/diagnostics"),
     getStatus: (token: string) =>
-      request<{
-        success?: boolean;
-        status: string;
-        flowOrder?: number | string;
-        gatewayTransactionId?: string;
-        orderId?: string;
-        amount?: number;
-      }>(`/payments/flow/status?token=${encodeURIComponent(token)}`),
+      request<{ success?: boolean; status: string; flowOrder?: number | string; gatewayTransactionId?: string; orderId?: string; amount?: number }>(`/payments/flow/status?token=${encodeURIComponent(token)}`),
   },
 
   // Identidad y Autenticación

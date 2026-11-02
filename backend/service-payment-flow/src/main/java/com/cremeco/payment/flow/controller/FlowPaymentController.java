@@ -2,7 +2,7 @@
 // @id(backend.payment.flowController)
 // @kind(controller)
 // @limit(lines: 100)
-// @contract(createPayment, refundPayment, getStatus, getStatusByToken)
+// @contract(createPayment, refundPayment, getStatus, getStatusByToken, getDiagnostics)
 // @relates(backend.payment.flowService)
 // @desc(Controlador REST de creacion de cobros idempotentes, reembolsos y consulta de estado en Flow.cl)
 // @pca:end
@@ -64,5 +64,13 @@ public class FlowPaymentController {
     @GetMapping("/status/{token}")
     public ResponseEntity<PaymentStatusDto> getStatusByToken(@PathVariable("token") String token) {
         return ResponseEntity.ok(flowPaymentService.getStatus(token, null));
+    }
+
+    /**
+     * Endpoint de diagnóstico de conectividad, credenciales y URLs de Flow.cl.
+     */
+    @GetMapping("/diagnostics")
+    public ResponseEntity<FlowDiagnosticsResponse> getDiagnostics() {
+        return ResponseEntity.ok(flowPaymentService.getDiagnostics());
     }
 }

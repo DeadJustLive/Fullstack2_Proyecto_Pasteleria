@@ -43,3 +43,4 @@ flow:
   url-confirmation: ${FLOW_URL_CONFIRMATION:http://localhost:8080/api/payments/flow/confirm}
   url-return: ${FLOW_URL_RETURN:http://localhost:8080/api/payments/flow/return}
   store-url: ${STORE_URL:http://localhost:5173}
+  strict-real-mode: ${FLOW_STRICT_REAL_MODE:false}

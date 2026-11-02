@@ -12,7 +12,7 @@
 
 > **Instrucción para la IA:** Lee este archivo al iniciar **cada** sesión, antes de proponer cualquier cambio. Al cerrar la sesión, actualízalo. Este documento es la memoria del proyecto: si no está actualizado, el alumno pierde el contexto y aparece la **amnesia de contexto**.
 
-**Última actualización:** 2026-10-24
+**Última actualización:** 2026-11-02
 
 ---
 
@@ -20,9 +20,9 @@
 
 | Campo | Valor |
 | :--- | :--- |
-| **Fase actual** | F4 — Validación / Testing & Despliegue VPS |
+| **Fase actual** | F4 — Validación / Testing & Entorno de Producción Docker |
 | **Siguiente fase** | F5 — Cierre / Extracción de Componentes Reutilizables |
-| **Estado** | Sprints 7 y 8 completados al 100% (T89–T105). Tienda Web + Admin PWA + 6 Microservicios Spring Boot + MySQL 8 + Flow.cl Real E2E + Gobernanza FIDA + OPL listos. |
+| **Estado** | Sprints 7, 8, 9 y 10 completados (T89–T115). Entorno de producción real en Docker (12 contenedores: 5 infra + 7 microservicios), Redis activo con Spring Cache y optimizador WebP listos. Integración Flow.cl queda en espera (opera en contingencia/simulador local hasta disponer de credenciales productivas oficiales y túnel de webhook público). |
 
 > Fases: F0 Setup → F1 Levantamiento → F2 Sprints → F3 Ejecución → F4 Validación → F5 Cierre. Ver `AGENTS.md`.
 
@@ -33,10 +33,10 @@
 | Capa | Tecnología |
 | :--- | :--- |
 | Frontend | React 18.3 + TypeScript 5.6 + Vite 5 + React Router 7 + CVA + clsx + tailwind-merge + lucide-react |
-| Backend | Spring Boot (Java) + Spring Security + JPA + MySQL 8 — *pendiente* |
-| Base de Datos | MySQL 8 (esquema en `docs/` del backend) — *pendiente* |
+| Backend | Spring Boot (Java 17/21) + Spring Cloud Gateway + Apache Kafka + JPA + MySQL 8 + Redis 7 |
+| Base de Datos | MySQL 8 (`cremeco_db`) + Redis 7 (`:6379`) |
 | Estilos | Tailwind CSS v4 (tokens en `@theme` de `frontend/src/index.css`) + CSS legacy del snapshot en `frontend/src/mockup/` |
-| Imágenes | `sharp` (script `frontend/scripts/optimize-images.mjs`) |
+| Imágenes | `sharp` (script `frontend/scripts/optimize-images.mjs`) + Compresión WebP en cliente (`admin-pwa`) |
 
 ### Tokens de color (design system)
 
@@ -52,22 +52,17 @@ Detalle completo en [`docs/reglas_ui.md`](./reglas_ui.md).
 roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil, blog) y
 **administrador** (POS, pedidos, inventario, usuarios, configuración).
 
-El frontend ya está construido en React + TypeScript con Vite. La migración desde el
-mockup HTML/CSS está **en curso**: el equipo viene migrando página por página al
-design system de Tailwind v4. **`src/mockup/` sigue presente** y contiene el CSS
-legacy que aún usan Navbar, Catálogo, Carrito y Checkout; se elimina cuando termine
-la migración.
-
 ---
 
 ## 4. Sprints
 
 | Sprint | Objetivo | Estado |
 | :--- | :--- | :--- |
-| Sprint 1 | Base y autenticación | En curso (modales login/registro) |
-| Sprint 2 | Base de datos | Pendiente (Spring Boot + MySQL) |
-| Sprint 3 | Lógica backend | Pendiente |
-| Sprint 4 | Frontend / UI | En curso (migración a design system) |
+| Sprint 1–6 | Base, autenticación, catálogo, compras, POS e integraciones | Hecho |
+| Sprint 7 | Cumplimiento total Anexo 1 DSY1104, MySQL DataSeeder y Flow | Hecho |
+| Sprint 8 | Gobernanza FIDA + OPL (`fida-kit`) y Flow.cl Real E2E | Hecho |
+| Sprint 9 | Adopción integral del Patrón FIDA + OPL en Frontend, Admin PWA y Backend | Hecho |
+| Sprint 10 | Contenedorización Docker completa en PC, Redis activo, Flow.cl diagnóstico y WebP en Admin | Hecho |
 
 ---
 
@@ -125,6 +120,12 @@ la migración.
 | T107 | Módulos FIDA de 5 subcarpetas en `admin-pwa/src/features/` (`AdminBoletaSii`, `AdminCriticalStock`, `AdminKardexPos`, `AdminRbacMatrix`) | F5 / S9 | Hecho | `CONV-EST-01`, `CONV-TIP-02` |
 | T108 | Gobernanza FIDA + WAL Guard en los 6 microservicios Backend restantes (`api-gateway`, `identity`, `catalog`, `order`, `inventory`, `notification`) | F5 / S9 | Hecho | `CONV-DOC-01`, `CONV-EST-01` |
 | T109 | Autodescubrimiento global (`bootstrap --apply`), sincronización de manifiestos y sellado 100% FIDA + OPL (0 archivos sin anotar) | F5 / S9 | Hecho | `CONV-DOC-05`, `CONV-TIP-04` |
+| T110 | `Dockerfile`s de producción para los 7 microservicios Spring Boot en `backend/` | F4 / S10 | Hecho | `CONV-EST-01`, `CONV-SEG-01` |
+| T111 | Orquestación Docker Compose de producción local (12 contenedores: 5 infra + 7 microservicios con healthchecks y feedback) | F4 / S10 | Hecho | `CONV-EST-01`, `CONV-ERR-01` |
+| T112 | Integración activa del contenedor Redis (`:6379`) con microservicios Backend (`service-catalog` y `service-identity`) | F4 / S10 | Hecho | `CONV-EST-01`, `CONV-ERR-01` |
+| T113 | Modo Producción/Sandbox Real de Flow.cl en Docker y endpoint/feedback de diagnóstico de redirección | F4 / S10 | Hecho | `CONV-ERR-01`, `CONV-SEG-01` |
+| T114 | Módulo FIDA `AdminImageOptimizer` de compresión a WebP ligero en `admin-pwa` y soporte en `service-catalog` | F4 / S10 | Hecho | `CONV-UI-01`, `CONV-TIP-02` |
+| T115 | Blindaje del entorno Docker local, separación `.env.docker`, automigración imagen y auditoría | F4 / S10 | Hecho | `CONV-EST-01`, `CONV-ERR-01`, `CONV-SEG-01` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
@@ -132,71 +133,23 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 ## 6. Próximo paso
 
-> Rama activa de desarrollo: `dev`. **Sprint 7 finalizado al 100%**.
+> Rama activa de desarrollo: `dev`. **Sprint 10 completado al 100% (`T110`–`T115`)**.
 
-- **Fase F4 — Validación / Testing de Producción & Despliegue VPS:**
-  1. Ejecución de suite de validación completa e2e de los flujos de cliente y administrador.
-  2. Despliegue en contenedor Docker VPS mediante `docker compose -f docker-compose.prod.yml up -d` o script `iniciar_backend.sh`.
-  3. Verificación de persistencia en MySQL 8 (`cremeco_db`) y transacciones en pasarela Flow Chile.
+- **Fase F4 — Entorno de Producción Real en Docker (PC Local), Flow.cl & WebP:**
+  1. **T110 Hecho**: Creados los 7 `Dockerfile`s de producción e imágenes verificadas en Docker.
+  2. **T111 Hecho**: Orquestación Docker Compose de producción local (12 contenedores: 5 infra + 7 microservicios con healthchecks, puertos 8080..8086 y feedback en `iniciar_backend.bat`).
+  3. **T112 Hecho**: Conectado `cremeco-redis:6379` al backend (`service-catalog` con Spring Cache e invalidación automática y `service-identity` con endpoints `/api/*/health/redis`).
+  4. **T113 Hecho**: Modo Producción/Sandbox Real de Flow.cl en Docker, endpoint `GET /api/payments/flow/diagnostics`, modo estricto y redirección/feedback en `Checkout.tsx`.
+  5. **T114 Hecho**: Implementado el módulo FIDA `AdminImageOptimizer` (conversión a WebP ligero en Canvas, métricas de ahorro y modo dual) en `admin-pwa` y persistencia en `service-catalog` (`MEDIUMTEXT`).
+  6. **T115 Hecho**: Blindaje de configuración Docker (.env.docker separado, hostnames inmunes a fugas de localhost, automigración de products.imagen a MEDIUMTEXT, FlowUrlHelper bajo límite de líneas y rollback de errores en Admin PWA).
+  7. **Flow.cl en espera**: La integración con Flow.cl queda en pausa/espera; el flujo de checkout opera mediante el simulador de contingencia local hasta la obtención de credenciales productivas oficiales y dominio/túnel público para webhooks.
+  8. **Siguiente paso:** Proceder a Fase F5 — Cierre y Extracción de Componentes Reutilizables.
 
 ## 7. Notas y decisiones
 
-- **El mockup (`MockUpPasteleria/`) es solo referencial.** La estructura final es
-  React-idiomática: no se copian clases del snapshot, se usan componentes del design system.
-- **Navegación:** Se reemplazó el enlace de "Seguimiento" en Navbar por "Personalización" (`/personalizacion`). El acceso a seguimiento queda centralizado dentro del perfil del cliente tras iniciar sesión (en `MenuPerfil` y dentro de `Perfil`).
-- **PWA de Administración desacoplada (`admin-pwa/`):** Por decisión arquitectónica explícita para evitar colisiones de estilos entre Bootstrap 5 y Tailwind CSS v4, la aplicación de administración se separó en su propia carpeta independiente `admin-pwa/` (HTML5, Bootstrap 5, CSS nativo, Service Worker `sw.js` y `manifest.json`), mientras que `frontend/` permanece 100% limpio en Tailwind v4 para la tienda de clientes. La PWA de administración incluye Dashboard, Catálogo con regla de productos vendidos, Inventario Kardex, RBAC, Cupones, POS y UI Kit de Componentes.
-- **Arquitectura de Microservicios & Kafka (`backend/`):** Se definió en `docs/arquitectura_microservicios_kafka.md` la topología distribuida basada en Apache Kafka y Spring Boot. Se inicializó la infraestructura con `docker compose -f backend/docker-compose.yml up -d` (MySQL 8 :3306, Apache Kafka :9092, Zookeeper :2181, Kafdrop :9000, Redis :6379), se compilaron los 9 módulos con Maven y se crearon los clientes de integración en `frontend/src/services/api.ts` y `admin-pwa/src/services/api.ts`. Orquestación automatizada en `iniciar_backend.bat`.
-- **Estandarización y Legibilidad con CVA (`class-variance-authority`):** Se auditaron y refactorizaron los componentes del frontend para reemplazar lógica condicional imperativa y ternarios dispersos en JSX por variantes declarativas fuertemente tipadas:
-  - `EstadoPedidoBadge.tsx`: Variantes semánticas por estado (`pendiente`, `preparacion`, `listo`, `entregado`, `cancelado`) y tamaños (`sm`, `default`, `lg`), con normalización automática de tildes.
-  - `Modal.tsx`: Variante de tamaños (`sm`, `md`, `lg`, `xl`) eliminando mapeos manuales de objetos.
-  - `SectionTitle.tsx`: Variantes de alineación (`center`, `left`) y espaciado (`compact`, `default`, `spacious`).
-  - `EmptyState.tsx`: Variantes de espaciado (`compact`, `default`, `spacious`).
-  - `BlogCard.tsx`: Variantes (`default`, `featured`) para contenedor, imagen y tipografía unificadas.
-  - `LineaTiempoPedido.tsx`: Variantes sincronizadas para marcadores de estado, tarjetas y títulos.
-  - `ProductCard.tsx`: Variantes de elevación (`flat`, `subtle`, `hoverable`).
-  - `Input.tsx`: Variantes de tamaño (`sm`, `default`, `lg`) y estado (`default`, `error`, `success`).
-  - Cero warnings de React Fast Refresh y cero errores de TypeScript/ESLint.
-- **Grafo de impacto PCA:** 48 nodos y 110 relaciones validadas sin errores ni FK huérfanas.
-- **Escala de breakpoints:** solo Tailwind (`sm` 640, `md` 768, `lg` 1024, `xl` 1280).
-  Se eliminaron los 900/960/1200 del snapshot.
-- **Full-bleed:** se mantiene `100cqi` (nunca `100vw`, que incluye la scrollbar).
-- **Botones:** `rounded-full` (píldora) en `Button` → afecta Carrito, Checkout y POS.
-- **Colores de CTA:** el `primary` del design system (rosa) es el color de acción;
-  el marrón `secondary` del snapshot era el color del botón en HTML.
-- **Marquee de `BannerServicios`:** se conserva (mejora de UX; el mockup no lo tenía).
-- **Imagenes:** PNG → WebP y JPG re-codificados. `public/imagen/` bajó de 3,3 MB a 767 KB.
-- **Marcadores de posición:** las rutas sin página real (`/blog/:slug`, `/producto/:id`)
-  usan `pages/Placeholder.tsx`, nunca `to="#"`.
-- **Evidencia de T12–T15:** smoke test SSR temporal de la Home (27/27 comprobaciones OK:
-  sin `href="#"`, sin clases del snapshot, todas las imágenes referenciadas existen). El
-  andamiaje se eliminó al cerrar el ticket; el error de aserción queda registrado como
-  `FRONT-012` en `docs/cicatrices_guerra.md`.
-- **Evidencia de T20:** medición real en Edge headless (CDP) sobre el build de producción,
-  antes y después del fix, en 7 anchos (360 / 390 / 430 / 768 / 1024 / 1280 / 1440) y
-  5 rutas (`/`, `/catalogo`, `/carrito`, `/checkout`, `/envio`).
-  - **Home:** `main` pasa de 1080px fijos a `clientWidth` del viewport; el hero pasa de
-    estar fuera de pantalla (`x=360..720` en 360px) a ocupar el viewport completo
-    (`x=0..360`). Sin scroll horizontal ni desbordes en ninguna medida.
-  - **1280 / 1440:** `main` = 1080px y hero = `0..1265` / `0..1425`, **idénticos** al
-    estado previo → sin regresión en escritorio.
-  - **Catálogo / Carrito / Checkout / Envío:** `main` con el mismo ancho que antes del
-    fix en los 7 anchos → el cambio no afecta a las páginas aún no migradas.
-  - **Menú móvil (390px):** el panel se abre dentro del viewport.
-  - La causa raíz y el porqué del `margin-inline: auto` quedan registrados como
-    `FRONT-013` en `docs/cicatrices_guerra.md`.
-- **Grafo PCA:** al añadir `ClienteLayout.tsx` al manifiesto se detectó que el anotador
-  **truncaba las relaciones** de cada nodo (sobrevivía solo la última línea `@relates`):
-  el grafo declaraba 23 relaciones para 23 nodos, cuando el manifiesto define 42. Corregido
-  en `tools/pca_annotator.py` y registrado como `FRONT-014`. `impact` ahora devuelve los
-  dependientes reales (p. ej. `frontend.pages.cliente.home` → `frontend.layouts.clienteLayout`).
-- **Orden del hero en móvil (refinamiento de T12/T14):** por debajo de 768px el logo va
-  arriba y el CTA "Ver Catálogo" queda por debajo del logo (antes el botón quedaba arriba
-  y el logo cerraba el hero). Medido en el navegador:
-  - 360 / 390 / 430px → logo `y=121..`, título por debajo, botón `y=628..676`; el hero
-    **mantiene su altura** (651px en 390px).
-  - 768 / 1024 / 1280 / 1440px → **idéntico** a antes (texto a la izquierda, logo a la
-    derecha, mismas coordenadas).
-  - El **orden del DOM no cambia** (`p > h1 > p > a[Ver Catálogo] > svg`): el logo es
-    decorativo y no focusable, así que lectura y foco siguen siendo título → CTA.
-- **Pendiente de validación manual:** checklist responsive 360 / 390 / 430 / 768 / 1024 /
-  1280 / 1440 (sección 7 de `docs/reglas_ui.md`).
+- **El mockup (`MockUpPasteleria/`) es solo referencial.** La estructura final es React-idiomática: se usan componentes del design system.
+- **PWA de Administración desacoplada (`admin-pwa/`):** Separada en `admin-pwa/` (Bootstrap 5 + PWA) para evitar colisiones con Tailwind CSS v4 en `frontend/`. Incluye Dashboard, Catálogo con regla de productos vendidos, Inventario Kardex, RBAC, Cupones, POS y UI Kit.
+- **Arquitectura de Microservicios & Kafka (`backend/`):** Topología distribuida en `docs/arquitectura_microservicios_kafka.md` (MySQL 8 :3306, Kafka :9092, Zookeeper :2181, Kafdrop :9000, Redis :6379 + 7 microservicios Spring Boot :8080–:8086).
+- **Estandarización con CVA (`class-variance-authority`):** Componentes UI y de dominio refactorizados con variantes declarativas tipadas (`EstadoPedidoBadge`, `Modal`, `SectionTitle`, `EmptyState`, `BlogCard`, `LineaTiempoPedido`, `ProductCard`, `Input`).
+- **Escala de breakpoints y UI:** Solo Tailwind (`sm` 640, `md` 768, `lg` 1024, `xl` 1280); full-bleed con `100cqi`; botones `rounded-full`; imágenes de `public/imagen/` optimizadas a WebP/JPG (de 3,3 MB a 767 KB).
+- **Evidencia de T12–T20:** Smoke test SSR (27/27 OK) y medición headless CDP en 7 anchos (360–1440px) sin scroll horizontal ni desbordes (`FRONT-012`, `FRONT-013`, `FRONT-014` en `docs/cicatrices_guerra.md`).

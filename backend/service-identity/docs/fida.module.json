@@ -21,13 +21,25 @@
       "relates": []
     },
     {
+      "path": "src/main/java/com/cremeco/identity/config/RedisConfig.java",
+      "id": "backend.service_identity.config.redis",
+      "kind": "config",
+      "limit": 80,
+      "desc": "Configuracion de conexion Redis para service-identity",
+      "relates": [
+        "backend.service_identity.main.java.com.cremeco.identity.serviceidentityapplication"
+      ]
+    },
+    {
       "path": "src/main/java/com/cremeco/identity/controller/IdentityController.java",
       "id": "backend.identity.controller",
       "kind": "controller",
       "limit": 350,
-      "contract": "login, register, getProfile, updateProfile, listUsers, createUser, updateUser, deleteUser",
-      "desc": "Controlador REST de autenticacion JWT, perfil de cliente y administracion RBAC de usuarios",
-      "relates": []
+      "contract": "login, register, getProfile, updateProfile, listUsers, createUser, updateUser, deleteUser, checkRedisHealth",
+      "desc": "Controlador REST de autenticacion JWT, perfil de cliente, administracion RBAC de usuarios y diagnostico Redis",
+      "relates": [
+        "backend.service_identity.config.redis"
+      ]
     },
     {
       "path": "src/main/java/com/cremeco/identity/model/RoleEntity.java",

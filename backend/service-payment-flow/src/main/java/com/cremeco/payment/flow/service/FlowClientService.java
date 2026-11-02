@@ -67,6 +67,18 @@ public class FlowClientService {
                 && !apiKey.startsWith("reemplazar_");
     }
 
+    public String getFlowApiUrl() { return this.flowApiUrl; }
+    public String getUrlConfirmation() { return this.urlConfirmation; }
+    public String getUrlReturn() { return this.urlReturn; }
+    public String getMaskedApiKey() {
+        if (this.apiKey == null || this.apiKey.isBlank()) return "none";
+        String clean = this.apiKey.trim();
+        if (clean.length() <= 8) {
+            return clean.length() <= 2 ? "****" : clean.charAt(0) + "*".repeat(clean.length() - 2) + clean.charAt(clean.length() - 1);
+        }
+        return clean.substring(0, 4) + "*".repeat(clean.length() - 8) + clean.substring(clean.length() - 4);
+    }
+
     private String resolveSafeUrlReturn(String customUrlReturn) {
         String candidate = (customUrlReturn != null && !customUrlReturn.isBlank())
                 ? sanitize(customUrlReturn) : this.urlReturn;

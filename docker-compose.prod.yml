@@ -1,12 +1,15 @@
-version: '3.8'
+name: cremeco
 
 networks:
   cremeco-network:
+    name: cremeco-network
     driver: bridge
 
 volumes:
-  mysql_data:
-  redis_data:
+  cremeco_mysql_data:
+    name: cremeco_mysql_data
+  cremeco_redis_data:
+    name: cremeco_redis_data
 
 services:
   # ==============================================================================
@@ -16,15 +19,17 @@ services:
     image: mysql:8.0
     container_name: cremeco-mysql
     restart: always
+    env_file:
+      - .env.docker
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-Root2026_UltraSecure!}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-cremeco_db}
       MYSQL_USER: ${MYSQL_USER:-cremeco_user}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-CremeCo2026_SecurePass!}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "${MYSQL_PORT:-3306}:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - cremeco_mysql_data:/var/lib/mysql
     networks:
       - cremeco-network
     healthcheck:
@@ -32,6 +37,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 20s
 
   # ==============================================================================
   # BROKER KAFKA & ZOOKEEPER
@@ -40,6 +46,8 @@ services:
     image: confluentinc/cp-zookeeper:7.5.0
     container_name: cremeco-zookeeper
     restart: always
+    ports:
+      - "2181:2181"
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -54,6 +62,7 @@ services:
       - zookeeper
     ports:
       - "9092:9092"
+      - "29092:29092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -61,11 +70,29 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
     networks:
       - cremeco-network
 
   # ==============================================================================
-  # CACHÉ REDIS
+  # KAFDROP (MONITOR DE TÓPICOS Y EVENTOS KAFKA)
+  # ==============================================================================
+  kafdrop:
+    image: obsidiandynamics/kafdrop:4.0.1
+    container_name: cremeco-kafdrop
+    restart: always
+    depends_on:
+      - kafka
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: kafka:29092
+      JVM_OPTS: "-Xms32M -Xmx64M"
+    networks:
+      - cremeco-network
+
+  # ==============================================================================
+  # CACHÉ REDIS 7
   # ==============================================================================
   redis:
     image: redis:7-alpine
@@ -74,12 +101,18 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - redis_data:/data
+      - cremeco_redis_data:/data
     networks:
       - cremeco-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
   # ==============================================================================
-  # MICROSERVICIOS SPRING BOOT
+  # MICROSERVICIOS SPRING BOOT (7 CONTENEDORES)
   # ==============================================================================
   service-identity:
     build:
@@ -87,14 +120,22 @@ services:
       dockerfile: service-identity/Dockerfile
     container_name: cremeco-service-identity
     restart: always
+    ports:
+      - "8081:8081"
     depends_on:
       mysql-db:
         condition: service_healthy
+      kafka:
+        condition: service_started
+    env_file:
+      - .env.docker
     environment:
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:mysql://mysql-db:3306/cremeco_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE:-cremeco_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-cremeco_user}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-CremeCo2026_SecurePass!}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
     networks:
       - cremeco-network
 
@@ -104,14 +145,22 @@ services:
       dockerfile: service-catalog/Dockerfile
     container_name: cremeco-service-catalog
     restart: always
+    ports:
+      - "8082:8082"
     depends_on:
       mysql-db:
         condition: service_healthy
+      kafka:
+        condition: service_started
+    env_file:
+      - .env.docker
     environment:
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:mysql://mysql-db:3306/cremeco_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE:-cremeco_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-cremeco_user}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-CremeCo2026_SecurePass!}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      SPRING_DATA_REDIS_HOST: redis
+      SPRING_DATA_REDIS_PORT: 6379
     networks:
       - cremeco-network
 
@@ -121,13 +170,19 @@ services:
       dockerfile: service-order/Dockerfile
     container_name: cremeco-service-order
     restart: always
+    ports:
+      - "8083:8083"
     depends_on:
       mysql-db:
         condition: service_healthy
+      kafka:
+        condition: service_started
+    env_file:
+      - .env.docker
     environment:
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:mysql://mysql-db:3306/cremeco_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE:-cremeco_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-cremeco_user}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-CremeCo2026_SecurePass!}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     networks:
       - cremeco-network
@@ -138,20 +193,27 @@ services:
       dockerfile: service-payment-flow/Dockerfile
     container_name: cremeco-service-payment
     restart: always
+    ports:
+      - "8084:8084"
     depends_on:
       mysql-db:
         condition: service_healthy
+      kafka:
+        condition: service_started
+    env_file:
+      - .env.docker
     environment:
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL:-jdbc:mysql://mysql-db:3306/cremeco_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE:-cremeco_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-cremeco_user}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-CremeCo2026_SecurePass!}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       FLOW_API_URL: ${FLOW_API_URL:-https://sandbox.flow.cl/api}
-      FLOW_API_KEY: ${FLOW_API_KEY:-FLOW_SANDBOX_API_KEY}
-      FLOW_SECRET_KEY: ${FLOW_SECRET_KEY:-FLOW_SANDBOX_SECRET_KEY}
-      FLOW_URL_CONFIRMATION: ${FLOW_URL_CONFIRMATION:-http://api-gateway:8080/api/payments/flow/confirm}
-      FLOW_URL_RETURN: ${FLOW_URL_RETURN:-https://pasteleriacremeco.cl/pago/exito}
-      STORE_URL: ${STORE_URL:-https://pasteleriacremeco.cl}
+      FLOW_API_KEY: ${FLOW_API_KEY}
+      FLOW_SECRET_KEY: ${FLOW_SECRET_KEY}
+      FLOW_URL_CONFIRMATION: ${FLOW_URL_CONFIRMATION:-http://localhost:8080/api/payments/flow/confirm}
+      FLOW_URL_RETURN: ${FLOW_URL_RETURN:-http://localhost:8080/api/payments/flow/return}
+      STORE_URL: ${STORE_URL:-http://localhost:5173}
+      FLOW_STRICT_REAL_MODE: ${FLOW_STRICT_REAL_MODE:-false}
     networks:
       - cremeco-network
 
@@ -161,15 +223,22 @@ services:
       dockerfile: service-inventory/Dockerfile
     container_name: cremeco-service-inventory
     restart: always
+    ports:
+      - "8085:8085"
     depends_on:
       mysql-db:
         condition: service_healthy
+      kafka:
+        condition: service_started
+    env_file:
+      - .env.docker
     environment:
       MYSQL_HOST: mysql-db
       MYSQL_PORT: 3306
       MYSQL_DB: ${MYSQL_DATABASE:-cremeco_db}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE:-cremeco_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-cremeco_user}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-CremeCo2026_SecurePass!}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     networks:
       - cremeco-network
@@ -180,21 +249,28 @@ services:
       dockerfile: service-notification/Dockerfile
     container_name: cremeco-service-notification
     restart: always
+    ports:
+      - "8086:8086"
     depends_on:
       mysql-db:
         condition: service_healthy
+      kafka:
+        condition: service_started
+    env_file:
+      - .env.docker
     environment:
       MYSQL_HOST: mysql-db
       MYSQL_PORT: 3306
       MYSQL_DB: ${MYSQL_DATABASE:-cremeco_db}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE:-cremeco_db}?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=America/Santiago&characterEncoding=UTF-8
       SPRING_DATASOURCE_USERNAME: ${MYSQL_USER:-cremeco_user}
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD:-CremeCo2026_SecurePass!}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     networks:
       - cremeco-network
 
   # ==============================================================================
-  # SPRING CLOUD API GATEWAY (Punto de entrada microservicios)
+  # SPRING CLOUD API GATEWAY (PUNTO DE ENTRADA UNIFICADO :8080)
   # ==============================================================================
   api-gateway:
     build:

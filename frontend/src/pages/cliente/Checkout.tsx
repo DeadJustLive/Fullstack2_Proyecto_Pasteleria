@@ -68,15 +68,9 @@ export function Checkout() {
   const handleAutorellenarSantiago = () => {
     setMetodoEntrega("despacho");
     setDatos({
-      nombre: "Camila",
-      apellidos: "Silva Tapia",
-      email: "camila.silva@cremeco.cl",
-      telefono: "+56 9 8765 4321",
-      rut: "18.432.198-7",
-      calle: "Av. Providencia 1234",
-      departamento: "Depto 402",
-      region: "RM",
-      comuna: "Providencia",
+      nombre: "Camila", apellidos: "Silva Tapia", email: "camila.silva@cremeco.cl",
+      telefono: "+56 9 8765 4321", rut: "18.432.198-7", calle: "Av. Providencia 1234",
+      departamento: "Depto 402", region: "RM", comuna: "Providencia",
       indicaciones: "Dejar en conserjería si no respondo al citófono.",
     });
     setErrores({});
@@ -213,6 +207,22 @@ export function Checkout() {
             concept: `Pedido Pastelería Crème & Co ${orderCode}`,
           });
 
+          console.info("[Checkout Flow]", paymentRes);
+
+          // Si el modo es REAL_FLOW, asegura la redirección bancaria oficial
+          if (paymentRes.mode === "REAL_FLOW" && paymentRes.redirectUrl) {
+            window.location.href = paymentRes.redirectUrl;
+            return;
+          }
+
+          if (paymentRes.mode === "REAL_FLOW" && !paymentRes.redirectUrl) {
+            setErrores((prev) => ({
+              ...prev,
+              submit: paymentRes.diagnosticReason || "Fallo al generar redirección a Flow.cl.",
+            }));
+            return;
+          }
+
           const redirectUrl = paymentRes.redirectUrl;
 
           if (redirectUrl) {
@@ -237,11 +247,13 @@ export function Checkout() {
           navigate(
             `/pago/flow-gateway?token=${encodeURIComponent(paymentRes.token || `flow_${Date.now()}`)}&orderId=${encodeURIComponent(orderCode)}&amount=${totalCalculado}&email=${encodeURIComponent(datos.email)}`
           );
-        } catch {
-          // Caso 4: Modo offline resiliente o backend no disponible en entorno local
-          navigate(
-            `/pago/flow-gateway?token=flow_${Date.now()}&orderId=${encodeURIComponent(orderCode)}&amount=${totalCalculado}&email=${encodeURIComponent(datos.email)}`
-          );
+        } catch (err: unknown) {
+          const errMsg = err instanceof Error ? err.message : String(err);
+          console.error("[Checkout Flow Error]", errMsg);
+          setErrores((prev) => ({
+            ...prev,
+            submit: `Error en pasarela Flow: ${errMsg}`,
+          }));
         }
       } else {
         vaciar();
@@ -653,6 +665,12 @@ export function Checkout() {
               deliveryMethod={metodoEntrega}
               paymentMethod={metodoPago}
             />
+
+            {errores.submit && (
+              <div className="mt-4 rounded-lg bg-red-50 p-3 text-xs text-red-700 border border-red-200">
+                {errores.submit}
+              </div>
+            )}
 
             <Button
               type="submit"

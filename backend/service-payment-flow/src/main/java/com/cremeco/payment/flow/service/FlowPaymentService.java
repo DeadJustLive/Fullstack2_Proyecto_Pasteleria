@@ -2,8 +2,8 @@
 // @id(backend.payment.flowService)
 // @kind(service)
 // @limit(lines: 350)
-// @contract(createPayment, processWebhook, resolveFrontendReturnRedirectUrl, refundPayment, getStatus)
-// @relates(backend.payment.flowClient)
+// @contract(createPayment, processWebhook, resolveFrontendReturnRedirectUrl, refundPayment, getStatus, getDiagnostics)
+// @relates(backend.payment.flowClient, backend.payment.flowUrlHelper)
 // @desc(Servicio de orquestacion de pagos Flow.cl con idempotencia, webhooks, redireccion 303 y Kafka)
 // @pca:end
 package com.cremeco.payment.flow.service;
@@ -21,8 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
@@ -34,48 +32,54 @@ import java.util.UUID;
 public class FlowPaymentService {
 
     private final FlowClientService flowClientService;
+    private final FlowUrlHelper flowUrlHelper;
     private final PaymentRepository paymentRepository;
     private final Optional<KafkaTemplate<String, Object>> kafkaTemplate;
 
     @Value("${flow.store-url:http://localhost:5173}")
     private String storeUrl;
 
+    @Value("${flow.strict-real-mode:false}")
+    private boolean strictRealMode;
+
     private static final String TOPIC_PAYMENT_CONFIRMED = "cremeco.payments.flow.confirmed";
 
-    private static String urlEncode(String val) {
-        return val == null ? "" : URLEncoder.encode(val, StandardCharsets.UTF_8);
+    public FlowDiagnosticsResponse getDiagnostics() {
+        return FlowDiagnosticsResponse.builder()
+                .configuredWithRealCredentials(flowClientService.isConfiguredWithRealCredentials())
+                .flowApiUrl(flowClientService.getFlowApiUrl())
+                .apiKeyMasked(flowClientService.getMaskedApiKey())
+                .urlConfirmation(flowClientService.getUrlConfirmation())
+                .urlReturn(flowClientService.getUrlReturn())
+                .storeUrl(flowUrlHelper.cleanStoreUrl(storeUrl))
+                .strictRealMode(strictRealMode)
+                .warnings(flowUrlHelper.evaluateConfirmationWarnings(flowClientService.getUrlConfirmation()))
+                .build();
     }
 
-    private String cleanStoreUrl() {
-        return (storeUrl == null || storeUrl.isBlank())
-                ? "http://localhost:5173"
-                : storeUrl.trim().replaceAll("^[\"']|[\"']$", "").replaceAll("/+$", "");
-    }
-
-    /**
-     * Crea un pago en Flow protegiendo contra cobros duplicados mediante idempotencyKey.
-     */
     @Transactional
     public PaymentCreateResponse createPayment(PaymentCreateRequest request) {
         Optional<PaymentRecord> existing = paymentRepository.findByIdempotencyKey(request.getIdempotencyKey());
 
         if (existing.isPresent()) {
             PaymentRecord payment = existing.get();
-            log.info("Idempotencia detectada para key '{}'. Estado actual: {}", request.getIdempotencyKey(), payment.getStatus());
+            log.info("Idempotencia detectada para key '{}'. Estado: {}", request.getIdempotencyKey(), payment.getStatus());
 
             if ("pending".equalsIgnoreCase(payment.getStatus())) {
+                boolean wasReal = payment.getCheckoutUrl() != null && !payment.getCheckoutUrl().contains("/pago/flow-gateway");
                 return PaymentCreateResponse.builder()
                         .success(true)
                         .checkoutUrl(payment.getCheckoutUrl())
                         .paymentToken(payment.getPaymentToken())
                         .orderId(payment.getOrderId())
                         .message("Recuperado intento de pago previo.")
+                        .mode(wasReal ? "REAL_FLOW" : "LOCAL_SIMULATOR")
+                        .diagnosticReason("Recuperado intento de pago previo por idempotencia")
                         .build();
             }
 
             if ("completed".equalsIgnoreCase(payment.getStatus())) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT,
-                        "Este pago ya fue procesado y su estado es: " + payment.getStatus());
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Este pago ya fue procesado: " + payment.getStatus());
             }
         }
 
@@ -84,19 +88,23 @@ public class FlowPaymentService {
                 : "order_" + UUID.randomUUID().toString().replace("-", "").substring(0, 16);
 
         Map<String, Object> flowResponse = null;
+        String mode = "LOCAL_SIMULATOR";
+        String diagnosticReason = "Credenciales de Flow no configuradas o placeholder en .env";
+        String flowErrorMessage = null;
+
         if (flowClientService.isConfiguredWithRealCredentials()) {
             try {
                 flowResponse = flowClientService.createPaymentOrder(
-                        commerceOrder,
-                        request.getSubject(),
-                        request.getAmount(),
-                        request.getEmail(),
-                        request.getUrlReturn(),
-                        request.getUrlConfirmation(),
+                        commerceOrder, request.getSubject(), request.getAmount(),
+                        request.getEmail(), request.getUrlReturn(), request.getUrlConfirmation(),
                         request.getIdempotencyKey()
                 );
             } catch (Exception e) {
-                log.warn("Fallo al comunicarse con Flow API para orden {}: {}", commerceOrder, e.getMessage());
+                flowErrorMessage = e.getMessage();
+                log.warn("Fallo al comunicarse con Flow API para orden {}: {}", commerceOrder, flowErrorMessage);
+                if (strictRealMode) {
+                    throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Fallo al conectar con Flow.cl: " + flowErrorMessage);
+                }
             }
         }
 
@@ -107,13 +115,15 @@ public class FlowPaymentService {
             String baseUrl = String.valueOf(flowResponse.get("url"));
             token = String.valueOf(flowResponse.get("token"));
             checkoutUrl = baseUrl + (baseUrl.contains("?") ? "&" : "?") + "token=" + token;
-            log.info("[Flow.cl] URL oficial de pago generada para orden {}: {}", commerceOrder, checkoutUrl);
+            mode = "REAL_FLOW";
+            diagnosticReason = "Orden creada exitosamente en Flow.cl";
+            log.info("[Flow.cl] URL oficial generada para {}: {}", commerceOrder, checkoutUrl);
         } else {
+            if (flowClientService.isConfiguredWithRealCredentials()) {
+                diagnosticReason = "Fallo en llamada a Flow API (" + flowErrorMessage + "), activando simulador local de contingencia.";
+            }
             token = "flow_sand_" + UUID.randomUUID().toString().replace("-", "").substring(0, 16);
-            checkoutUrl = cleanStoreUrl() + "/pago/flow-gateway?token=" + urlEncode(token)
-                    + "&orderId=" + urlEncode(commerceOrder)
-                    + "&amount=" + request.getAmount()
-                    + "&email=" + urlEncode(request.getEmail());
+            checkoutUrl = flowUrlHelper.buildSimulatorUrl(storeUrl, token, commerceOrder, request.getAmount(), request.getEmail());
         }
 
         PaymentRecord record = PaymentRecord.builder()
@@ -136,13 +146,12 @@ public class FlowPaymentService {
                 .checkoutUrl(checkoutUrl)
                 .paymentToken(token)
                 .orderId(commerceOrder)
-                .message("Orden de pago creada exitosamente en Flow.")
+                .message("REAL_FLOW".equals(mode) ? "Orden creada exitosamente en Flow." : "Orden creada en simulador.")
+                .mode(mode)
+                .diagnosticReason(diagnosticReason)
                 .build();
     }
 
-    /**
-     * Procesa y valida el Webhook o token enviado por Flow de manera segura.
-     */
     @Transactional
     public PaymentStatusDto processWebhook(String token) {
         if (token == null || token.isBlank()) {
@@ -150,17 +159,16 @@ public class FlowPaymentService {
         }
 
         log.info("Consultando estado en Flow para token: {}", token);
-
         Map<String, Object> statusData;
         try {
             statusData = flowClientService.getPaymentStatus(token);
         } catch (Exception e) {
-            log.warn("Token no validado en API externa Flow ({}): {}", token, e.getMessage());
+            log.warn("Token no validado en Flow API ({}): {}", token, e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token de webhook no válido en pasarela");
         }
 
         if (statusData == null || statusData.get("status") == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Respuesta de estado vacía desde Flow");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Respuesta vacía desde Flow");
         }
 
         int rawStatus = Integer.parseInt(String.valueOf(statusData.get("status")));
@@ -186,9 +194,7 @@ public class FlowPaymentService {
         if (recordOpt.isPresent()) {
             PaymentRecord record = recordOpt.get();
             record.setStatus(normalizedStatus);
-            if (!flowOrder.isBlank()) {
-                record.setGatewayTransactionId(flowOrder);
-            }
+            if (!flowOrder.isBlank()) record.setGatewayTransactionId(flowOrder);
             paymentRepository.save(record);
         }
 
@@ -207,9 +213,9 @@ public class FlowPaymentService {
             kafkaTemplate.ifPresent(kt -> {
                 try {
                     kt.send(TOPIC_PAYMENT_CONFIRMED, commerceOrder, event);
-                    log.info("Evento PaymentConfirmedEvent publicado en Kafka para orden: {}", commerceOrder);
+                    log.info("Evento PaymentConfirmedEvent publicado en Kafka para: {}", commerceOrder);
                 } catch (Exception ex) {
-                    log.warn("Kafka no disponible para emitir PaymentConfirmedEvent: {}", ex.getMessage());
+                    log.warn("Kafka no disponible para emitir evento de pago: {}", ex.getMessage());
                 }
             });
         }
@@ -225,15 +231,12 @@ public class FlowPaymentService {
                 .build();
     }
 
-    /**
-     * Resuelve la URL de redirección del navegador (GET) hacia el frontend tras recibir el POST de Flow en /return.
-     */
     @Transactional
     public String resolveFrontendReturnRedirectUrl(String token, String fallbackOrderId) {
-        String baseStore = cleanStoreUrl();
+        String baseStore = flowUrlHelper.cleanStoreUrl(storeUrl);
         if (token == null || token.isBlank()) {
             return baseStore + "/pago/error?reason=bank_rejected"
-                    + (fallbackOrderId != null ? "&orderId=" + urlEncode(fallbackOrderId) : "");
+                    + (fallbackOrderId != null ? "&orderId=" + flowUrlHelper.urlEncode(fallbackOrderId) : "");
         }
 
         try {
@@ -243,20 +246,20 @@ public class FlowPaymentService {
             long total = statusDto.getAmount() != null ? statusDto.getAmount() : 0L;
 
             if (statusDto.isSuccess() || "completed".equalsIgnoreCase(statusDto.getStatus())) {
-                return baseStore + "/pago/exito?token=" + urlEncode(token)
-                        + "&orderId=" + urlEncode(orderId)
-                        + (!flowOrder.isBlank() ? "&flowOrder=" + urlEncode(flowOrder) : "")
+                return baseStore + "/pago/exito?token=" + flowUrlHelper.urlEncode(token)
+                        + "&orderId=" + flowUrlHelper.urlEncode(orderId)
+                        + (!flowOrder.isBlank() ? "&flowOrder=" + flowUrlHelper.urlEncode(flowOrder) : "")
                         + (total > 0 ? "&total=" + total : "");
             }
 
-            return baseStore + "/pago/error?reason=bank_rejected&token=" + urlEncode(token)
-                    + (!orderId.isBlank() ? "&orderId=" + urlEncode(orderId) : "");
+            return baseStore + "/pago/error?reason=bank_rejected&token=" + flowUrlHelper.urlEncode(token)
+                    + (!orderId.isBlank() ? "&orderId=" + flowUrlHelper.urlEncode(orderId) : "");
         } catch (Exception ex) {
             log.warn("No se pudo confirmar pago en /return para token {}: {}", token, ex.getMessage());
             Optional<PaymentRecord> localRec = paymentRepository.findByPaymentToken(token);
             String ord = localRec.map(PaymentRecord::getOrderId).orElse(fallbackOrderId != null ? fallbackOrderId : "");
-            return baseStore + "/pago/error?reason=bank_rejected&token=" + urlEncode(token)
-                    + (!ord.isBlank() ? "&orderId=" + urlEncode(ord) : "");
+            return baseStore + "/pago/error?reason=bank_rejected&token=" + flowUrlHelper.urlEncode(token)
+                    + (!ord.isBlank() ? "&orderId=" + flowUrlHelper.urlEncode(ord) : "");
         }
     }
 
@@ -265,12 +268,8 @@ public class FlowPaymentService {
         Map<String, Object> flowResponse;
         try {
             flowResponse = flowClientService.refundPayment(
-                    request.getRefundOrderId(),
-                    request.getReceiverEmail(),
-                    request.getAmount(),
-                    request.getOriginalOrderId(),
-                    request.getOriginalGatewayTransactionId(),
-                    request.getUrlCallBack()
+                    request.getRefundOrderId(), request.getReceiverEmail(), request.getAmount(),
+                    request.getOriginalOrderId(), request.getOriginalGatewayTransactionId(), request.getUrlCallBack()
             );
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "Fallo al reembolsar en Flow: " + e.getMessage());
@@ -296,21 +295,18 @@ public class FlowPaymentService {
                 .build();
     }
 
-    /**
-     * Consulta híbrida e inteligente del estado de un pago por token o por orderId.
-     */
     @Transactional
     public PaymentStatusDto getStatus(String token, String orderId) {
         if (token != null && !token.isBlank()) {
-            boolean isSimulatedToken = token.startsWith("flow_sand_") || token.startsWith("flow_tok_") || token.startsWith("flow_");
-            if (!isSimulatedToken && flowClientService.isConfiguredWithRealCredentials()) {
+            boolean isSimulated = token.startsWith("flow_sand_") || token.startsWith("flow_tok_") || token.startsWith("flow_");
+            if (!isSimulated && flowClientService.isConfiguredWithRealCredentials()) {
                 return processWebhook(token);
             }
 
             Optional<PaymentRecord> byToken = paymentRepository.findByPaymentToken(token);
             if (byToken.isPresent()) {
                 PaymentRecord rec = byToken.get();
-                if (isSimulatedToken && "pending".equalsIgnoreCase(rec.getStatus())) {
+                if (isSimulated && "pending".equalsIgnoreCase(rec.getStatus())) {
                     rec.setStatus("completed");
                     rec.setGatewayTransactionId("FLOW-SIM-" + rec.getOrderId());
                     paymentRepository.save(rec);

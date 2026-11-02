@@ -55,6 +55,17 @@ export function Ordenes() {
 
   useEffect(() => {
     cargarOrdenes();
+    const handleFocus = () => { void cargarOrdenes(); };
+    const intervalId = window.setInterval(() => {
+      if (document.visibilityState === "visible") {
+        void cargarOrdenes();
+      }
+    }, 5000);
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", handleFocus);
+    };
   }, [cargarOrdenes]);
 
   const handleCambioEstado = async (orderId: number, nuevoEstado: string) => {

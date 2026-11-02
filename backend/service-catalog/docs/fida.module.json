@@ -21,12 +21,32 @@
       "relates": []
     },
     {
+      "path": "src/main/java/com/cremeco/catalog/config/DatabaseSchemaMigrator.java",
+      "id": "backend.service_catalog.config.database_migrator",
+      "kind": "component",
+      "limit": 80,
+      "desc": "Asegura que la columna products.imagen sea MEDIUMTEXT en bases de datos existentes",
+      "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/catalog/config/RedisConfig.java",
+      "id": "backend.service_catalog.config.redis",
+      "kind": "config",
+      "limit": 130,
+      "desc": "Configuracion de Redis y RedisCacheManager con serializacion JSON y degradacion elegante ante fallos",
+      "relates": [
+        "backend.service_catalog.main.java.com.cremeco.catalog.servicecatalogapplication"
+      ]
+    },
+    {
       "path": "src/main/java/com/cremeco/catalog/controller/CatalogController.java",
       "id": "backend.service_catalog.main.java.com.cremeco.catalog.controller.catalogcontroller",
       "kind": "controller",
       "limit": 300,
-      "desc": "Archivo controller auto-registrado por FIDA/OPL bootstrap (CatalogController.java)",
-      "relates": []
+      "desc": "Controlador REST del catalogo con endpoints publicos, administracion y diagnostico de Redis",
+      "relates": [
+        "backend.service_catalog.service.catalogservice"
+      ]
     },
     {
       "path": "src/main/java/com/cremeco/catalog/model/BlogPostEntity.java",
@@ -99,6 +119,17 @@
       "limit": 240,
       "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (CatalogDataSeeder.java)",
       "relates": []
+    },
+    {
+      "path": "src/main/java/com/cremeco/catalog/service/CatalogService.java",
+      "id": "backend.service_catalog.service.catalogservice",
+      "kind": "service",
+      "limit": 180,
+      "contract": "getProducts, getOffers, getCategories, createProduct, updateProduct, deleteProduct, createCategory, updateCategory, deleteCategory",
+      "desc": "Capa de servicio de catalogo con soporte activo de cache Redis e invalidacion automatica",
+      "relates": [
+        "backend.service_catalog.config.redis"
+      ]
     }
   ]
 }

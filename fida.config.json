@@ -59,6 +59,7 @@
   "modules": [
     "admin-pwa/src/features/AdminBoletaSii/docs/fida.module.json",
     "admin-pwa/src/features/AdminCriticalStock/docs/fida.module.json",
+    "admin-pwa/src/features/AdminImageOptimizer/docs/fida.module.json",
     "admin-pwa/src/features/AdminKardexPos/docs/fida.module.json",
     "admin-pwa/src/features/AdminRbacMatrix/docs/fida.module.json",
     "backend/api-gateway/docs/fida.module.json",
@@ -307,6 +308,7 @@
       "relates": [
         "admin.lib.validators",
         "admin.feature.criticalstock.view",
+        "feature.adminimageoptimizer.view",
         "docs.especificacion_pwa_admin",
         "admin.services.api"
       ]
@@ -628,6 +630,18 @@
       "limit": 1100,
       "desc": "Archivo doc auto-registrado por FIDA/OPL bootstrap (sprint-1-identidad-rbac.md)",
       "relates": []
+    },
+    {
+      "path": "docs/tickets/sprint-10-entorno-produccion-docker-flow-webp.md",
+      "id": "docs.tickets.sprint10",
+      "kind": "doc",
+      "limit": 480,
+      "desc": "Tickets T110 a T114 para contenedorizacion Docker completa de microservicios en PC, integracion Redis, Flow.cl real con feedback y optimizador WebP en Admin PWA",
+      "relates": [
+        "docs.estado_proyecto",
+        "docs.convenciones",
+        "docs.tickets.readme"
+      ]
     },
     {
       "path": "docs/tickets/sprint-2-catalogo.md",

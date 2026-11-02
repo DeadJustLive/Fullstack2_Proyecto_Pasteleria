@@ -2,7 +2,8 @@
 // @id(backend.service_catalog.main.java.com.cremeco.catalog.controller.catalogcontroller)
 // @kind(controller)
 // @limit(lines: 300)
-// @desc(Archivo controller auto-registrado por FIDA/OPL bootstrap (CatalogController.java))
+// @relates(backend.service_catalog.service.catalogservice)
+// @desc(Controlador REST del catalogo con endpoints publicos, administracion y diagnostico de Redis)
 // @pca:end
 package com.cremeco.catalog.controller;
 
@@ -14,13 +15,18 @@ import com.cremeco.catalog.repository.BlogPostRepository;
 import com.cremeco.catalog.repository.CategoryRepository;
 import com.cremeco.catalog.repository.ProductRepository;
 import com.cremeco.catalog.repository.PromotionRepository;
+import com.cremeco.catalog.service.CatalogService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/catalog")
 @RequiredArgsConstructor
@@ -31,9 +37,46 @@ public class CatalogController {
     private final CategoryRepository categoryRepository;
     private final PromotionRepository promotionRepository;
     private final BlogPostRepository blogPostRepository;
+    private final CatalogService catalogService;
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    @Value("${spring.data.redis.host:localhost}")
+    private String redisHost;
+
+    @Value("${spring.data.redis.port:6379}")
+    private int redisPort;
 
     // ==========================================
-    // PRODUCTOS
+    // DIAGNÓSTICO REDIS (:6379)
+    // ==========================================
+
+    @GetMapping("/health/redis")
+    public ResponseEntity<Map<String, Object>> checkRedisHealth() {
+        Map<String, Object> resp = new LinkedHashMap<>();
+        resp.put("host", redisHost);
+        resp.put("port", redisPort);
+        try {
+            if (redisTemplate != null && redisTemplate.getConnectionFactory() != null) {
+                String ping = redisTemplate.getConnectionFactory().getConnection().ping();
+                boolean isUp = "PONG".equalsIgnoreCase(ping);
+                resp.put("redis", isUp ? "UP" : "DOWN");
+                resp.put("ping", ping);
+                return ResponseEntity.status(isUp ? HttpStatus.OK : HttpStatus.SERVICE_UNAVAILABLE).body(resp);
+            } else {
+                resp.put("redis", "DOWN");
+                resp.put("error", "RedisTemplate o ConnectionFactory no disponible");
+                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(resp);
+            }
+        } catch (Exception e) {
+            log.warn("Fallo comprobacion de salud Redis en service-catalog: {}", e.getMessage());
+            resp.put("redis", "DOWN");
+            resp.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(resp);
+        }
+    }
+
+    // ==========================================
+    // PRODUCTOS (CON CACHÉ REDIS ACTIVA)
     // ==========================================
 
     @GetMapping("/products")
@@ -42,16 +85,7 @@ public class CatalogController {
             @RequestParam(required = false) Boolean enOferta,
             @RequestParam(required = false) Boolean destacado
     ) {
-        if (categoria != null && !categoria.isBlank()) {
-            return ResponseEntity.ok(productRepository.findByCategoriaIgnoreCase(categoria));
-        }
-        if (Boolean.TRUE.equals(enOferta)) {
-            return ResponseEntity.ok(productRepository.findByEnOfertaTrue());
-        }
-        if (Boolean.TRUE.equals(destacado)) {
-            return ResponseEntity.ok(productRepository.findByDestacadoTrue());
-        }
-        return ResponseEntity.ok(productRepository.findAll());
+        return ResponseEntity.ok(catalogService.getProducts(categoria, enOferta, destacado));
     }
 
     @GetMapping("/products/{id}")
@@ -64,7 +98,6 @@ public class CatalogController {
 
     @GetMapping("/products/critical")
     public ResponseEntity<List<ProductEntity>> listCriticalProducts() {
-        // Retorna productos cuyo stock es menor o igual a su stock mínimo
         List<ProductEntity> all = productRepository.findAll();
         List<ProductEntity> criticos = all.stream()
                 .filter(p -> p.getStock() <= (p.getStockMinimo() != null ? p.getStockMinimo() : 5))
@@ -74,7 +107,7 @@ public class CatalogController {
 
     @GetMapping("/products/offers")
     public ResponseEntity<List<ProductEntity>> listOffers() {
-        return ResponseEntity.ok(productRepository.findByEnOfertaTrue());
+        return ResponseEntity.ok(catalogService.getOffers());
     }
 
     @PostMapping("/products")
@@ -86,7 +119,7 @@ public class CatalogController {
         if (product.getStockMinimo() == null) product.setStockMinimo(5);
         if (product.getStock() == null) product.setStock(0);
 
-        ProductEntity saved = productRepository.save(product);
+        ProductEntity saved = catalogService.createProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
@@ -109,7 +142,7 @@ public class CatalogController {
             if (product.getStock() != null) existing.setStock(product.getStock());
             if (product.getStockMinimo() != null) existing.setStockMinimo(product.getStockMinimo());
 
-            ProductEntity updated = productRepository.save(existing);
+            ProductEntity updated = catalogService.updateProduct(existing);
             return ResponseEntity.ok(updated);
         }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Map.of("error", "NOT_FOUND", "mensaje", "Producto no encontrado")));
@@ -125,8 +158,6 @@ public class CatalogController {
 
         ProductEntity p = opt.get();
         int ventas = p.getVentasHistoricas() != null ? p.getVentasHistoricas() : 0;
-
-        // Regla dura de negocio: No se pueden eliminar productos con ventas históricas
         if (ventas > 0) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
                     "error", "INTEGRIDAD_REFERENCIAL",
@@ -134,17 +165,17 @@ public class CatalogController {
             ));
         }
 
-        productRepository.delete(p);
+        catalogService.deleteProduct(p);
         return ResponseEntity.ok(Map.of("mensaje", "Producto eliminado correctamente", "id", id));
     }
 
     // ==========================================
-    // CATEGORÍAS
+    // CATEGORÍAS (CON CACHÉ REDIS ACTIVA)
     // ==========================================
 
     @GetMapping("/categories")
     public ResponseEntity<List<CategoryEntity>> listCategories() {
-        return ResponseEntity.ok(categoryRepository.findAll());
+        return ResponseEntity.ok(catalogService.getCategories());
     }
 
     @GetMapping("/categories/{id}")
@@ -170,7 +201,7 @@ public class CatalogController {
                     .body(Map.of("error", "SLUG_DUPLICADO", "mensaje", "Ya existe una categoría con el slug: " + category.getSlug()));
         }
         if (category.getActivo() == null) category.setActivo(true);
-        CategoryEntity saved = categoryRepository.save(category);
+        CategoryEntity saved = catalogService.createCategory(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
@@ -182,7 +213,7 @@ public class CatalogController {
             if (category.getDescripcion() != null) existing.setDescripcion(category.getDescripcion());
             if (category.getImagen() != null) existing.setImagen(category.getImagen());
             if (category.getActivo() != null) existing.setActivo(category.getActivo());
-            return ResponseEntity.ok(categoryRepository.save(existing));
+            return ResponseEntity.ok(catalogService.updateCategory(existing));
         }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Map.of("error", "NOT_FOUND", "mensaje", "Categoría no encontrada")));
     }
@@ -190,14 +221,14 @@ public class CatalogController {
     @DeleteMapping("/categories/{id}")
     public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
         return categoryRepository.findById(id).<ResponseEntity<?>>map(existing -> {
-            categoryRepository.delete(existing);
+            catalogService.deleteCategory(existing);
             return ResponseEntity.ok(Map.of("mensaje", "Categoría eliminada", "id", id));
         }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Map.of("error", "NOT_FOUND", "mensaje", "Categoría no encontrada")));
     }
 
     // ==========================================
-    // PROMOCIONES
+    // PROMOCIONES Y BLOGS
     // ==========================================
 
     @GetMapping("/promotions")
@@ -243,10 +274,6 @@ public class CatalogController {
         }).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Map.of("error", "NOT_FOUND", "mensaje", "Promoción no encontrada")));
     }
-
-    // ==========================================
-    // BLOGS
-    // ==========================================
 
     @GetMapping("/blogs")
     public ResponseEntity<List<BlogPostEntity>> listBlogs() {

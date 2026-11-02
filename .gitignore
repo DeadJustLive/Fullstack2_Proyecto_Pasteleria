@@ -16,9 +16,11 @@ dist-ssr
 .env
 .env.*
 !.env.example
+!.env.docker.example
 **/.env
 **/.env.*
 !**/.env.example
+!**/.env.docker.example
 
 # Salidas del anotador PCA (grafo regenerable)
 grafo.json

@@ -2,8 +2,9 @@
 // @id(backend.identity.controller)
 // @kind(controller)
 // @limit(lines: 350)
-// @contract(login, register, getProfile, updateProfile, listUsers, createUser, updateUser, deleteUser)
-// @desc(Controlador REST de autenticacion JWT, perfil de cliente y administracion RBAC de usuarios)
+// @contract(login, register, getProfile, updateProfile, listUsers, createUser, updateUser, deleteUser, checkRedisHealth)
+// @relates(backend.service_identity.config.redis)
+// @desc(Controlador REST de autenticacion JWT, perfil de cliente, administracion RBAC de usuarios y diagnostico Redis)
 // @pca:end
 package com.cremeco.identity.controller;
 
@@ -13,6 +14,8 @@ import com.cremeco.identity.repository.RoleRepository;
 import com.cremeco.identity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,7 +33,39 @@ public class IdentityController {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Value("${spring.data.redis.host:localhost}")
+    private String redisHost;
+
+    @Value("${spring.data.redis.port:6379}")
+    private int redisPort;
+
+    @GetMapping("/health/redis")
+    public ResponseEntity<Map<String, Object>> checkRedisHealth() {
+        Map<String, Object> resp = new LinkedHashMap<>();
+        resp.put("host", redisHost);
+        resp.put("port", redisPort);
+        try {
+            if (redisTemplate != null && redisTemplate.getConnectionFactory() != null) {
+                String ping = redisTemplate.getConnectionFactory().getConnection().ping();
+                boolean isUp = "PONG".equalsIgnoreCase(ping);
+                resp.put("redis", isUp ? "UP" : "DOWN");
+                resp.put("ping", ping);
+                return ResponseEntity.status(isUp ? HttpStatus.OK : HttpStatus.SERVICE_UNAVAILABLE).body(resp);
+            } else {
+                resp.put("redis", "DOWN");
+                resp.put("error", "RedisTemplate o ConnectionFactory no disponible");
+                return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(resp);
+            }
+        } catch (Exception e) {
+            log.warn("Fallo comprobacion de salud Redis en service-identity: {}", e.getMessage());
+            resp.put("redis", "DOWN");
+            resp.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(resp);
+        }
+    }
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody(required = false) Map<String, String> credenciales) {

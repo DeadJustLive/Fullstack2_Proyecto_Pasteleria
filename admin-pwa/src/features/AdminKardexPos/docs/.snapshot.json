@@ -1,7 +1,7 @@
 {
   "_comment": "FIDA/OPL WAL Snapshot — Generado por fida_opl.py guard. NO editar a mano.",
   "module": "AdminKardexPos",
-  "timestamp": "2026-10-31T21:07:36",
+  "timestamp": "2026-11-02T08:46:37",
   "decisions_hash": "52904d7c894c90d5",
   "files": {
     "interfaces/IAdminKardexPos.ts": {

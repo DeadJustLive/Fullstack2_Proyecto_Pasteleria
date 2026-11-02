@@ -1,7 +1,7 @@
 {
   "_comment": "FIDA/OPL WAL Snapshot — Generado por fida_opl.py guard. NO editar a mano.",
   "module": "CheckoutSummary",
-  "timestamp": "2026-10-31T21:07:36",
+  "timestamp": "2026-11-02T08:46:37",
   "decisions_hash": "b0b42cc0cd95b030",
   "files": {
     "interfaces/ICheckoutSummary.ts": {

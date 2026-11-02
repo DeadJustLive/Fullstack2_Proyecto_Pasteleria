@@ -22,4 +22,6 @@ public class PaymentCreateResponse {
     private String orderId;
     private String message;
     private String error;
+    private String mode;
+    private String diagnosticReason;
 }

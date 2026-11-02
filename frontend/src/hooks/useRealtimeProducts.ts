@@ -43,30 +43,43 @@ export function useRealtimeProducts() {
   const [cargando, setCargando] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const cargar = useCallback(async () => {
-    setCargando(true);
+  const cargar = useCallback(async (silencioso = false) => {
+    if (!silencioso) setCargando(true);
     setError(null);
     try {
       const remotos = await api.catalog.getProducts();
       if (Array.isArray(remotos) && remotos.length > 0) {
-        setItems(applyAvailability(remotos));
+        setItems(remotos);
       } else {
         setItems(applyAvailability(productosEstaticos));
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al conectar con el catálogo");
-      setItems(applyAvailability(productosEstaticos));
+      if (!silencioso) setItems(applyAvailability(productosEstaticos));
     } finally {
-      setCargando(false);
+      if (!silencioso) setCargando(false);
     }
   }, []);
 
   const recargar = useCallback(() => {
-    cargar();
+    cargar(false);
   }, [cargar]);
 
   useEffect(() => {
-    cargar();
+    cargar(false);
+    const handleFocus = () => { void cargar(true); };
+    const intervalId = window.setInterval(() => {
+      if (document.visibilityState === "visible") {
+        void cargar(true);
+      }
+    }, 4000);
+    window.addEventListener("focus", handleFocus);
+    document.addEventListener("visibilitychange", handleFocus);
+    return () => {
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", handleFocus);
+      document.removeEventListener("visibilitychange", handleFocus);
+    };
   }, [cargar]);
 
   useEffect(() => {

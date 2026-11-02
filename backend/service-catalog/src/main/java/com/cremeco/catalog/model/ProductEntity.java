@@ -49,7 +49,7 @@ public class ProductEntity {
     @Column(length = 100)
     private String porciones;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
     private String imagen;
 
     @Column(length = 50)

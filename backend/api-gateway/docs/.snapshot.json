@@ -1,7 +1,7 @@
 {
   "_comment": "FIDA/OPL WAL Snapshot — Generado por fida_opl.py guard. NO editar a mano.",
   "module": "api-gateway",
-  "timestamp": "2026-10-31T21:07:36",
+  "timestamp": "2026-11-02T08:46:37",
   "decisions_hash": "b29749694b9486e5",
   "files": {
     "src/main/java/com/cremeco/gateway/ApiGatewayApplication.java": {

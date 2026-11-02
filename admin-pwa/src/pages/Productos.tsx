@@ -5,6 +5,7 @@
 // @contract(ProductosAdminView())
 // @relates(admin.lib.validators)
 // @relates(admin.feature.criticalstock.view)
+// @relates(feature.adminimageoptimizer.view)
 // @relates(docs.especificacion_pwa_admin)
 // @desc(Gestion de productos, edicion, reporte de criticos y alta de nuevos)
 // @pca:end
@@ -13,6 +14,7 @@ import { AlertCircle, AlertTriangle, BarChart3, Check, Edit2, Eye, Lock, Plus, R
 import { adminApi } from "../services/api";
 import { validarProductoAdmin } from "../lib/validators";
 import { AdminCriticalStockView } from "../features/AdminCriticalStock/implementation/AdminCriticalStock.view";
+import { AdminImageOptimizerView } from "../features/AdminImageOptimizer/implementation/AdminImageOptimizer.view";
 
 const CHANNEL_NAME = "cremeco_products_realtime";
 const STORAGE_KEY = "cremeco_products_availability";
@@ -92,6 +94,7 @@ export function Productos() {
   const [editPrecio, setEditPrecio] = useState(0);
   const [editStock, setEditStock] = useState(0);
   const [editDisponible, setEditDisponible] = useState(true);
+  const [editImagen, setEditImagen] = useState("");
   const [erroresEdit, setErroresEdit] = useState<Record<string, string>>({});
 
   const mostrarNotif = useCallback((tipo: "success" | "warning", texto: string) => {
@@ -104,7 +107,6 @@ export function Productos() {
     try {
       const data = await adminApi.products.list();
       if (Array.isArray(data) && data.length > 0) {
-        const overrides = getStoredAvailability();
         const mapeados: ProductoAdmin[] = data.map((d, idx) => ({
           id: d.id,
           codigo: d.codigo || `PROD-${String(d.id).padStart(3, "0")}`,
@@ -114,7 +116,7 @@ export function Productos() {
           porciones: d.porciones || "Formato vitrina",
           stock: Number(d.stock),
           ventasHistoricas: d.ventas || 0,
-          disponible: overrides[d.id] !== undefined ? overrides[d.id] : Boolean(d.disponible),
+          disponible: d.disponible !== false,
           descripcion: d.descripcion || "Receta artesanal de alta pastelería.",
           imagen: d.imagen || PRODUCTOS_INICIALES[idx % PRODUCTOS_INICIALES.length].imagen,
           fechaCreacion: d.fechaCreacion || "2026-01-01",
@@ -209,9 +211,10 @@ export function Productos() {
     const val = validarProductoAdmin({ codigo: nuevoCodigo || undefined, nombre: nuevoNombre, precio: Number(nuevoPrecio), stock: Number(nuevoStock), categoria: nuevaCat });
     if (!val.valido) { setErroresNuevo(val.errores); return; }
     setErroresNuevo({});
+    const tempId = Date.now();
     const nuevo: ProductoAdmin = {
-      id: Date.now(),
-      codigo: nuevoCodigo.trim() || `PROD-${String(Date.now()).slice(-4)}`,
+      id: tempId,
+      codigo: nuevoCodigo.trim() || `PROD-${String(tempId).slice(-4)}`,
       nombre: nuevoNombre.trim(),
       categoria: nuevaCat,
       precio: Number(nuevoPrecio),
@@ -224,10 +227,21 @@ export function Productos() {
       fechaCreacion: new Date().toISOString().slice(0, 10),
     };
     setLista((prev) => [nuevo, ...prev]);
-    adminApi.products.create(nuevo).catch(() => {});
+    const { id: _omitId, ...payloadSinId } = nuevo;
+    void _omitId;
+    adminApi.products.create(payloadSinId).then((creado) => {
+      const realId = typeof creado?.id === "number" ? creado.id : Number(creado?.id);
+      if (realId) {
+        setLista((prev) => prev.map((p) => (p.id === tempId ? { ...p, id: realId } : p)));
+      }
+      mostrarNotif("success", `Producto '${nuevo.nombre}' guardado exitosamente en el catálogo.`);
+    }).catch((err: unknown) => {
+      const msg = err instanceof Error ? err.message : "Error de conexión con el backend";
+      setLista((prev) => prev.filter((p) => p.id !== tempId));
+      mostrarNotif("warning", `No se pudo guardar el producto en el backend: ${msg}`);
+    });
     setModalNuevo(false);
     setNuevoCodigo(""); setNuevoNombre(""); setNuevaDescripcion(""); setNuevaImagen("");
-    mostrarNotif("success", `Producto '${nuevo.nombre}' agregado exitosamente al catálogo.`);
   }
 
   function abrirModalEditar(prod: ProductoAdmin) {
@@ -237,6 +251,7 @@ export function Productos() {
     setEditPrecio(prod.precio);
     setEditStock(prod.stock);
     setEditDisponible(prod.disponible);
+    setEditImagen(prod.imagen || "");
     setErroresEdit({});
   }
 
@@ -246,19 +261,36 @@ export function Productos() {
     const val = validarProductoAdmin({ nombre: editNombre, precio: Number(editPrecio), stock: Number(editStock), categoria: editCategoria });
     if (!val.valido) { setErroresEdit(val.errores); return; }
     setErroresEdit({});
-    setLista((prev) => prev.map((item) => item.id === productoEditando.id ? { ...item, nombre: editNombre.trim(), categoria: editCategoria, precio: Number(editPrecio), stock: Number(editStock), disponible: editDisponible } : item));
-    adminApi.products.update(productoEditando.id, { nombre: editNombre.trim(), categoria: editCategoria, precio: Number(editPrecio), stock: Number(editStock), disponible: editDisponible }).catch(() => {});
+    const imagenFinal = editImagen.trim() || productoEditando.imagen;
+    const previo = { ...productoEditando };
+    setLista((prev) => prev.map((item) => item.id === productoEditando.id ? { ...item, nombre: editNombre.trim(), categoria: editCategoria, precio: Number(editPrecio), stock: Number(editStock), disponible: editDisponible, imagen: imagenFinal } : item));
+    adminApi.products.update(productoEditando.id, { nombre: editNombre.trim(), categoria: editCategoria, precio: Number(editPrecio), stock: Number(editStock), disponible: editDisponible, imagen: imagenFinal })
+      .then(() => {
+        mostrarNotif("success", "Producto modificado correctamente.");
+      })
+      .catch((err: unknown) => {
+        const msg = err instanceof Error ? err.message : "Error al actualizar en el servidor";
+        setLista((prev) => prev.map((item) => item.id === previo.id ? previo : item));
+        mostrarNotif("warning", `Error al sincronizar cambio con el backend: ${msg}`);
+      });
     setProductoEditando(null);
-    mostrarNotif("success", "Producto modificado correctamente.");
   }
 
   function handleConfirmarEliminar() {
     if (!productoAEliminar) return;
     const id = productoAEliminar.id;
+    const previo = productoAEliminar;
     setLista((prev) => prev.filter((p) => p.id !== id));
-    adminApi.products.delete(id).catch(() => {});
+    adminApi.products.delete(id)
+      .then(() => {
+        mostrarNotif("success", "Borrador de producto eliminado.");
+      })
+      .catch((err: unknown) => {
+        const msg = err instanceof Error ? err.message : "Error al eliminar en el servidor";
+        setLista((prev) => [previo, ...prev]);
+        mostrarNotif("warning", `No se pudo eliminar en el backend: ${msg}`);
+      });
     setProductoAEliminar(null);
-    mostrarNotif("success", "Borrador de producto eliminado.");
   }
 
   const formatCLP = (m: number) => "$" + Number(m || 0).toLocaleString("es-CL");
@@ -453,15 +485,16 @@ export function Productos() {
                       {erroresNuevo.stock && <div className="invalid-feedback">{erroresNuevo.stock}</div>}
                     </div>
                   </div>
-                  <div className="row g-3 mb-3">
-                    <div className="col-12 col-md-6">
-                      <label className="form-label small fw-bold">Porciones / Formato</label>
-                      <input type="text" className="form-control" placeholder="Ej: 15 a 20 personas" value={nuevasPorciones} onChange={(e) => setNuevasPorciones(e.target.value)} />
-                    </div>
-                    <div className="col-12 col-md-6">
-                      <label className="form-label small fw-bold">URL de Imagen</label>
-                      <input type="url" className="form-control" placeholder="https://images.unsplash.com/photo-..." value={nuevaImagen} onChange={(e) => setNuevaImagen(e.target.value)} />
-                    </div>
+                  <div className="mb-3">
+                    <label className="form-label small fw-bold">Porciones / Formato</label>
+                    <input type="text" className="form-control" placeholder="Ej: 15 a 20 personas" value={nuevasPorciones} onChange={(e) => setNuevasPorciones(e.target.value)} />
+                  </div>
+                  <div className="mb-3">
+                    <AdminImageOptimizerView
+                      value={nuevaImagen}
+                      onChange={(val) => setNuevaImagen(val)}
+                      label="Fotografía del Producto (Conversión automática a WebP)"
+                    />
                   </div>
                   <div className="mb-3">
                     <label className="form-label small fw-bold">Descripción de Receta</label>
@@ -566,6 +599,13 @@ export function Productos() {
                         <option value="false">Inactivo (Pausado)</option>
                       </select>
                     </div>
+                  </div>
+                  <div className="mb-3">
+                    <AdminImageOptimizerView
+                      value={editImagen}
+                      onChange={(val) => setEditImagen(val)}
+                      label="Actualizar Fotografía (WebP / URL)"
+                    />
                   </div>
                 </div>
                 <div className="modal-footer">

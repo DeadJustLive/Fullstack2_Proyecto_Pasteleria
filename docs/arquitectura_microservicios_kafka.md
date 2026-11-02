@@ -176,10 +176,11 @@ sequenceDiagram
 
 ---
 
-## 5. Infraestructura Local: `docker-compose.yml`
+## 5. Infraestructura y Producción: `docker-compose.prod.yml`
 
-El archivo `backend/docker-compose.yml` levantará los contenedores de soporte:
-* **MySQL 8:** Base de datos relacional para entidades de negocio.
-* **Apache Kafka + Zookeeper:** Bus de eventos con particiones y replicación local.
-* **Kafdrop:** Interfaz web visual en `http://localhost:9000` para monitorear tópicos, mensajes y *offsets*.
-* **Redis:** Caché de sesiones y tokens de refresco.
+El archivo `docker-compose.prod.yml` en la raíz orquesta la topología completa (12 contenedores):
+* **MySQL 8 (`cremeco-mysql`):** Base de datos relacional para entidades de negocio (:3306).
+* **Apache Kafka + Zookeeper (`cremeco-kafka`, `cremeco-zookeeper`):** Bus de eventos con particiones y replicación local (:9092, :2181).
+* **Kafdrop (`cremeco-kafdrop`):** Interfaz web visual en `http://localhost:9000` para monitorear tópicos, mensajes y *offsets*.
+* **Redis 7 (`cremeco-redis`):** Caché distribuido y aceleración de catálogo (:6379).
+* **7 Microservicios Spring Boot:** `api-gateway` (:8080), `service-identity` (:8081), `service-catalog` (:8082), `service-order` (:8083), `service-payment-flow` (:8084), `service-inventory` (:8085), `service-notification` (:8086).

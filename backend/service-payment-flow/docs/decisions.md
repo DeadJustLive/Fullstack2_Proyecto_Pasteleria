@@ -43,3 +43,8 @@
 - **Fecha**: 2026-10-31
 - **Contexto**: Flow.cl envía un `HTTP POST` con `token` al navegador del comprador al volver de Webpay.
 - **Decisión**: Implementar `handleBrowserReturn` en `FlowWebhookController` que consulta `getPaymentStatus(token)` en vivo y redirige mediante `HTTP 303 See Other (GET)` a `/pago/exito` (`status == 2`) o `/pago/error` (`status != 2`).
+
+### DEC-003: Diagnóstico explícito, modo estricto y extracción de FlowUrlHelper (`T113` / `T115`)
+- **Fecha**: 2026-11-02
+- **Contexto**: FlowPaymentService superaba el umbral de 350 líneas al incorporar diagnóstico y validación de URLs públicas de webhooks.
+- **Decisión**: Extraer `FlowUrlHelper` para sanitización, cálculo de URL de simulación y evaluación de accesibilidad de `urlConfirmation`, manteniendo `FlowPaymentService` bajo su `@limit`. Agregar endpoint `/diagnostics` con warnings preventivos si `urlConfirmation` no es una URL pública accesible desde internet.
