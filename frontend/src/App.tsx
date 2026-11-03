@@ -5,30 +5,28 @@
 // @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (App.tsx))
 // @pca:end
 import { Navigate, Route, Routes, useParams } from "react-router-dom";
-import { AdminLayout } from "@/layouts/AdminLayout";
 import { ClienteLayout } from "@/layouts/ClienteLayout";
 import { Placeholder } from "@/pages/Placeholder";
-import { Pos } from "@/pages/admin/Pos";
-import { Blog } from "@/pages/cliente/Blog";
-import { BlogDetalle } from "@/pages/cliente/BlogDetalle";
-import { Carrito } from "@/pages/cliente/Carrito";
-import { Catalogo } from "@/pages/cliente/Catalogo";
-import { Checkout } from "@/pages/cliente/Checkout";
-import { Confirmacion } from "@/pages/cliente/Confirmacion";
-import { Contacto } from "@/pages/cliente/Contacto";
-import { FlowGateway } from "@/pages/cliente/pago/FlowGateway";
-import { Home } from "@/pages/cliente/Home";
-import { Login } from "@/pages/cliente/Login";
-import { Nosotros } from "@/pages/cliente/Nosotros";
-import { Ofertas } from "@/pages/cliente/Ofertas";
-import { PagoError } from "@/pages/cliente/pago/Error";
-import { PagoExito } from "@/pages/cliente/pago/Exito";
-import { PagoPendiente } from "@/pages/cliente/pago/Pendiente";
-import { Perfil } from "@/pages/cliente/Perfil";
-import { PerfilSeguimiento } from "@/pages/cliente/PerfilSeguimiento";
-import { Personalizacion } from "@/pages/cliente/Personalizacion";
-import { ProductoDetalle } from "@/pages/cliente/ProductoDetalle";
-import { Registro } from "@/pages/cliente/Registro";
+import { Blog } from "@/pages/Blog";
+import { BlogDetalle } from "@/pages/BlogDetalle";
+import { Carrito } from "@/pages/Carrito";
+import { Catalogo } from "@/pages/Catalogo";
+import { Checkout } from "@/pages/Checkout";
+import { Confirmacion } from "@/pages/Confirmacion";
+import { Contacto } from "@/pages/Contacto";
+import { FlowGateway } from "@/pages/pago/FlowGateway";
+import { Home } from "@/pages/Home";
+import { Login } from "@/pages/Login";
+import { Nosotros } from "@/pages/Nosotros";
+import { Ofertas } from "@/pages/Ofertas";
+import { PagoError } from "@/pages/pago/Error";
+import { PagoExito } from "@/pages/pago/Exito";
+import { PagoPendiente } from "@/pages/pago/Pendiente";
+import { Perfil } from "@/pages/Perfil";
+import { PerfilSeguimiento } from "@/pages/PerfilSeguimiento";
+import { Personalizacion } from "@/pages/Personalizacion";
+import { ProductoDetalle } from "@/pages/ProductoDetalle";
+import { Registro } from "@/pages/Registro";
 
 function CategoriaSlugRedirect() {
   const { slug } = useParams<{ slug: string }>();
@@ -66,10 +64,18 @@ function App() {
         <Route path="perfil/seguimiento/:id" element={<PerfilSeguimiento />} />
       </Route>
 
-      <Route path="admin" element={<AdminLayout />}>
-        <Route index element={<Placeholder title="Panel PWA de Administración" description="La aplicación de administración se ejecuta de forma independiente en su propia carpeta admin-pwa/ con Bootstrap 5 y CSS." owner="Anais" />} />
-        <Route path="pos" element={<Pos />} />
-      </Route>
+      <Route
+        path="admin"
+        element={
+          <div className="mx-auto max-w-page p-6">
+            <Placeholder
+              title="Panel PWA de Administración Desacoplado"
+              description="La aplicación de administración se ejecuta de forma independiente en http://localhost:5174 (carpeta admin-pwa/) con Bootstrap 5, POS táctil y boletas oficiales SII."
+              owner="Anais"
+            />
+          </div>
+        }
+      />
 
       <Route path="*" element={<Placeholder title="404" description="Página no encontrada." />} />
     </Routes>

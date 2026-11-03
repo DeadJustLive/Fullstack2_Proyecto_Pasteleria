@@ -8,7 +8,7 @@
 // @pca:end
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Cake, Search, Sparkles } from "lucide-react";
+import { ArrowRight, Cake, Search } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 export interface CategoryCardData {

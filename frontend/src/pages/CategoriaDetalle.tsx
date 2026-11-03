@@ -13,7 +13,7 @@ import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Sparkles, AlertCircle } from "lucide-react";
 import { api } from "@/services/api";
 import { ProductCard } from "@/components/domain/ProductCard";
-import { FALLBACK_CATEGORIAS, type CategoriaItem } from "@/pages/cliente/Categorias";
+import { FALLBACK_CATEGORIAS, type CategoriaItem } from "@/pages/Categorias";
 import { productos as localProducts } from "@/data/products";
 import type { Producto } from "@/types/product";
 

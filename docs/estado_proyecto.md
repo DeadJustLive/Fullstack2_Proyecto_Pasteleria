@@ -128,6 +128,8 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | T115 | Blindaje del entorno Docker local, separación `.env.docker`, automigración imagen y auditoría | F4 / S10 | Hecho | `CONV-EST-01`, `CONV-ERR-01`, `CONV-SEG-01` |
 | T116 | Suite de pruebas automatizadas (Vitest, Testing Library, jsdom, mocks de localStorage, interacción UI y reporte de cobertura V8) con gobernanza FIDA | F4 / S10 | Hecho | `CONV-DOC-01`, `CONV-TIP-01` |
 | T117 | Rediseño de Catálogo en 2 fases (`CatalogHomeView` + Catálogo filtrado con URL params), unificación en Navbar y 31 tests unitarios automáticos | F4 / S10 | Hecho | `CONV-UI-01`, `CONV-UI-02`, `CONV-UI-03`, `CONV-UI-04`, `CONV-TIP-01`, `CONV-TIP-04`, `CONV-DOC-01` |
+| T118 | Aplanado y desacoplamiento limpio de `frontend/src/pages/`: eliminación de vestigios admin (`Pos.tsx`, `AdminLayout.tsx`, `components/admin`), aplanado de `cliente/` y build verificado | F4 / S10 | Hecho | `CONV-EST-01`, `CONV-GEN-02`, `CONV-DOC-01`, `CONV-TIP-01` |
+| QA-TEST-001 | Incremento de Cobertura de Pruebas: Exclusiones de métrica (AC-1), suite Core `src/lib`, `src/lib/data`, `src/data` al 100%, validadores al 94.9% (AC-2), Features FIDA al 90-100% (AC-4), Context al 67.3%, Layout al 65.5% y `api.ts` al 56%. 95 tests en verde | F4 / S10 | En curso | `CONV-DOC-01`, `CONV-TIP-01`, `CONV-EST-01`, `CONV-ERR-02` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
@@ -139,7 +141,7 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 - **Fase F4 — Entorno de Producción Real en Docker & Validación UX Frontend:**
   1. **T117 Hecho**: Implementado el flujo de Catálogo en 2 fases (`CatalogHomeView.tsx` + `CatalogoFiltros.tsx` + `Catalogo.tsx` con soporte de `useSearchParams`), eliminada la redundancia en `Navbar.tsx`, redirección unificada de `/categorias` y 31 pruebas unitarias automáticas aprobadas.
-  2. **Siguiente paso:** Proceder a Fase F5 — Cierre y Extracción de Componentes Reutilizables.
+  2. **QA-TEST-001 En curso**: Exclusiones de Vitest configuradas (AC-1), Core `src/lib`, `src/lib/data` y `src/data` al 100%, validadores al 94.9% (AC-2), Módulos de negocio FIDA al 90-100% (AC-4), Context al 67.3%, Layout al 65.5% y `api.ts` al 56%. 95 tests pasando en verde. Próximo paso: elevar cobertura restante en `src/services` y flujos de vistas para E2E (AC-5).
 
 ---
 

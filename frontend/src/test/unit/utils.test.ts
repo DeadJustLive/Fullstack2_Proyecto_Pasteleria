@@ -6,7 +6,7 @@
 // @desc(Pruebas unitarias para utilidades puras de clases Tailwind y formateo de precios)
 // @pca:end
 import { describe, it, expect } from "vitest";
-import { formatPrecio, cn } from "@/lib/utils";
+import { formatPrecio, cn, formatFechaLarga } from "@/lib/utils";
 
 describe("utils — Utilidades Puras", () => {
   describe("formatPrecio", () => {
@@ -43,6 +43,21 @@ describe("utils — Utilidades Puras", () => {
     it("resuelve colisiones de clases Tailwind dando prioridad a la última", () => {
       expect(cn("px-2", "px-6")).toBe("px-6");
       expect(cn("text-red-500", "text-blue-500")).toBe("text-blue-500");
+    });
+  });
+
+  describe("formatFechaLarga", () => {
+    it("formatea fechas ISO correctamente en español", () => {
+      const fecha = formatFechaLarga("2026-11-03");
+      expect(fecha).toContain("2026");
+      expect(fecha).toContain("noviembre");
+    });
+
+    it("retorna string vacío si la fecha es inválida o vacía", () => {
+      expect(formatFechaLarga("")).toBe("");
+      expect(formatFechaLarga("fecha-invalida")).toBe("");
+      // @ts-expect-error caso límite
+      expect(formatFechaLarga(null)).toBe("");
     });
   });
 });

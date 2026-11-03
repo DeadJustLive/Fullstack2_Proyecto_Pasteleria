@@ -761,33 +761,6 @@
       "relates": []
     },
     {
-      "path": "frontend/src/components/admin/pos/FilaTicket.tsx",
-      "id": "frontend.components.admin.pos.filaticket",
-      "kind": "component",
-      "limit": 200,
-      "contract": "FilaTicket",
-      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (FilaTicket.tsx)",
-      "relates": []
-    },
-    {
-      "path": "frontend/src/components/admin/pos/PillCategoria.tsx",
-      "id": "frontend.components.admin.pos.pillcategoria",
-      "kind": "component",
-      "limit": 200,
-      "contract": "PillCategoria",
-      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (PillCategoria.tsx)",
-      "relates": []
-    },
-    {
-      "path": "frontend/src/components/admin/pos/TarjetaProducto.tsx",
-      "id": "frontend.components.admin.pos.tarjetaproducto",
-      "kind": "component",
-      "limit": 200,
-      "contract": "TarjetaProducto",
-      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (TarjetaProducto.tsx)",
-      "relates": []
-    },
-    {
       "path": "frontend/src/components/dev/Skeleton.tsx",
       "id": "frontend.components.dev.skeleton",
       "kind": "component",
@@ -1404,17 +1377,6 @@
       ]
     },
     {
-      "path": "frontend/src/layouts/AdminLayout.tsx",
-      "id": "frontend.layout.admin",
-      "kind": "component",
-      "limit": 50,
-      "contract": "props: void",
-      "desc": "Layout esqueleto de admin en frontend web",
-      "relates": [
-        "docs.reglas_ui"
-      ]
-    },
-    {
       "path": "frontend/src/layouts/ClienteLayout.tsx",
       "id": "frontend.layouts.clienteLayout",
       "kind": "component",
@@ -1504,25 +1466,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/Placeholder.tsx",
-      "id": "frontend.pages.placeholder",
-      "kind": "component",
-      "limit": 200,
-      "contract": "Placeholder",
-      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (Placeholder.tsx)",
-      "relates": []
-    },
-    {
-      "path": "frontend/src/pages/admin/Pos.tsx",
-      "id": "frontend.pages.admin.pos",
-      "kind": "component",
-      "limit": 200,
-      "contract": "Pos",
-      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (Pos.tsx)",
-      "relates": []
-    },
-    {
-      "path": "frontend/src/pages/cliente/Blog.tsx",
+      "path": "frontend/src/pages/Blog.tsx",
       "id": "frontend.pages.cliente.blog",
       "kind": "page",
       "limit": 240,
@@ -1533,7 +1477,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/BlogDetalle.tsx",
+      "path": "frontend/src/pages/BlogDetalle.tsx",
       "id": "frontend.pages.cliente.blogDetalle",
       "kind": "page",
       "limit": 190,
@@ -1544,7 +1488,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Carrito.tsx",
+      "path": "frontend/src/pages/Carrito.tsx",
       "id": "frontend.pages.cliente.carrito",
       "kind": "page",
       "limit": 260,
@@ -1555,7 +1499,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Catalogo.tsx",
+      "path": "frontend/src/pages/Catalogo.tsx",
       "id": "frontend.pages.cliente.catalogo",
       "kind": "page",
       "limit": 300,
@@ -1570,7 +1514,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/CategoriaDetalle.tsx",
+      "path": "frontend/src/pages/CategoriaDetalle.tsx",
       "id": "frontend.pages.cliente.categoriaDetalle",
       "kind": "page",
       "limit": 260,
@@ -1583,7 +1527,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Categorias.tsx",
+      "path": "frontend/src/pages/Categorias.tsx",
       "id": "frontend.pages.cliente.categorias",
       "kind": "page",
       "limit": 100,
@@ -1595,7 +1539,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Checkout.tsx",
+      "path": "frontend/src/pages/Checkout.tsx",
       "id": "frontend.pages.cliente.checkout",
       "kind": "page",
       "limit": 700,
@@ -1608,7 +1552,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Confirmacion.tsx",
+      "path": "frontend/src/pages/Confirmacion.tsx",
       "id": "frontend.pages.cliente.confirmacion",
       "kind": "component",
       "limit": 200,
@@ -1617,7 +1561,7 @@
       "relates": []
     },
     {
-      "path": "frontend/src/pages/cliente/Contacto.tsx",
+      "path": "frontend/src/pages/Contacto.tsx",
       "id": "frontend.pages.cliente.contacto",
       "kind": "page",
       "limit": 450,
@@ -1630,7 +1574,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Home.tsx",
+      "path": "frontend/src/pages/Home.tsx",
       "id": "frontend.pages.cliente.home",
       "kind": "component",
       "limit": 60,
@@ -1645,7 +1589,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Login.tsx",
+      "path": "frontend/src/pages/Login.tsx",
       "id": "frontend.pages.cliente.login",
       "kind": "page",
       "limit": 200,
@@ -1659,7 +1603,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Nosotros.tsx",
+      "path": "frontend/src/pages/Nosotros.tsx",
       "id": "frontend.pages.cliente.nosotros",
       "kind": "page",
       "limit": 320,
@@ -1671,7 +1615,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Ofertas.tsx",
+      "path": "frontend/src/pages/Ofertas.tsx",
       "id": "frontend.pages.cliente.ofertas",
       "kind": "page",
       "limit": 260,
@@ -1684,7 +1628,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Perfil.tsx",
+      "path": "frontend/src/pages/Perfil.tsx",
       "id": "frontend.pages.cliente.perfil",
       "kind": "component",
       "limit": 620,
@@ -1699,7 +1643,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/PerfilSeguimiento.tsx",
+      "path": "frontend/src/pages/PerfilSeguimiento.tsx",
       "id": "frontend.pages.cliente.perfilSeguimiento",
       "kind": "component",
       "limit": 600,
@@ -1716,7 +1660,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Personalizacion.tsx",
+      "path": "frontend/src/pages/Personalizacion.tsx",
       "id": "frontend.pages.cliente.personalizacion",
       "kind": "component",
       "limit": 540,
@@ -1731,7 +1675,16 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/ProductoDetalle.tsx",
+      "path": "frontend/src/pages/Placeholder.tsx",
+      "id": "frontend.pages.placeholder",
+      "kind": "component",
+      "limit": 200,
+      "contract": "Placeholder",
+      "desc": "Archivo component auto-registrado por FIDA/OPL bootstrap (Placeholder.tsx)",
+      "relates": []
+    },
+    {
+      "path": "frontend/src/pages/ProductoDetalle.tsx",
       "id": "frontend.pages.cliente.productoDetalle",
       "kind": "page",
       "limit": 300,
@@ -1743,7 +1696,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Registro.tsx",
+      "path": "frontend/src/pages/Registro.tsx",
       "id": "frontend.pages.cliente.registro",
       "kind": "page",
       "limit": 380,
@@ -1759,7 +1712,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/pago/Error.tsx",
+      "path": "frontend/src/pages/pago/Error.tsx",
       "id": "frontend.pages.cliente.pago.error",
       "kind": "page",
       "limit": 160,
@@ -1770,7 +1723,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/pago/Exito.tsx",
+      "path": "frontend/src/pages/pago/Exito.tsx",
       "id": "frontend.pages.cliente.pago.exito",
       "kind": "page",
       "limit": 280,
@@ -1782,7 +1735,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/pago/FlowGateway.tsx",
+      "path": "frontend/src/pages/pago/FlowGateway.tsx",
       "id": "frontend.pages.cliente.pago.flowGateway",
       "kind": "page",
       "limit": 460,
@@ -1795,7 +1748,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/pago/Pendiente.tsx",
+      "path": "frontend/src/pages/pago/Pendiente.tsx",
       "id": "frontend.pages.cliente.pago.pendiente",
       "kind": "component",
       "limit": 200,
@@ -1813,72 +1766,6 @@
       "relates": [
         "docs.especificacion_microservicios",
         "docs.convenciones"
-      ]
-    },
-    {
-      "path": "frontend/src/test/components/CantidadStepper.test.tsx",
-      "id": "frontend.test.components.cantidadStepper",
-      "kind": "test",
-      "limit": 90,
-      "desc": "Pruebas de integracion e interaccion por click en el componente CantidadStepper",
-      "relates": [
-        "frontend.components.ui.cantidadstepper"
-      ]
-    },
-    {
-      "path": "frontend/src/test/components/CatalogHomeView.test.tsx",
-      "id": "frontend.test.components.catalogHomeView",
-      "kind": "test",
-      "limit": 120,
-      "desc": "Pruebas de integracion e interaccion para CatalogHomeView - Fase 1 del Catalogo",
-      "relates": [
-        "frontend.domain.catalogHomeView"
-      ]
-    },
-    {
-      "path": "frontend/src/test/mocks/storage.test.ts",
-      "id": "frontend.test.mocks.storage",
-      "kind": "test",
-      "limit": 90,
-      "desc": "Pruebas con mock de localStorage para el modulo de persistencia en frontend",
-      "relates": [
-        "frontend.lib.storage"
-      ]
-    },
-    {
-      "path": "frontend/src/test/setup.ts",
-      "id": "frontend.test.setup",
-      "kind": "test",
-      "limit": 50,
-      "desc": "Setup global para suite de pruebas Vitest y Testing Library",
-      "relates": []
-    },
-    {
-      "path": "frontend/src/test/unit/falla-demo.test.ts",
-      "id": "frontend.test.unit.fallaDemo",
-      "kind": "test",
-      "limit": 45,
-      "desc": "Prueba demostrativa de ciclo TDD Red a Green corregida exitosamente",
-      "relates": []
-    },
-    {
-      "path": "frontend/src/test/unit/rut.validator.test.ts",
-      "id": "frontend.test.unit.rutValidator",
-      "kind": "test",
-      "limit": 100,
-      "desc": "Pruebas unitarias para el validador y formateador de RUT chileno Modulo 11",
-      "relates": [
-        "frontend.lib.rutValidator"
-      ]
-    },
-    {
-      "path": "frontend/src/test/unit/utils.test.ts",
-      "id": "frontend.test.unit.utils",
-      "kind": "test",
-      "limit": 80,
-      "desc": "Pruebas unitarias para utilidades puras de clases Tailwind y formateo de precios",
-      "relates": [
-        "frontend.lib.utils"
       ]
     },
     {
