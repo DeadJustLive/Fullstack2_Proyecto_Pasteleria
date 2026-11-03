@@ -251,3 +251,27 @@ git commit -m "feat: arquitectura de microservicios spring boot, mysql 8 y swagg
 git remote add origin https://github.com/TU-USUARIO/cremeco-backend.git
 git push -u origin main
 ```
+
+---
+
+### 6.3 Requisito Estricto de Limpieza para la Entrega y Presentación Final (Protocolo de Protección de Defensa)
+
+> [!IMPORTANT]
+> **REQUISITO ESTRICTO DE ENTREGA FINAL:**  
+> Para el commit definitivo de entrega y presentación oral ante el profesor y la comisión evaluadora, **DEBEN ser eliminados o purgados del repositorio público todos los artefactos de gobernanza interna propios (`fida-kit/`, scripts de `tools/`, bloques de anotaciones `@pca:start ... @pca:end`, `.fidaignore`, `fida.config.json` y `tools/pca.config.json`)**.
+
+#### Justificación Académica:
+1. **Protección del Equipo:** En una defensa oral evaluada por rúbrica institucional (DSY1104 / Duoc UC), los evaluadores revisan el repositorio y formulan preguntas técnicas aleatorias a cualquiera de los integrantes del grupo. Si encuentran carpetas como `fida-kit/`, scripts `fida_opl.py` o anotaciones `@pca:start`, interrogarán a compañeros que no sabrán responder sobre una herramienta propietaria/personal, comprometiendo innecesariamente la calificación grupal.
+2. **Estándar Académico Puro:** La rúbrica oficial evalúa exclusivamente tecnologías curriculares:
+   - React 18 + TypeScript + Vite + Tailwind CSS (Frontend)
+   - PWA independiente en Bootstrap 5 (`admin-pwa/`)
+   - Spring Boot + Spring Data JPA + MySQL 8 + Swagger / OpenAPI (Backend)
+   - Pruebas unitarias estándar con Vitest (`ejecutar_pruebas.bat`)
+   - Docker Compose y Microservicios
+3. **Checklist de Purga antes de la Presentación:**
+   - [ ] Respaldar localmente la rama de trabajo completa (`feature/T117-catalogo-fase-categorias`).
+   - [ ] Crear rama de entrega limpia de release: `release/evaluacion-2-final`.
+   - [ ] Eliminar carpeta `fida-kit/`, `tools/`, `.fidaignore`, `fida.config.json` y `tools/pca.config.json`.
+   - [ ] Remover bloques de cabecera de comentarios `@pca:start ... @pca:end` en los archivos fuente para dejar código React/Java estándar.
+   - [ ] Verificar que `npm --prefix frontend run build` y `npm --prefix frontend test` compilen y pasen al 100% de forma autónoma.
+   - [ ] Publicar únicamente código limpio, canónico y 100% defendible por cualquier miembro del equipo frente a las preguntas del profesor.

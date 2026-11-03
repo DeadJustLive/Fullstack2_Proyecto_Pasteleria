@@ -83,6 +83,7 @@ Refs: #T12
 - **CONV-GIT-03:** Nunca versionar secretos. Si detecta un `.env` o clave en el área de cambios, debe **alertar** y detenerse.
 - **CONV-GIT-04:** Commits pequeños y frecuentes; evita commits gigantes "de todo junto".
 - **CONV-GIT-05:** Si un commit falla o hay conflicto, se corrige con un commit nuevo; no se reescribe historia de forma destructiva (`--force`) sin permiso.
+- **CONV-GIT-06 (Purga Final para Defensa Oral):** En la rama final de entrega (`release/evaluacion-2-final`), es obligatorio purgar todas las herramientas internas (`fida-kit/`, `tools/`, `.fidaignore`, anotaciones de cabecera `@pca:*`) para evitar que compañeros de equipo sean evaluados o interrogados sobre herramientas propietarias fuera del temario oficial.
 
 ---
 

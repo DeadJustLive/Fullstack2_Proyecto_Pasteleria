@@ -139,14 +139,17 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 > Rama activa de desarrollo: `feature/T117-catalogo-fase-categorias`.
 
-- **Fase F4 — Entorno de Producción Real en Docker & Validación UX Frontend:**
+- **Fase F4 / Transición a F5 — Entorno de Producción & Preparación de Entrega Académica:**
   1. **T117 Hecho**: Implementado el flujo de Catálogo en 2 fases (`CatalogHomeView.tsx` + `CatalogoFiltros.tsx` + `Catalogo.tsx` con soporte de `useSearchParams`), eliminada la redundancia en `Navbar.tsx`, redirección unificada de `/categorias` y 31 pruebas unitarias automáticas aprobadas.
-  2. **QA-TEST-001 En curso**: Exclusiones de Vitest configuradas (AC-1), Core `src/lib`, `src/lib/data` y `src/data` al 100%, validadores al 94.9% (AC-2), Módulos de negocio FIDA al 90-100% (AC-4), Context al 67.3%, Layout al 65.5% y `api.ts` al 56%. 95 tests pasando en verde. Próximo paso: elevar cobertura restante en `src/services` y flujos de vistas para E2E (AC-5).
+  2. **T118 Hecho**: Aplanada la arquitectura de `src/pages/`, eliminados vestigios admin huérfanos (`Pos.tsx`, `AdminLayout.tsx`) y build verificado en verde.
+  3. **QA-TEST-001 En curso**: Exclusiones de Vitest configuradas (AC-1), Core `src/lib`, `src/lib/data` y `src/data` al 100%, validadores al 94.9% (AC-2), Módulos de negocio FIDA al 90-100% (AC-4), Context al 67.3%, Layout al 65.5% y `api.ts` al 56%. 95 tests pasando en verde.
+  4. **REQUISITO ESTRICTO DE ENTREGA (Protocolo Anti-Fricción de Defensa):** En el commit final de entrega para la presentación académica (F5), se debe ejecutar la purga completa de herramientas internas propias (`fida-kit/`, scripts de `tools/`, archivos de configuración de metadatos y comentarios `@pca:start`) para que el repositorio quede en estándar curricular puro (React/Spring Boot), protegiendo a los compañeros de preguntas sobre herramientas no oficiales.
 
 ---
 
 ## 7. Notas y decisiones
 
+- **Protocolo de Protección de Defensa Grupal (Mandato Estricto):** Todo el andamiaje interno de gobernanza (FIDA / PCA) sirvió como acelerador de desarrollo riguroso. Sin embargo, para la presentación oral grupal ante el profesor, el repositorio público de entrega debe estar libre de estos artefactos para garantizar que cualquier miembro del equipo pueda defender el código con total seguridad basándose exclusivamente en el temario oficial de la asignatura.
 - **Flujo Guiado de Catálogo (T117):** Inspirado en el patrón mobile de `catalog_home.html`, el catálogo opera en 2 fases: Fase 1 (Catalog Home: buscador rápido, tarjetas de especialidad con contador y botón "Ver todo") y Fase 2 (Exploración con filtros laterales y botón "Volver a todas las categorías").
 - **Unificación de Navegación:** Retirado el ítem redundante "Categorías" del Navbar; ahora "Catálogo" es la única puerta de entrada y `/categorias` redirige a `/catalogo`.
 - **Desacoplamiento de Filtros (`CatalogoFiltros.tsx`):** Extraído el drawer/sidebar para cumplir estrictamente la regla `@limit(lines: 300)` de `Catalogo.tsx`.
