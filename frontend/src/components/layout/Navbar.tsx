@@ -20,7 +20,6 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 const NAV_ITEMS = [
   { to: "/", label: "Home", end: true },
   { to: "/catalogo", label: "Catálogo", end: false },
-  { to: "/categorias", label: "Categorías", end: false },
   { to: "/ofertas", label: "Ofertas", end: false },
   { to: "/blog", label: "Blog", end: false },
   { to: "/nosotros", label: "Nosotros", end: false },

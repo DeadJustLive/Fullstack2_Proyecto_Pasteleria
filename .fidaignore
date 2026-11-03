@@ -36,3 +36,5 @@ package-lock.json
 **/package-lock.json
 session.md
 fida-kit/
+coverage/
+**/coverage/

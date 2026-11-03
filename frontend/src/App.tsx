@@ -4,7 +4,7 @@
 // @limit(lines: 200)
 // @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (App.tsx))
 // @pca:end
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useParams } from "react-router-dom";
 import { AdminLayout } from "@/layouts/AdminLayout";
 import { ClienteLayout } from "@/layouts/ClienteLayout";
 import { Placeholder } from "@/pages/Placeholder";
@@ -13,8 +13,6 @@ import { Blog } from "@/pages/cliente/Blog";
 import { BlogDetalle } from "@/pages/cliente/BlogDetalle";
 import { Carrito } from "@/pages/cliente/Carrito";
 import { Catalogo } from "@/pages/cliente/Catalogo";
-import { Categorias } from "@/pages/cliente/Categorias";
-import { CategoriaDetalle } from "@/pages/cliente/CategoriaDetalle";
 import { Checkout } from "@/pages/cliente/Checkout";
 import { Confirmacion } from "@/pages/cliente/Confirmacion";
 import { Contacto } from "@/pages/cliente/Contacto";
@@ -32,14 +30,19 @@ import { Personalizacion } from "@/pages/cliente/Personalizacion";
 import { ProductoDetalle } from "@/pages/cliente/ProductoDetalle";
 import { Registro } from "@/pages/cliente/Registro";
 
+function CategoriaSlugRedirect() {
+  const { slug } = useParams<{ slug: string }>();
+  return <Navigate to={slug ? `/catalogo?categoria=${encodeURIComponent(slug)}` : "/catalogo"} replace />;
+}
+
 function App() {
   return (
     <Routes>
       <Route element={<ClienteLayout />}>
         <Route index element={<Home />} />
         <Route path="catalogo" element={<Catalogo />} />
-        <Route path="categorias" element={<Categorias />} />
-        <Route path="categorias/:slug" element={<CategoriaDetalle />} />
+        <Route path="categorias" element={<Navigate to="/catalogo" replace />} />
+        <Route path="categorias/:slug" element={<CategoriaSlugRedirect />} />
         <Route path="ofertas" element={<Ofertas />} />
         <Route path="producto/:id" element={<ProductoDetalle />} />
         <Route path="carrito" element={<Carrito />} />

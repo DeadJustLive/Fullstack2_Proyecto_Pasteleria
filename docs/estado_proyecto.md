@@ -12,7 +12,7 @@
 
 > **Instrucción para la IA:** Lee este archivo al iniciar **cada** sesión, antes de proponer cualquier cambio. Al cerrar la sesión, actualízalo. Este documento es la memoria del proyecto: si no está actualizado, el alumno pierde el contexto y aparece la **amnesia de contexto**.
 
-**Última actualización:** 2026-11-02
+**Última actualización:** 2026-11-03
 
 ---
 
@@ -22,7 +22,7 @@
 | :--- | :--- |
 | **Fase actual** | F4 — Validación / Testing & Entorno de Producción Docker |
 | **Siguiente fase** | F5 — Cierre / Extracción de Componentes Reutilizables |
-| **Estado** | Sprints 7, 8, 9 y 10 completados (T89–T115). Entorno de producción real en Docker (12 contenedores: 5 infra + 7 microservicios), Redis activo con Spring Cache y optimizador WebP listos. Integración Flow.cl queda en espera (opera en contingencia/simulador local hasta disponer de credenciales productivas oficiales y túnel de webhook público). |
+| **Estado** | Sprints 7, 8, 9 y 10 completados (T89–T116). T117 completado: flujo guiado de Catálogo en 2 fases (`CatalogHomeView` + Catálogo filtrado con URL params), sincronizado con el mockup mobile de referencia, Navbar unificado y 31 tests unitarios automáticos pasando. |
 
 > Fases: F0 Setup → F1 Levantamiento → F2 Sprints → F3 Ejecución → F4 Validación → F5 Cierre. Ver `AGENTS.md`.
 
@@ -126,6 +126,8 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | T113 | Modo Producción/Sandbox Real de Flow.cl en Docker y endpoint/feedback de diagnóstico de redirección | F4 / S10 | Hecho | `CONV-ERR-01`, `CONV-SEG-01` |
 | T114 | Módulo FIDA `AdminImageOptimizer` de compresión a WebP ligero en `admin-pwa` y soporte en `service-catalog` | F4 / S10 | Hecho | `CONV-UI-01`, `CONV-TIP-02` |
 | T115 | Blindaje del entorno Docker local, separación `.env.docker`, automigración imagen y auditoría | F4 / S10 | Hecho | `CONV-EST-01`, `CONV-ERR-01`, `CONV-SEG-01` |
+| T116 | Suite de pruebas automatizadas (Vitest, Testing Library, jsdom, mocks de localStorage, interacción UI y reporte de cobertura V8) con gobernanza FIDA | F4 / S10 | Hecho | `CONV-DOC-01`, `CONV-TIP-01` |
+| T117 | Rediseño de Catálogo en 2 fases (`CatalogHomeView` + Catálogo filtrado con URL params), unificación en Navbar y 31 tests unitarios automáticos | F4 / S10 | Hecho | `CONV-UI-01`, `CONV-UI-02`, `CONV-UI-03`, `CONV-UI-04`, `CONV-TIP-01`, `CONV-TIP-04`, `CONV-DOC-01` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
@@ -133,23 +135,16 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 ## 6. Próximo paso
 
-> Rama activa de desarrollo: `dev`. **Sprint 10 completado al 100% (`T110`–`T115`)**.
+> Rama activa de desarrollo: `feature/T117-catalogo-fase-categorias`.
 
-- **Fase F4 — Entorno de Producción Real en Docker (PC Local), Flow.cl & WebP:**
-  1. **T110 Hecho**: Creados los 7 `Dockerfile`s de producción e imágenes verificadas en Docker.
-  2. **T111 Hecho**: Orquestación Docker Compose de producción local (12 contenedores: 5 infra + 7 microservicios con healthchecks, puertos 8080..8086 y feedback en `iniciar_backend.bat`).
-  3. **T112 Hecho**: Conectado `cremeco-redis:6379` al backend (`service-catalog` con Spring Cache e invalidación automática y `service-identity` con endpoints `/api/*/health/redis`).
-  4. **T113 Hecho**: Modo Producción/Sandbox Real de Flow.cl en Docker, endpoint `GET /api/payments/flow/diagnostics`, modo estricto y redirección/feedback en `Checkout.tsx`.
-  5. **T114 Hecho**: Implementado el módulo FIDA `AdminImageOptimizer` (conversión a WebP ligero en Canvas, métricas de ahorro y modo dual) en `admin-pwa` y persistencia en `service-catalog` (`MEDIUMTEXT`).
-  6. **T115 Hecho**: Blindaje de configuración Docker (.env.docker separado, hostnames inmunes a fugas de localhost, automigración de products.imagen a MEDIUMTEXT, FlowUrlHelper bajo límite de líneas y rollback de errores en Admin PWA).
-  7. **Flow.cl en espera**: La integración con Flow.cl queda en pausa/espera; el flujo de checkout opera mediante el simulador de contingencia local hasta la obtención de credenciales productivas oficiales y dominio/túnel público para webhooks.
-  8. **Siguiente paso:** Proceder a Fase F5 — Cierre y Extracción de Componentes Reutilizables.
+- **Fase F4 — Entorno de Producción Real en Docker & Validación UX Frontend:**
+  1. **T117 Hecho**: Implementado el flujo de Catálogo en 2 fases (`CatalogHomeView.tsx` + `CatalogoFiltros.tsx` + `Catalogo.tsx` con soporte de `useSearchParams`), eliminada la redundancia en `Navbar.tsx`, redirección unificada de `/categorias` y 31 pruebas unitarias automáticas aprobadas.
+  2. **Siguiente paso:** Proceder a Fase F5 — Cierre y Extracción de Componentes Reutilizables.
+
+---
 
 ## 7. Notas y decisiones
 
-- **El mockup (`MockUpPasteleria/`) es solo referencial.** La estructura final es React-idiomática: se usan componentes del design system.
-- **PWA de Administración desacoplada (`admin-pwa/`):** Separada en `admin-pwa/` (Bootstrap 5 + PWA) para evitar colisiones con Tailwind CSS v4 en `frontend/`. Incluye Dashboard, Catálogo con regla de productos vendidos, Inventario Kardex, RBAC, Cupones, POS y UI Kit.
-- **Arquitectura de Microservicios & Kafka (`backend/`):** Topología distribuida en `docs/arquitectura_microservicios_kafka.md` (MySQL 8 :3306, Kafka :9092, Zookeeper :2181, Kafdrop :9000, Redis :6379 + 7 microservicios Spring Boot :8080–:8086).
-- **Estandarización con CVA (`class-variance-authority`):** Componentes UI y de dominio refactorizados con variantes declarativas tipadas (`EstadoPedidoBadge`, `Modal`, `SectionTitle`, `EmptyState`, `BlogCard`, `LineaTiempoPedido`, `ProductCard`, `Input`).
-- **Escala de breakpoints y UI:** Solo Tailwind (`sm` 640, `md` 768, `lg` 1024, `xl` 1280); full-bleed con `100cqi`; botones `rounded-full`; imágenes de `public/imagen/` optimizadas a WebP/JPG (de 3,3 MB a 767 KB).
-- **Evidencia de T12–T20:** Smoke test SSR (27/27 OK) y medición headless CDP en 7 anchos (360–1440px) sin scroll horizontal ni desbordes (`FRONT-012`, `FRONT-013`, `FRONT-014` en `docs/cicatrices_guerra.md`).
+- **Flujo Guiado de Catálogo (T117):** Inspirado en el patrón mobile de `catalog_home.html`, el catálogo opera en 2 fases: Fase 1 (Catalog Home: buscador rápido, tarjetas de especialidad con contador y botón "Ver todo") y Fase 2 (Exploración con filtros laterales y botón "Volver a todas las categorías").
+- **Unificación de Navegación:** Retirado el ítem redundante "Categorías" del Navbar; ahora "Catálogo" es la única puerta de entrada y `/categorias` redirige a `/catalogo`.
+- **Desacoplamiento de Filtros (`CatalogoFiltros.tsx`):** Extraído el drawer/sidebar para cumplir estrictamente la regla `@limit(lines: 300)` de `Catalogo.tsx`.

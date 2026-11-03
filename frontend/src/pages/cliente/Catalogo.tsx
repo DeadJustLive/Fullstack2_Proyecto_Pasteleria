@@ -4,54 +4,80 @@
 // @limit(lines: 300)
 // @contract(CatalogoView())
 // @relates(frontend.domain.productCard)
+// @relates(frontend.domain.catalogHomeView)
+// @relates(frontend.domain.catalogoFiltros)
 // @relates(feature.catalogdiscovery.view)
 // @relates(docs.reglas_ui)
-// @desc(Vista de catalogo con filtros de categoria y tarjetas de productos)
+// @desc(Vista de catalogo con flujo de 2 fases: seleccion previa de categoria y grilla filtrada)
 // @pca:end
 import { useEffect, useMemo, useState } from "react";
-import { SlidersHorizontal, X } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
+import { ArrowLeft, SlidersHorizontal, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
 import { CarouselBanner } from "@/components/domain/CarouselBanner";
-import { FiltroCheckbox } from "@/components/domain/FiltroCheckbox";
+import { CatalogoFiltros } from "@/components/domain/CatalogoFiltros";
 import { ProductCard } from "@/components/domain/ProductCard";
+import { CatalogHomeView } from "@/components/domain/CatalogHomeView";
 import { CatalogDiscoveryView } from "@/features/CatalogDiscovery/implementation/CatalogDiscovery.view";
-
-import { cn, formatPrecio } from "@/lib/utils";
-import { CATEGORIAS, PRECIO_MAX, VARIACIONES } from "@/data/products";
+import { CATEGORIAS, PRECIO_MAX } from "@/data/products";
 import { useRealtimeProducts } from "@/hooks/useRealtimeProducts";
 
 export function Catalogo() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const categoriaParam = searchParams.get("categoria");
+  const todosParam = searchParams.get("todos");
+  const queryParam = searchParams.get("q");
+
+  const esFaseExploracion = Boolean(categoriaParam || todosParam === "true" || queryParam);
 
   const { productos, cargando, error } = useRealtimeProducts();
-  const [busqueda, setBusqueda] = useState("");
-  const [categorias, setCategorias] = useState<string[]>([]);
+  const [busqueda, setBusqueda] = useState(queryParam || "");
+  const [categorias, setCategorias] = useState<string[]>(categoriaParam ? [categoriaParam] : []);
   const [variaciones, setVariaciones] = useState<string[]>([]);
   const [precioMax, setPrecioMax] = useState(PRECIO_MAX);
   const [filtros, setFiltros] = useState({
-    busqueda: "",
-    categorias: [] as string[],
+    busqueda: queryParam || "",
+    categorias: categoriaParam ? [categoriaParam] : ([] as string[]),
     variaciones: [] as string[],
     precioMax: PRECIO_MAX,
   });
   const [filtrosAbiertos, setFiltrosAbiertos] = useState(false);
 
   useEffect(() => {
-    if (!filtrosAbiertos) return;
+    const cat = searchParams.get("categoria");
+    const q = searchParams.get("q") || "";
+    setCategorias(cat ? [cat] : []);
+    setBusqueda(q);
+    setFiltros((prev) => ({
+      ...prev,
+      categorias: cat ? [cat] : [],
+      busqueda: q,
+    }));
+  }, [searchParams]);
 
+  useEffect(() => {
+    if (!filtrosAbiertos) return;
     const manejarEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") setFiltrosAbiertos(false);
     };
-
     document.addEventListener("keydown", manejarEscape);
     const overflowPrevio = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     return () => {
       document.removeEventListener("keydown", manejarEscape);
       document.body.style.overflow = overflowPrevio;
     };
   }, [filtrosAbiertos]);
+
+  const countsByCategory = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const p of productos) {
+      for (const c of p.categorias) {
+        counts[c] = (counts[c] || 0) + 1;
+      }
+    }
+    return counts;
+  }, [productos]);
 
   const aplicar = () => {
     setFiltros({ busqueda, categorias, variaciones, precioMax });
@@ -64,6 +90,11 @@ export function Catalogo() {
     setVariaciones([]);
     setPrecioMax(PRECIO_MAX);
     setFiltros({ busqueda: "", categorias: [], variaciones: [], precioMax: PRECIO_MAX });
+  };
+
+  const handleVolverACategorias = () => {
+    limpiar();
+    setSearchParams({});
   };
 
   const toggleCategoria = (v: string) =>
@@ -98,7 +129,7 @@ export function Catalogo() {
     <>
       <section className="relative overflow-hidden rounded-xl bg-[url('/imagen/fondo_obrador.webp')] bg-cover bg-[center_25%]">
         <div className="absolute inset-0 bg-gradient-to-r from-ink/95 via-ink/90 to-ink/80" />
-        <div className="relative flex min-h-[320px] items-center justify-center px-3 py-6 sm:min-h-[360px] sm:px-5 sm:py-7 lg:min-h-[400px] lg:px-6 lg:py-8">
+        <div className="relative flex min-h-[280px] items-center justify-center px-3 py-6 sm:min-h-[320px] sm:px-5 sm:py-7 lg:min-h-[360px] lg:px-6 lg:py-8">
           <div className="relative mx-auto w-full max-w-[1100px]">
             {cargando && productos.length === 0 ? (
               <div className="flex h-64 items-center justify-center">
@@ -111,161 +142,111 @@ export function Catalogo() {
         </div>
       </section>
 
-      <Button
-        variant="outline"
-        onClick={() => setFiltrosAbiertos(true)}
-        className="mt-8 w-full lg:hidden"
-      >
-        <SlidersHorizontal size={18} />
-        Mostrar filtros
-      </Button>
-
-      {filtrosAbiertos && (
-        <div
-          className="fixed inset-0 z-40 bg-inverted/50 lg:hidden"
-          onClick={() => setFiltrosAbiertos(false)}
-          aria-hidden="true"
+      {/* Fase 1: Selección previa de categoría si no hay filtro activo en URL */}
+      {!esFaseExploracion ? (
+        <CatalogHomeView
+          onSelectCategory={(slug) => setSearchParams({ categoria: slug })}
+          onViewAll={() => setSearchParams({ todos: "true" })}
+          onSearch={(query) => setSearchParams({ q: query })}
+          countsByCategory={countsByCategory}
+          totalProducts={productos.length}
         />
-      )}
-
-      <div className="mt-10 grid items-start gap-8 lg:grid-cols-[250px_1fr]">
-        <aside
-          id="filtros-panel"
-          className={cn(
-            "fixed inset-y-0 left-0 z-50 flex w-[300px] max-w-[85vw] flex-col gap-7 overflow-y-auto bg-white p-6 shadow-xl transition-transform duration-300",
-            filtrosAbiertos ? "translate-x-0" : "-translate-x-full",
-            "lg:static lg:z-auto lg:w-auto lg:max-w-none lg:translate-x-0 lg:overflow-visible lg:rounded-xl lg:border lg:border-tertiary/10 lg:bg-white/95 lg:shadow-card"
-          )}
-        >
-          <div className="flex items-center justify-between lg:hidden">
-            <h3 className="font-display text-lg font-semibold text-tertiary">Filtros</h3>
+      ) : (
+        /* Fase 2: Catálogo con filtros y grilla de productos */
+        <div>
+          {/* Barra de Retorno a Categorías */}
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-3 border-b border-tertiary/10 pb-4">
             <button
               type="button"
-              onClick={() => setFiltrosAbiertos(false)}
-              aria-label="Cerrar filtros"
-              className="inline-flex items-center justify-center rounded-full p-2 text-tertiary transition-colors hover:bg-primary"
+              onClick={handleVolverACategorias}
+              className="inline-flex items-center gap-2 rounded-full border border-tertiary/20 bg-white px-4 py-1.5 font-body text-xs font-semibold text-tertiary transition-colors hover:bg-neutral hover:text-secondary"
             >
-              <X size={22} />
+              <ArrowLeft size={15} />
+              Volver a todas las categorías
             </button>
+            <span className="inline-flex items-center gap-1.5 font-body text-xs text-ink/75">
+              <Sparkles size={14} className="text-secondary" />
+              {categoriaParam
+                ? `Categoría activa: ${CATEGORIAS.find((c) => c.value === categoriaParam)?.label || categoriaParam}`
+                : queryParam
+                  ? `Búsqueda: "${queryParam}"`
+                  : "Explorando todo el catálogo"}
+            </span>
           </div>
 
-          <Input
-            label="Buscar producto"
-            placeholder="Ej: Torta, Cheesecake..."
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-          />
+          <Button
+            variant="outline"
+            onClick={() => setFiltrosAbiertos(true)}
+            className="mt-6 w-full lg:hidden"
+          >
+            <SlidersHorizontal size={18} />
+            Mostrar filtros
+          </Button>
 
-          <FiltroCheckbox
-            titulo="Categorías"
-            opciones={CATEGORIAS}
-            seleccionadas={categorias}
-            onToggle={toggleCategoria}
-          />
+          <div className="mt-8 grid items-start gap-8 lg:grid-cols-[250px_1fr]">
+            <CatalogoFiltros
+              abierto={filtrosAbiertos}
+              onCerrar={() => setFiltrosAbiertos(false)}
+              busqueda={busqueda}
+              onBusquedaChange={setBusqueda}
+              categorias={categorias}
+              onToggleCategoria={toggleCategoria}
+              variaciones={variaciones}
+              onToggleVariacion={toggleVariacion}
+              precioMax={precioMax}
+              onPrecioMaxChange={setPrecioMax}
+              onAplicar={aplicar}
+              onLimpiar={limpiar}
+            />
 
-          <FiltroCheckbox
-            titulo="Variaciones"
-            opciones={VARIACIONES}
-            seleccionadas={variaciones}
-            onToggle={toggleVariacion}
-          />
-
-          <div className="flex flex-col gap-3">
-            <h3 className="font-display text-base font-semibold text-tertiary">Rango de precio</h3>
-            <div className="flex items-center gap-2">
-              <div className="flex flex-1 flex-col gap-1">
-                <span className="text-xs font-body text-ink/70">Mínimo</span>
-                <input
-                  type="number"
-                  min={0}
-                  max={precioMax}
-                  value={0}
-                  readOnly
-                  className="w-full rounded-lg border border-tertiary/20 bg-neutral/50 px-3 py-2 font-body text-sm text-ink/70 focus:outline-none"
+            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+              <div className="col-span-full">
+                <CatalogDiscoveryView
+                  totalProducts={filtrados.length}
+                  activeCategory={filtros.categorias[0]}
+                  searchQuery={filtros.busqueda}
+                  onClearFilters={limpiar}
                 />
               </div>
-              <div className="flex flex-1 flex-col gap-1">
-                <span className="text-xs font-body text-ink/70">Máximo</span>
-                <input
-                  type="number"
-                  min={0}
-                  max={PRECIO_MAX}
-                  value={precioMax}
-                  onChange={(e) => {
-                    const val = Number(e.target.value);
-                    if (val >= 0 && val <= PRECIO_MAX) {
-                      setPrecioMax(val);
-                    }
-                  }}
-                  className="w-full rounded-lg border border-tertiary/20 px-3 py-2 font-body text-sm text-tertiary focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
-                />
-              </div>
-            </div>
-            <input
-              type="range"
-              min={0}
-              max={PRECIO_MAX}
-              value={precioMax}
-              onChange={(e) => setPrecioMax(Number(e.target.value))}
-              className="w-full cursor-pointer accent-secondary"
-              style={{ accentColor: "var(--color-secondary)" }}
-            />
-            <div className="flex justify-between font-body text-xs text-ink/70">
-              <span>{formatPrecio(0)}</span>
-              <span>{formatPrecio(PRECIO_MAX)}</span>
-            </div>
-          </div>
 
-          <div className="flex flex-col gap-3">
-            <Button onClick={aplicar} className="w-full">Confirmar Filtros</Button>
-            <Button variant="outline" onClick={limpiar} className="w-full">Borrar Filtros</Button>
-          </div>
-        </aside>
-
-        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          <div className="col-span-full">
-            <CatalogDiscoveryView
-              totalProducts={filtrados.length}
-              activeCategory={filtros.categorias[0]}
-              searchQuery={filtros.busqueda}
-              onClearFilters={limpiar}
-            />
-          </div>
-          {error && productos.length > 0 && (
-            <div className="col-span-full rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
-              Modo sin conexión: mostrando catálogo almacenado localmente.
-            </div>
-          )}
-
-          {cargando && productos.length === 0 ? (
-            Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={`cat-skeleton-${i}`}
-                className="flex flex-col overflow-hidden rounded-xl border border-tertiary/10 bg-white shadow-[0_1px_3px_rgba(93,64,55,0.06)] animate-pulse"
-              >
-                <div className="aspect-square w-full bg-neutral/80" />
-                <div className="flex flex-1 flex-col gap-3 p-[1.1rem]">
-                  <div className="h-5 w-3/4 rounded bg-neutral/80" />
-                  <div className="h-4 w-1/3 rounded bg-neutral/80" />
-                  <div className="mt-auto h-9 w-full rounded-md bg-neutral/80" />
+              {error && productos.length > 0 && (
+                <div className="col-span-full rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
+                  Modo sin conexión: mostrando catálogo almacenado localmente.
                 </div>
-              </div>
-            ))
-          ) : filtrados.length === 0 ? (
-            <p className="col-span-full py-10 text-center font-body text-ink/60">
-              No encontramos productos con esos filtros.
-            </p>
-          ) : (
-            filtrados.map((p) => (
-              <ProductCard
-                key={p.id}
-                producto={p}
-                className="h-full"
-              />
-            ))
-          )}
+              )}
+
+              {cargando && productos.length === 0 ? (
+                Array.from({ length: 6 }).map((_, i) => (
+                  <div
+                    key={`cat-skeleton-${i}`}
+                    className="flex flex-col overflow-hidden rounded-xl border border-tertiary/10 bg-white shadow-[0_1px_3px_rgba(93,64,55,0.06)] animate-pulse"
+                  >
+                    <div className="aspect-square w-full bg-neutral/80" />
+                    <div className="flex flex-1 flex-col gap-3 p-[1.1rem]">
+                      <div className="h-5 w-3/4 rounded bg-neutral/80" />
+                      <div className="h-4 w-1/3 rounded bg-neutral/80" />
+                      <div className="mt-auto h-9 w-full rounded-md bg-neutral/80" />
+                    </div>
+                  </div>
+                ))
+              ) : filtrados.length === 0 ? (
+                <div className="col-span-full flex flex-col items-center justify-center gap-3 py-12 text-center">
+                  <p className="font-body text-ink/60">
+                    No encontramos productos con esos filtros.
+                  </p>
+                  <Button variant="outline" size="sm" onClick={handleVolverACategorias}>
+                    Volver a categorías
+                  </Button>
+                </div>
+              ) : (
+                filtrados.map((p) => (
+                  <ProductCard key={p.id} producto={p} className="h-full" />
+                ))
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
