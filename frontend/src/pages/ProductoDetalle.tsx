@@ -57,16 +57,12 @@ export function ProductoDetalle() {
       setBusquedaDirectaTerminada(true);
       return;
     }
-
     if (productoEnLista) {
       setProductoAsync(null);
       setBusquedaDirectaTerminada(true);
       return;
     }
-
-    if (cargandoCatalogo) {
-      return;
-    }
+    if (cargandoCatalogo) return;
 
     let isMounted = true;
     setCargandoDirecto(true);
@@ -74,16 +70,8 @@ export function ProductoDetalle() {
 
     api.catalog
       .getProductById(numId)
-      .then((remoto) => {
-        if (isMounted) {
-          setProductoAsync(remoto);
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setProductoAsync(null);
-        }
-      })
+      .then((remoto) => { if (isMounted) setProductoAsync(remoto); })
+      .catch(() => { if (isMounted) setProductoAsync(null); })
       .finally(() => {
         if (isMounted) {
           setCargandoDirecto(false);
@@ -91,9 +79,7 @@ export function ProductoDetalle() {
         }
       });
 
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, [id, productoEnLista, cargandoCatalogo]);
 
   const producto = productoEnLista || productoAsync;
@@ -119,9 +105,7 @@ export function ProductoDetalle() {
     return (
       <div className="flex flex-col items-center gap-6 py-16 text-center">
         <h1 className="text-tertiary">Producto no encontrado</h1>
-        <p className="font-body text-ink/70">
-          El producto que buscas no existe o fue removido del catálogo.
-        </p>
+        <p className="font-body text-ink/70">El producto que buscas no existe o fue removido del catálogo.</p>
         <ButtonLink to="/catalogo">Volver al catálogo</ButtonLink>
       </div>
     );
@@ -132,11 +116,7 @@ export function ProductoDetalle() {
   const compartirNativo = async () => {
     if (navigator.share) {
       try {
-        await navigator.share({
-          title: producto.nombre,
-          text: `Mira ${producto.nombre} en Crème & Co`,
-          url: urlActual,
-        });
+        await navigator.share({ title: producto.nombre, text: `Mira ${producto.nombre} en Crème & Co`, url: urlActual });
       } catch {
         setCompartirAbierto(true);
       }
@@ -155,11 +135,17 @@ export function ProductoDetalle() {
     }
   };
 
+  const enCarrito = itemsCarrito.find((i) => i.producto.id === producto.id)?.cantidad ?? 0;
+  const tieneStock = typeof producto.stock === "number" && producto.stock >= 0;
+  const stockRestante = tieneStock ? Math.max(0, (producto.stock ?? 0) - enCarrito) : undefined;
+  const agotado = producto.disponible === false || (tieneStock && (producto.stock ?? 0) <= 0);
+  const sinStockParaAgregar = agotado || (stockRestante !== undefined && stockRestante <= 0);
+
   const agregarAlCarrito = () => {
-    for (let i = 0; i < cantidad; i++) {
-      agregar(producto);
-    }
-    navigate("/carrito");
+    if (sinStockParaAgregar) return;
+    agregar(producto, cantidad);
+    setCantidad(1);
+    setAgregadoFeedback(true);
   };
 
   return (
@@ -195,39 +181,38 @@ export function ProductoDetalle() {
           </div>
 
           <Card className="flex flex-col gap-4 p-6">
-            <div className="flex items-center justify-between">
-              <span className="font-body font-semibold text-tertiary">Cantidad</span>
-              <div className="flex items-center gap-3">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setCantidad((c) => Math.max(1, c - 1))}
-                  aria-label="Disminuir cantidad"
-                >
-                  <Minus size={18} />
-                </Button>
-                <span className="w-12 text-center font-body text-lg font-semibold text-tertiary">
-                  {cantidad}
-                </span>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => setCantidad((c) => c + 1)}
-                  aria-label="Aumentar cantidad"
-                >
-                  <Plus size={18} />
-                </Button>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-col">
+                <span className="font-body font-semibold text-tertiary">Cantidad</span>
+                {tieneStock && (
+                  <span className="font-body text-xs text-secondary/80">
+                    {agotado ? "Sin stock disponible" : `Stock disponible: ${producto.stock} unidades`}
+                  </span>
+                )}
               </div>
+              <CantidadStepper
+                valor={cantidad}
+                min={1}
+                max={stockRestante !== undefined ? Math.max(1, stockRestante) : undefined}
+                onCambiar={setCantidad}
+                editable
+              />
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button
                 onClick={agregarAlCarrito}
-                disabled={producto.disponible === false}
-                className={producto.disponible === false ? "flex-1 cursor-not-allowed bg-ink/20 text-ink/50 hover:bg-ink/20" : "flex-1"}
+                disabled={sinStockParaAgregar}
+                className={sinStockParaAgregar ? "flex-1 cursor-not-allowed bg-ink/20 text-ink/50 hover:bg-ink/20" : "flex-1"}
               >
-                <ShoppingCart size={18} />
-                {producto.disponible === false ? "Producto Agotado" : "Agregar al carrito"}
+                {agregadoFeedback ? <Check size={18} /> : <ShoppingCart size={18} />}
+                {agotado
+                  ? "Producto Agotado"
+                  : sinStockParaAgregar
+                    ? "Máximo en carrito"
+                    : agregadoFeedback
+                      ? "¡Añadido al carrito!"
+                      : "Agregar al carrito"}
               </Button>
               <Button variant="outline" onClick={compartirNativo} className="flex-1">
                 <Share2 size={18} />

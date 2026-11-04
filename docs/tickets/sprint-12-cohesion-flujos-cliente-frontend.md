@@ -19,10 +19,10 @@
 
 | Épica | ID | Título | Capa Principal | Prioridad | Depende de | Estado |
 | :--- | :--- | :--- | :--- | :---: | :--- | :---: |
-| **ÉPICA 1: Continuidad Checkout → Boleta → Seguimiento** | [T124](#ticket-t124--sincronización-e2e-del-trackingcode-real-y-pre-llenado-de-sesión-en-checkout) | Sincronización E2E del `trackingCode` real y pre-llenado de sesión en Checkout | `frontend/src/pages/Checkout.tsx`, `pago/Exito.tsx`, `Confirmacion.tsx` | **Alta** | T123 | **Pendiente** |
-| **ÉPICA 2: Experiencia de Producto y Control de Stock** | [T125](#ticket-t125--unificación-de-productodetalletxs-con-cantidadstepper-tope-de-stock-y-feedback-sin-redirección) | Unificación de `ProductoDetalle.tsx` con `CantidadStepper`, tope de stock y feedback sin redirección | `frontend/src/pages/ProductoDetalle.tsx` | **Alta** | T123 | **Pendiente** |
-| **ÉPICA 3: Reactividad en Ofertas** | [T126](#ticket-t126--reactividad-en-tiempo-real-y-unificación-de-productcard-en-ofertastsx) | Reactividad en tiempo real y unificación de `ProductCard` en `Ofertas.tsx` | `frontend/src/pages/Ofertas.tsx` | **Media** | T125 | **Pendiente** |
-| **ÉPICA 4: MiniCarrito Interactivo y Limpieza de CSS Legacy** | [T127](#ticket-t127--controles-interactivos-en-minicarrito-y-desacoplamiento-de-mockupcss-en-navbarfooter) | Controles interactivos en `MiniCarrito` y desacoplamiento de `mockup.css` en Navbar/Footer | `frontend/src/components/domain/MiniCarrito.tsx`, `Navbar.tsx`, `Footer.tsx`, `main.tsx` | **Media** | T123 | **Pendiente** |
+| **ÉPICA 1: Continuidad Checkout → Boleta → Seguimiento** | [T124](#ticket-t124--sincronización-e2e-del-trackingcode-real-y-pre-llenado-de-sesión-en-checkout) | Sincronización E2E del `trackingCode` real y pre-llenado de sesión en Checkout | `frontend/src/pages/Checkout.tsx`, `pago/Exito.tsx`, `Confirmacion.tsx` | **Alta** | T123 | **Completado** |
+| **ÉPICA 2: Experiencia de Producto y Control de Stock** | [T125](#ticket-t125--unificación-de-productodetalletxs-con-cantidadstepper-tope-de-stock-y-feedback-sin-redirección) | Unificación de `ProductoDetalle.tsx` con `CantidadStepper`, tope de stock y feedback sin redirección | `frontend/src/pages/ProductoDetalle.tsx` | **Alta** | T123 | **Completado** |
+| **ÉPICA 3: Reactividad en Ofertas** | [T126](#ticket-t126--reactividad-en-tiempo-real-y-unificación-de-productcard-en-ofertastsx) | Reactividad en tiempo real y unificación de `ProductCard` en `Ofertas.tsx` | `frontend/src/pages/Ofertas.tsx` | **Media** | T125 | **Completado** |
+| **ÉPICA 4: MiniCarrito Interactivo y Limpieza de CSS Legacy** | [T127](#ticket-t127--controles-interactivos-en-minicarrito-y-desacoplamiento-de-mockupcss-en-navbarfooter) | Controles interactivos en `MiniCarrito` y desacoplamiento de `mockup.css` en Navbar/Footer | `frontend/src/components/domain/MiniCarrito.tsx`, `Navbar.tsx`, `Footer.tsx`, `main.tsx` | **Media** | T123 | **Completado** |
 
 ---
 

@@ -64,7 +64,7 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | Sprint 9 | Adopción integral del Patrón FIDA + OPL en Frontend, Admin PWA y Backend | Hecho |
 | Sprint 10 | Contenedorización Docker completa en PC, Redis activo, Flow.cl diagnóstico y WebP en Admin | Hecho |
 | Sprint 11 | Sincronización real E2E de stock web, reactividad tiempo real y eliminación de datos mock en Dashboard y Reportes | En curso |
-| Sprint 12 | Cohesión E2E de flujos del cliente en `frontend/`: `trackingCode` real en Checkout, `CantidadStepper` en `ProductoDetalle`, reactividad en `Ofertas` y `MiniCarrito` interactivo | Pendiente |
+| Sprint 12 | Cohesión E2E de flujos del cliente en `frontend/`: `trackingCode` real en Checkout, `CantidadStepper` en `ProductoDetalle`, reactividad en `Ofertas` y `MiniCarrito` interactivo | Hecho |
 
 ---
 
@@ -138,10 +138,10 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | T120 | Reactividad tiempo real de stock (BroadcastChannel `STOCK_UPDATED`) y sondeo activo en Admin PWA | F4 / S11 | Hecho | `CONV-UI-01`, `CONV-UI-04`, `CONV-TIP-01` |
 | T121 | Métricas en vivo y eliminación total de datos mock en Dashboard Admin PWA (`Dashboard.tsx`) | F4 / S11 | Hecho | `CONV-UI-01`, `CONV-UI-04`, `CONV-ERR-01` |
 | T122 | Desacoplamiento de mocks en Reportes y consistencia CSV contable (`Reportes.tsx`) | F4 / S11 | Pendiente | `CONV-UI-01`, `CONV-ERR-01`, `CONV-TIP-01` |
-| T124 | Sincronización E2E del `trackingCode` real de MySQL y pre-llenado de sesión en `Checkout.tsx` | F4 / S12 | Pendiente | `CONV-EST-01`, `CONV-TIP-01`, `CONV-ERR-01`, `CONV-UI-01` |
-| T125 | Unificación de `ProductoDetalle.tsx` con `CantidadStepper`, tope de stock real y feedback sin redirección forzada | F4 / S12 | Pendiente | `CONV-UI-02`, `CONV-UI-04`, `CONV-TIP-01` |
-| T126 | Reactividad en tiempo real (`useRealtimeProducts`) y bloqueo de agotados en `Ofertas.tsx` | F4 / S12 | Pendiente | `CONV-UI-01`, `CONV-UI-02`, `CONV-TIP-01` |
-| T127 | Controles interactivos en `MiniCarrito.tsx` y desacoplamiento de `mockup.css` en `Navbar` y `Footer` | F4 / S12 | Pendiente | `CONV-UI-03`, `CONV-UI-04`, `CONV-GEN-02` |
+| T124 | Sincronización E2E del `trackingCode` real de MySQL y pre-llenado de sesión en `Checkout.tsx` | F4 / S12 | Hecho | `CONV-EST-01`, `CONV-TIP-01`, `CONV-ERR-01`, `CONV-UI-01` |
+| T125 | Unificación de `ProductoDetalle.tsx` con `CantidadStepper`, tope de stock real y feedback sin redirección forzada | F4 / S12 | Hecho | `CONV-UI-02`, `CONV-UI-04`, `CONV-TIP-01` |
+| T126 | Reactividad en tiempo real (`useRealtimeProducts`) y bloqueo de agotados en `Ofertas.tsx` | F4 / S12 | Hecho | `CONV-UI-01`, `CONV-UI-02`, `CONV-TIP-01` |
+| T127 | Controles interactivos en `MiniCarrito.tsx` y desacoplamiento de `mockup.css` en `Navbar` y `Footer` | F4 / S12 | Hecho | `CONV-UI-03`, `CONV-UI-04`, `CONV-GEN-02` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 

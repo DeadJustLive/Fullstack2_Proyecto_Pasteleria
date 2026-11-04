@@ -5,37 +5,19 @@
 // @contract(Footer)
 // @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (Footer.tsx))
 // @pca:end
-const LINEA_FILA = {
-  display: "flex",
-  alignItems: "center",
-  gap: "0.5rem",
-} as const;
+import { Clock, Mail, MapPin, Phone } from "lucide-react";
 
 const CONTACTOS = [
   {
-    icono: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-        <circle cx="12" cy="10" r="3"></circle>
-      </svg>
-    ),
+    icono: <MapPin size={16} className="shrink-0" />,
     texto: "Calle del Sabor 123, Barrio Dulce",
   },
   {
-    icono: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-      </svg>
-    ),
+    icono: <Phone size={16} className="shrink-0" />,
     texto: "+56 9 1234 5678",
   },
   {
-    icono: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-        <polyline points="22,6 12,13 2,6"></polyline>
-      </svg>
-    ),
+    icono: <Mail size={16} className="shrink-0" />,
     texto: "hola@cremeco.cl",
   },
 ];
@@ -79,35 +61,60 @@ const REDES_SOCIALES = [
 
 export function Footer() {
   return (
-    <footer>
-      <div className="footer-container">
-        <div className="footer-col">
-          <h4>Crème &amp; Co</h4>
-          <p>
+    <footer className="relative mt-12 bg-tertiary px-4 py-9 text-center font-body text-[0.95rem] text-neutral">
+      <div className="mx-auto grid max-w-page grid-cols-1 gap-8 border-b border-neutral/20 pb-8 text-center sm:grid-cols-2 md:text-left lg:grid-cols-4">
+        <div className="flex flex-col gap-2">
+          <h4 className="mb-2 font-display text-[1.1rem] font-semibold text-primary">
+            Crème &amp; Co
+          </h4>
+          <p className="text-[0.9rem] leading-[1.4]">
             Tu pastelería artesanal de confianza. Horneamos cada día con ingredientes 100%
             naturales y muchísimo amor.
           </p>
         </div>
-        <div className="footer-col">
-          <h4>Contacto</h4>
+
+        <div className="flex flex-col gap-2">
+          <h4 className="mb-2 font-display text-[1.1rem] font-semibold text-primary">
+            Contacto
+          </h4>
           {CONTACTOS.map((contacto) => (
-            <p style={LINEA_FILA} key={contacto.texto}>
+            <p
+              className="flex items-center justify-center gap-2 text-[0.9rem] leading-[1.4] md:justify-start"
+              key={contacto.texto}
+            >
               {contacto.icono} {contacto.texto}
             </p>
           ))}
         </div>
-        <div className="footer-col">
-          <h4>Horarios</h4>
+
+        <div className="flex flex-col gap-2">
+          <h4 className="mb-2 font-display text-[1.1rem] font-semibold text-primary">
+            Horarios
+          </h4>
           {HORARIOS.map((horario) => (
-            <p key={horario}>{horario}</p>
+            <p
+              key={horario}
+              className="flex items-center justify-center gap-2 text-[0.9rem] leading-[1.4] md:justify-start"
+            >
+              <Clock size={14} className="shrink-0 opacity-75" />
+              {horario}
+            </p>
           ))}
         </div>
-        <div className="footer-col">
-          <h4>Redes Sociales</h4>
-          <ul>
+
+        <div className="flex flex-col gap-2">
+          <h4 className="mb-2 font-display text-[1.1rem] font-semibold text-primary">
+            Redes Sociales
+          </h4>
+          <ul className="list-none flex flex-col gap-2">
             {REDES_SOCIALES.map((red) => (
               <li key={red.nombre}>
-                <a href="#" style={LINEA_FILA}>
+                <a
+                  href={`https://www.${red.nombre.toLowerCase()}.com`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center justify-center gap-2 text-[0.9rem] text-neutral no-underline transition-colors hover:text-primary md:justify-start"
+                >
                   {red.icono} {red.nombre}
                 </a>
               </li>
@@ -115,7 +122,8 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="footer-bottom">
+
+      <div className="mt-6 text-center text-[0.85rem] text-neutral/70">
         &copy; 2026 Pastelería Crème &amp; Co. Todos los derechos reservados.
       </div>
     </footer>

@@ -106,13 +106,18 @@ export function Navbar() {
   };
 
   return (
-    <header className="select-none">
-      <div className="header-inner">
-        <Link to="/" className="brand-group">
-          <span className="brand-logo" aria-hidden="true">
+    <header className="relative border-b border-tertiary/15 bg-white px-6 py-4 select-none">
+      <div className="mx-auto flex max-w-page flex-wrap items-center justify-between gap-4">
+        <Link to="/" className="flex items-center gap-2.5 no-underline">
+          <span
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary font-display font-bold text-tertiary"
+            aria-hidden="true"
+          >
             C
           </span>
-          <span className="brand">Crème &amp; Co</span>
+          <span className="font-display text-[clamp(1.2rem,2.4vw,1.5rem)] font-bold tracking-[0.01em] text-tertiary">
+            Crème &amp; Co
+          </span>
         </Link>
         <button
           type="button"
@@ -128,10 +133,19 @@ export function Navbar() {
           id="nav-principal"
           className={cn("w-full lg:block lg:w-auto", abierto ? "block" : "hidden")}
         >
-          <ul className="flex flex-col items-stretch gap-1 [&_a]:block [&_a]:text-left lg:flex-row lg:items-center lg:justify-center lg:gap-[0.4rem] lg:[&_a]:inline-block lg:[&_a]:text-center">
+          <ul className="list-none flex flex-col items-stretch gap-1 lg:flex-row lg:items-center lg:justify-center lg:gap-[0.4rem]">
             {NAV_ITEMS.map((item) => (
               <li key={item.to}>
-                <NavLink to={item.to} end={item.end}>
+                <NavLink
+                  to={item.to}
+                  end={item.end}
+                  className={({ isActive }) =>
+                    cn(
+                      "block rounded-full px-[1.05rem] py-2 text-left font-body text-[0.92rem] font-semibold text-tertiary no-underline transition-colors hover:bg-primary/55 lg:inline-block lg:text-center",
+                      isActive && "bg-primary text-tertiary"
+                    )
+                  }
+                >
                   {item.label}
                 </NavLink>
               </li>
