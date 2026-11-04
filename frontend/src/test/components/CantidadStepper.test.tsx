@@ -1,12 +1,13 @@
 // @pca:start
 // @id(frontend.test.components.cantidadStepper)
 // @kind(test)
-// @limit(lines: 90)
+// @limit(lines: 110)
 // @relates(frontend.components.ui.cantidadstepper)
 // @desc(Pruebas de integracion e interaccion por click en el componente CantidadStepper)
 // @pca:end
+import { useState } from "react";
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { CantidadStepper } from "@/components/ui/CantidadStepper";
 
@@ -66,5 +67,33 @@ describe("CantidadStepper — Interacción y Clicks de UI", () => {
 
     await user.click(botonAgregar);
     expect(handleCambiar).not.toHaveBeenCalled();
+  });
+
+  it("en modo editable renderiza input con su valor y atributo data-no-spinner", () => {
+    const handleCambiar = vi.fn();
+
+    function StepperWrapper() {
+      const [val, setVal] = useState(5);
+      return (
+        <CantidadStepper
+          valor={val}
+          onCambiar={(n) => {
+            setVal(n);
+            handleCambiar(n);
+          }}
+          editable
+        />
+      );
+    }
+
+    render(<StepperWrapper />);
+
+    const input = screen.getByRole("spinbutton", { name: /cantidad/i });
+    expect(input).toBeInTheDocument();
+    expect(input).toHaveValue(5);
+    expect(input).toHaveAttribute("data-no-spinner", "true");
+
+    fireEvent.change(input, { target: { value: "8" } });
+    expect(handleCambiar).toHaveBeenCalledWith(8);
   });
 });

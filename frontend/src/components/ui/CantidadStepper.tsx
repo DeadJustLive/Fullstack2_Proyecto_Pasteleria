@@ -25,7 +25,7 @@ const stepperVariants = cva("flex items-center", {
 const buttonVariants = cva("flex items-center justify-center transition-colors", {
   variants: {
     variant: {
-      pill: "h-7 w-7 rounded-full bg-primary text-lg font-bold leading-none text-tertiary hover:bg-secondary hover:text-white disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-primary disabled:hover:text-tertiary",
+      pill: "h-7 w-7 rounded-full bg-primary text-tertiary hover:bg-secondary hover:text-white disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-primary disabled:hover:text-tertiary",
       compact:
         "h-6 w-6 rounded border border-tertiary/20 text-secondary hover:border-primary hover:bg-primary/20 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-tertiary/20 disabled:hover:bg-transparent",
     },
@@ -53,7 +53,6 @@ export function CantidadStepper({
   variant = "pill",
   className,
 }: CantidadStepperProps) {
-  const compacto = variant === "compact";
   const limiteMin = min !== undefined ? min : undefined;
   const noPuedeRestar = limiteMin !== undefined && valor <= limiteMin;
   const noPuedeSumar = max !== undefined && valor >= max;
@@ -77,7 +76,7 @@ export function CantidadStepper({
         onClick={handleRestar}
         className={buttonVariants({ variant })}
       >
-        {compacto ? <Minus size={14} /> : "−"}
+        <Minus size={14} strokeWidth={2.5} />
       </button>
 
       {editable ? (
@@ -87,8 +86,11 @@ export function CantidadStepper({
           max={max}
           value={valor}
           aria-label="Cantidad"
+          data-no-spinner="true"
           onChange={(e) => {
-            const raw = Number(e.target.value);
+            const valStr = e.target.value;
+            if (valStr === "") return;
+            const raw = Number(valStr);
             if (Number.isNaN(raw)) return;
             const piso = limiteMin ?? 1;
             let val = Math.max(piso, raw);
@@ -97,10 +99,16 @@ export function CantidadStepper({
             }
             onCambiar(val);
           }}
-          className="w-9 border-none bg-transparent text-center font-body font-bold text-ink outline-none"
+          onBlur={(e) => {
+            const raw = Number(e.target.value);
+            if (!e.target.value || Number.isNaN(raw) || raw < (limiteMin ?? 1)) {
+              onCambiar(limiteMin ?? 1);
+            }
+          }}
+          className="no-spinner w-10 border-none bg-transparent p-0 text-center font-body font-bold text-ink outline-none focus:outline-none focus:ring-0 [appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
         />
       ) : (
-        <span className="min-w-4 text-center font-body font-semibold">{valor}</span>
+        <span className="min-w-6 text-center font-body font-semibold">{valor}</span>
       )}
 
       <button
@@ -110,7 +118,7 @@ export function CantidadStepper({
         onClick={handleSumar}
         className={buttonVariants({ variant })}
       >
-        {compacto ? <Plus size={14} /> : "+"}
+        <Plus size={14} strokeWidth={2.5} />
       </button>
     </div>
   );

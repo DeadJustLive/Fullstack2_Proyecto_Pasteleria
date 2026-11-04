@@ -63,6 +63,7 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | Sprint 8 | Gobernanza FIDA + OPL (`fida-kit`) y Flow.cl Real E2E | Hecho |
 | Sprint 9 | Adopción integral del Patrón FIDA + OPL en Frontend, Admin PWA y Backend | Hecho |
 | Sprint 10 | Contenedorización Docker completa en PC, Redis activo, Flow.cl diagnóstico y WebP en Admin | Hecho |
+| Sprint 11 | Sincronización real E2E de stock web, reactividad tiempo real y eliminación de datos mock en Dashboard y Reportes | Pendiente |
 
 ---
 
@@ -131,6 +132,11 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | T117 | Rediseño de Catálogo en 2 fases (`CatalogHomeView` + Catálogo filtrado con URL params), unificación en Navbar y 31 tests unitarios automáticos | F4 / S10 | Hecho | `CONV-UI-01`, `CONV-UI-02`, `CONV-UI-03`, `CONV-UI-04`, `CONV-TIP-01`, `CONV-TIP-04`, `CONV-DOC-01` |
 | T118 | Aplanado y desacoplamiento limpio de `frontend/src/pages/`: eliminación de vestigios admin (`Pos.tsx`, `AdminLayout.tsx`, `components/admin`), aplanado de `cliente/` y build verificado | F4 / S10 | Hecho | `CONV-EST-01`, `CONV-GEN-02`, `CONV-DOC-01`, `CONV-TIP-01` |
 | QA-TEST-001 | Incremento de Cobertura de Pruebas: Exclusiones de métrica (AC-1), suite Core `src/lib`, `src/lib/data`, `src/data` al 100%, validadores al 94.9% (AC-2), Features FIDA al 90-100% (AC-4), Context al 67.3%, Layout al 65.5% y `api.ts` al 56%. 95 tests en verde | F4 / S10 | En curso | `CONV-DOC-01`, `CONV-TIP-01`, `CONV-EST-01`, `CONV-ERR-02` |
+| T123 | Ajustes UX Carrito: Ocultamiento contextual de `FloatingCartButton` en `/carrito` y `/checkout`/pago, y neutralización de spinners default en `CantidadStepper` | F4 / S10 | Hecho | `CONV-UI-01`, `CONV-UI-04`, `CONV-TIP-01` |
+| T119 | Descuento transaccional de stock en venta web y Kardex backend (`service-order`, `catalog`, `inventory`) | F4 / S11 | Pendiente | `CONV-EST-01`, `CONV-TIP-01`, `CONV-ERR-01` |
+| T120 | Reactividad tiempo real de stock (BroadcastChannel `STOCK_UPDATED`) y sondeo activo en Admin PWA | F4 / S11 | Pendiente | `CONV-UI-01`, `CONV-UI-04`, `CONV-TIP-01` |
+| T121 | Métricas en vivo y eliminación total de datos mock en Dashboard Admin PWA (`Dashboard.tsx`) | F4 / S11 | Pendiente | `CONV-UI-01`, `CONV-UI-04`, `CONV-ERR-01` |
+| T122 | Desacoplamiento de mocks en Reportes y consistencia CSV contable (`Reportes.tsx`) | F4 / S11 | Pendiente | `CONV-UI-01`, `CONV-ERR-01`, `CONV-TIP-01` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
@@ -143,7 +149,7 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 - **Fase F4 / Transición a F5 — Entorno de Producción & Preparación de Entrega Académica:**
   1. **T117 Hecho**: Implementado el flujo de Catálogo en 2 fases (`CatalogHomeView.tsx` + `CatalogoFiltros.tsx` + `Catalogo.tsx` con soporte de `useSearchParams`), eliminada la redundancia en `Navbar.tsx`, redirección unificada de `/categorias` y 31 pruebas unitarias automáticas aprobadas.
   2. **T118 Hecho**: Aplanada la arquitectura de `src/pages/`, eliminados vestigios admin huérfanos (`Pos.tsx`, `AdminLayout.tsx`) y build verificado en verde.
-  3. **QA-TEST-001 En curso**: Exclusiones de Vitest configuradas (AC-1), Core `src/lib`, `src/lib/data` y `src/data` al 100%, validadores al 94.9% (AC-2), Módulos de negocio FIDA al 90-100% (AC-4), Context al 67.3%, Layout al 65.5% y `api.ts` al 56%. 95 tests pasando en verde.
+  3. **QA-TEST-001 & T123 Hecho**: Exclusiones de Vitest configuradas (AC-1), Core `src/lib`, `src/lib/data` y `src/data` al 100%, validadores al 94.9% (AC-2), Módulos de negocio FIDA al 90-100% (AC-4), Context al 67.3%, Layout al 65.5% y `api.ts` al 56%. Ocultamiento contextual del botón flotante del carrito en `/carrito` y `/checkout`, y corrección visual del stepper de cantidad (sin spinners default, centrado perfecto y botones vectoriales). 100 tests pasando en verde.
   4. **REQUISITO ESTRICTO DE ENTREGA (Protocolo Anti-Fricción de Defensa):** En el commit final de entrega para la presentación académica (F5), se debe ejecutar la purga completa de herramientas internas propias (`fida-kit/`, scripts de `tools/`, archivos de configuración de metadatos y comentarios `@pca:start`) para que el repositorio quede en estándar curricular puro (React/Spring Boot), protegiendo a los compañeros de preguntas sobre herramientas no oficiales.
 
 ---

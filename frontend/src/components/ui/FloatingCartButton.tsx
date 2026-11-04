@@ -5,19 +5,32 @@
 // @contract(FloatingCartButton)
 // @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (FloatingCartButton.tsx))
 // @pca:end
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/cart";
 
 /**
+ * Rutas donde no debe mostrarse el botón flotante del carrito
+ * (al estar dentro del carrito o en el flujo de pago/checkout).
+ */
+const RUTAS_OCULTAS = ["/carrito", "/checkout", "/confirmacion"];
+
+/**
  * Botón flotante inferior central para acceso directo al carrito.
- * Visible en móvil y desktop únicamente cuando cantidadTotal > 0.
+ * Visible en móvil y desktop únicamente cuando cantidadTotal > 0 y
+ * el usuario NO se encuentre dentro del carrito ni en las páginas de pago.
  * Solo icono + badge contador (sin texto).
  */
 export function FloatingCartButton() {
   const { cantidadTotal } = useCart();
+  const location = useLocation();
 
-  if (cantidadTotal <= 0) return null;
+  const esRutaOculta =
+    RUTAS_OCULTAS.some(
+      (ruta) => location.pathname === ruta || location.pathname.startsWith(`${ruta}/`)
+    ) || location.pathname.startsWith("/pago");
+
+  if (cantidadTotal <= 0 || esRutaOculta) return null;
 
   return (
     <aside
