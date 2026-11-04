@@ -63,7 +63,7 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | Sprint 8 | Gobernanza FIDA + OPL (`fida-kit`) y Flow.cl Real E2E | Hecho |
 | Sprint 9 | Adopción integral del Patrón FIDA + OPL en Frontend, Admin PWA y Backend | Hecho |
 | Sprint 10 | Contenedorización Docker completa en PC, Redis activo, Flow.cl diagnóstico y WebP en Admin | Hecho |
-| Sprint 11 | Sincronización real E2E de stock web, reactividad tiempo real y eliminación de datos mock en Dashboard y Reportes | En curso |
+| Sprint 11 | Sincronización real E2E de stock web, reactividad tiempo real y eliminación de datos mock en Dashboard y Reportes | Hecho |
 | Sprint 12 | Cohesión E2E de flujos del cliente en `frontend/`: `trackingCode` real en Checkout, `CantidadStepper` en `ProductoDetalle`, reactividad en `Ofertas` y `MiniCarrito` interactivo | Hecho |
 
 ---
@@ -137,7 +137,7 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | T119 | Descuento transaccional de stock en venta web y Kardex backend (`service-order`, `catalog`, `inventory`) | F4 / S11 | Hecho | `CONV-EST-01`, `CONV-TIP-01`, `CONV-ERR-01` |
 | T120 | Reactividad tiempo real de stock (BroadcastChannel `STOCK_UPDATED`) y sondeo activo en Admin PWA | F4 / S11 | Hecho | `CONV-UI-01`, `CONV-UI-04`, `CONV-TIP-01` |
 | T121 | Métricas en vivo y eliminación total de datos mock en Dashboard Admin PWA (`Dashboard.tsx`) | F4 / S11 | Hecho | `CONV-UI-01`, `CONV-UI-04`, `CONV-ERR-01` |
-| T122 | Desacoplamiento de mocks en Reportes y consistencia CSV contable (`Reportes.tsx`) | F4 / S11 | Pendiente | `CONV-UI-01`, `CONV-ERR-01`, `CONV-TIP-01` |
+| T122 | Desacoplamiento de mocks en Reportes y consistencia CSV contable (`Reportes.tsx`) | F4 / S11 | Hecho | `CONV-UI-01`, `CONV-ERR-01`, `CONV-TIP-01` |
 | T124 | Sincronización E2E del `trackingCode` real de MySQL y pre-llenado de sesión en `Checkout.tsx` | F4 / S12 | Hecho | `CONV-EST-01`, `CONV-TIP-01`, `CONV-ERR-01`, `CONV-UI-01` |
 | T125 | Unificación de `ProductoDetalle.tsx` con `CantidadStepper`, tope de stock real y feedback sin redirección forzada | F4 / S12 | Hecho | `CONV-UI-02`, `CONV-UI-04`, `CONV-TIP-01` |
 | T126 | Reactividad en tiempo real (`useRealtimeProducts`) y bloqueo de agotados en `Ofertas.tsx` | F4 / S12 | Hecho | `CONV-UI-01`, `CONV-UI-02`, `CONV-TIP-01` |
@@ -149,14 +149,19 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 ## 6. Próximo paso
 
-> Rama activa de desarrollo: `feature/T121-dashboard-metricas-reales`.
+> Rama activa de desarrollo: `feature/T122-reportes-reales-csv`.
 
-- **Sprint 11 — Sincronización Real E2E de Stock & Dashboard Vivo (F4):**
+- **Sprint 11 — Sincronización Real E2E de Stock & Dashboard Vivo (F4) — COMPLETADO:**
   1. **T119 Hecho**: Descuento transaccional de stock conectado en `service-order` (validación de stock disponible, actualización atómica en `products`, sincronización en `inventory_items` y registro de movimiento `VENTA_ONLINE` en `kardex_movements`). Soporte de `productId` en `Checkout.tsx` y `api.ts`, propagación de error `STOCK_INSUFICIENTE` y llamada de invalidación de caché Redis en `service-catalog`. 101 tests pasando en verde.
   2. **T120 Hecho**: Reactividad en tiempo real de stock (eventos `STOCK_UPDATED`, `STOCK_DECREMENTED`, `ORDER_PLACED` en `BroadcastChannel`), sondeo periódico inteligente cada 5s en `Productos.tsx` e `Inventario.tsx`, emisión bidireccional desde Checkout y reposición rápida en Admin, y bitácora de mejoras UI registrada en `docs/mejoras_flujo_ui.md`.
   3. **T121 Hecho**: Eliminación total de datos mock y constantes quemadas en `Dashboard.tsx`. Métricas 100% dinámicas: ingresos y órdenes reales de MySQL, gráfico semanal proyectado desde órdenes de los últimos 7 días, insumos críticos enlazados a stock `<=` 5 (con empty state amigable) y ranking de productos más vendidos computado desde transacciones reales.
-  4. **T122 Siguiente**: Desacoplamiento de mocks en `Reportes.tsx`.
-  5. **REQUISITO ESTRICTO DE ENTREGA (Protocolo Anti-Fricción de Defensa):** En el commit final de entrega para la presentación académica (F5), se debe ejecutar la purga completa de herramientas internas propias (`fida-kit/`, scripts de `tools/`, archivos de configuración de metadatos y comentarios `@pca:start`) para que el repositorio quede en estándar curricular puro (React/Spring Boot), protegiendo a los compañeros de preguntas sobre herramientas no oficiales.
+  4. **T122 Hecho**: Eliminación de datos mock en `Reportes.tsx`, cálculo dinámico de ingresos, ticket promedio, cumplimiento y métodos de pago; gráfico de ventas semanales con montos reales; ranking de productos por unidades y recaudación; exportación de CSV para Excel con UTF-8 BOM y sincronización viva vía BroadcastChannel y sondeo.
+- **Siguiente Paso — Sprint 13 / Deuda Crítica (`docs/mejoras_flujo_ui.md`):**
+  1. **CORR-01**: Corrección de cálculo y renderizado en `BoletaModal.tsx` (desglose SII y formato visual).
+  2. **CORR-02**: Carga dual de imágenes en `Categorias.tsx` (archivo local WebP + URL).
+  3. **CORR-03**: Prototipado y rediseño de Punto de Venta POS en HTML limpio antes de migración React.
+  4. **CORR-04**: Retiro definitivo del enlace "UI Kit & Modales" (`/componentes`) de la navegación en `AdminLayout.tsx`.
+- **REQUISITO ESTRICTO DE ENTREGA (Protocolo Anti-Fricción de Defensa):** En el commit final de entrega para la presentación académica (F5), se debe ejecutar la purga completa de herramientas internas propias (`fida-kit/`, scripts de `tools/`, archivos de configuración de metadatos y comentarios `@pca:start`) para que el repositorio quede en estándar curricular puro (React/Spring Boot), protegiendo a los compañeros de preguntas sobre herramientas no oficiales.
 
 ---
 

@@ -10,7 +10,7 @@
 # Sprint 11 — Sincronización Real E2E de Stock, Descuento Transaccional y Métricas Vivas de Dashboard
 
 > **Fase:** F4 — Validación / Testing & Entorno de Producción Docker · **Sprint:** S11 · **Tickets:** T119–T122
-> **Estado:** Planificado / Pendiente de Aprobación · **Última actualización:** 2026-11-04
+> **Estado:** Completado · **Última actualización:** 2026-11-04
 > **Objetivo:** Conectar el flujo completo de inventario y ventas para que el software funcione con datos 100% reales: descontar stock automáticamente tras cada venta web, sincronizar en tiempo real el inventario entre tienda cliente y Admin PWA, y erradicar todo dato mock cableado en Dashboard y Reportes.
 
 ---
@@ -22,7 +22,7 @@
 | **ÉPICA 1: Ciclo de Stock Transaccional** | [T119](#ticket-t119--descuento-transaccional-de-stock-en-venta-web-y-kardex-backend) | Descuento transaccional de stock en venta web y Kardex backend | `backend/service-order`, `service-catalog`, `service-inventory`, `frontend/src/pages/Checkout.tsx` | **Alta** | T116, T118 | **Completado** |
 | **ÉPICA 2: Reactividad y Sincronización en Tiempo Real** | [T120](#ticket-t120--reactividad-tiempo-real-de-stock-y-sondeo-activo-en-admin-pwa) | Reactividad tiempo real de stock y sondeo activo en Admin PWA | `admin-pwa/src/pages/Productos.tsx`, `Inventario.tsx`, `useRealtimeProducts.ts` | **Alta** | T119 | **Completado** |
 | **ÉPICA 3: Métricas Vivas de Dashboard** | [T121](#ticket-t121--métricas-en-vivo-y-eliminación-de-datos-mock-en-dashboard) | Métricas en vivo y eliminación total de datos mock en Dashboard | `admin-pwa/src/pages/Dashboard.tsx`, `api.ts` | **Alta** | T119, T120 | **Completado** |
-| **ÉPICA 4: Integridad Contable en Reportes** | [T122](#ticket-t122--desacoplamiento-de-mocks-en-reportes-y-consistencia-csv) | Desacoplamiento de mocks en Reportes y consistencia CSV contable | `admin-pwa/src/pages/Reportes.tsx` | **Media** | T121 | **Pendiente** |
+| **ÉPICA 4: Integridad Contable en Reportes** | [T122](#ticket-t122--desacoplamiento-de-mocks-en-reportes-y-consistencia-csv) | Desacoplamiento de mocks en Reportes y consistencia CSV contable | `admin-pwa/src/pages/Reportes.tsx` | **Media** | T121 | **Completado** |
 
 ---
 
@@ -207,9 +207,9 @@
 - **NO:** Modificación de exportadores externos ni dependencias nuevas de reporting.
 
 #### Criterios de aceptación
-- [ ] Los reportes calculan totales exactos a partir del arreglo de órdenes obtenido del backend.
-- [ ] La descarga del archivo CSV descarga únicamente las transacciones reales persistidas.
-- [ ] Eliminación de fórmulas ficticias como `120 - idx * 25`.
+- [x] Los reportes calculan totales exactos a partir del arreglo de órdenes obtenido del backend.
+- [x] La descarga del archivo CSV descarga únicamente las transacciones reales persistidas con codificación UTF-8 BOM.
+- [x] Eliminación de fórmulas ficticias como `120 - idx * 25`.
 
 #### Archivos afectados (previstos)
 | Archivo | @kind | @limit |
@@ -217,5 +217,5 @@
 | `admin-pwa/src/pages/Reportes.tsx` | page | 450 |
 
 #### Definition of Done
-- [ ] Exportación de CSV probada y contrastada contra la base de datos `cremeco_db.orders`.
-- [ ] `docs/estado_proyecto.md` actualizado.
+- [x] Exportación de CSV probada y contrastada contra la base de datos `cremeco_db.orders`.
+- [x] `docs/estado_proyecto.md` actualizado.
