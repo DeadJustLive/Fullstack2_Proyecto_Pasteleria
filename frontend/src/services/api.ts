@@ -465,7 +465,7 @@ export const orderApi = {
     cliente: string;
     email: string;
     total: number;
-    items: Array<{ nombre: string; cantidad: number; precio: number }>;
+    items: Array<{ productId?: number; productoId?: number; nombre: string; cantidad: number; precio: number }>;
     tipoEntrega?: string;
     rut?: string;
     telefono?: string;
@@ -477,14 +477,24 @@ export const orderApi = {
     personaRetiroTelefono?: string;
   }): Promise<OrderResponse> => {
     try {
+      const payload = {
+        ...data,
+        items: data.items.map((it) => ({
+          ...it,
+          productId: it.productId || it.productoId,
+        })),
+      };
       const res = await request<OrderResponse>("/orders", {
         method: "POST",
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
       const stored = getStoredOrders();
       saveStoredOrders([res, ...stored]);
       return res;
-    } catch {
+    } catch (err: unknown) {
+      if (err instanceof Error && (err.message.includes("STOCK") || err.message.includes("Stock"))) {
+        throw err;
+      }
       const trackingCode = `CC-${Math.floor(1000 + Math.random() * 9000)}`;
       const nuevaOrden: OrderResponse = {
         id: Date.now(),

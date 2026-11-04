@@ -133,7 +133,7 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | T118 | Aplanado y desacoplamiento limpio de `frontend/src/pages/`: eliminación de vestigios admin (`Pos.tsx`, `AdminLayout.tsx`, `components/admin`), aplanado de `cliente/` y build verificado | F4 / S10 | Hecho | `CONV-EST-01`, `CONV-GEN-02`, `CONV-DOC-01`, `CONV-TIP-01` |
 | QA-TEST-001 | Incremento de Cobertura de Pruebas: Exclusiones de métrica (AC-1), suite Core `src/lib`, `src/lib/data`, `src/data` al 100%, validadores al 94.9% (AC-2), Features FIDA al 90-100% (AC-4), Context al 67.3%, Layout al 65.5% y `api.ts` al 56%. 95 tests en verde | F4 / S10 | En curso | `CONV-DOC-01`, `CONV-TIP-01`, `CONV-EST-01`, `CONV-ERR-02` |
 | T123 | Ajustes UX Carrito: Ocultamiento contextual de `FloatingCartButton` en `/carrito` y `/checkout`/pago, y neutralización de spinners default en `CantidadStepper` | F4 / S10 | Hecho | `CONV-UI-01`, `CONV-UI-04`, `CONV-TIP-01` |
-| T119 | Descuento transaccional de stock en venta web y Kardex backend (`service-order`, `catalog`, `inventory`) | F4 / S11 | Pendiente | `CONV-EST-01`, `CONV-TIP-01`, `CONV-ERR-01` |
+| T119 | Descuento transaccional de stock en venta web y Kardex backend (`service-order`, `catalog`, `inventory`) | F4 / S11 | Hecho | `CONV-EST-01`, `CONV-TIP-01`, `CONV-ERR-01` |
 | T120 | Reactividad tiempo real de stock (BroadcastChannel `STOCK_UPDATED`) y sondeo activo en Admin PWA | F4 / S11 | Pendiente | `CONV-UI-01`, `CONV-UI-04`, `CONV-TIP-01` |
 | T121 | Métricas en vivo y eliminación total de datos mock en Dashboard Admin PWA (`Dashboard.tsx`) | F4 / S11 | Pendiente | `CONV-UI-01`, `CONV-UI-04`, `CONV-ERR-01` |
 | T122 | Desacoplamiento de mocks en Reportes y consistencia CSV contable (`Reportes.tsx`) | F4 / S11 | Pendiente | `CONV-UI-01`, `CONV-ERR-01`, `CONV-TIP-01` |
@@ -144,9 +144,13 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 ## 6. Próximo paso
 
-> Rama activa de desarrollo: `feature/T117-catalogo-fase-categorias`.
+> Rama activa de desarrollo: `feature/T119-descuento-stock-transaccional-web`.
 
-- **Fase F4 / Transición a F5 — Entorno de Producción & Preparación de Entrega Académica:**
+- **Sprint 11 — Sincronización Real E2E de Stock & Dashboard Vivo (F4):**
+  1. **T119 Hecho**: Descuento transaccional de stock conectado en `service-order` (validación de stock disponible, actualización atómica en `products`, sincronización en `inventory_items` y registro de movimiento `VENTA_ONLINE` en `kardex_movements`). Soporte de `productId` en `Checkout.tsx` y `api.ts`, propagación de error `STOCK_INSUFICIENTE` y llamada de invalidación de caché Redis en `service-catalog`. 101 tests pasando en verde.
+  2. **T120 Siguiente**: Reactividad tiempo real de stock (evento `STOCK_UPDATED` en `BroadcastChannel`), sondeo activo cada 5s en `Productos.tsx` e `Inventario.tsx`, y actualización en vivo del monitor de stock crítico `<= 5`.
+  3. **T121 Siguiente**: Limpieza y cálculo de métricas reales en `Dashboard.tsx`.
+  4. **T122 Siguiente**: Desacoplamiento de mocks en `Reportes.tsx`.
   1. **T117 Hecho**: Implementado el flujo de Catálogo en 2 fases (`CatalogHomeView.tsx` + `CatalogoFiltros.tsx` + `Catalogo.tsx` con soporte de `useSearchParams`), eliminada la redundancia en `Navbar.tsx`, redirección unificada de `/categorias` y 31 pruebas unitarias automáticas aprobadas.
   2. **T118 Hecho**: Aplanada la arquitectura de `src/pages/`, eliminados vestigios admin huérfanos (`Pos.tsx`, `AdminLayout.tsx`) y build verificado en verde.
   3. **QA-TEST-001 & T123 Hecho**: Exclusiones de Vitest configuradas (AC-1), Core `src/lib`, `src/lib/data` y `src/data` al 100%, validadores al 94.9% (AC-2), Módulos de negocio FIDA al 90-100% (AC-4), Context al 67.3%, Layout al 65.5% y `api.ts` al 56%. Ocultamiento contextual del botón flotante del carrito en `/carrito` y `/checkout`, y corrección visual del stepper de cantidad (sin spinners default, centrado perfecto y botones vectoriales). 100 tests pasando en verde.

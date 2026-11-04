@@ -1,7 +1,7 @@
 // @pca:start
 // @id(frontend.pages.cliente.checkout)
 // @kind(page)
-// @limit(lines: 700)
+// @limit(lines: 720)
 // @contract(CheckoutView())
 // @relates(frontend.lib.checkoutValidator)
 // @relates(feature.checkoutsummary.view)
@@ -180,20 +180,37 @@ export function Checkout() {
         // Fallback si sessionStorage está bloqueado
       }
 
-      // Registro opcional en backend
+      // Registro de orden en backend con descuento transaccional de stock
       try {
         await api.orders.create({
           cliente: ordenGuardada.comprador.nombre,
           email: ordenGuardada.comprador.email,
           total: totalCalculado,
+          tipoEntrega: metodoEntrega === "retiro" ? "RETIRO" : "DELIVERY",
+          direccion: ordenGuardada.entrega.direccion,
+          comuna: datos.comuna,
+          region: datos.region,
+          rut: datos.rut,
+          telefono: datos.telefono,
           items: items.map((i) => ({
+            productId: i.producto.id,
+            productoId: i.producto.id,
             nombre: i.producto.nombre,
             cantidad: i.cantidad,
             precio: i.producto.precio,
           })),
         });
-      } catch {
-        // Modo offline resiliente
+      } catch (err: unknown) {
+        if (err instanceof Error && (err.message.includes("STOCK") || err.message.includes("Stock"))) {
+          setErrores((prev) => ({
+            ...prev,
+            submit: err.message,
+          }));
+          setProcesando(false);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+        // Modo offline resiliente para contingencia de red
       }
 
       // IMPORTANTE: NO vaciar carrito aquí. Se conserva hasta éxito de pago.

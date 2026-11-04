@@ -91,4 +91,23 @@ public class CatalogService {
         log.info("Eliminando categoria e invalidando cache de categorias ID: {}", category.getId());
         categoryRepository.delete(category);
     }
+
+    @CacheEvict(value = {"catalog_products", "catalog_offers"}, allEntries = true)
+    public void evictAllCache() {
+        log.info("Invalidacion manual de cache Redis de productos y ofertas");
+    }
+
+    @CacheEvict(value = {"catalog_products", "catalog_offers"}, allEntries = true)
+    public ProductEntity deductStock(Long productId, int quantity) {
+        log.info("Descontando stock en service-catalog para producto ID {}: cantidad={}", productId, quantity);
+        ProductEntity prod = productRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado con ID: " + productId));
+        if (prod.getStock() == null) prod.setStock(0);
+        if (prod.getStock() < quantity) {
+            throw new IllegalStateException("Stock insuficiente para '" + prod.getNombre() + "'. Disponible: " + prod.getStock() + ", solicitado: " + quantity);
+        }
+        prod.setStock(Math.max(0, prod.getStock() - quantity));
+        prod.setVentasHistoricas((prod.getVentasHistoricas() != null ? prod.getVentasHistoricas() : 0) + quantity);
+        return productRepository.save(prod);
+    }
 }

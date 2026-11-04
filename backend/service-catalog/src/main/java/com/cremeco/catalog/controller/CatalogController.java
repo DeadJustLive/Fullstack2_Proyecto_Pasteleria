@@ -1,7 +1,7 @@
 // @pca:start
 // @id(backend.service_catalog.main.java.com.cremeco.catalog.controller.catalogcontroller)
 // @kind(controller)
-// @limit(lines: 300)
+// @limit(lines: 350)
 // @relates(backend.service_catalog.service.catalogservice)
 // @desc(Controlador REST del catalogo con endpoints publicos, administracion y diagnostico de Redis)
 // @pca:end
@@ -167,6 +167,26 @@ public class CatalogController {
 
         catalogService.deleteProduct(p);
         return ResponseEntity.ok(Map.of("mensaje", "Producto eliminado correctamente", "id", id));
+    }
+
+    @PostMapping("/products/{id}/deduct-stock")
+    public ResponseEntity<?> deductStock(@PathVariable Long id, @RequestParam(defaultValue = "1") int cantidad) {
+        try {
+            ProductEntity updated = catalogService.deductStock(id, cantidad);
+            return ResponseEntity.ok(updated);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "NOT_FOUND", "mensaje", e.getMessage()));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "STOCK_INSUFICIENTE", "mensaje", e.getMessage()));
+        }
+    }
+
+    @PostMapping("/cache/evict")
+    public ResponseEntity<?> evictCache() {
+        catalogService.evictAllCache();
+        return ResponseEntity.ok(Map.of("status", "OK", "mensaje", "Caché Redis de catálogo invalidada exitosamente"));
     }
 
     // ==========================================

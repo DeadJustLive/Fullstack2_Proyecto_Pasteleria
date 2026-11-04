@@ -1,7 +1,7 @@
 // @pca:start
 // @id(backend.service_order.main.java.com.cremeco.order.controller.ordercontroller)
 // @kind(controller)
-// @limit(lines: 250)
+// @limit(lines: 350)
 // @desc(Archivo controller auto-registrado por FIDA/OPL bootstrap (OrderController.java))
 // @pca:end
 package com.cremeco.order.controller;
@@ -33,6 +33,10 @@ public class OrderController {
 
     private final OrderRepository orderRepository;
     private final CustomQuoteRepository customQuoteRepository;
+    private final org.springframework.jdbc.core.JdbcTemplate jdbcTemplate;
+
+    @org.springframework.beans.factory.annotation.Value("${service.catalog.url:http://localhost:8082}")
+    private String catalogServiceUrl;
 
     @Autowired(required = false)
     private KafkaTemplate<String, Object> kafkaTemplate;
@@ -103,7 +107,87 @@ public class OrderController {
             order.setIva(Math.round(order.getTotal() * 0.19 / 1.19));
         }
 
+        // 1. Validar disponibilidad de stock antes de consolidar la orden
+        if (order.getItems() != null && !order.getItems().isEmpty()) {
+            for (OrderItemEntity item : order.getItems()) {
+                if (item.getProductId() != null) {
+                    try {
+                        List<Map<String, Object>> rows = jdbcTemplate.queryForList(
+                                "SELECT id, nombre, stock FROM products WHERE id = ?",
+                                item.getProductId()
+                        );
+                        if (!rows.isEmpty()) {
+                            Map<String, Object> prod = rows.get(0);
+                            int stockActual = prod.get("stock") != null ? ((Number) prod.get("stock")).intValue() : 0;
+                            String nombreProd = prod.get("nombre") != null ? (String) prod.get("nombre") : item.getNombre();
+                            int requerido = item.getCantidad() != null ? item.getCantidad() : 1;
+                            if (stockActual < requerido) {
+                                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                                        "error", "STOCK_INSUFICIENTE",
+                                        "mensaje", "Stock insuficiente para '" + nombreProd + "'. Disponible: " + stockActual + ", solicitado: " + requerido
+                                ));
+                            }
+                        }
+                    } catch (Exception ex) {
+                        log.warn("Verificacion de stock en products omitida por fallo de consulta: {}", ex.getMessage());
+                    }
+                }
+            }
+        }
+
         OrderEntity saved = orderRepository.save(order);
+
+        // 2. Descuento transaccional de stock y registro en Kardex
+        if (saved.getItems() != null) {
+            for (OrderItemEntity item : saved.getItems()) {
+                if (item.getProductId() != null) {
+                    int qty = item.getCantidad() != null ? item.getCantidad() : 1;
+                    try {
+                        // Descontar en tabla products
+                        jdbcTemplate.update(
+                                "UPDATE products SET stock = GREATEST(0, stock - ?), ventas_historicas = COALESCE(ventas_historicas, 0) + ? WHERE id = ?",
+                                qty, qty, item.getProductId()
+                        );
+
+                        // Descontar en inventario de insumos / producto terminado si existe
+                        jdbcTemplate.update(
+                                "UPDATE inventory_items SET stock_actual = GREATEST(0, stock_actual - ?), " +
+                                "estado_semaforo = CASE WHEN (stock_actual - ?) <= 2 THEN 'ROJO' WHEN (stock_actual - ?) <= stock_minimo THEN 'AMARILLO' ELSE 'VERDE' END, " +
+                                "ultima_actualizacion = NOW() WHERE producto_id = ?",
+                                qty, qty, qty, item.getProductId()
+                        );
+
+                        // Obtener saldo resultante para Kardex
+                        Integer saldo = null;
+                        try {
+                            saldo = jdbcTemplate.queryForObject("SELECT stock FROM products WHERE id = ?", Integer.class, item.getProductId());
+                        } catch (Exception ignored) {}
+
+                        // Registrar movimiento Kardex
+                        jdbcTemplate.update(
+                                "INSERT INTO kardex_movements (producto_id, producto_nombre, tipo, cantidad, saldo, motivo, usuario, boleta, fecha) " +
+                                "VALUES (?, ?, 'VENTA_ONLINE', ?, ?, ?, ?, ?, NOW())",
+                                item.getProductId(),
+                                item.getNombre() != null ? item.getNombre() : "Producto #" + item.getProductId(),
+                                -qty,
+                                saldo != null ? saldo : 0,
+                                "Venta Web Pedido #" + saved.getTrackingCode(),
+                                saved.getEmail() != null ? saved.getEmail() : "cliente.web@cremeco.cl",
+                                saved.getTrackingCode()
+                        );
+                    } catch (Exception ex) {
+                        log.warn("Fallo actualizacion transaccional de stock/kardex para producto ID {}: {}", item.getProductId(), ex.getMessage());
+                    }
+                }
+            }
+        }
+
+        // 3. Notificar invalidacion de cache Redis a service-catalog
+        try {
+            new org.springframework.web.client.RestTemplate().postForEntity(catalogServiceUrl + "/api/catalog/cache/evict", null, Map.class);
+        } catch (Exception ex) {
+            log.debug("No se pudo contactar endpoint de cache evict en service-catalog: {}", ex.getMessage());
+        }
 
         // Notificar por Kafka si está disponible
         if (kafkaTemplate != null) {

@@ -151,13 +151,34 @@ describe("api.ts — Cliente HTTP y Normalizadores de Microservicios", () => {
         cliente: "Rodrigo Pastelería",
         email: "rodrigo@pasteleria.cl",
         total: 25000,
-        items: [{ nombre: "Torta Mil Hojas", cantidad: 1, precio: 25000 }],
+        items: [{ productoId: 4, nombre: "Torta Mil Hojas", cantidad: 1, precio: 25000 }],
       });
 
       expect(ordenCreada).toBeDefined();
       expect(ordenCreada.cliente).toBe("Rodrigo Pastelería");
       expect(ordenCreada.total).toBe(25000);
       expect(ordenCreada.trackingCode).toMatch(/^CC-\d+/);
+    });
+
+    it("orderApi.create debe propagar el error si el backend responde STOCK_INSUFICIENTE", async () => {
+      vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        statusText: "Bad Request",
+        json: async () => ({
+          error: "STOCK_INSUFICIENTE",
+          mensaje: "Stock insuficiente para 'Torta Cuatro Leches'. Disponible: 0, solicitado: 2",
+        }),
+      } as Response);
+
+      await expect(
+        orderApi.create({
+          cliente: "Camila Silva",
+          email: "camila@cremeco.cl",
+          total: 68000,
+          items: [{ productoId: 1, nombre: "Torta Cuatro Leches", cantidad: 2, precio: 34000 }],
+        })
+      ).rejects.toThrow("Stock insuficiente para 'Torta Cuatro Leches'");
     });
 
     it("debe capturar errores HTTP 500 y lanzar excepciones legibles", async () => {

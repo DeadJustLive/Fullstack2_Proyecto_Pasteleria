@@ -29,6 +29,7 @@ están cerradas y F1/F2 están aprobados.
 | S8 | [`sprint-8-fida-flow-produccion.md`](./sprint-8-fida-flow-produccion.md) | T101–T105 | Gobernanza FIDA + OPL (`fida-kit`), Pasarela Flow.cl Real E2E (`POST /return` + `.env` auto-load), Patrón de Diseño FIDA (5 subcarpetas + Aduana + WAL) y Sellado a Producción |
 | S9 | [`sprint-9-fida-arquitectura-total.md`](./sprint-9-fida-arquitectura-total.md) | T106–T109 | Adopción integral no destructiva (Riesgo 0%) del Patrón de Diseño FIDA + OPL en `frontend/`, `admin-pwa/` y los 6 microservicios `backend/` restantes |
 | S10 | [`sprint-10-entorno-produccion-docker-flow-webp.md`](./sprint-10-entorno-produccion-docker-flow-webp.md) | T110–T114 | Contenedorización Docker completa de los 7 microservicios en PC local, integración activa de Redis (`:6379`), Flow.cl real con diagnóstico explícito y módulo FIDA de compresión a WebP en `admin-pwa` + `service-catalog` |
+| S11 | [`sprint-11-sincronizacion-real-stock-dashboard.md`](./sprint-11-sincronizacion-real-stock-dashboard.md) | T119–T122 | Sincronización real E2E de stock web transaccional, reactividad tiempo real y eliminación de datos mock en Dashboard y Reportes |
 
 ## Reglas de uso
 
