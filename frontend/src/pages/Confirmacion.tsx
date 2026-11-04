@@ -56,10 +56,17 @@ export function Confirmacion() {
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row">
-          <ButtonLink to="/perfil" className="flex-1">
-              <FileText size={18} />
-              Ver mi pedido
-            </ButtonLink>
+          <ButtonLink
+            to={
+              orderId && orderId !== "N/A"
+                ? `/perfil/seguimiento/${encodeURIComponent(orderId.replace(/^#/, ""))}`
+                : "/perfil/seguimiento"
+            }
+            className="flex-1"
+          >
+            <FileText size={18} />
+            Ver mi pedido
+          </ButtonLink>
           <ButtonLink to="/catalogo" variant="outline" className="flex-1">
               <ShoppingBag size={18} />
               Seguir comprando

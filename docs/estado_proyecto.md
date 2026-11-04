@@ -63,7 +63,8 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | Sprint 8 | Gobernanza FIDA + OPL (`fida-kit`) y Flow.cl Real E2E | Hecho |
 | Sprint 9 | Adopción integral del Patrón FIDA + OPL en Frontend, Admin PWA y Backend | Hecho |
 | Sprint 10 | Contenedorización Docker completa en PC, Redis activo, Flow.cl diagnóstico y WebP en Admin | Hecho |
-| Sprint 11 | Sincronización real E2E de stock web, reactividad tiempo real y eliminación de datos mock en Dashboard y Reportes | Pendiente |
+| Sprint 11 | Sincronización real E2E de stock web, reactividad tiempo real y eliminación de datos mock en Dashboard y Reportes | En curso |
+| Sprint 12 | Cohesión E2E de flujos del cliente en `frontend/`: `trackingCode` real en Checkout, `CantidadStepper` en `ProductoDetalle`, reactividad en `Ofertas` y `MiniCarrito` interactivo | Pendiente |
 
 ---
 
@@ -134,9 +135,13 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | QA-TEST-001 | Incremento de Cobertura de Pruebas: Exclusiones de métrica (AC-1), suite Core `src/lib`, `src/lib/data`, `src/data` al 100%, validadores al 94.9% (AC-2), Features FIDA al 90-100% (AC-4), Context al 67.3%, Layout al 65.5% y `api.ts` al 56%. 95 tests en verde | F4 / S10 | En curso | `CONV-DOC-01`, `CONV-TIP-01`, `CONV-EST-01`, `CONV-ERR-02` |
 | T123 | Ajustes UX Carrito: Ocultamiento contextual de `FloatingCartButton` en `/carrito` y `/checkout`/pago, y neutralización de spinners default en `CantidadStepper` | F4 / S10 | Hecho | `CONV-UI-01`, `CONV-UI-04`, `CONV-TIP-01` |
 | T119 | Descuento transaccional de stock en venta web y Kardex backend (`service-order`, `catalog`, `inventory`) | F4 / S11 | Hecho | `CONV-EST-01`, `CONV-TIP-01`, `CONV-ERR-01` |
-| T120 | Reactividad tiempo real de stock (BroadcastChannel `STOCK_UPDATED`) y sondeo activo en Admin PWA | F4 / S11 | Pendiente | `CONV-UI-01`, `CONV-UI-04`, `CONV-TIP-01` |
-| T121 | Métricas en vivo y eliminación total de datos mock en Dashboard Admin PWA (`Dashboard.tsx`) | F4 / S11 | Pendiente | `CONV-UI-01`, `CONV-UI-04`, `CONV-ERR-01` |
+| T120 | Reactividad tiempo real de stock (BroadcastChannel `STOCK_UPDATED`) y sondeo activo en Admin PWA | F4 / S11 | Hecho | `CONV-UI-01`, `CONV-UI-04`, `CONV-TIP-01` |
+| T121 | Métricas en vivo y eliminación total de datos mock en Dashboard Admin PWA (`Dashboard.tsx`) | F4 / S11 | Hecho | `CONV-UI-01`, `CONV-UI-04`, `CONV-ERR-01` |
 | T122 | Desacoplamiento de mocks en Reportes y consistencia CSV contable (`Reportes.tsx`) | F4 / S11 | Pendiente | `CONV-UI-01`, `CONV-ERR-01`, `CONV-TIP-01` |
+| T124 | Sincronización E2E del `trackingCode` real de MySQL y pre-llenado de sesión en `Checkout.tsx` | F4 / S12 | Pendiente | `CONV-EST-01`, `CONV-TIP-01`, `CONV-ERR-01`, `CONV-UI-01` |
+| T125 | Unificación de `ProductoDetalle.tsx` con `CantidadStepper`, tope de stock real y feedback sin redirección forzada | F4 / S12 | Pendiente | `CONV-UI-02`, `CONV-UI-04`, `CONV-TIP-01` |
+| T126 | Reactividad en tiempo real (`useRealtimeProducts`) y bloqueo de agotados en `Ofertas.tsx` | F4 / S12 | Pendiente | `CONV-UI-01`, `CONV-UI-02`, `CONV-TIP-01` |
+| T127 | Controles interactivos en `MiniCarrito.tsx` y desacoplamiento de `mockup.css` en `Navbar` y `Footer` | F4 / S12 | Pendiente | `CONV-UI-03`, `CONV-UI-04`, `CONV-GEN-02` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
@@ -144,22 +149,24 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 ## 6. Próximo paso
 
-> Rama activa de desarrollo: `feature/T119-descuento-stock-transaccional-web`.
+> Rama activa de desarrollo: `feature/T121-dashboard-metricas-reales`.
 
 - **Sprint 11 — Sincronización Real E2E de Stock & Dashboard Vivo (F4):**
   1. **T119 Hecho**: Descuento transaccional de stock conectado en `service-order` (validación de stock disponible, actualización atómica en `products`, sincronización en `inventory_items` y registro de movimiento `VENTA_ONLINE` en `kardex_movements`). Soporte de `productId` en `Checkout.tsx` y `api.ts`, propagación de error `STOCK_INSUFICIENTE` y llamada de invalidación de caché Redis en `service-catalog`. 101 tests pasando en verde.
-  2. **T120 Siguiente**: Reactividad tiempo real de stock (evento `STOCK_UPDATED` en `BroadcastChannel`), sondeo activo cada 5s en `Productos.tsx` e `Inventario.tsx`, y actualización en vivo del monitor de stock crítico `<= 5`.
-  3. **T121 Siguiente**: Limpieza y cálculo de métricas reales en `Dashboard.tsx`.
+  2. **T120 Hecho**: Reactividad en tiempo real de stock (eventos `STOCK_UPDATED`, `STOCK_DECREMENTED`, `ORDER_PLACED` en `BroadcastChannel`), sondeo periódico inteligente cada 5s en `Productos.tsx` e `Inventario.tsx`, emisión bidireccional desde Checkout y reposición rápida en Admin, y bitácora de mejoras UI registrada en `docs/mejoras_flujo_ui.md`.
+  3. **T121 Hecho**: Eliminación total de datos mock y constantes quemadas en `Dashboard.tsx`. Métricas 100% dinámicas: ingresos y órdenes reales de MySQL, gráfico semanal proyectado desde órdenes de los últimos 7 días, insumos críticos enlazados a stock `<=` 5 (con empty state amigable) y ranking de productos más vendidos computado desde transacciones reales.
   4. **T122 Siguiente**: Desacoplamiento de mocks en `Reportes.tsx`.
-  1. **T117 Hecho**: Implementado el flujo de Catálogo en 2 fases (`CatalogHomeView.tsx` + `CatalogoFiltros.tsx` + `Catalogo.tsx` con soporte de `useSearchParams`), eliminada la redundancia en `Navbar.tsx`, redirección unificada de `/categorias` y 31 pruebas unitarias automáticas aprobadas.
-  2. **T118 Hecho**: Aplanada la arquitectura de `src/pages/`, eliminados vestigios admin huérfanos (`Pos.tsx`, `AdminLayout.tsx`) y build verificado en verde.
-  3. **QA-TEST-001 & T123 Hecho**: Exclusiones de Vitest configuradas (AC-1), Core `src/lib`, `src/lib/data` y `src/data` al 100%, validadores al 94.9% (AC-2), Módulos de negocio FIDA al 90-100% (AC-4), Context al 67.3%, Layout al 65.5% y `api.ts` al 56%. Ocultamiento contextual del botón flotante del carrito en `/carrito` y `/checkout`, y corrección visual del stepper de cantidad (sin spinners default, centrado perfecto y botones vectoriales). 100 tests pasando en verde.
-  4. **REQUISITO ESTRICTO DE ENTREGA (Protocolo Anti-Fricción de Defensa):** En el commit final de entrega para la presentación académica (F5), se debe ejecutar la purga completa de herramientas internas propias (`fida-kit/`, scripts de `tools/`, archivos de configuración de metadatos y comentarios `@pca:start`) para que el repositorio quede en estándar curricular puro (React/Spring Boot), protegiendo a los compañeros de preguntas sobre herramientas no oficiales.
+  5. **REQUISITO ESTRICTO DE ENTREGA (Protocolo Anti-Fricción de Defensa):** En el commit final de entrega para la presentación académica (F5), se debe ejecutar la purga completa de herramientas internas propias (`fida-kit/`, scripts de `tools/`, archivos de configuración de metadatos y comentarios `@pca:start`) para que el repositorio quede en estándar curricular puro (React/Spring Boot), protegiendo a los compañeros de preguntas sobre herramientas no oficiales.
 
 ---
 
 ## 7. Notas y decisiones
 
+- **Deuda Crítica Registrada para Próximos Sprints (`docs/mejoras_flujo_ui.md`):**
+  1. *Boleta Corrupta:* Auditoría de cálculo y renderizado en `BoletaModal.tsx`.
+  2. *Carga de Fotos en Categorías:* Soporte dual de archivo local WebP + URL en `Categorias.tsx`.
+  3. *Rediseño Estético POS:* Reestructuración preliminar en HTML limpio antes de volver a montar en React.
+  4. *Retiro de UI Kit:* Eliminación del acceso de menú a `/componentes` en `AdminLayout.tsx` por ser vista exclusiva de desarrollo.
 - **Protocolo de Protección de Defensa Grupal (Mandato Estricto):** Todo el andamiaje interno de gobernanza (FIDA / PCA) sirvió como acelerador de desarrollo riguroso. Sin embargo, para la presentación oral grupal ante el profesor, el repositorio público de entrega debe estar libre de estos artefactos para garantizar que cualquier miembro del equipo pueda defender el código con total seguridad basándose exclusivamente en el temario oficial de la asignatura.
 - **Flujo Guiado de Catálogo (T117):** Inspirado en el patrón mobile de `catalog_home.html`, el catálogo opera en 2 fases: Fase 1 (Catalog Home: buscador rápido, tarjetas de especialidad con contador y botón "Ver todo") y Fase 2 (Exploración con filtros laterales y botón "Volver a todas las categorías").
 - **Unificación de Navegación:** Retirado el ítem redundante "Categorías" del Navbar; ahora "Catálogo" es la única puerta de entrada y `/categorias` redirige a `/catalogo`.

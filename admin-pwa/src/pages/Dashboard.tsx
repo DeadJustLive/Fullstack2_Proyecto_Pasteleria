@@ -1,75 +1,202 @@
 // @pca:start
 // @id(admin.pages.dashboard)
 // @kind(page)
-// @limit(lines: 280)
+// @limit(lines: 450)
 // @contract(DashboardView())
 // @relates(docs.especificacion_pwa_admin)
 // @relates(admin.services.api)
-// @desc(Resumen administrativo con metricas, ventas diarias y accesos rapidos)
+// @desc(Resumen administrativo con metricas reales, ventas diarias y ranking dinámico)
 // @pca:end
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import {
   AlertTriangle,
-  ArrowDownRight,
   ArrowUpRight,
   BarChart3,
+  CheckCircle2,
   Clock,
   DollarSign,
   Package,
   ShoppingBag,
   TrendingUp,
 } from "lucide-react";
-import { adminApi } from "../services/api";
+import { adminApi, type OrderAdmin, type ProductCatalogDTO } from "../services/api";
 
-const VENTAS_SEMANALES = [
-  { dia: "Lun", monto: "$450.000", porcentaje: 39 },
-  { dia: "Mar", monto: "$520.000", porcentaje: 45 },
-  { dia: "Mié", monto: "$610.000", porcentaje: 53 },
-  { dia: "Jue", monto: "$580.000", porcentaje: 50 },
-  { dia: "Vie", monto: "$890.000", porcentaje: 77 },
-  { dia: "Sáb", monto: "$1.150.000", porcentaje: 100 },
-  { dia: "Dom", monto: "$650.000", porcentaje: 56 },
-];
-
-const TOP_PRODUCTOS = [
-  { nombre: "Torta Cuatro Leches Tradicional", unidades: 68, recaudacion: "$2.312.000", porcentaje: 85 },
-  { nombre: "Cheesecake Horneado Frutos Rojos", unidades: 52, recaudacion: "$1.768.000", porcentaje: 65 },
-  { nombre: "Torta Hojarasca Manjar Lúcuma", unidades: 34, recaudacion: "$1.088.000", porcentaje: 42 },
-  { nombre: "Tarta de Limón y Merengue Suizo", unidades: 29, recaudacion: "$696.000", porcentaje: 36 },
-];
-
-const ALERTAS_STOCK = [
-  { insumo: "Crema Chantilly 35% MG", actual: "3.5 L", minimo: "10 L" },
-  { insumo: "Harina de Almendras Fina", actual: "1.2 kg", minimo: "5 kg" },
-  { insumo: "Frutillas Frescas Selección", actual: "4 kg", minimo: "8 kg" },
-];
+const CHANNEL_NAME = "cremeco_products_realtime";
 
 export function Dashboard() {
-  const [ingresosTotales, setIngresosTotales] = useState(4850000);
-  const [totalOrdenes, setTotalOrdenes] = useState(142);
+  const [ordenes, setOrdenes] = useState<OrderAdmin[]>([]);
+  const [productos, setProductos] = useState<ProductCatalogDTO[]>([]);
+  const [mermasCount, setMermasCount] = useState<number>(0);
+  const [cargando, setCargando] = useState<boolean>(true);
 
-  useEffect(() => {
-    let montado = true;
-    async function cargarMetricas() {
-      try {
-        const ordenes = await adminApi.orders.list();
-        if (montado && Array.isArray(ordenes) && ordenes.length > 0) {
-          const total = ordenes.reduce((acc, o) => acc + (o.total || 0), 0);
-          setIngresosTotales(total || 4850000);
-          setTotalOrdenes(ordenes.length);
-        }
-      } catch {
-        // Fallback activo
+  const cargarDatos = useCallback(async () => {
+    try {
+      const [ordData, prodData, kardexData] = await Promise.all([
+        adminApi.orders.list().catch(() => []),
+        adminApi.products.list().catch(() => []),
+        adminApi.inventory.getKardex().catch(() => []),
+      ]);
+
+      if (Array.isArray(ordData)) {
+        setOrdenes(ordData);
       }
+      if (Array.isArray(prodData)) {
+        setProductos(prodData);
+      }
+      if (Array.isArray(kardexData)) {
+        const mermas = kardexData.filter((k) => (k.tipo || "").toUpperCase().includes("MERMA")).length;
+        setMermasCount(mermas);
+      }
+    } catch {
+      // Manejo defensivo
+    } finally {
+      setCargando(false);
     }
-    void cargarMetricas();
-    return () => {
-      montado = false;
-    };
   }, []);
 
-  const ticketProm = Math.round(ingresosTotales / Math.max(1, totalOrdenes));
+  useEffect(() => {
+    cargarDatos();
+    const handleFocus = () => { void cargarDatos(); };
+    const intervalId = window.setInterval(() => {
+      if (document.visibilityState === "visible") {
+        void cargarDatos();
+      }
+    }, 5000);
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [cargarDatos]);
+
+  useEffect(() => {
+    let channel: BroadcastChannel | null = null;
+    try {
+      channel = new BroadcastChannel(CHANNEL_NAME);
+      channel.onmessage = (event: MessageEvent) => {
+        const data = event.data;
+        if (!data) return;
+        if (data.type === "ORDER_PLACED" || data.type === "STOCK_UPDATED" || data.type === "STOCK_DECREMENTED") {
+          void cargarDatos();
+        }
+      };
+    } catch { /* Channel */ }
+    return () => { if (channel) channel.close(); };
+  }, [cargarDatos]);
+
+  // Cálculos dinámicos reales
+  const ingresosTotales = useMemo(() => {
+    return ordenes.reduce((acc, o) => acc + (Number(o.total) || 0), 0);
+  }, [ordenes]);
+
+  const totalOrdenes = ordenes.length;
+  const ticketProm = totalOrdenes > 0 ? Math.round(ingresosTotales / totalOrdenes) : 0;
+  const ordenesEntregadas = useMemo(() => {
+    return ordenes.filter((o) => o.estado === "ENTREGADO").length;
+  }, [ordenes]);
+
+  // Gráfico dinámico: últimos 7 días
+  const { barrasSemana, totalSemana, picoDia } = useMemo(() => {
+    const nombresDias = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+    const hoy = new Date();
+    const resultado = [];
+
+    for (let i = 6; i >= 0; i--) {
+      const fecha = new Date(hoy);
+      fecha.setDate(hoy.getDate() - i);
+      const diaSemana = nombresDias[fecha.getDay()];
+      const fechaStr = fecha.toISOString().split("T")[0];
+
+      const montoDia = ordenes
+        .filter((o) => (o.fecha || "").startsWith(fechaStr))
+        .reduce((sum, o) => sum + (Number(o.total) || 0), 0);
+
+      resultado.push({
+        dia: diaSemana,
+        fecha: fechaStr,
+        monto: montoDia,
+        montoStr: `$${montoDia.toLocaleString("es-CL")}`,
+      });
+    }
+
+    const montos = resultado.map((r) => r.monto);
+    const maxMonto = Math.max(1, ...montos);
+    const total = montos.reduce((a, b) => a + b, 0);
+
+    let maxDia = resultado[0];
+    resultado.forEach((r) => {
+      if (r.monto > (maxDia?.monto || 0)) maxDia = r;
+    });
+
+    const barras = resultado.map((r) => ({
+      ...r,
+      porcentaje: maxMonto > 0 ? Math.max(8, Math.round((r.monto / maxMonto) * 100)) : 8,
+    }));
+
+    return {
+      barrasSemana: barras,
+      totalSemana: total,
+      picoDia: maxDia && maxDia.monto > 0 ? `${maxDia.dia}: $${maxDia.monto.toLocaleString("es-CL")}` : "Sin ventas aún",
+    };
+  }, [ordenes]);
+
+  // Stock Crítico Real (<= 5 unidades en catálogo)
+  const productosCriticos = useMemo(() => {
+    return productos
+      .filter((p) => Number(p.stock) <= 5)
+      .slice(0, 5)
+      .map((p) => ({
+        id: p.id,
+        nombre: p.nombre,
+        actual: `${p.stock} un.`,
+        minimo: "5 un.",
+        categoria: p.categoria || "Catálogo",
+      }));
+  }, [productos]);
+
+  // Top 5 Productos más vendidos calculado desde ítems de órdenes reales o ventas del catálogo
+  const topProductos = useMemo(() => {
+    const map: Record<string, { nombre: string; unidades: number; recaudacion: number }> = {};
+
+    ordenes.forEach((o) => {
+      if (Array.isArray(o.items)) {
+        o.items.forEach((it) => {
+          const key = it.nombre || "Producto";
+          if (!map[key]) {
+            map[key] = { nombre: key, unidades: 0, recaudacion: 0 };
+          }
+          const cant = Number(it.cantidad || 1);
+          const prec = Number(it.precio || 0);
+          map[key].unidades += cant;
+          map[key].recaudacion += cant * prec;
+        });
+      }
+    });
+
+    let items = Object.values(map);
+
+    // Si aún no hay ítems detallados en las órdenes, usar ventas del catálogo
+    if (items.length === 0 && productos.length > 0) {
+      items = productos
+        .filter((p) => (p.ventas || 0) > 0)
+        .map((p) => ({
+          nombre: p.nombre,
+          unidades: p.ventas || 0,
+          recaudacion: (p.ventas || 0) * p.precio,
+        }));
+    }
+
+    items.sort((a, b) => b.unidades - a.unidades);
+    const top = items.slice(0, 5);
+    const maxUnidades = Math.max(1, ...(top.map((t) => t.unidades)));
+
+    return top.map((t) => ({
+      ...t,
+      recaudacionStr: `$${t.recaudacion.toLocaleString("es-CL")}`,
+      porcentaje: Math.max(10, Math.round((t.unidades / maxUnidades) * 100)),
+    }));
+  }, [ordenes, productos]);
 
   return (
     <div className="container-fluid px-0">
@@ -79,7 +206,7 @@ export function Dashboard() {
             Resumen Operativo y Financiero
           </h2>
           <p className="text-muted small mb-0">
-            Métricas de rendimiento en tiempo real · Octubre 2026 (React + Bootstrap 5)
+            Métricas de rendimiento en tiempo real · Conexión directa a MySQL y Spring Boot
           </p>
         </div>
         <div className="d-flex align-items-center gap-2 flex-wrap">
@@ -91,8 +218,8 @@ export function Dashboard() {
             <span>Ver Reportes Detallados</span>
           </Link>
           <div className="d-inline-flex align-items-center gap-1 badge bg-light text-secondary border py-2 px-3 small">
-            <Clock size={14} />
-            <span>En vivo</span>
+            <Clock size={14} className={cargando ? "animate-spin text-primary" : "text-success"} />
+            <span>En vivo (5s)</span>
           </div>
         </div>
       </div>
@@ -102,7 +229,7 @@ export function Dashboard() {
         <div className="col-12 col-sm-6 col-xl-3">
           <div className="card admin-card h-100 p-3">
             <div className="d-flex align-items-center justify-content-between text-muted small text-uppercase fw-bold">
-              <span>Ingresos del Mes</span>
+              <span>Ingresos Totales</span>
               <span className="badge bg-success-subtle text-success p-2 rounded-3">
                 <DollarSign size={18} />
               </span>
@@ -110,7 +237,7 @@ export function Dashboard() {
             <div className="fs-3 fw-bold text-secondary my-2">${ingresosTotales.toLocaleString("es-CL")}</div>
             <div className="d-flex align-items-center gap-1 text-success small fw-bold">
               <ArrowUpRight size={15} />
-              <span>+18.4% vs mes anterior</span>
+              <span>{totalOrdenes} órdenes registradas</span>
             </div>
           </div>
         </div>
@@ -124,9 +251,9 @@ export function Dashboard() {
               </span>
             </div>
             <div className="fs-3 fw-bold text-secondary my-2">{totalOrdenes} órdenes</div>
-            <div className="d-flex align-items-center gap-1 text-success small fw-bold">
+            <div className="d-flex align-items-center gap-1 text-primary small fw-bold">
               <ArrowUpRight size={15} />
-              <span>+12.0% cumplidas a tiempo</span>
+              <span>{ordenesEntregadas} entregadas con éxito</span>
             </div>
           </div>
         </div>
@@ -140,9 +267,8 @@ export function Dashboard() {
               </span>
             </div>
             <div className="fs-3 fw-bold text-secondary my-2">${ticketProm.toLocaleString("es-CL")}</div>
-            <div className="d-flex align-items-center gap-1 text-success small fw-bold">
-              <ArrowUpRight size={15} />
-              <span>+5.8% en tortas personalizadas</span>
+            <div className="d-flex align-items-center gap-1 text-secondary small fw-bold">
+              <span>Promedio por venta consolidada</span>
             </div>
           </div>
         </div>
@@ -150,15 +276,14 @@ export function Dashboard() {
         <div className="col-12 col-sm-6 col-xl-3">
           <div className="card admin-card h-100 p-3">
             <div className="d-flex align-items-center justify-content-between text-muted small text-uppercase fw-bold">
-              <span>Mermas / Desperdicio</span>
+              <span>Mermas Registradas</span>
               <span className="badge bg-danger-subtle text-danger p-2 rounded-3">
                 <AlertTriangle size={18} />
               </span>
             </div>
-            <div className="fs-3 fw-bold text-secondary my-2">1.2% producción</div>
-            <div className="d-flex align-items-center gap-1 text-success small fw-bold">
-              <ArrowDownRight size={15} />
-              <span>-0.4% reducción de costos</span>
+            <div className="fs-3 fw-bold text-secondary my-2">{mermasCount} incidentes</div>
+            <div className="d-flex align-items-center gap-1 text-danger small fw-bold">
+              <span>Trazabilidad Kardex en cocina</span>
             </div>
           </div>
         </div>
@@ -171,14 +296,14 @@ export function Dashboard() {
             <div className="d-flex align-items-center justify-content-between mb-3">
               <div>
                 <h3 className="brand-font fs-5 mb-0 text-secondary">
-                  Ventas de la Semana en Curso
+                  Ventas de los Últimos 7 Días
                 </h3>
                 <span className="text-muted small">
-                  Comparativo diario (Total acumulado: $4.850.000)
+                  Total acumulado en período: ${totalSemana.toLocaleString("es-CL")}
                 </span>
               </div>
               <span className="badge bg-secondary-subtle text-secondary py-2 px-3">
-                Pico Sábado: $1.150.000
+                {picoDia}
               </span>
             </div>
 
@@ -186,25 +311,25 @@ export function Dashboard() {
               className="d-flex align-items-end justify-content-between border-bottom pb-2 pt-4"
               style={{ height: "220px" }}
             >
-              {VENTAS_SEMANALES.map((item) => (
+              {barrasSemana.map((item) => (
                 <div
-                  key={item.dia}
+                  key={item.fecha}
                   className="d-flex flex-column align-items-center justify-content-end h-100 flex-fill px-1 text-center"
                 >
                   <span
                     className="fw-bold text-secondary text-truncate mb-1"
                     style={{ fontSize: "0.68rem" }}
                   >
-                    {item.monto}
+                    {item.montoStr}
                   </span>
                   <div
                     style={{
                       height: `${item.porcentaje}%`,
                       width: "100%",
                       maxWidth: "38px",
-                      background: "linear-gradient(180deg, #8B4513, #FFC0CB)",
+                      background: item.monto > 0 ? "linear-gradient(180deg, #8B4513, #FFC0CB)" : "#E0E0E0",
                       borderRadius: "6px 6px 0 0",
-                      transition: "height 0.3s ease",
+                      transition: "height 0.4s ease",
                     }}
                   />
                   <span className="mt-2 text-muted fw-bold small">{item.dia}</span>
@@ -218,24 +343,36 @@ export function Dashboard() {
           <div className="card admin-card h-100 p-4">
             <div className="d-flex align-items-center justify-content-between mb-3">
               <h3 className="brand-font fs-5 mb-0 text-secondary">Stock Crítico</h3>
-              <span className="badge bg-danger rounded-pill">3 insumos</span>
+              <span className={`badge ${productosCriticos.length > 0 ? "bg-danger" : "bg-success"} rounded-pill`}>
+                {productosCriticos.length} productos
+              </span>
             </div>
 
             <div className="d-flex flex-column gap-2.5">
-              {ALERTAS_STOCK.map((item) => (
-                <div
-                  key={item.insumo}
-                  className="p-3 rounded-3 border bg-light d-flex align-items-center justify-content-between"
-                >
-                  <div>
-                    <div className="fw-bold text-secondary small">{item.insumo}</div>
-                    <div className="text-muted" style={{ fontSize: "0.75rem" }}>
-                      Mínimo sugerido: {item.minimo}
-                    </div>
-                  </div>
-                  <span className="badge bg-danger">{item.actual}</span>
+              {productosCriticos.length === 0 ? (
+                <div className="p-3 rounded-3 border bg-light text-center py-4">
+                  <CheckCircle2 size={32} className="text-success mb-2 mx-auto" />
+                  <div className="fw-bold text-secondary small">Todo el catálogo con stock seguro</div>
+                  <div className="text-muted small">Sin productos bajo el umbral mínimo (≤ 5 uds.)</div>
                 </div>
-              ))}
+              ) : (
+                productosCriticos.map((item) => (
+                  <div
+                    key={item.id}
+                    className="p-3 rounded-3 border bg-light d-flex align-items-center justify-content-between"
+                  >
+                    <div>
+                      <div className="fw-bold text-secondary small text-truncate" style={{ maxWidth: "160px" }}>
+                        {item.nombre}
+                      </div>
+                      <div className="text-muted" style={{ fontSize: "0.75rem" }}>
+                        Mínimo sugerido: {item.minimo}
+                      </div>
+                    </div>
+                    <span className="badge bg-danger">{item.actual}</span>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
@@ -246,38 +383,44 @@ export function Dashboard() {
         <div className="d-flex align-items-center justify-content-between mb-4">
           <div>
             <h3 className="brand-font fs-5 mb-0 text-secondary">
-              Top 5 Tortas y Postres Más Vendidos
+              Top Productos Más Vendidos
             </h3>
             <span className="text-muted small">
-              Clasificados por volumen de órdenes y recaudación en CLP
+              Clasificados por volumen de órdenes y recaudación real en CLP
             </span>
           </div>
           <Package className="text-muted" size={22} />
         </div>
 
-        <div className="d-flex flex-column gap-3">
-          {TOP_PRODUCTOS.map((prod, idx) => (
-            <div key={prod.nombre}>
-              <div className="d-flex flex-wrap align-items-center justify-content-between gap-1 small fw-bold mb-1">
-                <span className="text-secondary text-truncate" style={{ maxWidth: "60%" }} title={prod.nombre}>
-                  <span className="text-muted me-2">#{idx + 1}</span>
-                  {prod.nombre}
-                </span>
-                <span className="text-secondary">
-                  {prod.unidades} un. ·{" "}
-                  <span className="text-primary fw-bold">{prod.recaudacion}</span>
-                </span>
+        {topProductos.length === 0 ? (
+          <div className="text-center py-4 text-muted small">
+            Aún no se registran órdenes para clasificar el ranking de ventas.
+          </div>
+        ) : (
+          <div className="d-flex flex-column gap-3">
+            {topProductos.map((prod, idx) => (
+              <div key={prod.nombre}>
+                <div className="d-flex flex-wrap align-items-center justify-content-between gap-1 small fw-bold mb-1">
+                  <span className="text-secondary text-truncate" style={{ maxWidth: "60%" }} title={prod.nombre}>
+                    <span className="text-muted me-2">#{idx + 1}</span>
+                    {prod.nombre}
+                  </span>
+                  <span className="text-secondary">
+                    {prod.unidades} un. ·{" "}
+                    <span className="text-primary fw-bold">{prod.recaudacionStr}</span>
+                  </span>
+                </div>
+                <div className="progress" style={{ height: "8px" }}>
+                  <div
+                    className="progress-bar bg-primary"
+                    role="progressbar"
+                    style={{ width: `${prod.porcentaje}%`, transition: "width 0.4s ease" }}
+                  />
+                </div>
               </div>
-              <div className="progress" style={{ height: "8px" }}>
-                <div
-                  className="progress-bar bg-primary"
-                  role="progressbar"
-                  style={{ width: `${prod.porcentaje}%` }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

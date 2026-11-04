@@ -1,14 +1,16 @@
 // @pca:start
 // @id(admin.pages.inventario)
 // @kind(page)
-// @limit(lines: 480)
+// @limit(lines: 540)
 // @contract(InventarioAdminView())
 // @relates(docs.especificacion_pwa_admin)
 // @relates(admin.services.api)
 // @relates(admin.feature.kardexpos.view)
 // @desc(Control de stock con semaforo, movimientos Kardex y registro de mermas)
 // @pca:end
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+
+const CHANNEL_NAME = "cremeco_products_realtime";
 import { adminApi } from "../services/api";
 import { ArrowDown, ArrowUp, History, PackagePlus, Search } from "lucide-react";
 import { AdminKardexPosView } from "../features/AdminKardexPos/implementation/AdminKardexPos.view";
@@ -55,52 +57,73 @@ export function Inventario() {
   const [busqueda, setBusqueda] = useState("");
   const [modalAjuste, setModalAjuste] = useState(false);
 
-  useEffect(() => {
-    let montado = true;
-    async function cargarInventario() {
-      try {
-        const [itemsData, kardexData] = await Promise.all([
-          adminApi.inventory.getItems(),
-          adminApi.inventory.getKardex(),
-        ]);
-        if (montado) {
-          if (Array.isArray(itemsData) && itemsData.length > 0) {
-            const adaptados: ItemStock[] = itemsData.map((it) => ({
-              id: it.id,
-              nombre: it.nombre,
-              categoria: it.categoria?.toLowerCase().includes("insumo") ? "insumo" : "producto_terminado",
-              stockActual: it.stockActual,
-              unidad: "un.",
-              stockMinimo: it.stockMinimo,
-              estado: it.estadoSemaforo === "ROJO" ? "critico" : it.estadoSemaforo === "AMARILLO" ? "reabastecer" : "optimo",
-            }));
-            setItems(adaptados);
-            if (adaptados[0]) setItemSeleccionado(adaptados[0].nombre);
-          }
-          if (Array.isArray(kardexData) && kardexData.length > 0) {
-            const adaptadosK: MovimientoKardex[] = kardexData.map((k) => ({
-              id: k.id,
-              fecha: k.fecha ? k.fecha.replace("T", " ").slice(0, 16) : new Date().toISOString().slice(0, 16).replace("T", " "),
-              tipo: (k.tipo as MovimientoKardex["tipo"]) || "AJUSTE",
-              item: k.productoNombre || k.producto || "Producto",
-              cantidad: k.cantidad,
-              unidad: "un.",
-              motivo: k.motivo || (k.boleta ? `Boleta ${k.boleta}` : "Ajuste inventario"),
-              responsable: "Caja/Bodega",
-              saldoResultante: k.saldo,
-            }));
-            setKardex(adaptadosK);
-          }
-        }
-      } catch {
-        // Fallback local
+  const cargarInventario = useCallback(async () => {
+    try {
+      const [itemsData, kardexData] = await Promise.all([
+        adminApi.inventory.getItems(),
+        adminApi.inventory.getKardex(),
+      ]);
+      if (Array.isArray(itemsData) && itemsData.length > 0) {
+        const adaptados: ItemStock[] = itemsData.map((it) => ({
+          id: it.id,
+          nombre: it.nombre,
+          categoria: it.categoria?.toLowerCase().includes("insumo") ? "insumo" : "producto_terminado",
+          stockActual: it.stockActual,
+          unidad: "un.",
+          stockMinimo: it.stockMinimo,
+          estado: it.estadoSemaforo === "ROJO" ? "critico" : it.estadoSemaforo === "AMARILLO" ? "reabastecer" : "optimo",
+        }));
+        setItems(adaptados);
+        if (adaptados[0]) setItemSeleccionado(adaptados[0].nombre);
       }
+      if (Array.isArray(kardexData) && kardexData.length > 0) {
+        const adaptadosK: MovimientoKardex[] = kardexData.map((k) => ({
+          id: k.id,
+          fecha: k.fecha ? k.fecha.replace("T", " ").slice(0, 16) : new Date().toISOString().slice(0, 16).replace("T", " "),
+          tipo: (k.tipo as MovimientoKardex["tipo"]) || "AJUSTE",
+          item: k.productoNombre || k.producto || "Producto",
+          cantidad: k.cantidad,
+          unidad: "un.",
+          motivo: k.motivo || (k.boleta ? `Boleta ${k.boleta}` : "Ajuste inventario"),
+          responsable: "Caja/Bodega",
+          saldoResultante: k.saldo,
+        }));
+        setKardex(adaptadosK);
+      }
+    } catch {
+      // Fallback local
     }
-    void cargarInventario();
-    return () => {
-      montado = false;
-    };
   }, []);
+
+  useEffect(() => {
+    cargarInventario();
+    const handleFocus = () => { void cargarInventario(); };
+    const intervalId = window.setInterval(() => {
+      if (document.visibilityState === "visible") {
+        void cargarInventario();
+      }
+    }, 5000);
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [cargarInventario]);
+
+  useEffect(() => {
+    let channel: BroadcastChannel | null = null;
+    try {
+      channel = new BroadcastChannel(CHANNEL_NAME);
+      channel.onmessage = (event: MessageEvent) => {
+        const data = event.data;
+        if (!data) return;
+        if (data.type === "ORDER_PLACED" || data.type === "STOCK_UPDATED" || data.type === "STOCK_DECREMENTED" || data.type === "KARDEX_UPDATED") {
+          void cargarInventario();
+        }
+      };
+    } catch { /* Channel */ }
+    return () => { if (channel) channel.close(); };
+  }, [cargarInventario]);
 
   // Form ajuste
   const [itemSeleccionado, setItemSeleccionado] = useState(items[0]?.nombre ?? "");

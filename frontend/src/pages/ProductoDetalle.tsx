@@ -8,10 +8,11 @@
 // @desc(Vista detallada de producto con seleccion de porciones y agregar a carrito)
 // @pca:end
 import { useEffect, useMemo, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Check, Copy, Minus, Plus, Share2, ShoppingCart } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
+import { ArrowLeft, Check, Copy, Share2, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { CantidadStepper } from "@/components/ui/CantidadStepper";
 import { Card } from "@/components/ui/Card";
 import { Modal } from "@/components/ui/Modal";
 import { useCart } from "@/context/cart";
@@ -23,12 +24,23 @@ import type { Producto } from "@/types/product";
 
 export function ProductoDetalle() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const { agregar } = useCart();
+  const { agregar, items: itemsCarrito } = useCart();
   const { productos, cargando: cargandoCatalogo } = useRealtimeProducts();
   const [cantidad, setCantidad] = useState(1);
+  const [agregadoFeedback, setAgregadoFeedback] = useState(false);
   const [compartirAbierto, setCompartirAbierto] = useState(false);
   const [copiado, setCopiado] = useState(false);
+
+  useEffect(() => {
+    setCantidad(1);
+    setAgregadoFeedback(false);
+  }, [id]);
+
+  useEffect(() => {
+    if (!agregadoFeedback) return;
+    const t = window.setTimeout(() => setAgregadoFeedback(false), 1800);
+    return () => window.clearTimeout(t);
+  }, [agregadoFeedback]);
 
   const productoEnLista = useMemo(
     () => productos.find((p) => p.id === Number(id)),

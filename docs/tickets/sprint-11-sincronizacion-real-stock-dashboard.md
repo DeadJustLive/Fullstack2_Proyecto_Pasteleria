@@ -20,8 +20,8 @@
 | Épica | ID | Título | Capa Principal | Prioridad | Depende de | Estado |
 | :--- | :--- | :--- | :--- | :---: | :--- | :---: |
 | **ÉPICA 1: Ciclo de Stock Transaccional** | [T119](#ticket-t119--descuento-transaccional-de-stock-en-venta-web-y-kardex-backend) | Descuento transaccional de stock en venta web y Kardex backend | `backend/service-order`, `service-catalog`, `service-inventory`, `frontend/src/pages/Checkout.tsx` | **Alta** | T116, T118 | **Completado** |
-| **ÉPICA 2: Reactividad y Sincronización en Tiempo Real** | [T120](#ticket-t120--reactividad-tiempo-real-de-stock-y-sondeo-activo-en-admin-pwa) | Reactividad tiempo real de stock y sondeo activo en Admin PWA | `admin-pwa/src/pages/Productos.tsx`, `Inventario.tsx`, `useRealtimeProducts.ts` | **Alta** | T119 | **Pendiente** |
-| **ÉPICA 3: Métricas Vivas de Dashboard** | [T121](#ticket-t121--métricas-en-vivo-y-eliminación-de-datos-mock-en-dashboard) | Métricas en vivo y eliminación total de datos mock en Dashboard | `admin-pwa/src/pages/Dashboard.tsx`, `api.ts` | **Alta** | T119, T120 | **Pendiente** |
+| **ÉPICA 2: Reactividad y Sincronización en Tiempo Real** | [T120](#ticket-t120--reactividad-tiempo-real-de-stock-y-sondeo-activo-en-admin-pwa) | Reactividad tiempo real de stock y sondeo activo en Admin PWA | `admin-pwa/src/pages/Productos.tsx`, `Inventario.tsx`, `useRealtimeProducts.ts` | **Alta** | T119 | **Completado** |
+| **ÉPICA 3: Métricas Vivas de Dashboard** | [T121](#ticket-t121--métricas-en-vivo-y-eliminación-de-datos-mock-en-dashboard) | Métricas en vivo y eliminación total de datos mock en Dashboard | `admin-pwa/src/pages/Dashboard.tsx`, `api.ts` | **Alta** | T119, T120 | **Completado** |
 | **ÉPICA 4: Integridad Contable en Reportes** | [T122](#ticket-t122--desacoplamiento-de-mocks-en-reportes-y-consistencia-csv) | Desacoplamiento de mocks en Reportes y consistencia CSV contable | `admin-pwa/src/pages/Reportes.tsx` | **Media** | T121 | **Pendiente** |
 
 ---
@@ -108,24 +108,24 @@
 - **NO:** Rediseño estructural de los componentes visuales ya blindados en ADM-03.
 
 #### Criterios de aceptación
-- [ ] Al reducir el stock de un producto en la web, la fila correspondiente en `Productos.tsx` del Admin se actualiza sin recargar la página.
-- [ ] El contador de "Stock Crítico" en el encabezado de productos se incrementa automáticamente cuando un producto baja de 6 a 5 unidades o menos.
-- [ ] En `Inventario.tsx`, el semáforo y la tabla de movimientos Kardex muestran la nueva venta sin intervención manual.
+- [x] Al reducir el stock de un producto en la web, la fila correspondiente en `Productos.tsx` del Admin se actualiza sin recargar la página.
+- [x] El contador de "Stock Crítico" en el encabezado de productos se incrementa automáticamente cuando un producto baja de 6 a 5 unidades o menos.
+- [x] En `Inventario.tsx`, el semáforo y la tabla de movimientos Kardex muestran la nueva venta sin intervención manual.
 
 #### Archivos afectados (previstos)
 | Archivo | @kind | @limit |
 | :--- | :--- | :--- |
-| `admin-pwa/src/pages/Productos.tsx` | page | 720 |
-| `admin-pwa/src/pages/Inventario.tsx` | page | 480 |
+| `admin-pwa/src/pages/Productos.tsx` | page | 760 |
+| `admin-pwa/src/pages/Inventario.tsx` | page | 540 |
 | `frontend/src/hooks/useRealtimeProducts.ts` | component | 200 |
 
 #### Casos límite (Edge Cases)
 - **Pestaña en segundo plano:** El intervalo debe pausarse cuando `document.visibilityState === "hidden"` para no consumir CPU ni ancho de banda innecesario, y disparar recarga inmediata al volver al foco (`window.addEventListener("focus")`).
 
 #### Definition of Done
-- [ ] Verificación de actualización en caliente en dos ventanas simultáneas (Cliente y Admin).
-- [ ] Sin fugas de memoria por listeners o timers (`clearInterval` en unmount verificado).
-- [ ] `docs/estado_proyecto.md` actualizado.
+- [x] Verificación de actualización en caliente en dos ventanas simultáneas (Cliente y Admin vía BroadcastChannel + polling cada 5s).
+- [x] Sin fugas de memoria por listeners o timers (`clearInterval` y `channel.close()` en unmount verificado).
+- [x] `docs/estado_proyecto.md` actualizado.
 
 ---
 
@@ -160,15 +160,15 @@
 - **NO:** Cambio de la paleta de colores ni alteración del layout Bootstrap 5 responsivo.
 
 #### Criterios de aceptación
-- [ ] Si la base de datos está vacía, el Dashboard muestra `$0` ingresos, `0 órdenes` y `$0` ticket promedio, sin inventar `$4.850.000` ni `142`.
-- [ ] Al registrar una venta real (por Web o POS), los ingresos del mes y la barra del día correspondiente en el gráfico aumentan en proporción al monto vendido.
-- [ ] La sección "Stock Crítico" muestra los productos reales que tienen stock menor o igual a 5 en MySQL.
-- [ ] La sección "Top Productos" se genera a partir de los ítems de las órdenes reales.
+- [x] Si la base de datos está vacía, el Dashboard muestra `$0` ingresos, `0 órdenes` y `$0` ticket promedio, sin inventar `$4.850.000` ni `142`.
+- [x] Al registrar una venta real (por Web o POS), los ingresos del mes y la barra del día correspondiente en el gráfico aumentan en proporción al monto vendido.
+- [x] La sección "Stock Crítico" muestra los productos reales que tienen stock menor o igual a 5 en MySQL (con empty state positivo si no hay alertas).
+- [x] La sección "Top Productos" se genera dinámicamente a partir de los ítems de las órdenes reales.
 
 #### Archivos afectados (previstos)
 | Archivo | @kind | @limit |
 | :--- | :--- | :--- |
-| `admin-pwa/src/pages/Dashboard.tsx` | page | 300 |
+| `admin-pwa/src/pages/Dashboard.tsx` | page | 450 |
 | `admin-pwa/src/services/api.ts` | service | 650 |
 
 #### Casos límite (Edge Cases)
@@ -176,9 +176,10 @@
 - **Órdenes de días futuros o fechas nulas:** Manejador defensivo con `try/catch` y filtrado estricto por fecha ISO.
 
 #### Definition of Done
-- [ ] Dashboard verificado visualmente con 0 órdenes, con 1 orden y con múltiples órdenes.
-- [ ] Cero strings fijos de montos o porcentajes no respaldados por datos.
-- [ ] `docs/estado_proyecto.md` actualizado.
+- [x] Dashboard verificado visualmente con 0 órdenes, con 1 orden y con múltiples órdenes.
+- [x] Cero strings fijos de montos o porcentajes no respaldados por datos.
+- [x] Actualización en tiempo real vía BroadcastChannel y polling cada 5 segundos.
+- [x] `docs/estado_proyecto.md` actualizado.
 
 ---
 

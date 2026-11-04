@@ -1,7 +1,7 @@
 // @pca:start
 // @id(admin.pages.productos)
 // @kind(page)
-// @limit(lines: 720)
+// @limit(lines: 760)
 // @contract(ProductosAdminView())
 // @relates(admin.lib.validators)
 // @relates(admin.feature.criticalstock.view)
@@ -102,8 +102,8 @@ export function Productos() {
     setTimeout(() => setNotificacion(null), 3500);
   }, []);
 
-  const cargarProductos = useCallback(async () => {
-    setCargando(true);
+  const cargarProductos = useCallback(async (silencioso = false) => {
+    if (!silencioso) setCargando(true);
     try {
       const data = await adminApi.products.list();
       if (Array.isArray(data) && data.length > 0) {
@@ -122,25 +122,51 @@ export function Productos() {
           fechaCreacion: d.fechaCreacion || "2026-01-01",
         }));
         setLista(mapeados);
-        mostrarNotif("success", "Catálogo sincronizado desde service-catalog.");
+        if (!silencioso) {
+          mostrarNotif("success", "Catálogo sincronizado desde service-catalog.");
+        }
       }
-    } catch { /* Fallback reactivo */ } finally { setCargando(false); }
+    } catch { /* Fallback reactivo */ } finally {
+      if (!silencioso) setCargando(false);
+    }
   }, [mostrarNotif]);
 
-  useEffect(() => { cargarProductos(); }, [cargarProductos]);
+  useEffect(() => {
+    cargarProductos();
+    const handleFocus = () => { void cargarProductos(true); };
+    const intervalId = window.setInterval(() => {
+      if (document.visibilityState === "visible") {
+        void cargarProductos(true);
+      }
+    }, 5000);
+    window.addEventListener("focus", handleFocus);
+    return () => {
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [cargarProductos]);
 
   useEffect(() => {
     let channel: BroadcastChannel | null = null;
     try {
       channel = new BroadcastChannel(CHANNEL_NAME);
       channel.onmessage = (event: MessageEvent) => {
-        if (event.data?.type === "AVAILABILITY_CHANGED" && typeof event.data.id === "number") {
-          setLista((prev) => prev.map((item) => item.id === event.data.id ? { ...item, disponible: Boolean(event.data.disponible) } : item));
+        const data = event.data;
+        if (!data) return;
+        if (data.type === "AVAILABILITY_CHANGED" && typeof data.id === "number") {
+          setLista((prev) => prev.map((item) => item.id === data.id ? { ...item, disponible: Boolean(data.disponible) } : item));
+        } else if (data.type === "STOCK_UPDATED" && typeof data.id === "number") {
+          setLista((prev) => prev.map((item) => item.id === data.id ? { ...item, stock: Number(data.stock) } : item));
+        } else if (data.type === "STOCK_DECREMENTED" && typeof data.id === "number") {
+          const dec = Number(data.cantidad || 1);
+          setLista((prev) => prev.map((item) => item.id === data.id ? { ...item, stock: Math.max(0, item.stock - dec) } : item));
+        } else if (data.type === "CATALOG_RELOAD" || data.type === "ORDER_PLACED") {
+          void cargarProductos(true);
         }
       };
     } catch { /* Channel */ }
     return () => { if (channel) channel.close(); };
-  }, []);
+  }, [cargarProductos]);
 
   const totalCriticos = useMemo(() => lista.filter((p) => p.stock <= 5).length, [lista]);
 
@@ -200,6 +226,11 @@ export function Productos() {
         if (item.id !== id) return item;
         const nuevoStock = item.stock + 10;
         adminApi.products.update(id, { stock: nuevoStock }).catch(() => {});
+        try {
+          const ch = new BroadcastChannel(CHANNEL_NAME);
+          ch.postMessage({ type: "STOCK_UPDATED", id, stock: nuevoStock });
+          ch.close();
+        } catch {}
         mostrarNotif("success", `Reposición exitosa: +10 uds. para '${item.nombre}'. Total: ${nuevoStock} uds.`);
         return { ...item, stock: nuevoStock };
       })
@@ -264,6 +295,11 @@ export function Productos() {
     const imagenFinal = editImagen.trim() || productoEditando.imagen;
     const previo = { ...productoEditando };
     setLista((prev) => prev.map((item) => item.id === productoEditando.id ? { ...item, nombre: editNombre.trim(), categoria: editCategoria, precio: Number(editPrecio), stock: Number(editStock), disponible: editDisponible, imagen: imagenFinal } : item));
+    try {
+      const ch = new BroadcastChannel(CHANNEL_NAME);
+      ch.postMessage({ type: "STOCK_UPDATED", id: productoEditando.id, stock: Number(editStock) });
+      ch.close();
+    } catch {}
     adminApi.products.update(productoEditando.id, { nombre: editNombre.trim(), categoria: editCategoria, precio: Number(editPrecio), stock: Number(editStock), disponible: editDisponible, imagen: imagenFinal })
       .then(() => {
         mostrarNotif("success", "Producto modificado correctamente.");
@@ -357,7 +393,7 @@ export function Productos() {
               <option value="individuales">Porciones individuales</option>
               <option value="sin-gluten">Línea sin gluten</option>
             </select>
-            <button type="button" onClick={cargarProductos} disabled={cargando} className="btn btn-sm btn-outline-secondary" title="Recargar catálogo">
+            <button type="button" onClick={() => void cargarProductos(false)} disabled={cargando} className="btn btn-sm btn-outline-secondary" title="Recargar catálogo">
               <RefreshCw size={14} className={cargando ? "animate-spin" : ""} />
             </button>
           </div>

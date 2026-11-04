@@ -95,7 +95,22 @@ export function useRealtimeProducts() {
               prod.id === data.id ? { ...prod, disponible: Boolean(data.disponible) } : prod
             )
           );
-        } else if (data && data.type === "CATALOG_RELOAD") {
+        } else if (data && data.type === "STOCK_UPDATED" && typeof data.id === "number") {
+          setItems((prev) =>
+            prev.map((prod) =>
+              prod.id === data.id ? { ...prod, stock: Number(data.stock) } : prod
+            )
+          );
+        } else if (data && data.type === "STOCK_DECREMENTED" && typeof data.id === "number") {
+          const dec = Number(data.cantidad || 1);
+          setItems((prev) =>
+            prev.map((prod) =>
+              prod.id === data.id
+                ? { ...prod, stock: Math.max(0, (typeof prod.stock === "number" ? prod.stock : 0) - dec) }
+                : prod
+            )
+          );
+        } else if (data && (data.type === "CATALOG_RELOAD" || data.type === "ORDER_PLACED")) {
           recargar();
         }
       };

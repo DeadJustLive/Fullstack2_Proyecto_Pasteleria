@@ -1,14 +1,14 @@
 // @pca:start
 // @id(frontend.pages.cliente.checkout)
 // @kind(page)
-// @limit(lines: 720)
+// @limit(lines: 740)
 // @contract(CheckoutView())
 // @relates(frontend.lib.checkoutValidator)
 // @relates(feature.checkoutsummary.view)
 // @relates(docs.reglas_ui)
 // @desc(Formulario de checkout con seleccion de entrega y pasarela Flow)
 // @pca:end
-import { useState, useId, type ChangeEvent, type FormEvent } from "react";
+import { useState, useEffect, useId, type ChangeEvent, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   CreditCard,
@@ -27,6 +27,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { OrderSummary } from "@/components/domain/OrderSummary";
 import { CheckoutSummaryView } from "@/features/CheckoutSummary/implementation/CheckoutSummary.view";
+import { useAuth } from "@/context/auth";
 import { useCart } from "@/context/cart";
 import { formatPrecio } from "@/lib/utils";
 import { api } from "@/services/api";
@@ -39,6 +40,7 @@ import {
 
 export function Checkout() {
   const { items, cupon, subtotal, descuento, envio: costoEnvioBase, vaciar } = useCart();
+  const { usuario } = useAuth();
   const navigate = useNavigate();
   const formUid = useId();
 
@@ -59,6 +61,19 @@ export function Checkout() {
     comuna: "Providencia",
     indicaciones: "",
   });
+
+  useEffect(() => {
+    if (!usuario) return;
+    const partes = (usuario.nombre || "").trim().split(/\s+/);
+    const primerNombre = partes[0] || "";
+    const restoApellidos = partes.slice(1).join(" ");
+    setDatos((prev) => ({
+      ...prev,
+      nombre: prev.nombre || primerNombre,
+      apellidos: prev.apellidos || restoApellidos,
+      email: prev.email || usuario.email || "",
+    }));
+  }, [usuario]);
 
   const comunasDisponibles = obtenerComunasPorRegion(datos.region);
 
@@ -138,7 +153,7 @@ export function Checkout() {
     setProcesando(true);
 
     try {
-      const orderCode = `CC-${Math.floor(1000 + Math.random() * 9000)}`;
+      let orderCode = `CC-${Math.floor(1000 + Math.random() * 9000)}`;
       const ordenGuardada = {
         orderId: orderCode,
         fecha: new Date().toISOString(),
@@ -174,15 +189,9 @@ export function Checkout() {
         metodoPago,
       };
 
+      // Registro de orden en backend con descuento transaccional de stock y captura de trackingCode oficial
       try {
-        sessionStorage.setItem("cremeco_last_order", JSON.stringify(ordenGuardada));
-      } catch {
-        // Fallback si sessionStorage está bloqueado
-      }
-
-      // Registro de orden en backend con descuento transaccional de stock
-      try {
-        await api.orders.create({
+        const createdOrder = await api.orders.create({
           cliente: ordenGuardada.comprador.nombre,
           email: ordenGuardada.comprador.email,
           total: totalCalculado,
@@ -200,18 +209,34 @@ export function Checkout() {
             precio: i.producto.precio,
           })),
         });
+
+        if (createdOrder?.trackingCode || createdOrder?.id) {
+          orderCode = String(createdOrder.trackingCode || createdOrder.id).replace(/^#/, "");
+          ordenGuardada.orderId = orderCode;
+        }
+
+        // Difusión en tiempo real a pestañas abiertas de Admin PWA y Catálogo
+        try {
+          const ch = new BroadcastChannel("cremeco_products_realtime");
+          items.forEach((item) => {
+            ch.postMessage({ type: "STOCK_DECREMENTED", id: item.producto.id, cantidad: item.cantidad });
+          });
+          ch.postMessage({ type: "ORDER_PLACED" });
+          ch.close();
+        } catch {}
       } catch (err: unknown) {
         if (err instanceof Error && (err.message.includes("STOCK") || err.message.includes("Stock"))) {
-          setErrores((prev) => ({
-            ...prev,
-            submit: err.message,
-          }));
+          setErrores((prev) => ({ ...prev, submit: err.message }));
           setProcesando(false);
           window.scrollTo({ top: 0, behavior: "smooth" });
           return;
         }
         // Modo offline resiliente para contingencia de red
       }
+
+      try {
+        sessionStorage.setItem("cremeco_last_order", JSON.stringify(ordenGuardada));
+      } catch {}
 
       // IMPORTANTE: NO vaciar carrito aquí. Se conserva hasta éxito de pago.
       if (metodoPago === "flow") {

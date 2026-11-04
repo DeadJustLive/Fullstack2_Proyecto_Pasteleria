@@ -257,7 +257,7 @@ export function PagoExito() {
             Imprimir comprobante
           </Button>
 
-          <ButtonLink to="/perfil/seguimiento" variant="outline" className="flex-1 gap-2">
+          <ButtonLink to={`/perfil/seguimiento/${encodeURIComponent(orderId.replace(/^#/, ""))}`} variant="outline" className="flex-1 gap-2">
             <Truck size={16} />
             Seguir pedido
           </ButtonLink>

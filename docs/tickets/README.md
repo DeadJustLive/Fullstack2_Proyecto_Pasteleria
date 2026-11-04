@@ -30,6 +30,7 @@ están cerradas y F1/F2 están aprobados.
 | S9 | [`sprint-9-fida-arquitectura-total.md`](./sprint-9-fida-arquitectura-total.md) | T106–T109 | Adopción integral no destructiva (Riesgo 0%) del Patrón de Diseño FIDA + OPL en `frontend/`, `admin-pwa/` y los 6 microservicios `backend/` restantes |
 | S10 | [`sprint-10-entorno-produccion-docker-flow-webp.md`](./sprint-10-entorno-produccion-docker-flow-webp.md) | T110–T114 | Contenedorización Docker completa de los 7 microservicios en PC local, integración activa de Redis (`:6379`), Flow.cl real con diagnóstico explícito y módulo FIDA de compresión a WebP en `admin-pwa` + `service-catalog` |
 | S11 | [`sprint-11-sincronizacion-real-stock-dashboard.md`](./sprint-11-sincronizacion-real-stock-dashboard.md) | T119–T122 | Sincronización real E2E de stock web transaccional, reactividad tiempo real y eliminación de datos mock en Dashboard y Reportes |
+| S12 | [`sprint-12-cohesion-flujos-cliente-frontend.md`](./sprint-12-cohesion-flujos-cliente-frontend.md) | T124–T127 | Cohesión E2E de flujos del cliente en `frontend/`: `trackingCode` real y pre-llenado en Checkout, `CantidadStepper` en `ProductoDetalle`, reactividad en `Ofertas` y `MiniCarrito` interactivo |
 
 ## Reglas de uso
 
