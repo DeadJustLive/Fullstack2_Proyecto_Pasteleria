@@ -47,6 +47,7 @@ export function Pos() {
   const [montoRecibido, setMontoRecibido] = useState(40000);
   const [folioEmitido, setFolioEmitido] = useState("CC-POS-9412");
   const [procesando, setProcesando] = useState(false);
+  const [mobileTab, setMobileTab] = useState<"catalogo" | "ticket">("catalogo");
 
   useEffect(() => {
     let montado = true;
@@ -129,10 +130,30 @@ export function Pos() {
   }
 
   return (
-    <div className="container-fluid px-0">
+    <div className="container-fluid px-0 pb-5 pb-xl-0">
+      {/* Selector Móvil de Vistas (Vitrina vs Ticket) */}
+      <div className="d-xl-none mb-3">
+        <div className="btn-group w-100 shadow-sm" role="group">
+          <button
+            type="button"
+            className={`btn ${mobileTab === "catalogo" ? "btn-primary text-white" : "btn-outline-secondary"}`}
+            onClick={() => setMobileTab("catalogo")}
+          >
+            Vitrina ({productosFiltrados.length})
+          </button>
+          <button
+            type="button"
+            className={`btn ${mobileTab === "ticket" ? "btn-primary text-white" : "btn-outline-secondary"}`}
+            onClick={() => setMobileTab("ticket")}
+          >
+            Ticket ({ticket.reduce((acc, t) => acc + t.cantidad, 0)} ítems · ${total.toLocaleString("es-CL")})
+          </button>
+        </div>
+      </div>
+
       <div className="row g-4">
         {/* Catálogo de Productos Táctiles */}
-        <div className="col-12 col-xl-8">
+        <div className={`col-12 col-xl-8 ${mobileTab === "ticket" ? "d-none d-xl-block" : ""}`}>
           <div className="card admin-card p-3 mb-3 shadow-sm border-0">
             <div className="d-flex flex-wrap gap-2">
               {categorias.map((cat) => (
@@ -182,7 +203,7 @@ export function Pos() {
         </div>
 
         {/* Resumen de Ticket Lateral */}
-        <div className="col-12 col-xl-4">
+        <div className={`col-12 col-xl-4 ${mobileTab === "catalogo" ? "d-none d-xl-block" : ""}`}>
           <div className="card admin-card p-4 sticky-top shadow-sm border-0" style={{ top: "80px" }}>
             <div className="d-flex align-items-center justify-content-between pb-3 border-bottom mb-3">
               <h5 className="brand-font fs-5 text-secondary mb-0">Ticket Actual</h5>
@@ -267,6 +288,26 @@ export function Pos() {
           </div>
         </div>
       </div>
+
+      {/* Barra Flotante Inferior en Móvil para Acceso Inmediato al Ticket */}
+      {mobileTab === "catalogo" && ticket.length > 0 && (
+        <div
+          className="d-xl-none fixed-bottom bg-white border-top shadow-lg p-2 px-3 d-flex align-items-center justify-content-between"
+          style={{ zIndex: 1030 }}
+        >
+          <div>
+            <div className="small text-muted">{ticket.reduce((a, b) => a + b.cantidad, 0)} ítems seleccionados</div>
+            <div className="fw-bold fs-6 text-primary">${total.toLocaleString("es-CL")}</div>
+          </div>
+          <button
+            type="button"
+            className="btn btn-primary btn-sm px-3 shadow-sm"
+            onClick={() => setMobileTab("ticket")}
+          >
+            Ver Ticket →
+          </button>
+        </div>
+      )}
 
       {/* Modal de Cobro */}
       {modalCobro && (

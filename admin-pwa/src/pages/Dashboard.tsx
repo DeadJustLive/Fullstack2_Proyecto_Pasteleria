@@ -82,7 +82,7 @@ export function Dashboard() {
             Métricas de rendimiento en tiempo real · Octubre 2026 (React + Bootstrap 5)
           </p>
         </div>
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-center gap-2 flex-wrap">
           <Link
             to="/reportes"
             className="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1 shadow-sm"
@@ -258,8 +258,8 @@ export function Dashboard() {
         <div className="d-flex flex-column gap-3">
           {TOP_PRODUCTOS.map((prod, idx) => (
             <div key={prod.nombre}>
-              <div className="d-flex align-items-center justify-content-between small fw-bold mb-1">
-                <span className="text-secondary">
+              <div className="d-flex flex-wrap align-items-center justify-content-between gap-1 small fw-bold mb-1">
+                <span className="text-secondary text-truncate" style={{ maxWidth: "60%" }} title={prod.nombre}>
                   <span className="text-muted me-2">#{idx + 1}</span>
                   {prod.nombre}
                 </span>

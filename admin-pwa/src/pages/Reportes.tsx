@@ -119,7 +119,7 @@ export function Reportes() {
           </p>
         </div>
 
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-center gap-2 flex-wrap">
           <div className="input-group input-group-sm" style={{ width: "180px" }}>
             <span className="input-group-text bg-light">
               <Calendar size={14} />
@@ -385,7 +385,7 @@ export function Reportes() {
                     ${item.ingresos.toLocaleString("es-CL")}
                   </td>
                   <td>
-                    <div className="d-flex align-items-center gap-2">
+                    <div className="d-flex align-items-center gap-2 flex-wrap">
                       <div className="progress flex-grow-1" style={{ height: "6px" }}>
                         <div
                           className="progress-bar bg-secondary"

@@ -94,9 +94,9 @@ export function Ordenes() {
     <div className="container-fluid px-0">
       <div className="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 mb-4">
         <div>
-          <div className="d-flex align-items-center gap-2">
+          <div className="d-flex align-items-center gap-2 flex-wrap">
             <ClipboardList className="text-primary" size={26} />
-            <h2 className="brand-font fs-3 text-secondary mb-0">Gestión de Órdenes &amp; Boletas</h2>
+            <h2 className="brand-font fs-4 fs-sm-3 text-secondary mb-0">Gestión de Órdenes &amp; Boletas</h2>
           </div>
           <p className="text-muted small mb-0 mt-1">Supervisión del flujo de pedidos, retiro en tienda, despachos y emisión de boletas oficiales (DSY1104).</p>
         </div>

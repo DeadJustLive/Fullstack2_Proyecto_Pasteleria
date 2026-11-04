@@ -91,7 +91,7 @@ export function Usuarios() {
           <p className="text-muted small mb-0">Administración de cuentas, roles del sistema e historial de compras con boletas DSY1104.</p>
         </div>
 
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-center gap-2 flex-wrap">
           <button type="button" className="btn btn-outline-secondary btn-sm d-inline-flex align-items-center gap-1 shadow-sm" onClick={cargarUsuarios} disabled={loading}>
             <RefreshCw size={14} className={loading ? "spin" : ""} />
             <span>Sincronizar</span>
@@ -120,7 +120,7 @@ export function Usuarios() {
       />
 
       {/* Tabs */}
-      <ul className="nav nav-pills bg-white border p-1 rounded-pill small mb-4 d-inline-flex">
+      <ul className="nav nav-pills bg-white border p-1 rounded-pill small mb-4 d-inline-flex flex-wrap">
         <li className="nav-item">
           <button type="button" onClick={() => setTabActivo("usuarios")} className={`nav-link rounded-pill py-1.5 px-3 fw-bold ${tabActivo === "usuarios" ? "active bg-secondary text-white" : "text-secondary"}`}>
             Usuarios Registrados ({usuarios.length})

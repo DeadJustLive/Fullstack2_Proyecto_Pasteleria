@@ -307,7 +307,7 @@ export function Productos() {
       {/* Header */}
       <div className="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 mb-4">
         <div>
-          <div className="d-flex align-items-center gap-2 mb-1">
+          <div className="d-flex align-items-center gap-2 mb-1 flex-wrap">
             <h2 className="brand-font fs-3 text-secondary mb-0">Catálogo de Productos &amp; Disponibilidad</h2>
             <span className="badge bg-success-subtle text-success border border-success-subtle d-inline-flex align-items-center gap-1.5 py-1 px-2.5">
               <Radio size={12} className="text-success animate-pulse" /><span>Sincronización Activa</span>
@@ -315,11 +315,11 @@ export function Productos() {
           </div>
           <p className="text-muted small mb-0">Administra precios, porciones, visibilidad web y stock crítico con sincronización reactiva.</p>
         </div>
-        <div className="d-flex gap-2">
-          <button type="button" onClick={() => setModalReportes(true)} className="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
+        <div className="d-flex gap-2 flex-wrap w-100 w-sm-auto">
+          <button type="button" onClick={() => setModalReportes(true)} className="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1.5 flex-grow-1 flex-sm-grow-0 justify-content-center">
             <BarChart3 size={18} /><span>Reportes Catálogo</span>
           </button>
-          <button type="button" onClick={() => { setModalNuevo(true); setErroresNuevo({}); }} className="btn btn-primary d-inline-flex align-items-center gap-2">
+          <button type="button" onClick={() => { setModalNuevo(true); setErroresNuevo({}); }} className="btn btn-sm btn-primary d-inline-flex align-items-center gap-1.5 flex-grow-1 flex-sm-grow-0 justify-content-center">
             <Plus size={18} /><span>Crear Producto</span>
           </button>
         </div>
@@ -348,7 +348,7 @@ export function Productos() {
               <input type="text" className="form-control border-start-0 bg-light" placeholder="Buscar por código o nombre de producto..." value={busqueda} onChange={(e) => setBusqueda(e.target.value)} />
             </div>
           </div>
-          <div className="col-12 col-md-5 d-flex align-items-center gap-2">
+          <div className="col-12 col-md-5 d-flex align-items-center gap-2 flex-wrap flex-sm-nowrap">
             <span className="text-muted small fw-bold text-nowrap">Categoría:</span>
             <select value={categoriaFiltro} onChange={(e) => setCategoriaFiltro(e.target.value)} className="form-select form-select-sm">
               <option value="todas">Todas las categorías</option>
@@ -364,7 +364,7 @@ export function Productos() {
         </div>
 
         {/* Tab rápido Stock Crítico */}
-        <div className="d-flex gap-2 border-top pt-3">
+        <div className="d-flex gap-2 border-top pt-3 flex-wrap">
           <button type="button" onClick={() => setTabFiltro("todos")} className={`btn btn-sm ${tabFiltro === "todos" ? "btn-secondary text-white" : "btn-light border text-muted"}`}>
             Todos los productos ({lista.length})
           </button>

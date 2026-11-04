@@ -179,27 +179,27 @@ export function AdminLayout() {
       </aside>
 
       {/* Contenido Principal */}
-      <div className="d-flex flex-column flex-grow-1 min-vw-0">
-        <header className="pwa-header navbar navbar-expand px-3 px-lg-4 py-2">
-          <div className="d-flex align-items-center gap-2">
+      <div className="d-flex flex-column flex-grow-1 admin-main-wrapper" style={{ minWidth: 0, maxWidth: "100%" }}>
+        <header className="pwa-header navbar navbar-expand px-2 px-sm-3 px-lg-4 py-2">
+          <div className="d-flex align-items-center gap-2 overflow-hidden me-2" style={{ minWidth: 0 }}>
             <button
               type="button"
-              className="btn btn-outline-secondary d-lg-none p-1.5"
+              className="btn btn-outline-secondary d-lg-none p-1.5 flex-shrink-0"
               onClick={() => setSidebarOpen(true)}
               aria-label="Abrir navegación"
             >
               <Menu size={20} />
             </button>
-            <h1 className="brand-font fs-4 mb-0 text-secondary">{tituloActual}</h1>
+            <h1 className="brand-font mb-0 text-secondary text-truncate" title={tituloActual} style={{ fontSize: "clamp(1rem, 3.5vw, 1.35rem)" }}>{tituloActual}</h1>
           </div>
 
-          <div className="d-flex align-items-center gap-2 ms-auto">
-            <span className="badge bg-success-subtle text-success border border-success-subtle d-none d-sm-inline-flex align-items-center gap-1 py-1.5 px-2.5">
+          <div className="d-flex align-items-center gap-1.5 gap-sm-2 ms-auto flex-shrink-0">
+            <span className="badge bg-success-subtle text-success border border-success-subtle d-none d-md-inline-flex align-items-center gap-1 py-1 px-2 small">
               <Wifi size={13} />
               <span>Online PWA</span>
             </span>
 
-            <div className="d-none d-md-flex align-items-center gap-2 bg-light border rounded-pill px-3 py-1 small">
+            <div className="d-none d-lg-flex align-items-center gap-2 bg-light border rounded-pill px-3 py-1 small">
               <ShieldCheck size={16} className="text-secondary" />
               <span className="fw-bold text-secondary">Rol: {user.rol || "ADMIN"}</span>
             </div>
@@ -210,7 +210,7 @@ export function AdminLayout() {
               rel="noreferrer"
               className="btn btn-sm btn-outline-secondary rounded-pill d-inline-flex align-items-center gap-1"
             >
-              <span>Tienda Web</span>
+              <span className="d-none d-sm-inline">Tienda Web</span>
               <ExternalLink size={13} />
             </a>
 
@@ -226,7 +226,7 @@ export function AdminLayout() {
           </div>
         </header>
 
-        <main className="p-3 p-lg-4 flex-grow-1">
+        <main className="p-2 p-sm-3 p-lg-4 flex-grow-1 w-100" style={{ minWidth: 0, maxWidth: "100%" }}>
           <Outlet />
         </main>
       </div>

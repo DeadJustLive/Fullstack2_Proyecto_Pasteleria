@@ -254,7 +254,7 @@ export function Categorias() {
             Administra las clasificaciones del catálogo, URL slugs, conteo de productos y reglas de integridad.
           </p>
         </div>
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-center gap-2 flex-wrap">
           <button
             type="button"
             onClick={cargarCategorias}
@@ -322,7 +322,7 @@ export function Categorias() {
       {/* Tarjeta Tabla de Categorías */}
       <div className="card admin-card overflow-hidden shadow-sm">
         <div className="card-header admin-card-header d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 p-3">
-          <div className="d-flex align-items-center gap-2">
+          <div className="d-flex align-items-center gap-2 flex-wrap">
             <Tag size={18} className="text-primary" />
             <span className="fw-bold text-secondary">Categorías del Catálogo</span>
             <span className="badge bg-secondary-subtle text-secondary ms-1">

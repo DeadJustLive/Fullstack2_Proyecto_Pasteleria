@@ -22,7 +22,7 @@
 | :--- | :--- |
 | **Fase actual** | F4 — Validación / Testing & Entorno de Producción Docker |
 | **Siguiente fase** | F5 — Cierre / Extracción de Componentes Reutilizables |
-| **Estado** | Sprints 7, 8, 9 y 10 completados (T89–T116). T117 completado: flujo guiado de Catálogo en 2 fases (`CatalogHomeView` + Catálogo filtrado con URL params), sincronizado con el mockup mobile de referencia, Navbar unificado y 31 tests unitarios automáticos pasando. |
+| **Estado** | Sprints 7, 8, 9 y 10 completados (T89–T116). T117 completado (catálogo en 2 fases con tests). Ticket ADM-03 completado: blindaje de responsividad mobile en Admin PWA (corrección de desbordamiento horizontal Flexbox, header adaptativo con títulos clamp, scrollbar interno visual en tablas y switcher táctil en POS). |
 
 > Fases: F0 Setup → F1 Levantamiento → F2 Sprints → F3 Ejecución → F4 Validación → F5 Cierre. Ver `AGENTS.md`.
 
@@ -92,6 +92,7 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | BK-01 | Andamiaje de microservicios Spring Boot, clientes API (`frontend/`, `admin-pwa/`) y script `iniciar_backend.bat` | F3 / BK | Hecho | `CONV-DOC-01`, `CONV-EST-01` |
 | BK-02 | Adaptación de pasarela Flow.cl desde Biblioteca-de-Componentes-main (idempotencia en BD, reembolsos, webhooks seguros y suite de pruebas) | F3 / BK | Hecho | `CONV-DOC-01`, `CONV-EST-01` |
 | ADM-02 | Sincronización en tiempo real (0ms BroadcastChannel + Storage + API) de disponibilidad entre Admin PWA y Tienda | F3 / ADM | Hecho | `CONV-UI-01`, `CONV-UI-04` |
+| ADM-03 | Blindaje de responsividad mobile en Admin PWA: corrección de flexbox horizontal overflow, header dinámico, scroll interno de tablas y switcher mobile en POS | F4 / ADM | Hecho | `CONV-UI-01`, `CONV-UI-03`, `CONV-UI-04` |
 | FE-31 | Relleno rápido test en Login/Checkout, pasarelas seguras (Flow, Transferencia, MP) y Botón flotante de carrito inferior central | F3 / FE | Hecho | `CONV-UI-01`, `CONV-UI-04` |
 | FE-INT-01 | Cliente HTTP con inyección automática de JWT y autenticación real con `service-identity` | F3 / INT | Hecho | `CONV-TIP-01`, `CONV-SEG-01` |
 | FE-INT-02 | Catálogo dinámico y detalle de producto conectados con `service-catalog` | F3 / INT | Hecho | `CONV-UI-02`, `CONV-TIP-01` |

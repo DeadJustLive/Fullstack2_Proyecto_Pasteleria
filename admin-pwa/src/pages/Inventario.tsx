@@ -174,7 +174,7 @@ export function Inventario() {
         <button
           type="button"
           onClick={() => setModalAjuste(true)}
-          className="btn btn-primary d-inline-flex align-items-center gap-2"
+          className="btn btn-primary d-inline-flex align-items-center justify-content-center gap-2 w-100 w-sm-auto"
         >
           <PackagePlus size={18} />
           <span>Registrar Ajuste / Merma</span>

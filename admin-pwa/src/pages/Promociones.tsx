@@ -222,7 +222,7 @@ export function Promociones() {
       {/* Encabezado */}
       <div className="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 mb-4">
         <div>
-          <h2 className="brand-font fs-3 text-secondary mb-1 d-flex align-items-center gap-2">
+          <h2 className="brand-font fs-4 fs-sm-3 text-secondary mb-1 d-flex align-items-center gap-2 flex-wrap">
             <Tag size={26} className="text-primary" />
             <span>Promociones, Cupones &amp; Descuentos</span>
           </h2>
@@ -230,7 +230,7 @@ export function Promociones() {
             Crea códigos promocionales, límites de uso y banners para la tienda web y sistema POS.
           </p>
         </div>
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-center gap-2 flex-wrap">
           <button
             type="button"
             onClick={cargarPromociones}
@@ -284,7 +284,7 @@ export function Promociones() {
       {/* Tabla de Cupones */}
       <div className="card admin-card overflow-hidden shadow-sm mb-4">
         <div className="card-header admin-card-header d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 p-3">
-          <div className="d-flex align-items-center gap-2">
+          <div className="d-flex align-items-center gap-2 flex-wrap">
             <Tag size={18} className="text-primary" />
             <span className="fw-bold text-secondary">Cupones de Descuento Activos</span>
             <span className="badge bg-secondary-subtle text-secondary ms-1">
@@ -292,7 +292,7 @@ export function Promociones() {
             </span>
           </div>
 
-          <div className="input-group" style={{ maxWidth: 300 }}>
+          <div className="input-group w-100" style={{ maxWidth: "300px" }}>
             <span className="input-group-text bg-white border-end-0">
               <Search size={16} className="text-muted" />
             </span>
@@ -408,7 +408,7 @@ export function Promociones() {
       {/* Banners Web */}
       <div className="card admin-card p-4 shadow-sm">
         <div className="d-flex align-items-center justify-content-between mb-3">
-          <div className="d-flex align-items-center gap-2">
+          <div className="d-flex align-items-center gap-2 flex-wrap">
             <Sparkles size={20} className="text-primary" />
             <h3 className="brand-font fs-5 mb-0 text-secondary">
               Banners Promocionales en Tienda Web
