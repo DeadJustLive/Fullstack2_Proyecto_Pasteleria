@@ -21,7 +21,7 @@ import { useCart } from "@/context/cart";
 import { cn, formatPrecio } from "@/lib/utils";
 
 const productCardVariants = cva(
-  "relative flex flex-col overflow-hidden rounded-xl border border-tertiary/10 bg-white transition-shadow duration-200",
+  "relative flex min-w-[150px] flex-col overflow-hidden rounded-xl border border-tertiary/10 bg-white transition-shadow duration-200",
   {
     variants: {
       elevation: {
@@ -79,34 +79,46 @@ export function ProductCard({ producto, elevation, className }: ProductCardProps
         />
       </Link>
 
-      <div className="flex flex-1 flex-col gap-2 p-[1.1rem]">
-        <h3 className="font-display font-semibold">
+      <div className="flex flex-1 flex-col gap-1.5 p-3 sm:gap-2 sm:p-[1.1rem]">
+        <h3 className="line-clamp-2 font-display text-sm font-semibold leading-snug sm:text-base">
           <Link to={`/producto/${producto.id}`} aria-label={`Ver ${producto.nombre}`} className="text-tertiary transition-colors hover:underline">
             {producto.nombre}
           </Link>
         </h3>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-baseline gap-2">
-            <span className="font-bold text-secondary">{formatPrecio(producto.precio)}</span>
+        <div className="flex flex-wrap items-center justify-between gap-1">
+          <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
+            <span className="text-sm font-bold text-secondary sm:text-base">{formatPrecio(producto.precio)}</span>
             {producto.precioAnterior && producto.precioAnterior > producto.precio && (
-              <span className="text-xs text-ink/50 line-through">
+              <span className="text-[11px] text-ink/50 line-through sm:text-xs">
                 {formatPrecio(producto.precioAnterior)}
               </span>
             )}
           </div>
-          {!estaDisponible && <span className="font-body text-xs font-semibold text-red-600">No disponible</span>}
+          {!estaDisponible && <span className="font-body text-[11px] font-semibold text-red-600 sm:text-xs">No disponible</span>}
         </div>
 
-        <div className="mt-auto flex items-center gap-2">
+        <div className="mt-auto flex items-center gap-1.5 pt-1 sm:gap-2">
           <Button
             onClick={handleAgregar}
             disabled={!estaDisponible}
             size="sm"
             aria-live="polite"
-            className={cn("flex-1 whitespace-nowrap", !estaDisponible && "cursor-not-allowed bg-ink/20 text-ink/50 hover:bg-ink/20")}
+            className={cn(
+              "min-w-0 flex-1 whitespace-nowrap px-2.5 py-2 text-xs sm:px-4 sm:py-2 sm:text-sm",
+              !estaDisponible && "cursor-not-allowed bg-ink/20 text-ink/50 hover:bg-ink/20"
+            )}
           >
-            {!estaDisponible ? "Agotado" : agregado ? "¡Añadido!" : "Añadir al carrito"}
+            {!estaDisponible ? (
+              "Agotado"
+            ) : agregado ? (
+              "¡Añadido!"
+            ) : (
+              <>
+                <span className="sm:hidden" aria-hidden="true">Añadir</span>
+                <span className="hidden sm:inline">Añadir al carrito</span>
+              </>
+            )}
           </Button>
 
           <ButtonLink
@@ -115,9 +127,9 @@ export function ProductCard({ producto, elevation, className }: ProductCardProps
             size="icon"
             title="Ver Detalles"
             aria-label={`Ver detalles de ${producto.nombre}`}
-            className="h-[46px] w-[46px] border-2 border-secondary text-secondary hover:bg-secondary hover:text-neutral"
+            className="h-9 w-9 shrink-0 border-2 border-secondary text-secondary hover:bg-secondary hover:text-neutral sm:h-[46px] sm:w-[46px]"
           >
-            <Eye size={20} aria-hidden="true" />
+            <Eye className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </ButtonLink>
         </div>
       </div>

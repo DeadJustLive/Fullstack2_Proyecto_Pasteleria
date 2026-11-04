@@ -101,7 +101,7 @@ export function Ofertas() {
         </div>
 
         {cargando && productosOferta.length === 0 ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] sm:gap-6">
             {[1, 2, 3, 4].map((idx) => (
               <div key={idx} className="h-80 animate-pulse rounded-2xl bg-neutral/80" />
             ))}
@@ -123,7 +123,7 @@ export function Ofertas() {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] sm:gap-6">
             {productosOferta.map((producto) => {
               const precioAnt =
                 producto.precioAnterior && producto.precioAnterior > producto.precio
@@ -140,7 +140,7 @@ export function Ofertas() {
                 <article
                   key={producto.id}
                   className={cn(
-                    "group relative flex flex-col overflow-hidden rounded-2xl border border-tertiary/10 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md",
+                    "group relative flex min-w-[150px] flex-col overflow-hidden rounded-2xl border border-tertiary/10 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md",
                     !estaDisponible && "opacity-90"
                   )}
                 >
@@ -168,8 +168,8 @@ export function Ofertas() {
                     />
                   </Link>
 
-                  <div className="flex flex-1 flex-col p-5">
-                    <h2 className="font-display text-base font-bold text-tertiary transition-colors group-hover:text-secondary">
+                  <div className="flex flex-1 flex-col p-3 sm:p-5">
+                    <h2 className="line-clamp-2 font-display text-sm font-bold leading-snug text-tertiary transition-colors group-hover:text-secondary sm:text-base">
                       <Link to={`/producto/${producto.id}`}>{producto.nombre}</Link>
                     </h2>
 
@@ -178,43 +178,43 @@ export function Ofertas() {
                     </p>
 
                     {/* Precios y Ahorro */}
-                    <div className="mt-4 rounded-xl border border-secondary/10 bg-neutral/60 p-2.5">
-                      <div className="flex items-baseline gap-2">
-                        <span className="font-display text-lg font-bold text-red-600">
+                    <div className="mt-3 rounded-xl border border-secondary/10 bg-neutral/60 p-2 sm:mt-4 sm:p-2.5">
+                      <div className="flex flex-wrap items-baseline gap-1.5 sm:gap-2">
+                        <span className="font-display text-sm font-bold text-red-600 sm:text-lg">
                           {formatPrecio(producto.precio)}
                         </span>
-                        <span className="font-body text-xs text-ink/50 line-through">
+                        <span className="font-body text-[11px] text-ink/50 line-through sm:text-xs">
                           {formatPrecio(precioAnt)}
                         </span>
                       </div>
-                      <p className="mt-0.5 font-body text-xs font-semibold text-emerald-700">
+                      <p className="mt-0.5 font-body text-[11px] font-semibold text-emerald-700 sm:text-xs">
                         Ahorras {formatPrecio(ahorro)} ({porcentaje}%)
                       </p>
                     </div>
 
                     {/* Acciones */}
-                    <div className="mt-4 flex items-center gap-2">
+                    <div className="mt-3 flex items-center gap-1.5 sm:mt-4 sm:gap-2">
                       <button
                         type="button"
                         disabled={!estaDisponible}
                         onClick={() => handleAgregar(producto)}
                         className={cn(
-                          "flex flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 font-body text-xs font-semibold transition-colors",
+                          "flex min-w-0 flex-1 items-center justify-center gap-1 rounded-xl px-2 py-2 font-body text-xs font-semibold transition-colors sm:gap-1.5 sm:px-3 sm:py-2.5",
                           estaDisponible
                             ? "bg-secondary text-white hover:bg-tertiary"
                             : "cursor-not-allowed bg-ink/15 text-ink/50"
                         )}
                       >
-                        <ShoppingBag size={14} />
+                        <ShoppingBag size={14} className="shrink-0" />
                         {!estaDisponible ? "Agotado" : agregado ? "¡Agregado!" : "Añadir"}
                       </button>
 
                       <Link
                         to={`/producto/${producto.id}`}
                         title="Ver detalles"
-                        className="flex h-9 w-9 items-center justify-center rounded-xl border border-secondary/30 text-secondary transition-colors hover:bg-secondary hover:text-white"
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border border-secondary/30 text-secondary transition-colors hover:bg-secondary hover:text-white sm:h-9 sm:w-9"
                       >
-                        <Eye size={16} />
+                        <Eye size={15} />
                       </Link>
                     </div>
                   </div>

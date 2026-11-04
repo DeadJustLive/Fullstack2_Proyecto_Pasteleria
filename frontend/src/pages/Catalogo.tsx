@@ -199,7 +199,7 @@ export function Catalogo() {
               onLimpiar={limpiar}
             />
 
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-3 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))] sm:gap-6">
               <div className="col-span-full">
                 <CatalogDiscoveryView
                   totalProducts={filtrados.length}
