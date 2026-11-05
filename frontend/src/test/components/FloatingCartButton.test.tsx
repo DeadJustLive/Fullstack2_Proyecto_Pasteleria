@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.test.components.floatingCartButton)
-// @kind(test)
-// @limit(lines: 90)
-// @relates(frontend.components.ui.floatingcartbutton)
-// @desc(Pruebas de visualizacion y ocultamiento contextual del boton flotante del carrito)
-// @pca:end
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";

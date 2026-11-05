@@ -1,12 +1,3 @@
-// @pca:start
-// @id(admin.pages.usuarios)
-// @kind(page)
-// @limit(lines: 300)
-// @contract(UsuariosAdminView())
-// @relates(admin.lib.validators)
-// @relates(docs.especificacion_pwa_admin)
-// @desc(Gestion de usuarios, roles RBAC y consulta de historial de compras)
-// @pca:end
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { Search, UserPlus, CheckCircle2, AlertCircle, RefreshCw, Shield, Eye, Edit3, ShoppingBag } from "lucide-react";
 import { adminApi, type AdminUser, type OrderAdmin } from "../services/api";

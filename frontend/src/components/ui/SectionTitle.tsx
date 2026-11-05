@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.ui.sectionTitle)
-// @kind(component)
-// @limit(lines: 55)
-// @contract(props: eyebrow?, titulo, align?, spacing?, className?)
-// @relates(docs.reglas_ui)
-// @desc(Encabezado de seccion con eyebrow y titulo configurables via CVA)
-// @pca:end
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -42,4 +34,3 @@ export function SectionTitle({
     </div>
   );
 }
-

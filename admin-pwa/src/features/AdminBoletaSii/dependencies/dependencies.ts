@@ -1,14 +1,5 @@
-// @pca:start
-// @id(admin.feature.boletasii.dependencies)
-// @kind(dependencies)
-// @limit(lines: 120)
-// @contract(gateway: external imports and adapters for AdminBoletaSii)
-// @relates(admin.feature.boletasii.interface)
-// @desc(Aduana de importaciones externas y adaptadores del módulo AdminBoletaSii)
-// @pca:end
-
 /**
- * FIDA - Dependencies Layer (D)
+ * Module Dependencies Gateway
  *
  * Import Gateway ("Aduana") for: AdminBoletaSii
  * Created: 2026-10-31

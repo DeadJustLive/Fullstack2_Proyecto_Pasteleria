@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.domain.catalogHomeView)
-// @kind(component)
-// @limit(lines: 220)
-// @contract(CatalogHomeView(props: CatalogHomeViewProps))
-// @relates(docs.reglas_ui)
-// @desc(Fase 1 del Catalogo: seleccion visual de categorias inspirado en catalog_home.html)
-// @pca:end
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Cake, Search } from "lucide-react";

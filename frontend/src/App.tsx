@@ -1,9 +1,3 @@
-// @pca:start
-// @id(frontend.app)
-// @kind(component)
-// @limit(lines: 200)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (App.tsx))
-// @pca:end
 import { Navigate, Route, Routes, useParams } from "react-router-dom";
 import { ClienteLayout } from "@/layouts/ClienteLayout";
 import { Placeholder } from "@/pages/Placeholder";

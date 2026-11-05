@@ -1,9 +1,3 @@
-// @pca:start
-// @id(backend.service_order.main.java.com.cremeco.order.controller.ordercontroller)
-// @kind(controller)
-// @limit(lines: 350)
-// @desc(Archivo controller auto-registrado por FIDA/OPL bootstrap (OrderController.java))
-// @pca:end
 package com.cremeco.order.controller;
 
 import com.cremeco.common.events.OrderPlacedEvent;

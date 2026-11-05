@@ -1,12 +1,3 @@
-// @pca:start
-// @id(frontend.ui.buttonLink)
-// @kind(component)
-// @limit(lines: 50)
-// @contract(props: to + ButtonVariantProps)
-// @relates(frontend.ui.buttonVariants)
-// @relates(docs.reglas_ui)
-// @desc(Enlace con apariencia de boton del design system)
-// @pca:end
 import type { ReactNode } from "react";
 import { Link, type LinkProps } from "react-router-dom";
 import {

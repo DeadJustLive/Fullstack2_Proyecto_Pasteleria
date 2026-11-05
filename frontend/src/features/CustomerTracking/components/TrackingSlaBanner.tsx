@@ -1,12 +1,3 @@
-// @pca:start
-// @id(feature.customertracking.slaBanner)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(TrackingSlaBanner)
-// @relates(feature.customertracking.dependencies)
-// @desc(Subcomponente privado de banner SLA y cadena de frío para CustomerTracking)
-// @pca:end
-
 import { Snowflake } from "../dependencies/dependencies";
 
 interface TrackingSlaBannerProps {

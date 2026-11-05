@@ -1,14 +1,3 @@
-// @pca:start
-// @id(feature.customertracking.view)
-// @kind(view)
-// @limit(lines: 300)
-// @contract(CustomerTrackingView(props: CustomerTrackingContract))
-// @relates(feature.customertracking.interface)
-// @relates(feature.customertracking.dependencies)
-// @relates(feature.customertracking.slaBanner)
-// @desc(Implementación visual principal del módulo FIDA CustomerTracking con protocolo SLA)
-// @pca:end
-
 import {
   ShieldAlert,
   type CustomerTrackingContract,

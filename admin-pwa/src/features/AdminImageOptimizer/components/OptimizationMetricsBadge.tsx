@@ -1,12 +1,3 @@
-// @pca:start
-// @id(feature.adminimageoptimizer.metricsBadge)
-// @kind(component)
-// @limit(lines: 120)
-// @contract(OptimizationMetricsBadge(props))
-// @relates(feature.adminimageoptimizer.dependencies)
-// @desc(Subcomponente privado para visualizacion de metricas de compresion WebP y ahorro de tamano)
-// @pca:end
-
 import {
   Check,
   FileCheck,

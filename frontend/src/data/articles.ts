@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.data.articles)
-// @kind(service)
-// @limit(lines: 40)
-// @contract(export ARTICULOS: Articulo[])
-// @relates(docs.reglas_ui)
-// @desc(Datos de los artículos del blog destacados en la Home)
-// @pca:end
 export interface Articulo {
   slug: string;
   titulo: string;

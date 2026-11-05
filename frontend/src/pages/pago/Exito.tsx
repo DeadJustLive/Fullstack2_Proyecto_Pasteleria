@@ -1,12 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.pago.exito)
-// @kind(page)
-// @limit(lines: 280)
-// @contract(PagoExitoView())
-// @relates(docs.reglas_ui)
-// @relates(feature.flowpayment.view)
-// @desc(Pantalla de confirmacion de pago exitoso con codigo y boleta DSY1104)
-// @pca:end
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {

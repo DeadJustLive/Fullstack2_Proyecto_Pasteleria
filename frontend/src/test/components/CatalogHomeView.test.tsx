@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.test.components.catalogHomeView)
-// @kind(test)
-// @limit(lines: 120)
-// @relates(frontend.domain.catalogHomeView)
-// @desc(Pruebas de integracion e interaccion para CatalogHomeView - Fase 1 del Catalogo)
-// @pca:end
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";

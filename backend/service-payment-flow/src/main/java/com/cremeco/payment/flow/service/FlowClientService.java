@@ -1,11 +1,3 @@
-// @pca:start
-// @id(backend.payment.flowClient)
-// @kind(service)
-// @limit(lines: 200)
-// @contract(createPaymentOrder, getPaymentStatus, refundPayment, isConfiguredWithRealCredentials)
-// @relates(backend.payment.flowSignature)
-// @desc(Cliente HTTP para comunicacion firmada con API oficial de Flow.cl)
-// @pca:end
 package com.cremeco.payment.flow.service;
 
 import jakarta.annotation.PostConstruct;

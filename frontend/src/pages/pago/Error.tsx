@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.pago.error)
-// @kind(page)
-// @limit(lines: 160)
-// @contract(PagoErrorView())
-// @relates(docs.reglas_ui)
-// @desc(Pantalla de fallo de pago manteniendo resumen del carrito y boton reintentar)
-// @pca:end
 import { useSearchParams } from "react-router-dom";
 import {
   AlertTriangle,

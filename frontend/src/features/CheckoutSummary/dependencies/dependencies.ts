@@ -1,14 +1,5 @@
-// @pca:start
-// @id(feature.checkoutsummary.dependencies)
-// @kind(dependencies)
-// @limit(lines: 120)
-// @contract(gateway: external imports and adapters for CheckoutSummary)
-// @relates(feature.checkoutsummary.interface)
-// @desc(Aduana de importaciones externas y adaptadores del módulo CheckoutSummary)
-// @pca:end
-
 /**
- * FIDA - Dependencies Layer (D)
+ * Module Dependencies Gateway
  *
  * Import Gateway ("Aduana") for: CheckoutSummary
  * Created: 2026-10-31

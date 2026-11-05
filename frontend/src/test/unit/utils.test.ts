@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.test.unit.utils)
-// @kind(test)
-// @limit(lines: 80)
-// @relates(frontend.lib.utils)
-// @desc(Pruebas unitarias para utilidades puras de clases Tailwind y formateo de precios)
-// @pca:end
 import { describe, it, expect } from "vitest";
 import { formatPrecio, cn, formatFechaLarga } from "@/lib/utils";
 

@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.test.unit.rutValidator)
-// @kind(test)
-// @limit(lines: 100)
-// @relates(frontend.lib.rutValidator)
-// @desc(Pruebas unitarias para el validador y formateador de RUT chileno Modulo 11)
-// @pca:end
 import { describe, it, expect } from "vitest";
 import {
   limpiarRut,

@@ -1,12 +1,3 @@
-<!-- @pca:start
-@id(docs.especificacion_pwa_admin)
-@kind(doc)
-@limit(lines: 400)
-@relates(docs.especificacion_microservicios)
-@relates(docs.reglas_ui)
-@desc(Especificación de vistas, flujos y permisos de la aplicación PWA de administración)
-@pca:end -->
-
 # Especificación de Vistas — PWA de Administración (Admin App)
 
 Este documento especifica la estructura de pantallas, componentes y dependencias de la aplicación **PWA de Administración** de Crème & Co (`admin/`), diseñada para uso en tabletas de mostrador, cocina y escritorio.

@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.blog)
-// @kind(page)
-// @limit(lines: 240)
-// @contract(BlogView())
-// @relates(docs.reglas_ui)
-// @desc(Vista listado de articulos del blog reutilizando PageHero, BlogCard y EmptyState)
-// @pca:end
 import { useEffect, useState } from "react";
 import { BookOpen, Sparkles, Tag, TrendingUp } from "lucide-react";
 import { BlogCard } from "@/components/domain/BlogCard";

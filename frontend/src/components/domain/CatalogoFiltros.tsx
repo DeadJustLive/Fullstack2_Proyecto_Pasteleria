@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.domain.catalogoFiltros)
-// @kind(component)
-// @limit(lines: 160)
-// @contract(CatalogoFiltros(props: CatalogoFiltrosProps))
-// @relates(docs.reglas_ui)
-// @desc(Panel lateral y drawer responsivo de filtros para el catalogo)
-// @pca:end
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";

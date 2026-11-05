@@ -1,14 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.login)
-// @kind(page)
-// @limit(lines: 200)
-// @contract(LoginView())
-// @relates(frontend.ui.button)
-// @relates(frontend.ui.input)
-// @relates(frontend.lib.authValidator)
-// @relates(docs.reglas_ui)
-// @desc(Vista publica de inicio de sesion homologada con tokens del design system)
-// @pca:end
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { AlertCircle, LogIn, Sparkles } from "lucide-react";

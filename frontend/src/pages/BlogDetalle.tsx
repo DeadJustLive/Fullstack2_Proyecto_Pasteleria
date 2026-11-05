@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.blogDetalle)
-// @kind(page)
-// @limit(lines: 240)
-// @contract(BlogDetalleView())
-// @relates(docs.reglas_ui)
-// @desc(Vista editorial de lectura de un articulo del blog con reacciones y CommentSection)
-// @pca:end
 import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { ArrowLeft, Bookmark, Calendar, Check, Clock, Heart, MessageCircle, Share2, User } from "lucide-react";

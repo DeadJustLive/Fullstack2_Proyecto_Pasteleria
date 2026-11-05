@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.lib.storage)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(leerStorage, guardarStorage, borrarStorage)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (storage.ts))
-// @pca:end
 // Helpers de persistencia en localStorage con manejo de errores.
 export function leerStorage<T>(clave: string, respaldo: T): T {
   try {

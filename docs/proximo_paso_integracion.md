@@ -1,13 +1,3 @@
-<!-- @pca:start
-@id(docs.proximo_paso_integracion)
-@kind(doc)
-@limit(lines: 150)
-@relates(docs.estado_proyecto)
-@relates(docs.plantilla_ticket)
-@relates(docs.elementos_pendientes_conexion_backend)
-@desc(Ficha de próximo paso técnico: Ticket FE-INT-04 Checkout y Pasarela Flow.cl)
-@pca:end -->
-
 # Próximo Paso de Integración: Ticket FE-INT-04
 
 > **Instrucción para la IA al retomar:** Lee este documento junto con `docs/estado_proyecto.md` para proseguir de inmediato con la integración de la orden de compra y el flujo de pago.

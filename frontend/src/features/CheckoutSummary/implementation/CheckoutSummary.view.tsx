@@ -1,14 +1,3 @@
-// @pca:start
-// @id(feature.checkoutsummary.view)
-// @kind(view)
-// @limit(lines: 300)
-// @contract(CheckoutSummaryView(props: CheckoutSummaryContract))
-// @relates(feature.checkoutsummary.interface)
-// @relates(feature.checkoutsummary.dependencies)
-// @relates(feature.checkoutsummary.securityBadge)
-// @desc(Implementación visual principal del módulo FIDA CheckoutSummary con verificación de orden)
-// @pca:end
-
 import {
   ShieldCheck,
   formatPrecio,

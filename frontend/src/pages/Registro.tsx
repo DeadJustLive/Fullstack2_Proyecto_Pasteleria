@@ -1,16 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.registro)
-// @kind(page)
-// @limit(lines: 380)
-// @contract(RegistroView())
-// @relates(frontend.ui.button)
-// @relates(frontend.ui.input)
-// @relates(frontend.lib.rutValidator)
-// @relates(frontend.lib.authValidator)
-// @relates(frontend.lib.regionesChile)
-// @relates(docs.reglas_ui)
-// @desc(Vista publica de registro de nuevos clientes con selector regional, validacion de RUT y tokens del design system)
-// @pca:end
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { AlertCircle, CheckCircle2, Sparkles, UserPlus } from "lucide-react";

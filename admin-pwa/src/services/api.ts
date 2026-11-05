@@ -1,12 +1,3 @@
-// @pca:start
-// @id(admin.services.api)
-// @kind(service)
-// @limit(lines: 650)
-// @contract(authApi, catalogApi, orderApi, inventoryApi)
-// @relates(docs.especificacion_pwa_admin)
-// @relates(docs.convenciones)
-// @desc(Cliente HTTP del Admin PWA para gestionar catalogo, POS e inventario)
-// @pca:end
 /**
  * Cliente de integración API para la PWA de Administración (Spring Boot API Gateway :8080).
  */

@@ -1,12 +1,3 @@
-// @pca:start
-// @id(feature.catalogdiscovery.filterPill)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(CatalogFilterPill)
-// @relates(feature.catalogdiscovery.dependencies)
-// @desc(Subcomponente privado de píldora de filtro activo y botón de limpieza para CatalogDiscovery)
-// @pca:end
-
 import { FilterX } from "../dependencies/dependencies";
 
 interface CatalogFilterPillProps {

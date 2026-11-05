@@ -1,13 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.categoriaDetalle)
-// @kind(page)
-// @limit(lines: 260)
-// @contract(CategoriaDetalleView())
-// @relates(frontend.domain.productCard)
-// @relates(frontend.services.api)
-// @relates(docs.reglas_ui)
-// @desc(Vista de categoria especifica filtrada por slug con tarjetas de productos)
-// @pca:end
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Sparkles, AlertCircle } from "lucide-react";

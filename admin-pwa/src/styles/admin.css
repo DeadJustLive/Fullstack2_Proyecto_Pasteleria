@@ -1,9 +1,3 @@
-/* @pca:start
- * @id(admin_pwa.styles.admin)
- * @kind(component)
- * @limit(lines: 200)
- * @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (admin.css))
- * @pca:end */
 /* =========================================================
    Crème & Co — Admin PWA (Bootstrap 5 & CSS Puro, Sin Tailwind)
    ========================================================= */
@@ -238,4 +232,3 @@ body {
     padding: 0.6rem 0.65rem;
   }
 }
-

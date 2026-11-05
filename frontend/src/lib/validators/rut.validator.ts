@@ -1,12 +1,3 @@
-// @pca:start
-// @id(frontend.lib.rutValidator)
-// @kind(service)
-// @limit(lines: 80)
-// @contract(limpiarRut, formatearRut, validarRutChileno)
-// @relates(docs.convenciones)
-// @desc(Validador de RUT chileno con algoritmo Modulo 11 puro sin dependencias)
-// @pca:end
-
 /**
  * Limpia un RUT eliminando puntos, guiones y espacios en blanco,
  * retornando el cuerpo y dígito verificador en mayúsculas.

@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.ui.modal)
-// @kind(component)
-// @limit(lines: 90)
-// @contract(props: abierto: boolean, titulo: string, onCerrar: () => void, children: ReactNode)
-// @relates(docs.reglas_ui)
-// @desc(Ventana modal accesible con cierre por escape y fondo bloqueado)
-// @pca:end
 import { useEffect, type ReactNode } from "react";
 import { X } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";

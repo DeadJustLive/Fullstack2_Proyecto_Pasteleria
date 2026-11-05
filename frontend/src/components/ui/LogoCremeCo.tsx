@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.ui.logoCremeCo)
-// @kind(component)
-// @limit(lines: 120)
-// @contract(props: className)
-// @relates(docs.reglas_ui)
-// @desc(Logotipo SVG inline de Crème & Co (decorativo, id unico con useId))
-// @pca:end
 import { useId } from "react";
 import { cn } from "@/lib/utils";
 

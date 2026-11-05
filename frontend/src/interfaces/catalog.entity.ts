@@ -1,12 +1,3 @@
-// @pca:start
-// @id(interfaces.entity.catalog)
-// @kind(model)
-// @limit(lines: 110)
-// @contract(CategoryEntity, ProductEntity, ProductVariationEntity, PersonalizationOptionEntity)
-// @relates(interfaces.entity.common)
-// @relates(docs.reglas_backend)
-// @desc(Entidades de productos, categorias, variaciones y personalizacion)
-// @pca:end
 /**
  * @file catalog.entity.ts
  * @description Entidades de catalogo, categorias y personalizacion de productos para MySQL y JPA.

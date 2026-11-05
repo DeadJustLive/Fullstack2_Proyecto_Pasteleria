@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.context.authprovider)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(AuthProvider)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (AuthProvider.tsx))
-// @pca:end
 import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext, type AuthContextValue, type Usuario } from "@/context/auth";
 import { api, clearToken, getToken, setToken } from "@/services/api";

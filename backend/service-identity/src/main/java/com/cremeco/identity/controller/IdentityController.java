@@ -1,11 +1,3 @@
-// @pca:start
-// @id(backend.identity.controller)
-// @kind(controller)
-// @limit(lines: 350)
-// @contract(login, register, getProfile, updateProfile, listUsers, createUser, updateUser, deleteUser, checkRedisHealth)
-// @relates(backend.service_identity.config.redis)
-// @desc(Controlador REST de autenticacion JWT, perfil de cliente, administracion RBAC de usuarios y diagnostico Redis)
-// @pca:end
 package com.cremeco.identity.controller;
 
 import com.cremeco.identity.model.RoleEntity;

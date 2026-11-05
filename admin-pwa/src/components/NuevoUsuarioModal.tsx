@@ -1,12 +1,3 @@
-// @pca:start
-// @id(admin.components.nuevoUsuarioModal)
-// @kind(component)
-// @limit(lines: 250)
-// @contract(NuevoUsuarioModalProps)
-// @relates(admin.lib.validators)
-// @relates(admin.services.api)
-// @desc(Modal reactivo de creacion de nuevo usuario administrativo)
-// @pca:end
 import React, { useState } from "react";
 import { UserPlus, X, AlertCircle } from "lucide-react";
 import { validarUsuarioAdmin, formatearRut } from "../lib/validators";

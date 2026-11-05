@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.components.domain.modalregistro)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(ModalRegistro)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (ModalRegistro.tsx))
-// @pca:end
 import { useState, type FormEvent } from "react";
 import { AlertCircle } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";

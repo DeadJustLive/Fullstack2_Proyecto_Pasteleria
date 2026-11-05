@@ -1,14 +1,5 @@
-// @pca:start
-// @id(feature.catalogdiscovery.dependencies)
-// @kind(dependencies)
-// @limit(lines: 120)
-// @contract(gateway: external imports and adapters for CatalogDiscovery)
-// @relates(feature.catalogdiscovery.interface)
-// @desc(Aduana de importaciones externas y adaptadores del módulo CatalogDiscovery)
-// @pca:end
-
 /**
- * FIDA - Dependencies Layer (D)
+ * Module Dependencies Gateway
  *
  * Import Gateway ("Aduana") for: CatalogDiscovery
  * Created: 2026-10-31

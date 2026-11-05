@@ -1,11 +1,3 @@
-// @pca:start
-// @id(backend.payment.flowService)
-// @kind(service)
-// @limit(lines: 350)
-// @contract(createPayment, processWebhook, resolveFrontendReturnRedirectUrl, refundPayment, getStatus, getDiagnostics)
-// @relates(backend.payment.flowClient, backend.payment.flowUrlHelper)
-// @desc(Servicio de orquestacion de pagos Flow.cl con idempotencia, webhooks, redireccion 303 y Kafka)
-// @pca:end
 package com.cremeco.payment.flow.service;
 
 import com.cremeco.common.events.PaymentConfirmedEvent;

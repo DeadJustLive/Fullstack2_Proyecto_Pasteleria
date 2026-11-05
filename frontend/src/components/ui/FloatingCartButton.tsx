@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.components.ui.floatingcartbutton)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(FloatingCartButton)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (FloatingCartButton.tsx))
-// @pca:end
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/cart";

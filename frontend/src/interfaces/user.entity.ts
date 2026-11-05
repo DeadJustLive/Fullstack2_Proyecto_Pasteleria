@@ -1,12 +1,3 @@
-// @pca:start
-// @id(interfaces.entity.user)
-// @kind(model)
-// @limit(lines: 80)
-// @contract(UserEntity, UserAddressEntity, RefreshTokenEntity)
-// @relates(interfaces.entity.common)
-// @relates(docs.reglas_backend)
-// @desc(Entidades de usuarios, direcciones y refresh tokens para MySQL y JPA)
-// @pca:end
 /**
  * @file user.entity.ts
  * @description Entidades de usuarios, direcciones y sesiones para la base de datos (MySQL) y backend (JPA).

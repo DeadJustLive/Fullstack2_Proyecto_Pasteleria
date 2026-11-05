@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.components.domain.bannerservicios)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(BannerServiciosProps, BannerServicios)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (BannerServicios.tsx))
-// @pca:end
 export interface BannerServiciosProps {
   items: string[];
 }

@@ -1,10 +1,3 @@
-// @pca:start
-// @id(backend.payment.flowSignature)
-// @kind(service)
-// @limit(lines: 90)
-// @contract(calculateSignature(params), validateSignature(params, signatureReceived))
-// @desc(Servicio de firma criptografica HMAC-SHA256 para pasarela Flow Chile)
-// @pca:end
 package com.cremeco.payment.flow.service;
 
 import org.springframework.beans.factory.annotation.Value;

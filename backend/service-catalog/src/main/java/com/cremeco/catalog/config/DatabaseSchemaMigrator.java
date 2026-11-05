@@ -1,9 +1,3 @@
-// @pca:start
-// @id(backend.service_catalog.config.database_migrator)
-// @kind(component)
-// @limit(lines: 80)
-// @desc(Asegura que la columna products.imagen sea MEDIUMTEXT en bases de datos existentes)
-// @pca:end
 package com.cremeco.catalog.config;
 
 import jakarta.annotation.PostConstruct;

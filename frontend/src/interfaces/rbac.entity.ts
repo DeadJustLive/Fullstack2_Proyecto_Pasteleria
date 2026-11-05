@@ -1,12 +1,3 @@
-// @pca:start
-// @id(interfaces.entity.rbac)
-// @kind(model)
-// @limit(lines: 70)
-// @contract(RoleEntity, PermissionEntity, UserRoleEntity, RolePermissionEntity)
-// @relates(interfaces.entity.common)
-// @relates(docs.reglas_backend)
-// @desc(Entidades de roles, permisos y tablas intermedias RBAC para MySQL y JPA)
-// @pca:end
 /**
  * @file rbac.entity.ts
  * @description Entidades de control de acceso basado en roles y permisos (RBAC) para MySQL y JPA.

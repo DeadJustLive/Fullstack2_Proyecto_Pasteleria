@@ -1,11 +1,3 @@
-// @pca:start
-// @id(backend.service_catalog.service.catalogservice)
-// @kind(service)
-// @limit(lines: 180)
-// @contract(getProducts, getOffers, getCategories, createProduct, updateProduct, deleteProduct, createCategory, updateCategory, deleteCategory)
-// @relates(backend.service_catalog.config.redis)
-// @desc(Capa de servicio de catalogo con soporte activo de cache Redis e invalidacion automatica)
-// @pca:end
 package com.cremeco.catalog.service;
 
 import com.cremeco.catalog.model.CategoryEntity;

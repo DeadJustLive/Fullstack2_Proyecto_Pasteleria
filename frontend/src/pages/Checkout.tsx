@@ -1,13 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.checkout)
-// @kind(page)
-// @limit(lines: 740)
-// @contract(CheckoutView())
-// @relates(frontend.lib.checkoutValidator)
-// @relates(feature.checkoutsummary.view)
-// @relates(docs.reglas_ui)
-// @desc(Formulario de checkout con seleccion de entrega y pasarela Flow)
-// @pca:end
 import { useState, useEffect, useId, type ChangeEvent, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {

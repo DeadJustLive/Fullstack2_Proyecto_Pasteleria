@@ -1,12 +1,3 @@
-<!-- @pca:start
-@id(docs.reglas_ui)
-@kind(doc)
-@limit(lines: 400)
-@relates(docs.convenciones)
-@relates(frontend.ui.buttonVariants)
-@desc(Reglas de UI: tokens, escalas, breakpoints, componentes y checklist responsive)
-@pca:end -->
-
 # Reglas de UI — Crème & Co
 
 > **Instrucción para la IA:** léelo antes de tocar JSX, clases de Tailwind o cualquier

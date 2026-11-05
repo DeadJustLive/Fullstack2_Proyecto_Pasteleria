@@ -1,13 +1,3 @@
-// @pca:start
-// @id(admin.pages.loginAdmin)
-// @kind(page)
-// @limit(lines: 230)
-// @contract(LoginAdminView())
-// @relates(admin.services.api)
-// @relates(docs.especificacion_pwa_admin)
-// @desc(Pantalla de autenticacion administrativa con verificacion de roles RBAC y tokens JWT)
-// @pca:end
-
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { adminApi, setAdminSession, type AdminUser } from "../services/api";

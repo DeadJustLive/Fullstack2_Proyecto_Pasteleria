@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.components.layout.footer)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(Footer)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (Footer.tsx))
-// @pca:end
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 
 const CONTACTOS = [

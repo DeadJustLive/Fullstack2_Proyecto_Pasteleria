@@ -1,12 +1,3 @@
-// @pca:start
-// @id(feature.customcakequote.portionBadge)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(CakePortionBadge)
-// @relates(feature.customcakequote.dependencies)
-// @desc(Subcomponente privado de insignia de pisos y porciones para CustomCakeQuote)
-// @pca:end
-
 import { CakeSlice } from "../dependencies/dependencies";
 
 interface CakePortionBadgeProps {

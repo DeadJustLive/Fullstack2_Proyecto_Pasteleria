@@ -1,14 +1,3 @@
-// @pca:start
-// @id(admin.feature.kardexpos.view)
-// @kind(view)
-// @limit(lines: 260)
-// @contract(AdminKardexPosView(props: AdminKardexPosContract))
-// @relates(admin.feature.kardexpos.interface)
-// @relates(admin.feature.kardexpos.dependencies)
-// @relates(admin.feature.kardexpos.syncBadge)
-// @desc(Implementación visual de estado de sincronización Kardex + POS en tiempo real)
-// @pca:end
-
 import {
   Activity,
   type AdminKardexPosContract,

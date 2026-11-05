@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.domain.commentSection)
-// @kind(component)
-// @limit(lines: 220)
-// @contract(CommentSectionProps, CommentSection)
-// @relates(frontend.hooks.useSocialEngagement, docs.reglas_ui)
-// @desc(Subsistema reutilizable de comentarios y calificaciones con estrellas para Blog y Productos)
-// @pca:end
 import { useEffect, useState, type FormEvent } from "react";
 import { CheckCircle2, Heart, MessageSquarePlus, Send, Star, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";

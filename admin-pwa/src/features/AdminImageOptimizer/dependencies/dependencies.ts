@@ -1,14 +1,5 @@
-// @pca:start
-// @id(feature.adminimageoptimizer.dependencies)
-// @kind(dependencies)
-// @limit(lines: 100)
-// @contract(gateway: external imports and adapters for AdminImageOptimizer)
-// @relates(feature.adminimageoptimizer.interface)
-// @desc(Aduana de importaciones externas y adaptadores del modulo AdminImageOptimizer)
-// @pca:end
-
 /**
- * FIDA - Dependencies Layer (D)
+ * Module Dependencies Gateway
  * Aduana de importaciones autorizadas para AdminImageOptimizer.
  */
 

@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.context.auth)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(Usuario, AuthContextValue, AuthContext, useAuth)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (auth.ts))
-// @pca:end
 import { createContext, useContext } from "react";
 
 export interface Usuario {

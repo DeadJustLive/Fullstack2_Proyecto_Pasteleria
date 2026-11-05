@@ -1,11 +1,3 @@
-// @pca:start
-// @id(interfaces.entity.common)
-// @kind(model)
-// @limit(lines: 60)
-// @contract(BaseEntity, AuditableEntity, PaginationParams, PageResponse)
-// @relates(docs.reglas_backend)
-// @desc(Interfaces base de persistencia y paginacion para BD y JPA)
-// @pca:end
 /**
  * @file common.entity.ts
  * @description Interfaces base compartidas para entidades de base de datos y backend.

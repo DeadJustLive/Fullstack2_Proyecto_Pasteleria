@@ -1,12 +1,3 @@
-// @pca:start
-// @id(admin.feature.kardexpos.syncBadge)
-// @kind(component)
-// @limit(lines: 180)
-// @contract(KardexSyncBadge)
-// @relates(admin.feature.kardexpos.dependencies)
-// @desc(Subcomponente privado de insignia de sincronización Kardex + POS)
-// @pca:end
-
 import {
   CheckCircle2,
   Radio,

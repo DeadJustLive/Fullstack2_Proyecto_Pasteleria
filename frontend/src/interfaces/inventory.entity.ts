@@ -1,12 +1,3 @@
-// @pca:start
-// @id(interfaces.entity.inventory)
-// @kind(model)
-// @limit(lines: 80)
-// @contract(InventoryMovementEntity, CashRegisterEntity)
-// @relates(interfaces.entity.common)
-// @relates(docs.reglas_backend)
-// @desc(Entidades de control de movimientos de inventario y sesiones de caja POS)
-// @pca:end
 /**
  * @file inventory.entity.ts
  * @description Entidades de control de inventario, stock y punto de venta (POS) para MySQL y JPA.

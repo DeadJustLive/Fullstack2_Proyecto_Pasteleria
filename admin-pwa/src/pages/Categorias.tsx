@@ -1,12 +1,3 @@
-// @pca:start
-// @id(admin.pages.categorias)
-// @kind(page)
-// @limit(lines: 680)
-// @contract(CategoriasAdminView())
-// @relates(admin.services.api)
-// @relates(docs.especificacion_pwa_admin)
-// @desc(Gestion administrativa de categorias, jerarquias, slug y conteo de productos)
-// @pca:end
 import { useEffect, useState, useMemo } from "react";
 import { AdminImageOptimizerView } from "../features/AdminImageOptimizer/implementation/AdminImageOptimizer.view";
 import {

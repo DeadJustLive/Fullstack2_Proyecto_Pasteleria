@@ -1,14 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.home)
-// @kind(component)
-// @limit(lines: 60)
-// @contract(sin props)
-// @relates(frontend.domain.heroHome)
-// @relates(frontend.domain.carouselDestacados)
-// @relates(frontend.domain.sobreNosotros)
-// @relates(frontend.domain.blogRecientes)
-// @desc(Orquestador de la Home: compono las secciones de dominio)
-// @pca:end
 import { BannerServicios } from "@/components/domain/BannerServicios";
 import { BlogRecientes } from "@/components/domain/BlogRecientes";
 import { CarouselDestacados } from "@/components/domain/CarouselDestacados";

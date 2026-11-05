@@ -1,14 +1,5 @@
-// @pca:start
-// @id(feature.customertracking.dependencies)
-// @kind(dependencies)
-// @limit(lines: 120)
-// @contract(gateway: external imports and adapters for CustomerTracking)
-// @relates(feature.customertracking.interface)
-// @desc(Aduana de importaciones externas y adaptadores del módulo CustomerTracking)
-// @pca:end
-
 /**
- * FIDA - Dependencies Layer (D)
+ * Module Dependencies Gateway
  *
  * Import Gateway ("Aduana") for: CustomerTracking
  * Created: 2026-10-31

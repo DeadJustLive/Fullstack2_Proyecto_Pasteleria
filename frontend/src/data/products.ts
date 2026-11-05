@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.data.products)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(BADGE_LABEL, CATEGORIAS, VARIACIONES, PRECIO_MAX, productos)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (products.ts))
-// @pca:end
 import type { BadgeTipo, Producto } from "@/types/product";
 
 export const BADGE_LABEL: Record<BadgeTipo, string> = {

@@ -1,11 +1,3 @@
-<!-- @pca:start
-@id(docs.plan_frontend_first)
-@kind(doc)
-@limit(lines: 260)
-@relates(docs.plan_sprints, docs.backlog_requisitos, docs.estado_proyecto, docs.git)
-@desc(Ola Frontend-first: tablero FE-xx, dependencias, carriles paralelos y decisiones)
-@pca:end -->
-
 # Ola Frontend-first (FE-00 → FE-41)
 
 > **Fase:** F2 — Plan de Sprints · **Estado:** En revisión (requiere "aprobado")

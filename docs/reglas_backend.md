@@ -1,12 +1,3 @@
-<!-- @pca:start
-@id(docs.reglas_backend)
-@kind(doc)
-@limit(lines: 300)
-@relates(docs.convenciones)
-@relates(docs.estado_proyecto)
-@desc(Reglas de backend: arquitectura modular Spring Boot, JPA, Flyway, RFC 7807 y convenciones de BD)
-@pca:end -->
-
 # Reglas de Backend y Base de Datos — Crème & Co
 
 > **Instrucción para la IA:** Consulta este documento antes de modelar entidades,

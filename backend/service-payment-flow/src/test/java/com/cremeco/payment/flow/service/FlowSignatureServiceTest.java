@@ -1,9 +1,3 @@
-// @pca:start
-// @id(backend.service_payment_flow.test.java.com.cremeco.payment.flow.service.flowsignatureservicetest)
-// @kind(test)
-// @limit(lines: 400)
-// @desc(Archivo test auto-registrado por FIDA/OPL bootstrap (FlowSignatureServiceTest.java))
-// @pca:end
 package com.cremeco.payment.flow.service;
 
 import org.junit.jupiter.api.BeforeEach;

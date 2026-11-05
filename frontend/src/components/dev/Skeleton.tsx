@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.components.dev.skeleton)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(Skeleton)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (Skeleton.tsx))
-// @pca:end
 import { cn } from "@/lib/utils";
 
 interface SkeletonProps {

@@ -1,9 +1,3 @@
-// @pca:start
-// @id(backend.service_order.main.java.com.cremeco.order.seeder.orderdataseeder)
-// @kind(component)
-// @limit(lines: 260)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (OrderDataSeeder.java))
-// @pca:end
 package com.cremeco.order.seeder;
 
 import com.cremeco.order.model.CustomQuoteEntity;

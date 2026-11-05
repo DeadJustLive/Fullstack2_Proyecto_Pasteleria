@@ -1,13 +1,3 @@
-// @pca:start
-// @id(interfaces.entity.order)
-// @kind(model)
-// @limit(lines: 150)
-// @contract(OrderEntity, OrderItemEntity, OrderStatusHistoryEntity, OrderPickupEntity, OrderDeliveryAddressEntity)
-// @relates(interfaces.entity.common)
-// @relates(interfaces.entity.catalog)
-// @relates(docs.reglas_backend)
-// @desc(Entidades de pedidos, items, historial de estados y recogedor)
-// @pca:end
 /**
  * @file order.entity.ts
  * @description Entidades de pedidos, seguimiento e items de compra para MySQL y JPA.

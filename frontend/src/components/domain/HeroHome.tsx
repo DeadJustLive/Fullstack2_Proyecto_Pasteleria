@@ -1,13 +1,3 @@
-// @pca:start
-// @id(frontend.domain.heroHome)
-// @kind(component)
-// @limit(lines: 80)
-// @contract(sin props)
-// @relates(frontend.ui.logoCremeCo)
-// @relates(frontend.ui.buttonLink)
-// @relates(docs.reglas_ui)
-// @desc(Banner principal de la Home (full-bleed con .hero-bg y .full-bleed))
-// @pca:end
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { LogoCremeCo } from "@/components/ui/LogoCremeCo";
 

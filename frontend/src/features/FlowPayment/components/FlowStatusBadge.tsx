@@ -1,12 +1,3 @@
-// @pca:start
-// @id(feature.flowpayment.statusBadge)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(FlowStatusBadge)
-// @relates(feature.flowpayment.dependencies)
-// @desc(Subcomponente privado de insignia de estado criptográfico Flow.cl)
-// @pca:end
-
 import {
   CheckCircle2,
   RefreshCw,

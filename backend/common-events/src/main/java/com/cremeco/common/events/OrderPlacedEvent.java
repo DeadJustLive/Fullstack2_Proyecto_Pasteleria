@@ -1,9 +1,3 @@
-// @pca:start
-// @id(backend.common_events.main.java.com.cremeco.common.events.orderplacedevent)
-// @kind(component)
-// @limit(lines: 200)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (OrderPlacedEvent.java))
-// @pca:end
 package com.cremeco.common.events;
 
 import lombok.AllArgsConstructor;

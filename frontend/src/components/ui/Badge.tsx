@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.ui.badge)
-// @kind(component)
-// @limit(lines: 40)
-// @contract(props: tipo: BadgeTipo + HTMLAttributes)
-// @relates(docs.reglas_ui)
-// @desc(Etiqueta flotante sobre la foto del producto)
-// @pca:end
 import { cva, type VariantProps } from "class-variance-authority";
 import type { BadgeTipo } from "@/types/product";
 import { cn } from "@/lib/utils";

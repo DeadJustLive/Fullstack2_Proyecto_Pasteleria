@@ -1,14 +1,5 @@
-// @pca:start
-// @id(feature.customcakequote.dependencies)
-// @kind(dependencies)
-// @limit(lines: 120)
-// @contract(gateway: external imports and adapters for CustomCakeQuote)
-// @relates(feature.customcakequote.interface)
-// @desc(Aduana de importaciones externas y adaptadores del módulo CustomCakeQuote)
-// @pca:end
-
 /**
- * FIDA - Dependencies Layer (D)
+ * Module Dependencies Gateway
  *
  * Import Gateway ("Aduana") for: CustomCakeQuote
  * Created: 2026-10-31

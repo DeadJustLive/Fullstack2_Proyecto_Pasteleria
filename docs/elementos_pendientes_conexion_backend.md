@@ -1,13 +1,3 @@
-<!-- @pca:start
-@id(docs.elementos_pendientes_conexion_backend)
-@kind(doc)
-@limit(lines: 400)
-@relates(docs.estado_proyecto)
-@relates(docs.especificacion_microservicios)
-@relates(docs.plantilla_ticket)
-@desc(Auditoría y levantamiento de elementos frontend pendientes de conexión con el backend para generación de tickets)
-@pca:end -->
-
 # Auditoría Técnica de Frontend: Elementos Pendientes de Integración con Backend
 
 Este documento detalla los componentes, vistas y módulos del [`frontend`](file:///C:/Users/retma/OneDrive/Escritorio/Fullstack2_Proyecto_Pasteleria/frontend) que actualmente funcionan con mocks, datos estáticos locales o lógica simulada, y que deben conectarse a los microservicios Spring Boot (`:8080`) para lograr funcionalidad 100% real de extremo a extremo.

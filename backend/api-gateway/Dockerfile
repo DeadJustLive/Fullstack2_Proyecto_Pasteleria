@@ -1,10 +1,3 @@
-# @pca:start
-# @id(backend.api-gateway.dockerfile)
-# @kind(config)
-# @limit(lines: 50)
-# @desc(Dockerfile de produccion para api-gateway Spring Cloud)
-# @pca:end
-
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app

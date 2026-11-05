@@ -1,14 +1,3 @@
-// @pca:start
-// @id(admin.feature.criticalstock.view)
-// @kind(view)
-// @limit(lines: 260)
-// @contract(AdminCriticalStockView(props: AdminCriticalStockContract))
-// @relates(admin.feature.criticalstock.interface)
-// @relates(admin.feature.criticalstock.dependencies)
-// @relates(admin.feature.criticalstock.alertBadge)
-// @desc(Implementación visual ejecutiva de alerta de stock crítico de productos)
-// @pca:end
-
 import {
   PackageOpen,
   type AdminCriticalStockContract,

@@ -1,12 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.productoDetalle)
-// @kind(page)
-// @limit(lines: 300)
-// @contract(ProductoDetalleView())
-// @relates(frontend.ui.button)
-// @relates(docs.reglas_ui)
-// @desc(Vista detallada de producto con sellos artesanales, favoritos, resenas y carrito)
-// @pca:end
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Check, Copy, Heart, Leaf, Share2, ShoppingCart, Sparkles, Star, Truck } from "lucide-react";

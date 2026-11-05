@@ -1,15 +1,5 @@
-// @pca:start
-// @id(feature.flowpayment.dependencies)
-// @kind(dependencies)
-// @limit(lines: 120)
-// @contract(gateway: external imports and adapters for FlowPayment)
-// @relates(feature.flowpayment.interface)
-// @relates(frontend.services.api)
-// @desc(Aduana de importaciones externas y adaptadores del módulo FlowPayment)
-// @pca:end
-
 /**
- * FIDA - Dependencies Layer (D)
+ * Module Dependencies Gateway
  *
  * Import Gateway ("Aduana") for: FlowPayment
  * Created: 2026-10-31

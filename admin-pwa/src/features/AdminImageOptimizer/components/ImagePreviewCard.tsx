@@ -1,12 +1,3 @@
-// @pca:start
-// @id(feature.adminimageoptimizer.previewCard)
-// @kind(component)
-// @limit(lines: 100)
-// @contract(ImagePreviewCard(props))
-// @relates(feature.adminimageoptimizer.dependencies)
-// @desc(Subcomponente privado de tarjeta de vista previa e informacion de Data URL)
-// @pca:end
-
 import {
   ImageIcon,
   RefreshCw,

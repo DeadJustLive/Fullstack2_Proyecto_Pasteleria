@@ -1,13 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.nosotros)
-// @kind(page)
-// @limit(lines: 320)
-// @contract(NosotrosView())
-// @relates(frontend.ui.buttonLink)
-// @relates(docs.reglas_ui)
-// @desc(Vista institucional con historia, equipo de maestros pasteleros y pilares artesanales)
-// @pca:end
-
 import {
   Flame,
   HeartHandshake,

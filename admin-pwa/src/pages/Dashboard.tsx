@@ -1,13 +1,3 @@
-// @pca:start
-// @id(admin.pages.dashboard)
-// @kind(page)
-// @limit(lines: 450)
-// @contract(DashboardView())
-// @relates(docs.especificacion_pwa_admin)
-// @relates(admin.services.api)
-// @relates(admin.hooks.realtimeSync)
-// @desc(Resumen administrativo con metricas, ventas diarias y accesos rapidos)
-// @pca:end
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import {

@@ -1,13 +1,3 @@
-// @pca:start
-// @id(admin.pages.ordenes)
-// @kind(page)
-// @limit(lines: 260)
-// @contract(OrdenesView())
-// @relates(admin.services.api)
-// @relates(admin.components.boletaModal)
-// @relates(docs.especificacion_pwa_admin)
-// @desc(Manejo de pedidos, cambio de estados y visualizacion de boletas tributarias)
-// @pca:end
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { ClipboardList, Search, RefreshCw, Receipt, Store, MapPin, Clock, CheckCircle2, AlertCircle, UserCheck } from "lucide-react";
 import { adminApi, type OrderAdmin } from "../services/api";

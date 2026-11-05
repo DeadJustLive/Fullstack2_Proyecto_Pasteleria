@@ -1,15 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.personalizacion)
-// @kind(component)
-// @limit(lines: 540)
-// @contract(sin props: formulario interactivo de diseno y cotizacion de tortas)
-// @relates(frontend.ui.button)
-// @relates(frontend.ui.modal)
-// @relates(frontend.ui.input)
-// @relates(feature.customcakequote.view)
-// @relates(docs.reglas_ui)
-// @desc(Pagina de personalizacion de tortas por pasos: personas, sabores y detalles)
-// @pca:end
 import { useState, useEffect } from "react";
 import { Check, Info, Send, Sparkles, CheckCircle2, Calendar, Phone, Mail, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";

@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.domain.sobreNosotros)
-// @kind(component)
-// @limit(lines: 60)
-// @contract(sin props)
-// @relates(docs.reglas_ui)
-// @desc(Bloque de texto e imagen 'Quiénes Somos' de la Home)
-// @pca:end
 /**
  * Bloque "Quiénes somos" de la Home: texto a la izquierda, foto a la derecha.
  * En mobile el `flex-wrap` apila la foto bajo el texto.

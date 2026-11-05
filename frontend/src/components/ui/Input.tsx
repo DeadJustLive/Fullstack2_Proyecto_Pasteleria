@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.ui.input)
-// @kind(component)
-// @limit(lines: 80)
-// @contract(props: InputHTMLAttributes + InputProps)
-// @relates(docs.reglas_ui)
-// @desc(Campo de entrada de texto accesible con estados default, error y success)
-// @pca:end
 import { forwardRef, useId, type InputHTMLAttributes } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";

@@ -1,11 +1,3 @@
-// @pca:start
-// @id(admin.components.editarUsuarioModal)
-// @kind(component)
-// @limit(lines: 250)
-// @contract(EditarUsuarioModalProps)
-// @relates(admin.services.api)
-// @desc(Modal para editar rol, estado y contacto de un usuario)
-// @pca:end
 import React, { useState, useEffect } from "react";
 import { Edit3, X, AlertCircle } from "lucide-react";
 import { adminApi, type AdminUser } from "../services/api";

@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.components.domain.filtrocheckbox)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(FiltroCheckbox)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (FiltroCheckbox.tsx))
-// @pca:end
 // Grupo de checkboxes para los filtros del catalogo.
 interface Opcion {
   value: string;

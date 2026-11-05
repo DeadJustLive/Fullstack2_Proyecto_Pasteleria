@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.components.ui.passwordinput)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(PasswordInput)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (PasswordInput.tsx))
-// @pca:end
 // Input de contrasena con boton para mostrar u ocultar el valor.
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";

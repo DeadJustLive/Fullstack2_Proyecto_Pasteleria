@@ -1,13 +1,3 @@
-// @pca:start
-// @id(admin.pages.reportes)
-// @kind(page)
-// @limit(lines: 450)
-// @contract(ReportesAdminView())
-// @relates(admin.services.api)
-// @relates(admin.hooks.realtimeSync)
-// @relates(docs.especificacion_pwa_admin)
-// @desc(Modulo independiente de reportes financieros, KPIs, graficos y exportacion CSV)
-// @pca:end
 import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Calendar,

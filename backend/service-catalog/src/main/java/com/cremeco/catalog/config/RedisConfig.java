@@ -1,10 +1,3 @@
-// @pca:start
-// @id(backend.service_catalog.config.redis)
-// @kind(config)
-// @limit(lines: 130)
-// @relates(backend.service_catalog.main.java.com.cremeco.catalog.servicecatalogapplication)
-// @desc(Configuracion de Redis y RedisCacheManager con serializacion JSON y degradacion elegante ante fallos)
-// @pca:end
 package com.cremeco.catalog.config;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

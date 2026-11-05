@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.components.ui.cantidadstepper)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(CantidadStepper)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (CantidadStepper.tsx))
-// @pca:end
 // Selector de cantidad +/-. Variante pill (carrito) y compact (POS).
 import { Minus, Plus } from "lucide-react";
 import { cva, type VariantProps } from "class-variance-authority";

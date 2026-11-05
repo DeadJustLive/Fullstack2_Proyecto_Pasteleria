@@ -1,10 +1,3 @@
-# @pca:start
-# @id(backend.service-notification.dockerfile)
-# @kind(config)
-# @limit(lines: 50)
-# @desc(Dockerfile de produccion para microservicio service-notification)
-# @pca:end
-
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app

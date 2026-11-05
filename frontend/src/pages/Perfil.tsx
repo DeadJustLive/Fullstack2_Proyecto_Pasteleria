@@ -1,15 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.perfil)
-// @kind(component)
-// @limit(lines: 620)
-// @contract(sin props: consulta contexto de sesion o estado local)
-// @relates(frontend.domain.perfilSidebar)
-// @relates(frontend.domain.estadoPedidoBadge)
-// @relates(frontend.ui.button)
-// @relates(frontend.ui.buttonLink)
-// @relates(frontend.ui.modal)
-// @desc(Vista de perfil de cliente con datos personales, direcciones y acceso a pedidos)
-// @pca:end
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { User, Package, CheckCircle, AlertCircle } from "lucide-react";

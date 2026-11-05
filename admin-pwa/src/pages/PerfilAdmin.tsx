@@ -1,12 +1,3 @@
-// @pca:start
-// @id(admin.pages.perfil)
-// @kind(page)
-// @limit(lines: 480)
-// @contract(PerfilAdminView())
-// @relates(admin.services.api)
-// @relates(docs.especificacion_pwa_admin)
-// @desc(Gestion del perfil, credenciales, seguridad y sesion del administrador)
-// @pca:end
 import { useState } from "react";
 import {
   CheckCircle2,

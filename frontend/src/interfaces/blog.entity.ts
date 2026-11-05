@@ -1,12 +1,3 @@
-// @pca:start
-// @id(interfaces.entity.blog)
-// @kind(model)
-// @limit(lines: 60)
-// @contract(BlogPostEntity)
-// @relates(interfaces.entity.common)
-// @relates(docs.reglas_backend)
-// @desc(Entidades de publicaciones editoriales y articulos del blog)
-// @pca:end
 /**
  * @file blog.entity.ts
  * @description Entidades de contenido editorial, noticias y blog para MySQL y JPA.

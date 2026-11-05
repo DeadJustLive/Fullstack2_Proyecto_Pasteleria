@@ -1,14 +1,3 @@
-// @pca:start
-// @id(feature.catalogdiscovery.view)
-// @kind(view)
-// @limit(lines: 300)
-// @contract(CatalogDiscoveryView(props: CatalogDiscoveryContract))
-// @relates(feature.catalogdiscovery.interface)
-// @relates(feature.catalogdiscovery.dependencies)
-// @relates(feature.catalogdiscovery.filterPill)
-// @desc(Implementación visual principal del módulo FIDA CatalogDiscovery con resumen de resultados activos)
-// @pca:end
-
 import {
   Sparkles,
   type CatalogDiscoveryContract,

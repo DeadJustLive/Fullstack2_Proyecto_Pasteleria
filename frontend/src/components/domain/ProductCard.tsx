@@ -1,13 +1,3 @@
-// @pca:start
-// @id(frontend.domain.productCard)
-// @kind(component)
-// @limit(lines: 140)
-// @contract(props: producto: Producto, elevation?: string, className?: string)
-// @relates(frontend.ui.button)
-// @relates(frontend.ui.buttonLink)
-// @relates(frontend.ui.badge)
-// @desc(Tarjeta de producto: anadir al carrito real, enlaces reales y a11y)
-// @pca:end
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Eye } from "lucide-react";

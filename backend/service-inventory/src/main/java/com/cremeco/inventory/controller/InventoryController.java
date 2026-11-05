@@ -1,12 +1,3 @@
-// @pca:start
-// @id(backend.inventory.controller)
-// @kind(controller)
-// @limit(lines: 250)
-// @contract(getAllItems, getKardex, registerMerma, registerRestock, registerPosSale)
-// @relates(docs.especificacion_microservicios)
-// @relates(docs.reglas_backend)
-// @desc(Controlador REST de inventario, Kardex, mermas, reposicion y ventas POS con sincronizacion MySQL y Redis)
-// @pca:end
 package com.cremeco.inventory.controller;
 
 import com.cremeco.inventory.model.InventoryItemEntity;

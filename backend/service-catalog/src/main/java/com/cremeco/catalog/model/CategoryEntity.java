@@ -1,9 +1,3 @@
-// @pca:start
-// @id(backend.service_catalog.main.java.com.cremeco.catalog.model.categoryentity)
-// @kind(component)
-// @limit(lines: 200)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (CategoryEntity.java))
-// @pca:end
 package com.cremeco.catalog.model;
 
 import jakarta.persistence.*;

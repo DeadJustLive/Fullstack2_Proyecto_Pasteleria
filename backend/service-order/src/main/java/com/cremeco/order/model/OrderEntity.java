@@ -1,9 +1,3 @@
-// @pca:start
-// @id(backend.service_order.main.java.com.cremeco.order.model.orderentity)
-// @kind(component)
-// @limit(lines: 200)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (OrderEntity.java))
-// @pca:end
 package com.cremeco.order.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;

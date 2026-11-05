@@ -1,13 +1,3 @@
-// @pca:start
-// @id(frontend.ui.backToTop)
-// @kind(component)
-// @limit(lines: 80)
-// @contract(sin props)
-// @relates(frontend.ui.button)
-// @relates(frontend.layouts.clienteLayout)
-// @relates(docs.reglas_ui)
-// @desc(Boton flotante que vuelve al inicio de la pagina (aparece al desplazar))
-// @pca:end
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { Button } from "@/components/ui/Button";

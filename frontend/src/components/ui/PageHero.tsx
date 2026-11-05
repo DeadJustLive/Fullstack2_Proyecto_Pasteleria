@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.components.ui.pagehero)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(PageHero)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (PageHero.tsx))
-// @pca:end
 import type { ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";

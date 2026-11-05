@@ -1,11 +1,3 @@
-// @pca:start
-// @id(admin.pages.promociones)
-// @kind(page)
-// @limit(lines: 680)
-// @contract(PromocionesAdminView())
-// @relates(docs.especificacion_pwa_admin)
-// @desc(Gestion de cupones de descuento, limites y vigencia)
-// @pca:end
 import { useEffect, useState, useMemo } from "react";
 import {
   AlertCircle,

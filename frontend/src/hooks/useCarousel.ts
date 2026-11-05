@@ -1,12 +1,3 @@
-// @pca:start
-// @id(frontend.hooks.useCarousel)
-// @kind(service)
-// @limit(lines: 110)
-// @contract(useCarousel(total: number) -> { trackRef, indice, enInicio, enFin, irA, desplazar })
-// @relates(frontend.domain.carouselDestacados)
-// @relates(docs.reglas_ui)
-// @desc(Estado y acciones de un track horizontal con scroll-snap (indice y posiciones))
-// @pca:end
 import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface UseCarousel {

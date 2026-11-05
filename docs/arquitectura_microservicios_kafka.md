@@ -1,12 +1,3 @@
-<!-- @pca:start
-@id(docs.arquitectura_microservicios_kafka)
-@kind(doc)
-@limit(lines: 450)
-@relates(docs.especificacion_microservicios)
-@relates(docs.reglas_backend)
-@desc(Arquitectura de microservicios Spring Boot, comunicación asincrónica con Apache Kafka y pasarela de pago Flow)
-@pca:end -->
-
 # Arquitectura de Microservicios, Topología Kafka & Pasarela Flow
 
 Este documento define la arquitectura distribuida del backend de **Crème & Co**, la estructura física y lógica de cada microservicio en Spring Boot, la topología de mensajería asincrónica mediante **Apache Kafka** y la integración técnica con la pasarela de pagos chilena **Flow.cl**.

@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.hooks.useSocialEngagement)
-// @kind(hook)
-// @limit(lines: 220)
-// @contract(useSocialEngagement(targetKey, initialCounts?))
-// @desc(Hook transversal de reacciones, guardados y comentarios sincronizado en localStorage)
-// @pca:end
 import { useCallback, useEffect, useState } from "react";
 
 export interface SocialComment {

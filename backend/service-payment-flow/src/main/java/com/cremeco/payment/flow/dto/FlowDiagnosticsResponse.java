@@ -1,9 +1,3 @@
-// @pca:start
-// @id(backend.service_payment_flow.main.java.com.cremeco.payment.flow.dto.flowdiagnosticsresponse)
-// @kind(component)
-// @limit(lines: 80)
-// @desc(DTO de diagnostico de conectividad y configuracion de Flow.cl)
-// @pca:end
 package com.cremeco.payment.flow.dto;
 
 import lombok.AllArgsConstructor;

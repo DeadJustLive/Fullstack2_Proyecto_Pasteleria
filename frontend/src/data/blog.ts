@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.data.blog)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(BLOG_CATEGORIAS, blogPosts)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (blog.ts))
-// @pca:end
 import type { BlogPost } from "@/types/blog";
 
 export const BLOG_CATEGORIAS = [

@@ -1,10 +1,3 @@
-# @pca:start
-# @id(backend.service-catalog.dockerfile)
-# @kind(config)
-# @limit(lines: 50)
-# @desc(Dockerfile de produccion para microservicio service-catalog)
-# @pca:end
-
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app

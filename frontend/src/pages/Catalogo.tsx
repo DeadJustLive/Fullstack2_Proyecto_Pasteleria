@@ -1,15 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.catalogo)
-// @kind(page)
-// @limit(lines: 300)
-// @contract(CatalogoView())
-// @relates(frontend.domain.productCard)
-// @relates(frontend.domain.catalogHomeView)
-// @relates(frontend.domain.catalogoFiltros)
-// @relates(feature.catalogdiscovery.view)
-// @relates(docs.reglas_ui)
-// @desc(Vista de catalogo con flujo de 2 fases: seleccion previa de categoria y grilla filtrada)
-// @pca:end
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { ArrowLeft, SlidersHorizontal, Sparkles } from "lucide-react";

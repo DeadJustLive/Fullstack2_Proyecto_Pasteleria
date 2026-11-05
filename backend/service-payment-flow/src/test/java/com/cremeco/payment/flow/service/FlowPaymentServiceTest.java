@@ -1,9 +1,3 @@
-// @pca:start
-// @id(backend.service_payment_flow.test.java.com.cremeco.payment.flow.service.flowpaymentservicetest)
-// @kind(test)
-// @limit(lines: 400)
-// @desc(Archivo test auto-registrado por FIDA/OPL bootstrap (FlowPaymentServiceTest.java))
-// @pca:end
 package com.cremeco.payment.flow.service;
 
 import com.cremeco.payment.flow.dto.PaymentCreateRequest;

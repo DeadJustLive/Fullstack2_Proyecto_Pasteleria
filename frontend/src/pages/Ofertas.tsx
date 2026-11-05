@@ -1,13 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.ofertas)
-// @kind(page)
-// @limit(lines: 260)
-// @contract(OfertasView())
-// @relates(frontend.domain.productCard)
-// @relates(frontend.services.api)
-// @relates(docs.reglas_ui)
-// @desc(Seccion dedicada de productos en oferta con precios tachados y calculo de ahorro)
-// @pca:end
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Check, Copy, Eye, Percent, ShoppingBag, Sparkles, Tag } from "lucide-react";

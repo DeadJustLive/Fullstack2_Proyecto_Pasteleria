@@ -1,10 +1,3 @@
-// @pca:start
-// @id(backend.service_identity.config.redis)
-// @kind(config)
-// @limit(lines: 80)
-// @relates(backend.service_identity.main.java.com.cremeco.identity.serviceidentityapplication)
-// @desc(Configuracion de conexion Redis para service-identity)
-// @pca:end
 package com.cremeco.identity.config;
 
 import org.springframework.context.annotation.Bean;

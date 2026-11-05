@@ -1,12 +1,3 @@
-// @pca:start
-// @id(admin.feature.rbacmatrix.roleBadge)
-// @kind(component)
-// @limit(lines: 180)
-// @contract(RbacRoleBadge)
-// @relates(admin.feature.rbacmatrix.dependencies)
-// @desc(Subcomponente privado de insignia de seguridad de roles RBAC)
-// @pca:end
-
 import {
   Lock,
   ShieldCheck,

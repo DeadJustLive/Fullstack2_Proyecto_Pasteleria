@@ -1,19 +1,3 @@
-<!-- @pca:start
-@id(docs.especificacion_microservicios)
-@kind(doc)
-@limit(lines: 400)
-@relates(docs.reglas_backend)
-@relates(interfaces.entity.user)
-@relates(interfaces.entity.rbac)
-@relates(interfaces.entity.catalog)
-@relates(interfaces.entity.order)
-@relates(interfaces.entity.payment)
-@relates(interfaces.entity.inventory)
-@relates(interfaces.entity.blog)
-@relates(interfaces.entity.audit)
-@desc(Especificación de microservicios y módulos de Spring Boot con sus entidades, endpoints y dependencias)
-@pca:end -->
-
 # Especificación de Microservicios y Módulos Backend (Spring Boot)
 
 Este documento define la descomposición modular del backend de **Crème & Co**,

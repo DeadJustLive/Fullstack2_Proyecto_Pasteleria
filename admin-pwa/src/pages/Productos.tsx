@@ -1,13 +1,3 @@
-// @pca:start
-// @id(admin.pages.productos)
-// @kind(page)
-// @limit(lines: 760)
-// @contract(ProductosAdminView())
-// @relates(admin.lib.validators)
-// @relates(admin.hooks.realtimeSync)
-// @relates(docs.especificacion_pwa_admin)
-// @desc(Gestion de productos, edicion, reporte de criticos y alta de nuevos)
-// @pca:end
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { AlertCircle, AlertTriangle, BarChart3, Check, Edit2, Eye, Lock, Plus, Radio, RefreshCw, Search, Trash2 } from "lucide-react";
 import { adminApi } from "../services/api";

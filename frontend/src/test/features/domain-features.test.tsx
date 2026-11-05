@@ -14,7 +14,7 @@ import { CustomCakeQuoteView } from "@/features/CustomCakeQuote/implementation/C
 import { CustomerTrackingView } from "@/features/CustomerTracking/implementation/CustomerTracking.view";
 import { CatalogDiscoveryView } from "@/features/CatalogDiscovery/implementation/CatalogDiscovery.view";
 
-describe("FIDA Features — Módulos Críticos de Negocio FIDA", () => {
+describe("Domain Features — Módulos Críticos de Negocio", () => {
   describe("FlowPayment Feature", () => {
     it("FlowStatusBadge muestra el estado correcto según verificación", () => {
       const { rerender } = render(<FlowStatusBadge state="verifying" />);

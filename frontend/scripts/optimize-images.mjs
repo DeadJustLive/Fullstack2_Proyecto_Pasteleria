@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.scripts.optimizeImages)
-// @kind(service)
-// @limit(lines: 160)
-// @contract(cli: npm run optimize:images)
-// @relates(docs.reglas_ui)
-// @desc(Convierte PNG a WebP y re-codifica JPG de public/imagen sin degradar)
-// @pca:end
 /**
  * Optimizador de imagenes de `public/imagen`.
  *

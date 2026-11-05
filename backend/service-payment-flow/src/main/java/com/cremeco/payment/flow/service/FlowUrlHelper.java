@@ -1,11 +1,3 @@
-// @pca:start
-// @id(backend.payment.flowUrlHelper)
-// @kind(service)
-// @limit(lines: 100)
-// @contract(cleanStoreUrl, urlEncode, buildSimulatorUrl, evaluateConfirmationWarnings)
-// @relates(backend.payment.flowService)
-// @desc(Utilidades para sanitizacion de URLs, simulador y validacion de accesibilidad de webhooks Flow)
-// @pca:end
 package com.cremeco.payment.flow.service;
 
 import org.springframework.stereotype.Component;

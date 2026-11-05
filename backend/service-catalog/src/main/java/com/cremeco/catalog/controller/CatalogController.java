@@ -1,10 +1,3 @@
-// @pca:start
-// @id(backend.service_catalog.main.java.com.cremeco.catalog.controller.catalogcontroller)
-// @kind(controller)
-// @limit(lines: 350)
-// @relates(backend.service_catalog.service.catalogservice)
-// @desc(Controlador REST del catalogo con endpoints publicos, administracion y diagnostico de Redis)
-// @pca:end
 package com.cremeco.catalog.controller;
 
 import com.cremeco.catalog.model.BlogPostEntity;

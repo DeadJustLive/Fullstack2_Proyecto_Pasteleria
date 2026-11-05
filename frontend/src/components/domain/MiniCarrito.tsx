@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.components.domain.minicarrito)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(MiniCarrito)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (MiniCarrito.tsx))
-// @pca:end
 import { useNavigate } from "react-router-dom";
 import { Trash2 } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";

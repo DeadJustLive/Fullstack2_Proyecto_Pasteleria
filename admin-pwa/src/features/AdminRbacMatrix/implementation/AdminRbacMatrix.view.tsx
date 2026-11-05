@@ -1,14 +1,3 @@
-// @pca:start
-// @id(admin.feature.rbacmatrix.view)
-// @kind(view)
-// @limit(lines: 260)
-// @contract(AdminRbacMatrixView(props: AdminRbacMatrixContract))
-// @relates(admin.feature.rbacmatrix.interface)
-// @relates(admin.feature.rbacmatrix.dependencies)
-// @relates(admin.feature.rbacmatrix.roleBadge)
-// @desc(Implementación visual del resumen ejecutivo de seguridad RBAC de roles activos)
-// @pca:end
-
 import {
   KeyRound,
   type AdminRbacMatrixContract,

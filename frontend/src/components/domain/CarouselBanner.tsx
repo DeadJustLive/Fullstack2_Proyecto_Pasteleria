@@ -1,13 +1,3 @@
-// @pca:start
-// @id(frontend.domain.carouselBanner)
-// @kind(component)
-// @limit(lines: 210)
-// @contract(props: productos: Producto[])
-// @relates(frontend.hooks.useCarousel)
-// @relates(frontend.domain.productCard)
-// @relates(docs.reglas_ui)
-// @desc(Carrusel centrado para banner del catálogo con imagen central y botones en los bordes)
-// @pca:end
 import type { KeyboardEvent } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, Eye } from "lucide-react";

@@ -1,13 +1,3 @@
-// @pca:start
-// @id(frontend.lib.authValidator)
-// @kind(service)
-// @limit(lines: 120)
-// @contract(validarEmail, validarPassword, validarRegistro, validarLogin)
-// @relates(frontend.lib.rutValidator)
-// @relates(docs.convenciones)
-// @desc(Validaciones de formularios de autenticacion y registro de clientes)
-// @pca:end
-
 import { validarRut } from "./rut.validator";
 
 export function validarEmail(email: string): boolean {

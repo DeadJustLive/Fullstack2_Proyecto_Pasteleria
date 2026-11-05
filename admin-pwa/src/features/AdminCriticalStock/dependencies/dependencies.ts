@@ -1,14 +1,5 @@
-// @pca:start
-// @id(admin.feature.criticalstock.dependencies)
-// @kind(dependencies)
-// @limit(lines: 120)
-// @contract(gateway: external imports and adapters for AdminCriticalStock)
-// @relates(admin.feature.criticalstock.interface)
-// @desc(Aduana de importaciones externas y adaptadores del módulo AdminCriticalStock)
-// @pca:end
-
 /**
- * FIDA - Dependencies Layer (D)
+ * Module Dependencies Gateway
  *
  * Import Gateway ("Aduana") for: AdminCriticalStock
  * Created: 2026-10-31

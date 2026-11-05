@@ -1,9 +1,3 @@
-// @pca:start
-// @id(backend.service_notification.main.java.com.cremeco.notification.model.contactmessageentity)
-// @kind(component)
-// @limit(lines: 200)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (ContactMessageEntity.java))
-// @pca:end
 package com.cremeco.notification.model;
 
 import jakarta.persistence.*;

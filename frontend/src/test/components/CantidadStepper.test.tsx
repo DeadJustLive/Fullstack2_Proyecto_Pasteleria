@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.test.components.cantidadStepper)
-// @kind(test)
-// @limit(lines: 110)
-// @relates(frontend.components.ui.cantidadstepper)
-// @desc(Pruebas de integracion e interaccion por click en el componente CantidadStepper)
-// @pca:end
 import { useState } from "react";
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";

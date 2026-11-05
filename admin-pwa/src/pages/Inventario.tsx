@@ -1,13 +1,3 @@
-// @pca:start
-// @id(admin.pages.inventario)
-// @kind(page)
-// @limit(lines: 540)
-// @contract(InventarioAdminView())
-// @relates(docs.especificacion_pwa_admin)
-// @relates(admin.services.api)
-// @relates(admin.hooks.realtimeSync)
-// @desc(Control de stock con semaforo, movimientos Kardex y registro de mermas)
-// @pca:end
 import { useState, useEffect, useCallback } from "react";
 
 import { adminApi } from "../services/api";

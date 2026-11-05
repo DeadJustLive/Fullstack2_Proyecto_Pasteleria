@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.domain.estadoPedidoBadge)
-// @kind(component)
-// @limit(lines: 80)
-// @contract(props: estado: string, className?: string)
-// @relates(docs.reglas_ui)
-// @desc(Insignia con variante de color semantico segun el estado del pedido)
-// @pca:end
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
@@ -71,4 +63,3 @@ export function EstadoPedidoBadge({
     </span>
   );
 }
-

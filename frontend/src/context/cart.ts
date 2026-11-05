@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.context.cart)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(CartItem, CartContextValue, ENVIO, CUPONES, CartContext, useCart)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (cart.ts))
-// @pca:end
 import { createContext, useContext } from "react";
 import type { Producto } from "@/types/product";
 

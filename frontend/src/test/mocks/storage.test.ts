@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.test.mocks.storage)
-// @kind(test)
-// @limit(lines: 90)
-// @relates(frontend.lib.storage)
-// @desc(Pruebas con mock de localStorage para el modulo de persistencia en frontend)
-// @pca:end
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { guardarStorage, leerStorage, borrarStorage } from "@/lib/storage";
 

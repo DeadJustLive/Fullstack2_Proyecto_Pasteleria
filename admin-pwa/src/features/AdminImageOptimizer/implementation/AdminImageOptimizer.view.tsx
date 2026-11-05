@@ -1,15 +1,3 @@
-// @pca:start
-// @id(feature.adminimageoptimizer.view)
-// @kind(view)
-// @limit(lines: 300)
-// @contract(AdminImageOptimizerView(props: AdminImageOptimizerContract))
-// @relates(feature.adminimageoptimizer.interface)
-// @relates(feature.adminimageoptimizer.dependencies)
-// @relates(feature.adminimageoptimizer.metricsBadge)
-// @relates(feature.adminimageoptimizer.previewCard)
-// @desc(Implementacion visual principal del modulo AdminImageOptimizer con Canvas y compresion WebP)
-// @pca:end
-
 import {
   useState,
   useRef,

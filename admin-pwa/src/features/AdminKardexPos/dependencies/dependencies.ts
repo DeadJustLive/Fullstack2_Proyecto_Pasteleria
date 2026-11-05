@@ -1,14 +1,5 @@
-// @pca:start
-// @id(admin.feature.kardexpos.dependencies)
-// @kind(dependencies)
-// @limit(lines: 120)
-// @contract(gateway: external imports and adapters for AdminKardexPos)
-// @relates(admin.feature.kardexpos.interface)
-// @desc(Aduana de importaciones externas y adaptadores del módulo AdminKardexPos)
-// @pca:end
-
 /**
- * FIDA - Dependencies Layer (D)
+ * Module Dependencies Gateway
  *
  * Import Gateway ("Aduana") for: AdminKardexPos
  * Created: 2026-10-31

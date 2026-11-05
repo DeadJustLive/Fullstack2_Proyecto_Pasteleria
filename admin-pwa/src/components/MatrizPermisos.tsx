@@ -1,11 +1,3 @@
-// @pca:start
-// @id(admin.components.matrizPermisos)
-// @kind(component)
-// @limit(lines: 150)
-// @contract(MatrizPermisos())
-// @relates(admin.pages.usuarios)
-// @desc(Tabla referencial de roles y privilegios del sistema)
-// @pca:end
 import React from "react";
 import { Check, Lock } from "lucide-react";
 

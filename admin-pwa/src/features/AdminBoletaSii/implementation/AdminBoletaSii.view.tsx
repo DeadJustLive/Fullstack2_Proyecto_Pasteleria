@@ -1,14 +1,3 @@
-// @pca:start
-// @id(admin.feature.boletasii.view)
-// @kind(view)
-// @limit(lines: 260)
-// @contract(AdminBoletaSiiView(props: AdminBoletaSiiContract))
-// @relates(admin.feature.boletasii.interface)
-// @relates(admin.feature.boletasii.dependencies)
-// @relates(admin.feature.boletasii.taxPill)
-// @desc(Implementación visual principal del resumen tributario SII 19% IVA para órdenes)
-// @pca:end
-
 import {
   Receipt,
   type AdminBoletaSiiContract,

@@ -1,14 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.contacto)
-// @kind(page)
-// @limit(lines: 450)
-// @contract(ContactoView())
-// @relates(frontend.ui.button)
-// @relates(frontend.lib.authValidator)
-// @relates(docs.reglas_ui)
-// @desc(Formulario de contacto con validacion de telefono y persistencia en service-notification)
-// @pca:end
-
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import {
   MapPin,

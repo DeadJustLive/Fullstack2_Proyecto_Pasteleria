@@ -1,12 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.categorias)
-// @kind(page)
-// @limit(lines: 100)
-// @contract(CategoriasView())
-// @relates(frontend.pages.cliente.catalogo)
-// @relates(docs.reglas_ui)
-// @desc(Redireccion unificada hacia la Fase 1 del Catalogo con tipos de compatibilidad)
-// @pca:end
 import { Navigate } from "react-router-dom";
 
 export interface CategoriaItem {

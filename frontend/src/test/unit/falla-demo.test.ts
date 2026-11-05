@@ -1,9 +1,3 @@
-// @pca:start
-// @id(frontend.test.unit.fallaDemo)
-// @kind(test)
-// @limit(lines: 45)
-// @desc(Prueba demostrativa de ciclo TDD Red a Green corregida exitosamente)
-// @pca:end
 import { describe, it, expect } from "vitest";
 import { validarRutChileno } from "@/lib/validators/rut.validator";
 

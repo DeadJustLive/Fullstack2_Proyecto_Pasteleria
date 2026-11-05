@@ -1,12 +1,3 @@
-// @pca:start
-// @id(interfaces.entity.payment)
-// @kind(model)
-// @limit(lines: 80)
-// @contract(PaymentEntity, CouponEntity)
-// @relates(interfaces.entity.common)
-// @relates(docs.reglas_backend)
-// @desc(Entidades de transacciones de pago, pasarelas y cupones de descuento)
-// @pca:end
 /**
  * @file payment.entity.ts
  * @description Entidades de transacciones de pago y cupones de descuento para MySQL y JPA.

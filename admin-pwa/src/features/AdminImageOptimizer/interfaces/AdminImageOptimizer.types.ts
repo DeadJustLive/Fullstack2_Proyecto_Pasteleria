@@ -1,13 +1,5 @@
-// @pca:start
-// @id(feature.adminimageoptimizer.interface)
-// @kind(interface)
-// @limit(lines: 100)
-// @contract(ImageOptimizationResult, IAdminImageOptimizerProps, IAdminImageOptimizerEvents, AdminImageOptimizerContract)
-// @desc(Contrato e interfaces de tipos para el optimizador de imagenes WebP AdminImageOptimizer)
-// @pca:end
-
 /**
- * FIDA - Interface Layer (I)
+ * Module Public Contract
  * Modulo: AdminImageOptimizer
  */
 

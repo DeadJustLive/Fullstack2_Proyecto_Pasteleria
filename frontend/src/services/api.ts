@@ -1,12 +1,3 @@
-// @pca:start
-// @id(frontend.services.api)
-// @kind(service)
-// @limit(lines: 780)
-// @contract(authApi, catalogApi, orderApi, inventoryApi, notificationApi, paymentApi)
-// @relates(docs.especificacion_microservicios)
-// @relates(docs.convenciones)
-// @desc(Cliente HTTP del frontend con token JWT para consumir microservicios)
-// @pca:end
 import type { Producto, Categoria, Variacion, BadgeTipo } from "@/types/product";
 import { validarRut } from "@/lib/validators/rut.validator";
 

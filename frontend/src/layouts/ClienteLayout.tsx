@@ -1,12 +1,3 @@
-// @pca:start
-// @id(frontend.layouts.clienteLayout)
-// @kind(component)
-// @limit(lines: 120)
-// @contract(sin props (shell de las rutas de cliente): Navbar + main + Footer)
-// @relates(frontend.pages.cliente.home)
-// @relates(docs.reglas_ui)
-// @desc(Shell del cliente: define el padding y el ancho del main (max-w-full + xl:max-w-page))
-// @pca:end
 import { Outlet } from "react-router-dom";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";

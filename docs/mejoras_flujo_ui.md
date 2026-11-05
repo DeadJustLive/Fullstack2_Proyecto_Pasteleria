@@ -1,12 +1,3 @@
-<!-- @pca:start
-@id(docs.mejoras_flujo_ui)
-@kind(doc)
-@limit(lines: 340)
-@relates(docs.reglas_ui)
-@relates(docs.estado_proyecto)
-@relates(docs.convenciones)
-@desc(Registro y seguimiento de oportunidades de mejora visual y ergonomia de flujo en Tienda y Admin PWA)
-@pca:end -->
 # Registro de Oportunidades de Mejora Gráfica y Ergonomía de Flujo
 
 > **Propósito:** Bitácora viva de hallazgos de diseño visual, feedback gráfico y ergonomía de usuario detectados durante la integración real del software (Tienda Cliente + Admin PWA + POS).

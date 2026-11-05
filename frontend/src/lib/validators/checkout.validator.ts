@@ -1,14 +1,3 @@
-// @pca:start
-// @id(frontend.lib.checkoutValidator)
-// @kind(service)
-// @limit(lines: 120)
-// @contract(validarCheckoutDelivery, validarCheckoutRetiro)
-// @relates(frontend.lib.rutValidator)
-// @relates(frontend.lib.regionesChile)
-// @relates(docs.convenciones)
-// @desc(Validaciones del formulario de checkout segun requerimientos DSY1104)
-// @pca:end
-
 import { validarEmail } from "./auth.validator";
 import { validarRut } from "./rut.validator";
 import { validarRegionYComuna } from "../data/regiones-chile";

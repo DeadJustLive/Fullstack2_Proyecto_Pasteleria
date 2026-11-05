@@ -1,12 +1,3 @@
-// @pca:start
-// @id(admin.components.posModals)
-// @kind(component)
-// @limit(lines: 220)
-// @contract(PosCashModal, PosThermalReceiptModal)
-// @relates(docs.especificacion_pwa_admin)
-// @relates(admin.services.api)
-// @desc(Modales extraidos del POS para arqueo de caja de turno e impresion de boleta termica 80mm)
-// @pca:end
 import { CheckCircle2, Printer } from "lucide-react";
 
 export interface TicketEntryPOS {

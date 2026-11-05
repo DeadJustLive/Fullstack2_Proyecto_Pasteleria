@@ -1,12 +1,3 @@
-// @pca:start
-// @id(interfaces.entity.audit)
-// @kind(model)
-// @limit(lines: 60)
-// @contract(AuditLogEntity)
-// @relates(interfaces.entity.common)
-// @relates(docs.reglas_backend)
-// @desc(Entidades de registro de auditoria y trazabilidad de operaciones)
-// @pca:end
 /**
  * @file audit.entity.ts
  * @description Entidades de registro de auditoria y trazabilidad del sistema para MySQL y JPA.

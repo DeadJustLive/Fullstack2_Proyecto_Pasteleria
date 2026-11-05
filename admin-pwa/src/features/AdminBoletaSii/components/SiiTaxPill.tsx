@@ -1,12 +1,3 @@
-// @pca:start
-// @id(admin.feature.boletasii.taxPill)
-// @kind(component)
-// @limit(lines: 180)
-// @contract(SiiTaxPill)
-// @relates(admin.feature.boletasii.dependencies)
-// @desc(Subcomponente privado de insignia de estado tributario SII 19% IVA)
-// @pca:end
-
 import {
   FileCheck2,
   ShieldCheck,

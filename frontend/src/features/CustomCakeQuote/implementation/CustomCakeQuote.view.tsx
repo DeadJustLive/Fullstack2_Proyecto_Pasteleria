@@ -1,14 +1,3 @@
-// @pca:start
-// @id(feature.customcakequote.view)
-// @kind(view)
-// @limit(lines: 300)
-// @contract(CustomCakeQuoteView(props: CustomCakeQuoteContract))
-// @relates(feature.customcakequote.interface)
-// @relates(feature.customcakequote.dependencies)
-// @relates(feature.customcakequote.portionBadge)
-// @desc(Implementación visual principal del módulo FIDA CustomCakeQuote con ficha técnica de pastelería)
-// @pca:end
-
 import {
   Sparkles,
   formatPrecio,

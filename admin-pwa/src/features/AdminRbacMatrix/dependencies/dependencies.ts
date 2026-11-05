@@ -1,14 +1,5 @@
-// @pca:start
-// @id(admin.feature.rbacmatrix.dependencies)
-// @kind(dependencies)
-// @limit(lines: 120)
-// @contract(gateway: external imports and adapters for AdminRbacMatrix)
-// @relates(admin.feature.rbacmatrix.interface)
-// @desc(Aduana de importaciones externas y adaptadores del módulo AdminRbacMatrix)
-// @pca:end
-
 /**
- * FIDA - Dependencies Layer (D)
+ * Module Dependencies Gateway
  *
  * Import Gateway ("Aduana") for: AdminRbacMatrix
  * Created: 2026-10-31

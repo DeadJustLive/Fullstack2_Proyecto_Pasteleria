@@ -1,11 +1,3 @@
-// @pca:start
-// @id(admin.components.fichaUsuarioModal)
-// @kind(component)
-// @limit(lines: 250)
-// @contract(FichaUsuarioModalProps)
-// @relates(admin.services.api)
-// @desc(Modal con la ficha tecnica y resumen de actividad comercial del usuario)
-// @pca:end
 import React, { useState, useEffect } from "react";
 import { UserCheck, Shield, ShoppingBag, Calendar, Phone, Mail, Award, X } from "lucide-react";
 import { adminApi, type AdminUser, type OrderAdmin } from "../services/api";

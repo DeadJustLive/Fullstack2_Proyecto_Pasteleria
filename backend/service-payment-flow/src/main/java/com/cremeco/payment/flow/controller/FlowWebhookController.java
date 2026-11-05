@@ -1,11 +1,3 @@
-// @pca:start
-// @id(backend.payment.flowWebhookController)
-// @kind(controller)
-// @limit(lines: 110)
-// @contract(handleFormWebhook, handleJsonWebhook, handleBrowserReturn)
-// @relates(backend.payment.flowService)
-// @desc(Controlador de webhooks asincronos y puente HTTP 303 para retorno POST desde Flow.cl)
-// @pca:end
 package com.cremeco.payment.flow.controller;
 
 import com.cremeco.payment.flow. service.FlowPaymentService;

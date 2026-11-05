@@ -1,9 +1,3 @@
-<!-- @pca:start
-@id(docs.convenciones)
-@kind(doc)
-@relates(docs.sistema_anotaciones)
-@desc(Convenciones generales del proyecto)
-@pca:end -->
 # Convenciones Generales del Proyecto
 
 > **Instrucción para la IA:** Aplica estas reglas en todo código que generes. Cada regla tiene un **ID**. Cuando un ticket indique convenciones aplicables (por ejemplo "Aplicar `CONV-NAM-01`"), respétalas de forma obligatoria.
@@ -80,8 +74,6 @@
 
 ## CONV-DOC — Documentación y anotaciones
 
-- **CONV-DOC-01 — Bloque de anotación:** todo archivo crítico declara su cabecera con el bloque canónico (`@id`, `@kind`, `@limit`, `@contract`, `@relates`, `@desc`). El diccionario está en `docs/sistema_anotaciones.md` y el formato se aplica con `python tools/pca_annotator.py annotate`.
 - **CONV-DOC-02 — Contratos declarados:** los servicios declaran su contrato → `@contract(auth)`.
 - **CONV-DOC-03 — Comentarios con valor:** explica el *por qué*, no el *qué* (el código ya dice el qué).
 - **CONV-DOC-04 — README por módulo:** cada carpeta relevante puede tener un README breve que explique su propósito.
-- **CONV-DOC-05 — Grafo actualizado:** tras anotar archivos, regenera el grafo con `python tools/pca_annotator.py graph` y revisa el impacto con `impact <id>`.

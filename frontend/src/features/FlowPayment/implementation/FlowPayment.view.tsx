@@ -1,14 +1,3 @@
-// @pca:start
-// @id(feature.flowpayment.view)
-// @kind(view)
-// @limit(lines: 300)
-// @contract(FlowPaymentView(props: FlowPaymentContract))
-// @relates(feature.flowpayment.interface)
-// @relates(feature.flowpayment.dependencies)
-// @relates(feature.flowpayment.statusBadge)
-// @desc(Implementación visual principal del módulo FIDA FlowPayment con verificación en vivo)
-// @pca:end
-
 import { useEffect, useState } from "react";
 import {
   api,

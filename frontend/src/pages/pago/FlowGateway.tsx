@@ -1,13 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.pago.flowGateway)
-// @kind(page)
-// @limit(lines: 460)
-// @contract(FlowGatewayView())
-// @relates(frontend.pages.cliente.checkout)
-// @relates(frontend.pages.cliente.pago.exito)
-// @relates(frontend.pages.cliente.pago.error)
-// @desc(Pasarela interactiva de pruebas Flow Sandbox con escenarios de exito y rechazo DSY1104)
-// @pca:end
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {

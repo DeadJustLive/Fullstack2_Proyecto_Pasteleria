@@ -1,12 +1,3 @@
-// @pca:start
-// @id(admin.components.historialComprasModal)
-// @kind(component)
-// @limit(lines: 250)
-// @contract(HistorialComprasModalProps)
-// @relates(admin.services.api)
-// @relates(admin.components.boletaModal)
-// @desc(Modal para listar las compras del usuario y acceder a sus boletas)
-// @pca:end
 import React, { useState, useEffect } from "react";
 import { ShoppingBag, Receipt, X, RefreshCw, AlertCircle } from "lucide-react";
 import { adminApi, type AdminUser, type OrderAdmin } from "../services/api";

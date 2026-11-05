@@ -1,11 +1,3 @@
-// @pca:start
-// @id(admin.hooks.realtimeSync)
-// @kind(service)
-// @limit(lines: 90)
-// @contract(useAdminRealtimeSync(onSync, intervalMs?), broadcastAdminSync(payload))
-// @relates(docs.especificacion_pwa_admin)
-// @desc(Hook compartido de sincronizacion en tiempo real por BroadcastChannel, visibilidad y foco)
-// @pca:end
 import { useEffect, useRef } from "react";
 
 export const ADMIN_REALTIME_CHANNEL = "cremeco_products_realtime";

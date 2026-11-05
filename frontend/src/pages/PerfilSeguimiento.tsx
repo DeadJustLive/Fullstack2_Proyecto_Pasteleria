@@ -1,17 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.perfilSeguimiento)
-// @kind(component)
-// @limit(lines: 600)
-// @contract(sin props: consulta pedido mock o parametros de ruta)
-// @relates(frontend.domain.perfilSidebar)
-// @relates(frontend.domain.lineaTiempoPedido)
-// @relates(frontend.domain.estadoPedidoBadge)
-// @relates(feature.customertracking.view)
-// @relates(frontend.ui.button)
-// @relates(frontend.ui.buttonLink)
-// @relates(frontend.ui.modal)
-// @desc(Vista de seguimiento de pedido dentro del perfil con timeline e info de recogida)
-// @pca:end
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Calendar, Clock, ShoppingBag, User, Search, CheckCircle, AlertCircle, Truck, Package } from "lucide-react";

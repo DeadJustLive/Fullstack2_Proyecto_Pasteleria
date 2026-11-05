@@ -1,11 +1,3 @@
-// @pca:start
-// @id(admin.components.boletaModal)
-// @kind(component)
-// @limit(lines: 350)
-// @contract(BoletaModal(order, onClose))
-// @relates(docs.especificacion_pwa_admin)
-// @desc(Modal con desglose de IVA 19%, datos de emisor/receptor e impresion tributaria DSY1104)
-// @pca:end
 import React from "react";
 import { Printer, X, Receipt, MapPin, Store, UserCheck, ShieldCheck } from "lucide-react";
 import type { OrderAdmin } from "../services/api";

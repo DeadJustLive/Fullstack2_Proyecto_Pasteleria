@@ -1,14 +1,3 @@
-// @pca:start
-// @id(admin.pages.pos)
-// @kind(page)
-// @limit(lines: 420)
-// @contract(PosAdminView())
-// @relates(docs.especificacion_pwa_admin)
-// @relates(admin.services.api)
-// @relates(admin.hooks.realtimeSync)
-// @relates(admin.components.posModals)
-// @desc(Terminal punto de venta POS mostrador con generacion de boletas)
-// @pca:end
 import { useState, useEffect, useMemo, useCallback } from "react";
 import {
   CreditCard,

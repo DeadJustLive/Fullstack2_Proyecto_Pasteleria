@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.carrito)
-// @kind(page)
-// @limit(lines: 260)
-// @contract(CarritoView())
-// @relates(docs.reglas_ui)
-// @desc(Vista de carrito de compras con resumen de pedido y calculo de totales)
-// @pca:end
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Loader2, CheckCircle2, AlertCircle, Trash2 } from "lucide-react";

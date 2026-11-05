@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.confirmacion)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(Confirmacion)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (Confirmacion.tsx))
-// @pca:end
 import { useSearchParams } from "react-router-dom";
 import { CheckCircle, FileText, Home, ShoppingBag } from "lucide-react";
 import { ButtonLink } from "@/components/ui/ButtonLink";

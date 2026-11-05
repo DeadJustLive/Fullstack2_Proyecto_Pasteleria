@@ -1,12 +1,3 @@
-// @pca:start
-// @id(feature.checkoutsummary.securityBadge)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(CheckoutSecurityBadge)
-// @relates(feature.checkoutsummary.dependencies)
-// @desc(Subcomponente privado de insignia de seguridad transaccional para CheckoutSummary)
-// @pca:end
-
 import { Lock } from "../dependencies/dependencies";
 
 interface CheckoutSecurityBadgeProps {

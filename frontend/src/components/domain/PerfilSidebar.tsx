@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.domain.perfilSidebar)
-// @kind(component)
-// @limit(lines: 110)
-// @contract(props: tabActiva: 'datos' | 'pedidos' | 'seguimiento')
-// @relates(docs.reglas_ui)
-// @desc(Barra lateral del perfil con usuario autenticado y enlaces de navegacion)
-// @pca:end
 import { Link, useNavigate } from "react-router-dom";
 import { LogOut, MapPin, Package, User } from "lucide-react";
 import { useAuth } from "@/context/auth";

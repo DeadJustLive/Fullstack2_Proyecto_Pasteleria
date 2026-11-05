@@ -1,9 +1,3 @@
-// @pca:start
-// @id(backend.service_notification.main.java.com.cremeco.notification.seeder.notificationdataseeder)
-// @kind(component)
-// @limit(lines: 200)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (NotificationDataSeeder.java))
-// @pca:end
 package com.cremeco.notification.seeder;
 
 import com.cremeco.notification.model.ContactMessageEntity;

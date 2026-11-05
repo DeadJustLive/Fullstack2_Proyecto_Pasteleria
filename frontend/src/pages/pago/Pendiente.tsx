@@ -1,10 +1,3 @@
-// @pca:start
-// @id(frontend.pages.cliente.pago.pendiente)
-// @kind(component)
-// @limit(lines: 200)
-// @contract(PagoPendiente)
-// @desc(Archivo component auto-registrado por FIDA/OPL bootstrap (Pendiente.tsx))
-// @pca:end
 import { useSearchParams } from "react-router-dom";
 import { Clock, FileText, Home, ShoppingBag } from "lucide-react";
 import { ButtonLink } from "@/components/ui/ButtonLink";

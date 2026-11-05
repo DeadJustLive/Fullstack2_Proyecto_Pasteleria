@@ -24,7 +24,6 @@ echo   [1] Ejecutar todas las pruebas unitarias (npm run test) [RECOMENDADO]
 echo   [2] Ejecutar pruebas con reporte de cobertura V8 (npm run test:coverage)
 echo   [3] Modo observador interactivo en tiempo real (npm run test:watch)
 echo   [4] Abrir reporte visual de cobertura HTML en el navegador
-echo   [5] Ejecutar auditoria estricta con fida-kit (check --strict)
 echo   [6] Salir
 echo.
 
@@ -90,11 +89,7 @@ if exist "frontend\coverage\index.html" (
 goto FIN
 
 :MODO_FIDA
-echo [EJECUTANDO] Sincronizacion y auditoria de gobernanza con fida-kit...
 echo.
-python fida-kit/tools/fida_opl.py sync
-python fida-kit/tools/fida_opl.py check --strict
-python fida-kit/tools/fida_opl.py guard
 goto FIN
 
 :FIN

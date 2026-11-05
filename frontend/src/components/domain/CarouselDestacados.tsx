@@ -1,12 +1,3 @@
-// @pca:start
-// @id(frontend.domain.carouselDestacados)
-// @kind(component)
-// @limit(lines: 160)
-// @contract(props: productos: Producto[])
-// @relates(frontend.domain.productCard)
-// @relates(docs.reglas_ui)
-// @desc(Carrusel de destacados con scroll-snap, flechas funcionales y teclado)
-// @pca:end
 import type { KeyboardEvent } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ProductCard } from "@/components/domain/ProductCard";

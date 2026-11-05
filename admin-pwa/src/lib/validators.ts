@@ -1,11 +1,3 @@
-// @pca:start
-// @id(admin.lib.validators)
-// @kind(service)
-// @limit(lines: 120)
-// @contract(validarRutAdmin, validarProductoAdmin, validarUsuarioAdmin)
-// @relates(docs.convenciones)
-// @desc(Validaciones para formularios de gestion de catalogo y usuarios en Admin PWA)
-// @pca:end
 /** Validador oficial de RUN/RUT chileno mediante algoritmo Módulo 11 (Admin PWA). */
 export function limpiarRut(rut: string): string {
   if (typeof rut !== "string") return "";

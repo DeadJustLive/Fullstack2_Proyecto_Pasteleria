@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.ui.buttonVariants)
-// @kind(service)
-// @limit(lines: 60)
-// @contract(cva: variant(primary|secondary|outline|ghost) x size(sm|default|lg|icon))
-// @relates(docs.reglas_ui)
-// @desc(Variantes compartidas por Button y ButtonLink del design system)
-// @pca:end
 import { cva, type VariantProps } from "class-variance-authority";
 
 /**

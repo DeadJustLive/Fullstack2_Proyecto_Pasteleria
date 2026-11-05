@@ -1,13 +1,3 @@
-// @pca:start
-// @id(frontend.domain.blogRecientes)
-// @kind(component)
-// @limit(lines: 60)
-// @contract(sin props)
-// @relates(frontend.ui.buttonLink)
-// @relates(frontend.ui.sectionTitle)
-// @relates(frontend.components.domain.blogcard)
-// @desc(Grid de artículos recientes del blog en la Home)
-// @pca:end
 import { BlogCard } from "@/components/domain/BlogCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { SectionTitle } from "@/components/ui/SectionTitle";

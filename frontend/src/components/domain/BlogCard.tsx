@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.components.domain.blogcard)
-// @kind(component)
-// @limit(lines: 210)
-// @contract(BlogCardProps, BlogCard)
-// @relates(docs.reglas_ui)
-// @desc(Tarjeta editorial reutilizable de articulo del blog con barra de interaccion social)
-// @pca:end
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Bookmark, Calendar, Check, Clock, Heart, MessageCircle, Share2, Sparkles, User } from "lucide-react";

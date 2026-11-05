@@ -1,11 +1,3 @@
-// @pca:start
-// @id(backend.payment.flowController)
-// @kind(controller)
-// @limit(lines: 100)
-// @contract(createPayment, refundPayment, getStatus, getStatusByToken, getDiagnostics)
-// @relates(backend.payment.flowService)
-// @desc(Controlador REST de creacion de cobros idempotentes, reembolsos y consulta de estado en Flow.cl)
-// @pca:end
 package com.cremeco.payment.flow.controller;
 
 import com.cremeco.payment.flow.dto.*;

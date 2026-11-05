@@ -1,11 +1,3 @@
-// @pca:start
-// @id(frontend.domain.lineaTiempoPedido)
-// @kind(component)
-// @limit(lines: 140)
-// @contract(props: hitos: HitoPedido[])
-// @relates(docs.reglas_ui)
-// @desc(Linea de tiempo cronologica con estados completados, activo y pendientes)
-// @pca:end
 import { Check, Clock, Sparkles } from "lucide-react";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";

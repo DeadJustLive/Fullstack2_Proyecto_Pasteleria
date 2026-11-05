@@ -1,12 +1,3 @@
-// @pca:start
-// @id(admin.feature.criticalstock.alertBadge)
-// @kind(component)
-// @limit(lines: 180)
-// @contract(CriticalAlertBadge)
-// @relates(admin.feature.criticalstock.dependencies)
-// @desc(Subcomponente privado de insignia de severidad de stock crítico)
-// @pca:end
-
 import {
   AlertTriangle,
   CheckCircle2,
