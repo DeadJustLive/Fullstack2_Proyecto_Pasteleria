@@ -5,7 +5,6 @@
 // @contract(OrdenesView())
 // @relates(admin.services.api)
 // @relates(admin.components.boletaModal)
-// @relates(admin.feature.boletasii.view)
 // @relates(docs.especificacion_pwa_admin)
 // @desc(Manejo de pedidos, cambio de estados y visualizacion de boletas tributarias)
 // @pca:end

@@ -8,6 +8,7 @@
 // @desc(Gestion administrativa de categorias, jerarquias, slug y conteo de productos)
 // @pca:end
 import { useEffect, useState, useMemo } from "react";
+import { AdminImageOptimizerView } from "../features/AdminImageOptimizer/implementation/AdminImageOptimizer.view";
 import {
   AlertCircle,
   AlertTriangle,
@@ -516,15 +517,10 @@ export function Categorias() {
                   </div>
 
                   <div className="mb-3">
-                    <label className="form-label small fw-bold text-uppercase text-secondary">
-                      URL de Imagen (Opcional)
-                    </label>
-                    <input
-                      type="url"
-                      placeholder="https://images.unsplash.com/..."
+                    <AdminImageOptimizerView
                       value={formImagen}
-                      onChange={(e) => setFormImagen(e.target.value)}
-                      className="form-control"
+                      onChange={(val) => setFormImagen(val)}
+                      label="Fotografía de la Categoría (Subir archivo WebP o URL externa)"
                     />
                   </div>
 

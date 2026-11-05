@@ -16,7 +16,6 @@ import {
   Menu,
   Monitor,
   Package,
-  Palette,
   ShieldCheck,
   Tag,
   FolderTree,
@@ -40,7 +39,6 @@ const NAV_ITEMS = [
   { to: "/promociones", label: "Promociones & Descuentos", icon: Tag },
   { to: "/pos", label: "Punto de Venta POS", icon: Monitor },
   { to: "/perfil", label: "Mi Perfil & Cuenta", icon: UserCheck },
-  { to: "/componentes", label: "UI Kit & Modales", icon: Palette },
 ];
 
 export function AdminLayout() {

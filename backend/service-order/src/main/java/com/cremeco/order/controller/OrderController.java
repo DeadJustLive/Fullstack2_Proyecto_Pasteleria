@@ -102,7 +102,23 @@ public class OrderController {
             }
         }
 
-        // Cálculo de IVA si falta
+        // Cálculo de IVA y montos base si faltan
+        if (order.getSubtotal() == null) {
+            long sub = 0;
+            if (order.getItems() != null) {
+                for (OrderItemEntity it : order.getItems()) {
+                    if (it.getSubtotal() != null) sub += it.getSubtotal();
+                    else if (it.getPrecio() != null && it.getCantidad() != null) sub += it.getPrecio() * it.getCantidad();
+                }
+            }
+            order.setSubtotal(sub > 0 ? sub : (order.getTotal() != null ? order.getTotal() : 0L));
+        }
+        if (order.getDescuento() == null) {
+            order.setDescuento(0L);
+        }
+        if (order.getCostoEnvio() == null) {
+            order.setCostoEnvio(0L);
+        }
         if (order.getIva() == null && order.getTotal() != null) {
             order.setIva(Math.round(order.getTotal() * 0.19 / 1.19));
         }

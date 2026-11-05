@@ -263,7 +263,7 @@
       "relates": [
         "frontend.ui.buttonLink",
         "frontend.ui.sectionTitle",
-        "frontend.data.articles"
+        "frontend.components.domain.blogcard"
       ]
     },
     {
@@ -300,7 +300,7 @@
       ]
     },
     {
-      "path": "frontend/src/pages/cliente/Home.tsx",
+      "path": "frontend/src/pages/Home.tsx",
       "id": "frontend.pages.cliente.home",
       "kind": "component",
       "limit": 60,
@@ -310,8 +310,7 @@
         "frontend.domain.heroHome",
         "frontend.domain.carouselDestacados",
         "frontend.domain.sobreNosotros",
-        "frontend.domain.blogRecientes",
-        "frontend.data.articles"
+        "frontend.domain.blogRecientes"
       ]
     },
     {
@@ -839,23 +838,25 @@
       "path": "admin-pwa/src/pages/Dashboard.tsx",
       "id": "admin.pages.dashboard",
       "kind": "page",
-      "limit": 280,
+      "limit": 450,
       "contract": "DashboardView()",
       "desc": "Resumen administrativo con metricas, ventas diarias y accesos rapidos",
       "relates": [
         "docs.especificacion_pwa_admin",
-        "admin.services.api"
+        "admin.services.api",
+        "admin.hooks.realtimeSync"
       ]
     },
     {
       "path": "admin-pwa/src/pages/Productos.tsx",
       "id": "admin.pages.productos",
       "kind": "page",
-      "limit": 720,
+      "limit": 760,
       "contract": "ProductosAdminView()",
       "desc": "Gestion de productos, edicion, reporte de criticos y alta de nuevos",
       "relates": [
         "admin.lib.validators",
+        "admin.hooks.realtimeSync",
         "docs.especificacion_pwa_admin"
       ]
     },
@@ -863,12 +864,13 @@
       "path": "admin-pwa/src/pages/Inventario.tsx",
       "id": "admin.pages.inventario",
       "kind": "page",
-      "limit": 480,
+      "limit": 540,
       "contract": "InventarioAdminView()",
       "desc": "Control de stock con semaforo, movimientos Kardex y registro de mermas",
       "relates": [
         "docs.especificacion_pwa_admin",
-        "admin.services.api"
+        "admin.services.api",
+        "admin.hooks.realtimeSync"
       ]
     },
     {
@@ -880,7 +882,9 @@
       "desc": "Terminal punto de venta POS mostrador con generacion de boletas",
       "relates": [
         "docs.especificacion_pwa_admin",
-        "admin.services.api"
+        "admin.services.api",
+        "admin.hooks.realtimeSync",
+        "admin.components.posModals"
       ]
     },
     {
@@ -1113,6 +1117,7 @@
       "desc": "Modulo independiente de reportes financieros, KPIs, graficos y exportacion CSV",
       "relates": [
         "admin.services.api",
+        "admin.hooks.realtimeSync",
         "docs.especificacion_pwa_admin"
       ]
     },
@@ -1158,6 +1163,52 @@
       "desc": "Pruebas de integracion e interaccion para CatalogHomeView - Fase 1 del Catalogo",
       "relates": [
         "frontend.domain.catalogHomeView"
+      ]
+    },
+    {
+      "path": "frontend/src/components/domain/BlogCard.tsx",
+      "id": "frontend.components.domain.blogcard",
+      "kind": "component",
+      "limit": 210,
+      "contract": "BlogCardProps, BlogCard",
+      "desc": "Tarjeta editorial reutilizable de articulo del blog con barra de interaccion social",
+      "relates": [
+        "docs.reglas_ui"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/hooks/useAdminRealtimeSync.ts",
+      "id": "admin.hooks.realtimeSync",
+      "kind": "service",
+      "limit": 90,
+      "contract": "useAdminRealtimeSync(onSync, intervalMs?), broadcastAdminSync(payload)",
+      "desc": "Hook compartido de sincronizacion en tiempo real por BroadcastChannel, visibilidad y foco",
+      "relates": [
+        "docs.especificacion_pwa_admin"
+      ]
+    },
+    {
+      "path": "admin-pwa/src/components/PosModals.tsx",
+      "id": "admin.components.posModals",
+      "kind": "component",
+      "limit": 220,
+      "contract": "PosCashModal, PosThermalReceiptModal",
+      "desc": "Modales extraidos del POS para arqueo de caja de turno e impresion de boleta termica 80mm",
+      "relates": [
+        "docs.especificacion_pwa_admin",
+        "admin.services.api"
+      ]
+    },
+    {
+      "path": "backend/service-inventory/src/main/java/com/cremeco/inventory/controller/InventoryController.java",
+      "id": "backend.inventory.controller",
+      "kind": "controller",
+      "limit": 250,
+      "contract": "getAllItems, getKardex, registerMerma, registerRestock, registerPosSale",
+      "desc": "Controlador REST de inventario, Kardex, mermas, reposicion y ventas POS con sincronizacion MySQL y Redis",
+      "relates": [
+        "docs.especificacion_microservicios",
+        "docs.reglas_backend"
       ]
     }
   ],

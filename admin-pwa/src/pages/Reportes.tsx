@@ -4,6 +4,7 @@
 // @limit(lines: 450)
 // @contract(ReportesAdminView())
 // @relates(admin.services.api)
+// @relates(admin.hooks.realtimeSync)
 // @relates(docs.especificacion_pwa_admin)
 // @desc(Modulo independiente de reportes financieros, KPIs, graficos y exportacion CSV)
 // @pca:end
@@ -19,8 +20,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { adminApi, type OrderAdmin, type ProductCatalogDTO } from "../services/api";
-
-const CHANNEL_NAME = "cremeco_products_realtime";
+import { useAdminRealtimeSync } from "../hooks/useAdminRealtimeSync";
 
 export function Reportes() {
   const [periodo, setPeriodo] = useState<"todos" | "mes_actual" | "7dias">("todos");
@@ -45,30 +45,11 @@ export function Reportes() {
 
   useEffect(() => {
     void cargarDatos();
-    const handleFocus = () => void cargarDatos();
-    const intervalId = window.setInterval(() => {
-      if (document.visibilityState === "visible") void cargarDatos();
-    }, 5000);
-    window.addEventListener("focus", handleFocus);
-    return () => {
-      window.clearInterval(intervalId);
-      window.removeEventListener("focus", handleFocus);
-    };
   }, [cargarDatos]);
 
-  useEffect(() => {
-    let channel: BroadcastChannel | null = null;
-    try {
-      channel = new BroadcastChannel(CHANNEL_NAME);
-      channel.onmessage = (event: MessageEvent) => {
-        const t = event?.data?.type;
-        if (t === "ORDER_PLACED" || t === "STOCK_UPDATED" || t === "STOCK_DECREMENTED") {
-          void cargarDatos();
-        }
-      };
-    } catch { /* BroadcastChannel fallback */ }
-    return () => { if (channel) channel.close(); };
-  }, [cargarDatos]);
+  useAdminRealtimeSync(() => {
+    void cargarDatos();
+  });
 
   const ordenesFiltradas = useMemo(() => {
     if (periodo === "todos") return ordenes;

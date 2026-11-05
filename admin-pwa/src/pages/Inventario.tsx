@@ -5,18 +5,19 @@
 // @contract(InventarioAdminView())
 // @relates(docs.especificacion_pwa_admin)
 // @relates(admin.services.api)
-// @relates(admin.feature.kardexpos.view)
+// @relates(admin.hooks.realtimeSync)
 // @desc(Control de stock con semaforo, movimientos Kardex y registro de mermas)
 // @pca:end
 import { useState, useEffect, useCallback } from "react";
 
-const CHANNEL_NAME = "cremeco_products_realtime";
 import { adminApi } from "../services/api";
+import { useAdminRealtimeSync, broadcastAdminSync } from "../hooks/useAdminRealtimeSync";
 import { ArrowDown, ArrowUp, History, PackagePlus, Search } from "lucide-react";
 import { AdminKardexPosView } from "../features/AdminKardexPos/implementation/AdminKardexPos.view";
 
 interface ItemStock {
   id: number;
+  productoId?: number;
   nombre: string;
   categoria: "insumo" | "producto_terminado";
   stockActual: number;
@@ -28,7 +29,7 @@ interface ItemStock {
 interface MovimientoKardex {
   id: number;
   fecha: string;
-  tipo: "ENTRADA" | "SALIDA_MERMA" | "VENTA_POS" | "AJUSTE";
+  tipo: "ENTRADA" | "INGRESO_COCINA" | "SALIDA_MERMA" | "MERMA" | "VENTA_POS" | "VENTA_ONLINE" | "AJUSTE";
   item: string;
   cantidad: number;
   unidad: string;
@@ -66,6 +67,7 @@ export function Inventario() {
       if (Array.isArray(itemsData) && itemsData.length > 0) {
         const adaptados: ItemStock[] = itemsData.map((it) => ({
           id: it.id,
+          productoId: it.productoId,
           nombre: it.nombre,
           categoria: it.categoria?.toLowerCase().includes("insumo") ? "insumo" : "producto_terminado",
           stockActual: it.stockActual,
@@ -74,7 +76,7 @@ export function Inventario() {
           estado: it.estadoSemaforo === "ROJO" ? "critico" : it.estadoSemaforo === "AMARILLO" ? "reabastecer" : "optimo",
         }));
         setItems(adaptados);
-        if (adaptados[0]) setItemSeleccionado(adaptados[0].nombre);
+        if (adaptados[0]) setItemSeleccionado((prev) => prev || adaptados[0].nombre);
       }
       if (Array.isArray(kardexData) && kardexData.length > 0) {
         const adaptadosK: MovimientoKardex[] = kardexData.map((k) => ({
@@ -96,34 +98,12 @@ export function Inventario() {
   }, []);
 
   useEffect(() => {
-    cargarInventario();
-    const handleFocus = () => { void cargarInventario(); };
-    const intervalId = window.setInterval(() => {
-      if (document.visibilityState === "visible") {
-        void cargarInventario();
-      }
-    }, 5000);
-    window.addEventListener("focus", handleFocus);
-    return () => {
-      window.clearInterval(intervalId);
-      window.removeEventListener("focus", handleFocus);
-    };
+    void cargarInventario();
   }, [cargarInventario]);
 
-  useEffect(() => {
-    let channel: BroadcastChannel | null = null;
-    try {
-      channel = new BroadcastChannel(CHANNEL_NAME);
-      channel.onmessage = (event: MessageEvent) => {
-        const data = event.data;
-        if (!data) return;
-        if (data.type === "ORDER_PLACED" || data.type === "STOCK_UPDATED" || data.type === "STOCK_DECREMENTED" || data.type === "KARDEX_UPDATED") {
-          void cargarInventario();
-        }
-      };
-    } catch { /* Channel */ }
-    return () => { if (channel) channel.close(); };
-  }, [cargarInventario]);
+  useAdminRealtimeSync(() => {
+    void cargarInventario();
+  });
 
   // Form ajuste
   const [itemSeleccionado, setItemSeleccionado] = useState(items[0]?.nombre ?? "");
@@ -143,12 +123,20 @@ export function Inventario() {
     const delta = tipoAjuste === "ENTRADA" ? Math.abs(cantidadAjuste) : -Math.abs(cantidadAjuste);
     const nuevoStock = Math.max(0, itemTarget.stockActual + delta);
 
-    if (tipoAjuste === "SALIDA_MERMA") {
+    const targetId = itemTarget.productoId ?? itemTarget.id;
+    if (tipoAjuste === "ENTRADA") {
+      adminApi.inventory.registerRestock({
+        productoId: targetId,
+        cantidad: Math.abs(cantidadAjuste),
+        motivo: motivoAjuste,
+      }).then(() => broadcastAdminSync({ type: "STOCK_UPDATED", id: targetId, stock: nuevoStock })).catch(() => {});
+    } else {
       adminApi.inventory.registerMerma({
+        productoId: targetId,
         producto: itemSeleccionado,
         cantidad: Math.abs(cantidadAjuste),
         motivo: motivoAjuste,
-      }).catch(() => {});
+      }).then(() => broadcastAdminSync({ type: "STOCK_UPDATED", id: targetId, stock: nuevoStock })).catch(() => {});
     }
 
     let nuevoEstado: ItemStock["estado"] = "optimo";
@@ -207,7 +195,7 @@ export function Inventario() {
       <AdminKardexPosView
         totalMovements={kardex.length}
         posMovementsCount={kardex.filter((m) => m.tipo === "VENTA_POS").length}
-        mermasCount={kardex.filter((m) => m.tipo === "SALIDA_MERMA").length}
+        mermasCount={kardex.filter((m) => m.tipo === "SALIDA_MERMA" || m.tipo === "MERMA").length}
         lastMovementDate={kardex[0]?.fecha}
         onOpenAdjustmentModal={() => setModalAjuste(true)}
       />
@@ -352,14 +340,14 @@ export function Inventario() {
                   <td>
                     <span
                       className={`badge d-inline-flex align-items-center gap-1 ${
-                        mov.tipo === "ENTRADA"
+                        mov.tipo === "ENTRADA" || mov.tipo === "INGRESO_COCINA" || mov.cantidad > 0
                           ? "bg-success"
-                          : mov.tipo === "SALIDA_MERMA"
+                          : mov.tipo === "SALIDA_MERMA" || mov.tipo === "MERMA"
                           ? "bg-danger"
                           : "bg-info text-dark"
                       }`}
                     >
-                      {mov.tipo === "ENTRADA" ? <ArrowUp size={11} /> : <ArrowDown size={11} />}
+                      {mov.tipo === "ENTRADA" || mov.tipo === "INGRESO_COCINA" || mov.cantidad > 0 ? <ArrowUp size={11} /> : <ArrowDown size={11} />}
                       {mov.tipo}
                     </span>
                   </td>

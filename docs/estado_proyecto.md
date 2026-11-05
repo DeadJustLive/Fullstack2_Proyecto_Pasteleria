@@ -12,7 +12,7 @@
 
 > **Instrucción para la IA:** Lee este archivo al iniciar **cada** sesión, antes de proponer cualquier cambio. Al cerrar la sesión, actualízalo. Este documento es la memoria del proyecto: si no está actualizado, el alumno pierde el contexto y aparece la **amnesia de contexto**.
 
-**Última actualización:** 2026-11-03
+**Última actualización:** 2026-11-04
 
 ---
 
@@ -65,6 +65,8 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | Sprint 10 | Contenedorización Docker completa en PC, Redis activo, Flow.cl diagnóstico y WebP en Admin | Hecho |
 | Sprint 11 | Sincronización real E2E de stock web, reactividad tiempo real y eliminación de datos mock en Dashboard y Reportes | Hecho |
 | Sprint 12 | Cohesión E2E de flujos del cliente en `frontend/`: `trackingCode` real en Checkout, `CantidadStepper` en `ProductoDetalle`, reactividad en `Ofertas` y `MiniCarrito` interactivo | Hecho |
+| Sprint 13–14 | Responsividad móvil, ergonomía de vistas cliente, subsistema social (`useSocialEngagement` + `CommentSection`), reseñas y `PageHero` | Hecho |
+| Sprint 15 | Auditoría técnica: persistencia transaccional POS en MySQL, fix de entradas/mermas y `<select>` en Inventario, hook `useAdminRealtimeSync` + `PosModals` y limpieza del grafo PCA (T138–T141 Hechos, T142 diferido a F5) | Hecho |
 
 ---
 
@@ -142,6 +144,21 @@ roles: **cliente** (catálogo, carrito, checkout, seguimiento de envío, perfil,
 | T125 | Unificación de `ProductoDetalle.tsx` con `CantidadStepper`, tope de stock real y feedback sin redirección forzada | F4 / S12 | Hecho | `CONV-UI-02`, `CONV-UI-04`, `CONV-TIP-01` |
 | T126 | Reactividad en tiempo real (`useRealtimeProducts`) y bloqueo de agotados en `Ofertas.tsx` | F4 / S12 | Hecho | `CONV-UI-01`, `CONV-UI-02`, `CONV-TIP-01` |
 | T127 | Controles interactivos en `MiniCarrito.tsx` y desacoplamiento de `mockup.css` en `Navbar` y `Footer` | F4 / S12 | Hecho | `CONV-UI-03`, `CONV-UI-04`, `CONV-GEN-02` |
+| T128 | Aislamiento de regla global `<section>` en CSS legacy (`estilos.css`) y retiro de `@/mockup/mockup.css` en `main.tsx` | F4 / S13 | Hecho | `CONV-UI-01`, `CONV-UI-03` |
+| T129 | Responsividad móvil en filas de `Carrito.tsx` (breakpoint `lg:`) y controles accesibles en `CarouselBanner.tsx` | F4 / S13 | Hecho | `CONV-UI-02`, `CONV-UI-04` |
+| T130 | Navegación diferenciada y ergonomía móvil compacta en `PerfilSidebar.tsx`, `Perfil.tsx` y `PerfilSeguimiento.tsx` | F4 / S13 | Hecho | `CONV-UI-01`, `CONV-UI-02` |
+| T131 | Ergonomía, pre-llenado de sesión, fecha mínima y aviso de campos pendientes en `Personalizacion.tsx` | F4 / S13 | Hecho | `CONV-UI-01`, `CONV-TIP-01` |
+| T132 | Interactividad real (Me gusta, Republicar, Responder, Compartir) y persistencia `localStorage` en `Blog.tsx` | F4 / S13 | Hecho | `CONV-UI-01`, `CONV-UI-04` |
+| T133 | Subsistema transversal de interacciones y comentarios (`useSocialEngagement` + `CommentSection`) | F4 / S14 | Hecho | `CONV-UI-01`, `CONV-EST-01`, `CONV-TIP-01` |
+| T134 | Evolución de `BlogCard` y rediseño editorial de `Blog.tsx`, `BlogDetalle.tsx` y `BlogRecientes.tsx` | F4 / S14 | Hecho | `CONV-UI-01`, `CONV-UI-02`, `CONV-UI-03` |
+| T135 | Sellos artesanales y sección de Reseñas con Calificación (`★`) en `ProductoDetalle.tsx` | F4 / S14 | Hecho | `CONV-UI-01`, `CONV-UI-02`, `CONV-TIP-01` |
+| T136 | Unificación de `PageHero` (`banner` \| `minimal`) y aplicación en `Carrito`, `Checkout` y `Blog` | F4 / S14 | Hecho | `CONV-UI-01`, `CONV-UI-03` |
+| T137 | Homologación cromática y limpieza de hex literales en `Login.tsx` y `Registro.tsx` | F4 / S14 | Hecho | `CONV-UI-01`, `CONV-SEG-01` |
+| T138 | Persistencia transaccional de ventas POS en MySQL (`products`, `inventory_items`, `orders`, `kardex_movements`) | F4 / S15 | Hecho | `CONV-EST-01`, `CONV-ERR-01` |
+| T139 | Persistencia de entradas/mermas, preservación de `<select>` durante polling y tipos Kardex en `Inventario.tsx` | F4 / S15 | Hecho | `CONV-UI-01`, `CONV-TIP-01` |
+| T140 | Extracción de hook `useAdminRealtimeSync` y desacoplamiento de `PosModals.tsx` | F4 / S15 | Hecho | `CONV-EST-01`, `CONV-GEN-04` |
+| T141 | Saneamiento de relaciones huérfanas `@relates` y validación 100% limpia del grafo PCA | F4 / S15 | Hecho | `CONV-DOC-01`, `CONV-DOC-05` |
+| T142 | Herramienta CLI en `fida-kit` (`strip`) para purgar anotaciones y artefactos FIDA/PCA antes de entrega académica/producción | F5 / S15 | Pendiente | `CONV-SEG-02`, `CONV-GEN-02` |
 
 Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
@@ -151,16 +168,11 @@ Estados: `Pendiente` · `En curso` · `En revisión` · `Hecho`.
 
 > Rama activa de desarrollo: `feature/T122-reportes-reales-csv`.
 
-- **Sprint 11 — Sincronización Real E2E de Stock & Dashboard Vivo (F4) — COMPLETADO:**
-  1. **T119 Hecho**: Descuento transaccional de stock conectado en `service-order` (validación de stock disponible, actualización atómica en `products`, sincronización en `inventory_items` y registro de movimiento `VENTA_ONLINE` en `kardex_movements`). Soporte de `productId` en `Checkout.tsx` y `api.ts`, propagación de error `STOCK_INSUFICIENTE` y llamada de invalidación de caché Redis en `service-catalog`. 101 tests pasando en verde.
-  2. **T120 Hecho**: Reactividad en tiempo real de stock (eventos `STOCK_UPDATED`, `STOCK_DECREMENTED`, `ORDER_PLACED` en `BroadcastChannel`), sondeo periódico inteligente cada 5s en `Productos.tsx` e `Inventario.tsx`, emisión bidireccional desde Checkout y reposición rápida en Admin, y bitácora de mejoras UI registrada en `docs/mejoras_flujo_ui.md`.
-  3. **T121 Hecho**: Eliminación total de datos mock y constantes quemadas en `Dashboard.tsx`. Métricas 100% dinámicas: ingresos y órdenes reales de MySQL, gráfico semanal proyectado desde órdenes de los últimos 7 días, insumos críticos enlazados a stock `<=` 5 (con empty state amigable) y ranking de productos más vendidos computado desde transacciones reales.
-  4. **T122 Hecho**: Eliminación de datos mock en `Reportes.tsx`, cálculo dinámico de ingresos, ticket promedio, cumplimiento y métodos de pago; gráfico de ventas semanales con montos reales; ranking de productos por unidades y recaudación; exportación de CSV para Excel con UTF-8 BOM y sincronización viva vía BroadcastChannel y sondeo.
-- **Siguiente Paso — Sprint 13 / Deuda Crítica (`docs/mejoras_flujo_ui.md`):**
-  1. **CORR-01**: Corrección de cálculo y renderizado en `BoletaModal.tsx` (desglose SII y formato visual).
-  2. **CORR-02**: Carga dual de imágenes en `Categorias.tsx` (archivo local WebP + URL).
-  3. **CORR-03**: Prototipado y rediseño de Punto de Venta POS en HTML limpio antes de migración React.
-  4. **CORR-04**: Retiro definitivo del enlace "UI Kit & Modales" (`/componentes`) de la navegación en `AdminLayout.tsx`.
+- **Sprint 11 y Correcciones Críticas (CORR-01 a CORR-04) — COMPLETADOS:**
+  - Stock transaccional web (`T119`), reactividad tiempo real (`T120`), métricas vivas en `Dashboard.tsx` (`T121`) y `Reportes.tsx` (`T122`).
+  - Saneamiento de `BoletaModal.tsx` SII (`CORR-01`), subida WebP + URL en `Categorias.tsx` (`CORR-02`), prototipo HTML + rediseño React en `Pos.tsx` (`CORR-03`) y retiro de enlace UI Kit (`CORR-04`).
+- **Sprint 15 (T138–T141) — COMPLETADO:** Persistencia transaccional POS en MySQL/Kardex/Órdenes (`T138`), persistencia de entradas/mermas y fix de `<select>` en `Inventario.tsx` (`T139`), hook compartido `useAdminRealtimeSync.ts` + `PosModals.tsx` (`T140`) y grafo PCA con 0 relaciones rotas (`T141`).
+- **Pendiente Diferido para Cierre (F5):** Ticket **T142** (herramienta CLI en `fida-kit` para limpiar anotaciones `@pca` y artefactos FIDA antes de revisión o producción).
 - **REQUISITO ESTRICTO DE ENTREGA (Protocolo Anti-Fricción de Defensa):** En el commit final de entrega para la presentación académica (F5), se debe ejecutar la purga completa de herramientas internas propias (`fida-kit/`, scripts de `tools/`, archivos de configuración de metadatos y comentarios `@pca:start`) para que el repositorio quede en estándar curricular puro (React/Spring Boot), protegiendo a los compañeros de preguntas sobre herramientas no oficiales.
 
 ---

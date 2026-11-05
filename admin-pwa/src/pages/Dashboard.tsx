@@ -5,7 +5,8 @@
 // @contract(DashboardView())
 // @relates(docs.especificacion_pwa_admin)
 // @relates(admin.services.api)
-// @desc(Resumen administrativo con metricas reales, ventas diarias y ranking dinámico)
+// @relates(admin.hooks.realtimeSync)
+// @desc(Resumen administrativo con metricas, ventas diarias y accesos rapidos)
 // @pca:end
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
@@ -21,8 +22,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { adminApi, type OrderAdmin, type ProductCatalogDTO } from "../services/api";
-
-const CHANNEL_NAME = "cremeco_products_realtime";
+import { useAdminRealtimeSync } from "../hooks/useAdminRealtimeSync";
 
 export function Dashboard() {
   const [ordenes, setOrdenes] = useState<OrderAdmin[]>([]);
@@ -56,34 +56,12 @@ export function Dashboard() {
   }, []);
 
   useEffect(() => {
-    cargarDatos();
-    const handleFocus = () => { void cargarDatos(); };
-    const intervalId = window.setInterval(() => {
-      if (document.visibilityState === "visible") {
-        void cargarDatos();
-      }
-    }, 5000);
-    window.addEventListener("focus", handleFocus);
-    return () => {
-      window.clearInterval(intervalId);
-      window.removeEventListener("focus", handleFocus);
-    };
+    void cargarDatos();
   }, [cargarDatos]);
 
-  useEffect(() => {
-    let channel: BroadcastChannel | null = null;
-    try {
-      channel = new BroadcastChannel(CHANNEL_NAME);
-      channel.onmessage = (event: MessageEvent) => {
-        const data = event.data;
-        if (!data) return;
-        if (data.type === "ORDER_PLACED" || data.type === "STOCK_UPDATED" || data.type === "STOCK_DECREMENTED") {
-          void cargarDatos();
-        }
-      };
-    } catch { /* Channel */ }
-    return () => { if (channel) channel.close(); };
-  }, [cargarDatos]);
+  useAdminRealtimeSync(() => {
+    void cargarDatos();
+  });
 
   // Cálculos dinámicos reales
   const ingresosTotales = useMemo(() => {

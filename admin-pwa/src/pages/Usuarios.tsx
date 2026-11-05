@@ -4,7 +4,6 @@
 // @limit(lines: 300)
 // @contract(UsuariosAdminView())
 // @relates(admin.lib.validators)
-// @relates(admin.feature.rbacmatrix.view)
 // @relates(docs.especificacion_pwa_admin)
 // @desc(Gestion de usuarios, roles RBAC y consulta de historial de compras)
 // @pca:end

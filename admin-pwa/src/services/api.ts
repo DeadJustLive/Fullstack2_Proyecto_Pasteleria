@@ -567,6 +567,8 @@ export const adminApi = {
       request<{ boleta: string; estado: string; timestamp: string }>("/inventory/pos/sale", { method: "POST", body: JSON.stringify(saleData) }),
     registerMerma: (mermaData: { productoId?: number; producto: string; cantidad: number; motivo: string }) =>
       request<Record<string, unknown>>("/inventory/merma", { method: "POST", body: JSON.stringify(mermaData) }),
+    registerRestock: (restockData: { productoId: number; cantidad: number; motivo: string }) =>
+      request<Record<string, unknown>>("/inventory/restock", { method: "POST", body: JSON.stringify(restockData) }),
   },
 
   // Usuarios y Roles RBAC

@@ -81,22 +81,18 @@
 
 ## 4. Correcciones Críticas y Reestructuraciones Registradas
 
-### 🚨 CORR-01 — Corrección de Boleta Tributaria Corrupta
-- **Ubicación:** `admin-pwa/src/components/BoletaModal.tsx` y feature `AdminBoletaSii`.
-- **Diagnóstico:** Reporte de visualización rota o corrupta en el detalle de boleta fiscal (valores de IVA 19%, subtotales o renderizado de datos de orden no formateados correctamente).
-- **Acción Requerida:** Auditoría y saneamiento integral del modal de boleta, cálculo matemático de IVA SII y formato térmico limpio.
+### ✅ CORR-01 — Corrección de Boleta Tributaria Corrupta (Resuelto)
+- **Ubicación:** `admin-pwa/src/components/BoletaModal.tsx`, `service-order` y `Checkout.tsx`.
+- **Solución Aplicada:** Blindaje ante valores nulos/undefined (`trackingCode`, `cliente`, `rut`), separación limpia entre el Resumen Comercial (Subtotal Productos, Despacho, Descuento) y el Desglose Fiscal SII Ley Nº 21.210 (`Monto Neto + IVA 19% = Total`), garantizando 100% de coherencia matemática sin adiciones erróneas del costo de envío sobre el total con IVA ya incluido.
 
-### 🚨 CORR-02 — Carga Híbrida de Fotografías en Categorías (Archivo Local WebP + URL)
+### ✅ CORR-02 — Carga Híbrida de Fotografías en Categorías (Resuelto)
 - **Ubicación:** `admin-pwa/src/pages/Categorias.tsx`.
-- **Diagnóstico:** Actualmente el formulario de nueva categoría solo permite ingresar una URL de texto manual, obligando al usuario a alojar la imagen externamente.
-- **Acción Requerida:** Integrar soporte dual: selector de archivo local con compresión a WebP ligero (integrando `AdminImageOptimizer`) y campo alternativo de URL externa.
+- **Solución Aplicada:** Integrado `AdminImageOptimizerView` en el formulario modal de categorías, otorgando selector de archivo local con compresión automática en el navegador a WebP ligero junto al campo alternativo de URL externa.
 
-### 🚨 CORR-03 — Reestructuración Estética Integral de Punto de Venta (POS)
-- **Ubicación:** `admin-pwa/src/pages/Pos.tsx` y prototipo HTML preliminar.
-- **Diagnóstico:** La estética y disposición actual del POS resultan inadecuadas para una experiencia de caja fluida.
-- **Acción Requerida:** Prototipar y validar primero la estructura completa en un archivo HTML limpio e independiente (`setup/pos_vitrina_mock.html`) para revisión visual directa antes de volver a montar la lógica en React.
+### ✅ CORR-03 — Reestructuración Estética Integral de Punto de Venta (POS) (Prototipo HTML Listo)
+- **Ubicación:** `setup/pos_vitrina_mock.html` y `MockUpPasteleria/validacion/admin/pos.html`.
+- **Solución Aplicada:** Creado prototipo HTML5/CSS3/JS autónomo, táctil y de alta fidelidad: vitrina en tarjetas con fotos reales, badges de stock crítico, buscador con atajo `/`, píldoras de categorías con contadores, ticket lateral con stepper táctil, modal de cobro en efectivo con cálculo de vuelto y billetes rápidos chilenos, y emisión de boleta térmica oficial de 80mm. Listo para revisión visual antes de su montaje en React.
 
-### 🚨 CORR-04 — Retiro de Pestaña de Menú "UI Kit & Modales" (`/componentes`)
-- **Ubicación:** `admin-pwa/src/layouts/AdminLayout.tsx` (Ruta `/componentes`).
-- **Diagnóstico:** La vista de showcase de componentes era exclusivamente una referencia técnica de desarrollo para visualizar botones, modales y variantes, no una sección que deba existir en el menú de producción del administrador.
-- **Acción Requerida:** Eliminar el enlace del Sidebar y Header de navegación para limpiar el menú ejecutivo.
+### ✅ CORR-04 — Retiro de Pestaña de Menú "UI Kit & Modales" (Resuelto)
+- **Ubicación:** `admin-pwa/src/layouts/AdminLayout.tsx`.
+- **Solución Aplicada:** Retirado el ítem `/componentes` de `NAV_ITEMS` y depurada la importación de `Palette`, eliminando la vista exclusiva de desarrollo del menú operativo de producción.

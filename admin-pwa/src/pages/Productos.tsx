@@ -4,19 +4,18 @@
 // @limit(lines: 760)
 // @contract(ProductosAdminView())
 // @relates(admin.lib.validators)
-// @relates(admin.feature.criticalstock.view)
-// @relates(feature.adminimageoptimizer.view)
+// @relates(admin.hooks.realtimeSync)
 // @relates(docs.especificacion_pwa_admin)
 // @desc(Gestion de productos, edicion, reporte de criticos y alta de nuevos)
 // @pca:end
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { AlertCircle, AlertTriangle, BarChart3, Check, Edit2, Eye, Lock, Plus, Radio, RefreshCw, Search, Trash2 } from "lucide-react";
 import { adminApi } from "../services/api";
+import { useAdminRealtimeSync, broadcastAdminSync } from "../hooks/useAdminRealtimeSync";
 import { validarProductoAdmin } from "../lib/validators";
 import { AdminCriticalStockView } from "../features/AdminCriticalStock/implementation/AdminCriticalStock.view";
 import { AdminImageOptimizerView } from "../features/AdminImageOptimizer/implementation/AdminImageOptimizer.view";
 
-const CHANNEL_NAME = "cremeco_products_realtime";
 const STORAGE_KEY = "cremeco_products_availability";
 
 export interface ProductoAdmin {
@@ -132,41 +131,25 @@ export function Productos() {
   }, [mostrarNotif]);
 
   useEffect(() => {
-    cargarProductos();
-    const handleFocus = () => { void cargarProductos(true); };
-    const intervalId = window.setInterval(() => {
-      if (document.visibilityState === "visible") {
-        void cargarProductos(true);
-      }
-    }, 5000);
-    window.addEventListener("focus", handleFocus);
-    return () => {
-      window.clearInterval(intervalId);
-      window.removeEventListener("focus", handleFocus);
-    };
+    void cargarProductos();
   }, [cargarProductos]);
 
-  useEffect(() => {
-    let channel: BroadcastChannel | null = null;
-    try {
-      channel = new BroadcastChannel(CHANNEL_NAME);
-      channel.onmessage = (event: MessageEvent) => {
-        const data = event.data;
-        if (!data) return;
-        if (data.type === "AVAILABILITY_CHANGED" && typeof data.id === "number") {
-          setLista((prev) => prev.map((item) => item.id === data.id ? { ...item, disponible: Boolean(data.disponible) } : item));
-        } else if (data.type === "STOCK_UPDATED" && typeof data.id === "number") {
-          setLista((prev) => prev.map((item) => item.id === data.id ? { ...item, stock: Number(data.stock) } : item));
-        } else if (data.type === "STOCK_DECREMENTED" && typeof data.id === "number") {
-          const dec = Number(data.cantidad || 1);
-          setLista((prev) => prev.map((item) => item.id === data.id ? { ...item, stock: Math.max(0, item.stock - dec) } : item));
-        } else if (data.type === "CATALOG_RELOAD" || data.type === "ORDER_PLACED") {
-          void cargarProductos(true);
-        }
-      };
-    } catch { /* Channel */ }
-    return () => { if (channel) channel.close(); };
-  }, [cargarProductos]);
+  useAdminRealtimeSync((data) => {
+    if (!data) {
+      void cargarProductos(true);
+      return;
+    }
+    if (data.type === "AVAILABILITY_CHANGED" && typeof data.id === "number") {
+      setLista((prev) => prev.map((item) => item.id === data.id ? { ...item, disponible: Boolean(data.disponible) } : item));
+    } else if (data.type === "STOCK_UPDATED" && typeof data.id === "number") {
+      setLista((prev) => prev.map((item) => item.id === data.id ? { ...item, stock: Number(data.stock) } : item));
+    } else if (data.type === "STOCK_DECREMENTED" && typeof data.id === "number") {
+      const dec = Number(data.cantidad || 1);
+      setLista((prev) => prev.map((item) => item.id === data.id ? { ...item, stock: Math.max(0, item.stock - dec) } : item));
+    } else {
+      void cargarProductos(true);
+    }
+  });
 
   const totalCriticos = useMemo(() => lista.filter((p) => p.stock <= 5).length, [lista]);
 
@@ -209,12 +192,8 @@ export function Productos() {
       const updated = prev.map((item) => (item.id === id ? { ...item, disponible: nuevoEstado } : item));
       const overrides = getStoredAvailability();
       overrides[id] = nuevoEstado;
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(overrides));
-        const channel = new BroadcastChannel(CHANNEL_NAME);
-        channel.postMessage({ type: "AVAILABILITY_CHANGED", id, disponible: nuevoEstado, timestamp: Date.now() });
-        channel.close();
-      } catch { /* Fallback */ }
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(overrides)); } catch { /* Fallback */ }
+      broadcastAdminSync({ type: "AVAILABILITY_CHANGED", id, disponible: nuevoEstado, timestamp: Date.now() });
       adminApi.products.update(id, { disponible: nuevoEstado }).catch(() => {});
       return updated;
     });
@@ -226,11 +205,7 @@ export function Productos() {
         if (item.id !== id) return item;
         const nuevoStock = item.stock + 10;
         adminApi.products.update(id, { stock: nuevoStock }).catch(() => {});
-        try {
-          const ch = new BroadcastChannel(CHANNEL_NAME);
-          ch.postMessage({ type: "STOCK_UPDATED", id, stock: nuevoStock });
-          ch.close();
-        } catch {}
+        broadcastAdminSync({ type: "STOCK_UPDATED", id, stock: nuevoStock });
         mostrarNotif("success", `Reposición exitosa: +10 uds. para '${item.nombre}'. Total: ${nuevoStock} uds.`);
         return { ...item, stock: nuevoStock };
       })
@@ -295,11 +270,7 @@ export function Productos() {
     const imagenFinal = editImagen.trim() || productoEditando.imagen;
     const previo = { ...productoEditando };
     setLista((prev) => prev.map((item) => item.id === productoEditando.id ? { ...item, nombre: editNombre.trim(), categoria: editCategoria, precio: Number(editPrecio), stock: Number(editStock), disponible: editDisponible, imagen: imagenFinal } : item));
-    try {
-      const ch = new BroadcastChannel(CHANNEL_NAME);
-      ch.postMessage({ type: "STOCK_UPDATED", id: productoEditando.id, stock: Number(editStock) });
-      ch.close();
-    } catch {}
+    broadcastAdminSync({ type: "STOCK_UPDATED", id: productoEditando.id, stock: Number(editStock) });
     adminApi.products.update(productoEditando.id, { nombre: editNombre.trim(), categoria: editCategoria, precio: Number(editPrecio), stock: Number(editStock), disponible: editDisponible, imagen: imagenFinal })
       .then(() => {
         mostrarNotif("success", "Producto modificado correctamente.");
