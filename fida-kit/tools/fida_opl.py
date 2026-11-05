@@ -326,6 +326,26 @@ def cmd_selftest(config, languages, args):
     return EXIT_ERROR if failures else EXIT_OK
 
 
+def cmd_strip(config, languages, args):
+    import fida_opl_strip
+
+    target_root = Path(args.target).resolve() if args.target else Path.cwd().resolve()
+    res = fida_opl_strip.strip_project(
+        target_root=target_root,
+        apply=args.apply,
+        purge_artifacts=args.purge_artifacts,
+    )
+    mode = "APLICADO" if args.apply else "DRY-RUN (usa --apply para ejecutar)"
+    lines = [
+        f"== strip ({mode}) ==",
+        f"Archivos con bloques @pca limpiados: {res['stripped_count']}",
+        f"Artefactos FIDA/OPL/PCA purgados: {res['purged_count']}",
+        f"Archivos renombrados: {len(res['renamed_files'])}",
+    ]
+    emit(lines, args, res)
+    return EXIT_OK
+
+
 def build_parser():
     parser = argparse.ArgumentParser(
         prog="fida_opl",
@@ -380,12 +400,18 @@ def build_parser():
     p_self = sub.add_parser("selftest", help="Ejecuta las pruebas doradas de FIDA/OPL")
     p_self.set_defaults(func=cmd_selftest)
 
+    p_strip = sub.add_parser("strip", help="Limpia bloques @pca y purga artefactos FIDA/OPL/PCA para entrega/produccion")
+    p_strip.add_argument("--apply", action="store_true", help="Aplica los cambios en disco (por defecto dry-run)")
+    p_strip.add_argument("--purge-artifacts", action="store_true", help="Elimina fida-kit/, tools/, manifiestos y docs de gobernanza")
+    p_strip.add_argument("--target", default=None, help="Directorio raíz del proyecto (por defecto cwd)")
+    p_strip.set_defaults(func=cmd_strip)
+
     return parser
 
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
-    if args.command in ("selftest", "install-project"):
+    if args.command in ("selftest", "install-project", "strip"):
         return args.func(None, None, args)
     config, languages = load_environment(args)
     if config is None:
