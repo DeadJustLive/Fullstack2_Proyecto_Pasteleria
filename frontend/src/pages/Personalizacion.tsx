@@ -11,7 +11,7 @@
 // @desc(Pagina de personalizacion de tortas por pasos: personas, sabores y detalles)
 // @pca:end
 import { useState, useEffect } from "react";
-import { Check, Info, Send, Sparkles, CheckCircle2, Calendar, Phone, Mail } from "lucide-react";
+import { Check, Info, Send, Sparkles, CheckCircle2, Calendar, Phone, Mail, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Card } from "@/components/ui/Card";
@@ -39,25 +39,12 @@ const SABORES: Sabor[] = [
 ];
 
 const OPCIONES_PERSONAS = [10, 15, 20, 25, 30, 40];
-
-const TIPOS_EVENTO = [
-  "Cumpleaños",
-  "Boda / Matrimonio",
-  "Baby Shower",
-  "Aniversario",
-  "Graduación / Fiesta Infantil",
-  "Evento Corporativo",
-];
-
-const COBERTURAS = [
-  "Crema Chantilly Artesanal",
-  "Ganache de Chocolate Belga",
-  "Merengue Italiano Dorado",
-  "Fondant con Modelado Personalizado",
-];
+const TIPOS_EVENTO = ["Cumpleaños", "Boda / Matrimonio", "Baby Shower", "Aniversario", "Graduación / Fiesta Infantil", "Evento Corporativo"];
+const COBERTURAS = ["Crema Chantilly Artesanal", "Ganache de Chocolate Belga", "Merengue Italiano Dorado", "Fondant con Modelado Personalizado"];
 
 export function Personalizacion() {
   const { usuario } = useAuth();
+  const minDate = new Date().toISOString().split("T")[0];
 
   const [personas, setPersonas] = useState<number>(15);
   const [saboresSeleccionados, setSaboresSeleccionados] = useState<string[]>(["chocolate"]);
@@ -74,13 +61,32 @@ export function Personalizacion() {
   const [modalEnviado, setModalEnviado] = useState(false);
   const [cotizacionCreada, setCotizacionCreada] = useState<CustomQuoteResponse | null>(null);
 
-  // Sincronizar datos si el usuario inicia sesión
   useEffect(() => {
-    if (usuario) {
-      if (!nombre && usuario.nombre) setNombre(usuario.nombre);
-      if (!email && usuario.email) setEmail(usuario.email);
+    try {
+      const guardadoUnificado = localStorage.getItem("pasteleria_perfil_datos");
+      const guardadoPorEmail = usuario?.email ? localStorage.getItem(`cremeco_perfil_${usuario.email}`) : null;
+      const perfilLocal = guardadoUnificado
+        ? JSON.parse(guardadoUnificado)
+        : guardadoPorEmail
+        ? JSON.parse(guardadoPorEmail)?.datosPersonales
+        : null;
+
+      if (usuario?.nombre || perfilLocal?.nombre) {
+        setNombre((prev) => prev || usuario?.nombre || perfilLocal?.nombre || "");
+      }
+      if (usuario?.email || perfilLocal?.email) {
+        setEmail((prev) => prev || usuario?.email || perfilLocal?.email || "");
+      }
+      if (perfilLocal?.telefono) {
+        setTelefono((prev: string) => (prev && prev !== "+56 9 8765 4321" ? prev : String(perfilLocal.telefono)));
+      }
+    } catch {
+      if (usuario) {
+        setNombre((prev) => prev || usuario.nombre || "");
+        setEmail((prev) => prev || usuario.email || "");
+      }
     }
-  }, [usuario, nombre, email]);
+  }, [usuario]);
 
   const toggleSabor = (id: string) => {
     setSaboresSeleccionados((prev) =>
@@ -88,14 +94,20 @@ export function Personalizacion() {
     );
   };
 
-  // Cálculo estimativo orientativo en CLP
   const precioBasePorcion = 2400;
   const adicionalSabores = saboresSeleccionados.length > 2 ? 3500 : 0;
   const montoEstimado = personas * precioBasePorcion + adicionalSabores;
 
-  const handleEnviar = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (saboresSeleccionados.length === 0) return;
+  const camposFaltantes: string[] = [];
+  if (saboresSeleccionados.length === 0) camposFaltantes.push("al menos 1 sabor");
+  if (!nombre.trim()) camposFaltantes.push("nombre");
+  if (!email.trim()) camposFaltantes.push("correo");
+  if (!fechaEvento) camposFaltantes.push("fecha del evento");
+  const formularioListo = camposFaltantes.length === 0 && !enviando;
+
+  const handleEnviar = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!formularioListo) return;
 
     setEnviando(true);
     try {
@@ -121,13 +133,12 @@ export function Personalizacion() {
       setCotizacionCreada(quote);
       setModalEnviado(true);
     } catch {
-      // Manejo de contingencia
       const fallbackQuote: CustomQuoteResponse = {
         id: Date.now(),
         codigoCotizacion: `#COT-${Math.floor(1000 + Math.random() * 9000)}`,
         clienteNombre: nombre,
-        email: email,
-        telefono: telefono,
+        email,
+        telefono,
         tipoEvento,
         porciones: personas,
         estado: "RECIBIDA",
@@ -142,13 +153,12 @@ export function Personalizacion() {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 pb-12">
-      {/* Hero Header */}
-      <header className="overflow-hidden rounded-2xl bg-gradient-to-r from-tertiary via-ink to-secondary p-8 text-neutral shadow-md sm:p-10">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 pb-12 sm:gap-8">
+      <header className="overflow-hidden rounded-2xl bg-gradient-to-r from-tertiary via-ink to-secondary p-6 text-neutral shadow-md sm:p-10">
         <span className="font-body text-xs font-bold uppercase tracking-widest text-primary">
           Personalización DSY1104
         </span>
-        <h1 className="mt-2 font-display text-3xl font-bold text-neutral sm:text-4xl">
+        <h1 className="mt-2 font-display text-2xl font-bold text-neutral sm:text-4xl">
           Diseña tu Torta Ideal
         </h1>
         <p className="mt-2 max-w-2xl font-body text-sm text-neutral/80 sm:text-base">
@@ -156,22 +166,21 @@ export function Personalizacion() {
         </p>
       </header>
 
-      {/* Grid Principal: Formulario + Resumen */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_340px]">
-        <form onSubmit={handleEnviar} className="flex flex-col gap-8">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px] lg:gap-8">
+        <form onSubmit={handleEnviar} className="flex flex-col gap-6 sm:gap-8">
           {/* Paso 1: Cantidad de Personas */}
-          <Card className="flex flex-col gap-6 p-6 sm:p-8">
+          <Card className="flex flex-col gap-5 p-5 sm:gap-6 sm:p-8">
             <div className="flex items-center gap-3 border-b border-tertiary/10 pb-4">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary font-display font-bold text-white">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary font-display font-bold text-white">
                 1
               </span>
               <div>
-                <h2 className="font-display text-xl font-bold text-tertiary">Cantidad de Personas</h2>
+                <h2 className="text-left font-display text-xl font-bold text-tertiary">Cantidad de Personas</h2>
                 <p className="font-body text-xs text-ink/70">Selecciona el tamaño según tus invitados</p>
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+            <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-6 sm:gap-3">
               {OPCIONES_PERSONAS.map((num) => {
                 const seleccionado = personas === num;
                 return (
@@ -180,13 +189,13 @@ export function Personalizacion() {
                     type="button"
                     onClick={() => setPersonas(num)}
                     className={cn(
-                      "flex flex-col items-center justify-center gap-1 rounded-xl border p-4 transition-all cursor-pointer",
+                      "flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border p-3 transition-all sm:p-4",
                       seleccionado
-                        ? "border-secondary bg-primary/20 text-tertiary font-bold shadow-xs ring-2 ring-secondary"
-                        : "border-tertiary/15 bg-white text-ink/80 hover:bg-neutral/50 hover:border-tertiary/30"
+                        ? "border-secondary bg-primary/20 font-bold text-tertiary shadow-xs ring-2 ring-secondary"
+                        : "border-tertiary/15 bg-white text-ink/80 hover:border-tertiary/30 hover:bg-neutral/50"
                     )}
                   >
-                    <span className="font-display text-2xl font-bold">{num}{num === 40 ? "+" : ""}</span>
+                    <span className="font-display text-xl font-bold sm:text-2xl">{num}{num === 40 ? "+" : ""}</span>
                     <span className="font-body text-xs font-medium text-ink/60">personas</span>
                   </button>
                 );
@@ -195,13 +204,13 @@ export function Personalizacion() {
           </Card>
 
           {/* Paso 2: Sabores y Rellenos */}
-          <Card className="flex flex-col gap-6 p-6 sm:p-8">
+          <Card className="flex flex-col gap-5 p-5 sm:gap-6 sm:p-8">
             <div className="flex items-center gap-3 border-b border-tertiary/10 pb-4">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary font-display font-bold text-white">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary font-display font-bold text-white">
                 2
               </span>
               <div>
-                <h2 className="font-display text-xl font-bold text-tertiary">Sabores y Rellenos</h2>
+                <h2 className="text-left font-display text-xl font-bold text-tertiary">Sabores y Rellenos</h2>
                 <p className="font-body text-xs text-ink/70">Selecciona hasta 3 combinaciones para los pisos de tu torta</p>
               </div>
             </div>
@@ -213,7 +222,7 @@ export function Personalizacion() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
               {SABORES.map((sabor) => {
                 const checked = saboresSeleccionados.includes(sabor.id);
                 return (
@@ -251,13 +260,13 @@ export function Personalizacion() {
           </Card>
 
           {/* Paso 3: Tipo de Evento y Cobertura */}
-          <Card className="flex flex-col gap-6 p-6 sm:p-8">
+          <Card className="flex flex-col gap-5 p-5 sm:gap-6 sm:p-8">
             <div className="flex items-center gap-3 border-b border-tertiary/10 pb-4">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary font-display font-bold text-white">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary font-display font-bold text-white">
                 3
               </span>
               <div>
-                <h2 className="font-display text-xl font-bold text-tertiary">Ocasión y Acabado</h2>
+                <h2 className="text-left font-display text-xl font-bold text-tertiary">Ocasión y Acabado</h2>
                 <p className="font-body text-xs text-ink/70">Estilo del evento y cobertura deseada</p>
               </div>
             </div>
@@ -271,9 +280,7 @@ export function Personalizacion() {
                   className="mt-1 w-full rounded-xl border border-tertiary/20 bg-neutral/20 p-2.5 font-body text-sm text-ink outline-none transition-colors focus:border-secondary focus:ring-1 focus:ring-secondary"
                 >
                   {TIPOS_EVENTO.map((ev) => (
-                    <option key={ev} value={ev}>
-                      {ev}
-                    </option>
+                    <option key={ev} value={ev}>{ev}</option>
                   ))}
                 </select>
               </div>
@@ -286,9 +293,7 @@ export function Personalizacion() {
                   className="mt-1 w-full rounded-xl border border-tertiary/20 bg-neutral/20 p-2.5 font-body text-sm text-ink outline-none transition-colors focus:border-secondary focus:ring-1 focus:ring-secondary"
                 >
                   {COBERTURAS.map((cob) => (
-                    <option key={cob} value={cob}>
-                      {cob}
-                    </option>
+                    <option key={cob} value={cob}>{cob}</option>
                   ))}
                 </select>
               </div>
@@ -296,13 +301,13 @@ export function Personalizacion() {
           </Card>
 
           {/* Paso 4: Detalles y Datos de Contacto */}
-          <Card className="flex flex-col gap-6 p-6 sm:p-8">
+          <Card className="flex flex-col gap-5 p-5 sm:gap-6 sm:p-8">
             <div className="flex items-center gap-3 border-b border-tertiary/10 pb-4">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary font-display font-bold text-white">
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary font-display font-bold text-white">
                 4
               </span>
               <div>
-                <h2 className="font-display text-xl font-bold text-tertiary">Detalles de Contacto</h2>
+                <h2 className="text-left font-display text-xl font-bold text-tertiary">Detalles de Contacto</h2>
                 <p className="font-body text-xs text-ink/70">Información para enviarte el presupuesto formal</p>
               </div>
             </div>
@@ -341,6 +346,7 @@ export function Personalizacion() {
                 <label className="font-body text-xs font-semibold text-tertiary">Fecha estimada del evento *</label>
                 <Input
                   type="date"
+                  min={minDate}
                   value={fechaEvento}
                   onChange={(e) => setFechaEvento(e.target.value)}
                   required
@@ -363,7 +369,7 @@ export function Personalizacion() {
 
         {/* Aside: Resumen de Cotización */}
         <aside className="flex flex-col">
-          <Card className="flex flex-col gap-5 p-6 shadow-md lg:sticky lg:top-24">
+          <Card className="flex flex-col gap-5 p-5 shadow-md sm:p-6 lg:sticky lg:top-24">
             <div className="border-b border-tertiary/10 pb-3">
               <h3 className="font-display text-xl font-bold text-tertiary">Resumen del Diseño</h3>
             </div>
@@ -407,7 +413,7 @@ export function Personalizacion() {
                 </span>
               </div>
 
-              <div className="rounded-xl bg-neutral/50 p-3 text-xs text-ink/80 leading-relaxed">
+              <div className="rounded-xl bg-neutral/50 p-3 text-xs leading-relaxed text-ink/80">
                 <p>
                   <strong>Atención Personalizada:</strong> Cada cotización se revisa manualmente por la jefa de cocina para confirmar disponibilidad y entregarte una propuesta final.
                 </p>
@@ -420,10 +426,19 @@ export function Personalizacion() {
               />
             </div>
 
+            {camposFaltantes.length > 0 && (
+              <div className="flex items-start gap-2 rounded-xl border border-amber-300/70 bg-amber-50/80 p-3 font-body text-xs text-amber-900">
+                <AlertCircle size={15} className="mt-0.5 shrink-0 text-amber-700" />
+                <span>
+                  Completa <strong>{camposFaltantes.join(", ")}</strong> para solicitar tu cotización.
+                </span>
+              </div>
+            )}
+
             <Button
               type="button"
-              onClick={handleEnviar}
-              disabled={saboresSeleccionados.length === 0 || !nombre || !email || !fechaEvento || enviando}
+              onClick={() => void handleEnviar()}
+              disabled={!formularioListo}
               className="w-full"
             >
               <Send size={18} />
@@ -436,7 +451,6 @@ export function Personalizacion() {
         </aside>
       </div>
 
-      {/* Modal Confirmación Cotización */}
       <Modal
         abierto={modalEnviado}
         onCerrar={() => setModalEnviado(false)}
@@ -460,7 +474,7 @@ export function Personalizacion() {
             Hemos recibido tu solicitud para una torta de <strong>{personas} personas</strong> para el evento <strong>{tipoEvento}</strong>.
           </p>
 
-          <div className="w-full rounded-xl border border-tertiary/10 bg-neutral/30 p-4 text-left font-body text-xs text-ink/80 space-y-1.5">
+          <div className="w-full space-y-1.5 rounded-xl border border-tertiary/10 bg-neutral/30 p-4 text-left font-body text-xs text-ink/80">
             <p className="flex items-center gap-2">
               <Calendar size={14} className="text-secondary" />
               <span>Fecha del Evento: <strong>{fechaEvento || "Por confirmar"}</strong></span>

@@ -36,7 +36,7 @@ export function CarouselBanner({ productos }: CarouselBannerProps) {
   };
 
   const clasesFlecha =
-    "pointer-events-auto inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-white/95 text-tertiary shadow-xl transition hover:bg-white";
+    "pointer-events-auto inline-flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full border border-white/40 bg-white/95 text-tertiary shadow-xl transition hover:bg-white cursor-pointer";
 
   return (
     <div className="relative w-full">
@@ -45,7 +45,7 @@ export function CarouselBanner({ productos }: CarouselBannerProps) {
         onKeyDown={alTeclado}
         tabIndex={0}
         aria-label="Destacados en banner del catálogo"
-        className="flex snap-x snap-mandatory items-center gap-4 overflow-x-auto px-[calc(50%-150px)] py-6 [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] [scrollbar-width:none] [scroll-padding-inline:calc(50%-150px)] [&::-webkit-scrollbar]:hidden sm:gap-5 sm:px-[calc(50%-180px)] sm:py-8 sm:[scroll-padding-inline:calc(50%-180px)] lg:gap-6 lg:px-[calc(50%-210px)] lg:py-0 lg:[scroll-padding-inline:calc(50%-210px)]"
+        className="flex snap-x snap-mandatory items-center gap-3 overflow-x-auto px-[calc(50%-120px)] py-4 [mask-image:linear-gradient(to_right,transparent,black_4%,black_96%,transparent)] [scrollbar-width:none] [scroll-padding-inline:calc(50%-120px)] [&::-webkit-scrollbar]:hidden sm:gap-5 sm:px-[calc(50%-180px)] sm:py-8 sm:[scroll-padding-inline:calc(50%-180px)] lg:gap-6 lg:px-[calc(50%-210px)] lg:py-0 lg:[scroll-padding-inline:calc(50%-210px)]"
       >
         {productos.map((producto, i) => {
           const esActivo = i === indice;
@@ -54,14 +54,14 @@ export function CarouselBanner({ productos }: CarouselBannerProps) {
               key={producto.id}
               data-carrusel-item
               className={cn(
-                "flex min-w-[300px] max-w-[340px] flex-[1_0_300px] snap-center transition-all duration-500 sm:min-w-[360px] sm:max-w-[400px] sm:flex-[1_0_360px] lg:min-w-[420px] lg:max-w-[460px] lg:flex-[1_0_420px]",
+                "flex min-w-[240px] max-w-[270px] flex-[1_0_240px] snap-center transition-all duration-500 sm:min-w-[360px] sm:max-w-[400px] sm:flex-[1_0_360px] lg:min-w-[420px] lg:max-w-[460px] lg:flex-[1_0_420px]",
                 esActivo ? "scale-100 opacity-100" : "scale-[0.88] opacity-35 blur-[1.8px]"
               )}
             >
               <div
                 className={cn(
                   "relative flex w-full flex-col overflow-hidden rounded-2xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] transition-none",
-                  "h-[300px] sm:h-[340px] lg:h-[380px]",
+                  "h-[250px] sm:h-[340px] lg:h-[380px]",
                   esActivo ? "pointer-events-auto" : "pointer-events-none select-none"
                 )}
               >
@@ -80,12 +80,12 @@ export function CarouselBanner({ productos }: CarouselBannerProps) {
                 />
                 {!esActivo && <div className="absolute inset-0 backdrop-blur-[1.6px]" />}
 
-                <div className="relative mt-auto flex items-end justify-between gap-3 p-4">
-                  <div className="flex flex-col gap-1">
-                    <p className="max-w-[170px] truncate font-display text-base font-semibold text-white sm:max-w-[210px] sm:text-lg lg:max-w-[250px]">
+                <div className="relative mt-auto flex items-end justify-between gap-2.5 p-3.5 sm:gap-3 sm:p-4">
+                  <div className="flex min-w-0 flex-1 flex-col gap-0.5 sm:gap-1">
+                    <p className="truncate font-display text-sm font-semibold text-white sm:text-lg">
                       {producto.nombre}
                     </p>
-                    <p className="font-display text-lg font-semibold text-primary sm:text-xl">
+                    <p className="font-display text-base font-semibold text-primary sm:text-xl">
                       {formatPrecio(producto.precio)}
                     </p>
                   </div>
@@ -95,7 +95,7 @@ export function CarouselBanner({ productos }: CarouselBannerProps) {
                     aria-label={`Ver detalle de ${producto.nombre}`}
                     title="Ver detalle"
                     className={cn(
-                      "flex h-10 w-10 items-center justify-center rounded-full bg-white text-tertiary shadow-lg transition-all",
+                      "flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-tertiary shadow-lg transition-all sm:h-10 sm:w-10",
                       esActivo ? "hover:bg-primary" : "pointer-events-none"
                     )}
                   >
@@ -108,9 +108,10 @@ export function CarouselBanner({ productos }: CarouselBannerProps) {
         })}
       </ul>
 
+      {/* Flechas flotantes laterales (desde sm: en adelante, donde hay espacio suficiente) */}
       <button
         type="button"
-        className={cn(clasesFlecha, "absolute left-2 top-1/2 -translate-y-1/2 sm:left-4 lg:left-6")}
+        className={cn(clasesFlecha, "hidden sm:inline-flex sm:absolute sm:left-4 sm:top-1/2 sm:-translate-y-1/2 lg:left-6")}
         onClick={() => desplazar(-1)}
         aria-label="Ver destacados anteriores"
       >
@@ -118,32 +119,53 @@ export function CarouselBanner({ productos }: CarouselBannerProps) {
       </button>
       <button
         type="button"
-        className={cn(clasesFlecha, "absolute right-2 top-1/2 -translate-y-1/2 sm:right-4 lg:right-6")}
+        className={cn(clasesFlecha, "hidden sm:inline-flex sm:absolute sm:right-4 sm:top-1/2 sm:-translate-y-1/2 lg:right-6")}
         onClick={() => desplazar(1)}
         aria-label="Ver destacados siguientes"
       >
         <ChevronRight size={20} aria-hidden="true" />
       </button>
 
-      <div className="mt-4 flex items-center justify-center gap-1 lg:absolute lg:bottom-[-28px] lg:left-1/2 lg:mt-0 lg:-translate-x-1/2">
-        {productos.map((producto, i) => (
-          <button
-            key={producto.id}
-            type="button"
-            onClick={() => irA(i)}
-            aria-label={`Ir a ${producto.nombre}`}
-            aria-current={i === indice ? "true" : undefined}
-            className="grid h-7 w-6 place-items-center"
-          >
-            <span
-              aria-hidden="true"
-              className={cn(
-                "h-1.5 rounded-full transition-all duration-300",
-                i === indice ? "w-5 bg-white" : "w-1.5 bg-white/50"
-              )}
-            />
-          </button>
-        ))}
+      {/* Barra inferior de controles: en móvil incluye flechas a los lados de los indicadores para no tapar el slide */}
+      <div className="mt-2 flex items-center justify-center gap-3 sm:mt-4 sm:gap-1 lg:absolute lg:bottom-[-28px] lg:left-1/2 lg:mt-0 lg:-translate-x-1/2">
+        <button
+          type="button"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/90 text-tertiary shadow-md transition hover:bg-white sm:hidden"
+          onClick={() => desplazar(-1)}
+          aria-label="Ver destacados anteriores"
+        >
+          <ChevronLeft size={18} aria-hidden="true" />
+        </button>
+
+        <div className="flex items-center gap-1">
+          {productos.map((producto, i) => (
+            <button
+              key={producto.id}
+              type="button"
+              onClick={() => irA(i)}
+              aria-label={`Ir a ${producto.nombre}`}
+              aria-current={i === indice ? "true" : undefined}
+              className="grid h-7 w-6 place-items-center"
+            >
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "h-1.5 rounded-full transition-all duration-300",
+                  i === indice ? "w-5 bg-white" : "w-1.5 bg-white/50"
+                )}
+              />
+            </button>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/90 text-tertiary shadow-md transition hover:bg-white sm:hidden"
+          onClick={() => desplazar(1)}
+          aria-label="Ver destacados siguientes"
+        >
+          <ChevronRight size={18} aria-hidden="true" />
+        </button>
       </div>
     </div>
   );

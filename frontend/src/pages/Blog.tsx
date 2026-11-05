@@ -4,14 +4,17 @@
 // @limit(lines: 240)
 // @contract(BlogView())
 // @relates(docs.reglas_ui)
-// @desc(Vista listado de articulos del blog de pasteleria)
+// @desc(Vista listado de articulos del blog reutilizando PageHero, BlogCard y EmptyState)
 // @pca:end
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { Clock, Heart, MessageCircle, Repeat2, Share2, Tag, TrendingUp } from "lucide-react";
+import { BookOpen, Sparkles, Tag, TrendingUp } from "lucide-react";
+import { BlogCard } from "@/components/domain/BlogCard";
+import { Button } from "@/components/ui/Button";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { PageHero } from "@/components/ui/PageHero";
 import { blogPosts, BLOG_CATEGORIAS } from "@/data/blog";
-import { cn, formatFechaLarga } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import type { BlogPost, BlogCategoria } from "@/types/blog";
 
 export function Blog() {
@@ -70,157 +73,122 @@ export function Blog() {
       ? posts
       : posts.filter((post) => post.categoria === categoriaActiva);
 
+  const postDestacado =
+    categoriaActiva === "todas"
+      ? postsFiltrados.find((p) => p.destacado) || postsFiltrados[0]
+      : null;
+
+  const postsRestantes = postDestacado
+    ? postsFiltrados.filter((p) => p.id !== postDestacado.id)
+    : postsFiltrados;
+
   return (
-    <div className="mx-auto flex max-w-4xl flex-col gap-6">
-      {/* Banner de promociones */}
-      <section className="overflow-hidden rounded-xl bg-gradient-to-r from-primary via-primary/90 to-secondary">
-        <div className="flex flex-col gap-3 px-6 py-6 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
-          <div className="flex flex-col gap-1">
-            <div className="flex items-center justify-center gap-2 sm:justify-start">
-              <TrendingUp size={20} className="text-tertiary" />
-              <span className="font-body text-sm font-bold uppercase tracking-widest text-tertiary">
-                Promociones activas
-              </span>
-            </div>
-            <p className="font-display text-lg font-semibold text-tertiary sm:text-xl">
-              2x1 en Tartaletas los Miércoles
-            </p>
-            <p className="font-body text-sm text-tertiary/80">
-              Válido hasta fin de mes. No acumulable con otras ofertas.
-            </p>
-          </div>
-          <ButtonLink to="/catalogo" variant="secondary" className="mx-auto sm:mx-0">
-            Ver productos
-          </ButtonLink>
-        </div>
-      </section>
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 pb-12">
+      <PageHero
+        eyebrow="Comunidad & Recetas"
+        icon={<BookOpen size={14} />}
+        titulo="Blog Dulce Crème & Co"
+        descripcion="Descubre secretos de nuestro obrador, consejos de conservación, historias de pastelería artesanal y comenta junto a nuestra comunidad."
+      />
 
-      {/* Header */}
-      <header className="flex flex-col gap-4 border-b border-tertiary/10 pb-6">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-tertiary">Blog Crème & Co</h1>
-          <p className="font-body text-ink/70">
-            Recetas, novedades y noticias de nuestra pastelería
-          </p>
-        </div>
-
-        {/* Categorías */}
-        <div className="flex flex-wrap gap-2">
+      {/* Barra de filtros por categoría con contadores */}
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-tertiary/10 bg-white p-4 shadow-xs">
+        <div className="flex flex-wrap items-center gap-2">
           <button
+            type="button"
             onClick={() => setCategoriaActiva("todas")}
             className={cn(
-              "flex items-center gap-1.5 rounded-full px-4 py-1.5 font-body text-sm font-semibold transition-colors",
+              "inline-flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-2 font-body text-xs font-bold transition-all sm:text-sm",
               categoriaActiva === "todas"
-                ? "bg-tertiary text-white"
-                : "bg-tertiary/5 text-tertiary hover:bg-tertiary/10"
+                ? "bg-tertiary text-neutral shadow-xs"
+                : "bg-neutral/70 text-tertiary hover:bg-primary/30"
             )}
           >
             <Tag size={14} />
-            Todas
+            <span>Todas ({posts.length})</span>
           </button>
-          {BLOG_CATEGORIAS.map((cat) => (
-            <button
-              key={cat.value}
-              onClick={() => setCategoriaActiva(cat.value)}
-              className={cn(
-                "rounded-full px-4 py-1.5 font-body text-sm font-semibold transition-colors",
-                categoriaActiva === cat.value
-                  ? "bg-tertiary text-white"
-                  : "bg-tertiary/5 text-tertiary hover:bg-tertiary/10"
-              )}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
-      </header>
-
-      {/* Feed de Artículos */}
-      <div className="flex flex-col divide-y divide-tertiary/10">
-        {postsFiltrados.length === 0 ? (
-          <p className="py-10 text-center font-body text-ink/60">
-            No hay publicaciones en esta categoría por el momento.
-          </p>
-        ) : (
-          postsFiltrados.map((post) => {
-            const categoria = BLOG_CATEGORIAS.find((c) => c.value === post.categoria);
+          {BLOG_CATEGORIAS.map((cat) => {
+            const count = posts.filter((p) => p.categoria === cat.value).length;
+            const activo = categoriaActiva === cat.value;
             return (
-              <article
-                key={post.id}
-                className="group flex gap-3 px-4 py-4 transition-colors hover:bg-tertiary/5 sm:gap-4 sm:px-6"
+              <button
+                key={cat.value}
+                type="button"
+                onClick={() => setCategoriaActiva(cat.value)}
+                className={cn(
+                  "inline-flex cursor-pointer items-center gap-1.5 rounded-full px-4 py-2 font-body text-xs font-bold transition-all sm:text-sm",
+                  activo
+                    ? "bg-secondary text-neutral shadow-xs"
+                    : "bg-neutral/70 text-tertiary hover:bg-primary/30"
+                )}
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary to-secondary sm:h-12 sm:w-12">
-                  <span className="font-display text-lg text-white">C&C</span>
-                </div>
-
-                <div className="flex min-w-0 flex-1 flex-col gap-3">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-body font-semibold text-tertiary">Crème & Co</span>
-                    <span className="text-ink/40">·</span>
-                    <span className="font-body text-sm text-ink/60">
-                      {formatFechaLarga(post.fecha)}
-                    </span>
-                    {categoria && (
-                      <>
-                        <span className="text-ink/40">·</span>
-                        <span className="rounded-full bg-primary/20 px-2 py-0.5 text-xs font-semibold text-tertiary">
-                          {categoria.label}
-                        </span>
-                      </>
-                    )}
-                  </div>
-
-                  <Link to={`/blog/${post.slug}`} className="group/link">
-                    <h2 className="font-display text-lg font-semibold text-tertiary transition-colors group-hover/link:text-secondary sm:text-xl">
-                      {post.titulo}
-                    </h2>
-                  </Link>
-
-                  <p className="font-body text-sm leading-relaxed text-ink/80 sm:text-base">
-                    {post.extracto}
-                  </p>
-
-                  {post.imagen && (
-                    <Link to={`/blog/${post.slug}`} className="overflow-hidden rounded-xl">
-                      <img
-                        src={post.imagen}
-                        alt={post.titulo}
-                        className="h-48 w-full object-cover transition-transform duration-300 group-hover:scale-[1.02] sm:h-64"
-                      />
-                    </Link>
-                  )}
-
-                  <div className="flex items-center justify-between pt-2 text-ink/60">
-                    <div className="flex items-center gap-6">
-                      <button className="flex items-center gap-2 transition-colors hover:text-secondary">
-                        <MessageCircle size={18} />
-                        <span className="text-sm">0</span>
-                      </button>
-                      <button className="flex items-center gap-2 transition-colors hover:text-green-600">
-                        <Repeat2 size={18} />
-                        <span className="text-sm">0</span>
-                      </button>
-                      <button className="flex items-center gap-2 transition-colors hover:text-red-500">
-                        <Heart size={18} />
-                        <span className="text-sm">0</span>
-                      </button>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <span className="flex items-center gap-1.5 text-sm">
-                        <Clock size={16} />
-                        {post.tiempoLectura}
-                      </span>
-                      <button className="transition-colors hover:text-secondary">
-                        <Share2 size={18} />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </article>
+                <span>{cat.label}</span>
+                <span className={cn("rounded-full px-1.5 py-0.2 text-[11px]", activo ? "bg-white/20 text-white" : "bg-tertiary/10 text-tertiary")}>
+                  {count}
+                </span>
+              </button>
             );
-          })
-        )}
+          })}
+        </div>
+
+        <span className="hidden items-center gap-1.5 font-body text-xs font-semibold text-secondary md:inline-flex">
+          <Sparkles size={14} />
+          Haz clic en cualquier artículo para comentar o guardar la receta
+        </span>
       </div>
+
+      {/* Artículo Principal Destacado */}
+      {postDestacado && <BlogCard post={postDestacado} variant="featured" />}
+
+      {/* Grilla de Artículos */}
+      {postsFiltrados.length === 0 ? (
+        <EmptyState
+          titulo="No hay artículos en esta categoría todavía."
+          descripcion="Explora otra categoría para descubrir nuestras recetas y consejos de pastelería."
+          accion={
+            <Button variant="outline" onClick={() => setCategoriaActiva("todas")}>
+              Ver todos los artículos
+            </Button>
+          }
+          className="rounded-2xl border border-tertiary/10 bg-white py-12"
+        />
+      ) : (
+        postsRestantes.length > 0 && (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            {postsRestantes.map((post) => (
+              <BlogCard key={post.id} post={post} />
+            ))}
+          </div>
+        )
+      )}
+
+      {/* Banner inferior de invitación a Ofertas y Catálogo */}
+      <section className="overflow-hidden rounded-2xl border border-secondary/20 bg-gradient-to-r from-primary/60 via-neutral to-primary/40 p-6 shadow-xs sm:p-8">
+        <div className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center justify-center gap-2 sm:justify-start">
+              <TrendingUp size={18} className="text-secondary" />
+              <span className="font-body text-xs font-bold uppercase tracking-widest text-secondary">
+                Del recetario a tu mesa
+              </span>
+            </div>
+            <h2 className="text-left font-display text-xl font-bold text-tertiary sm:text-2xl">
+              ¿Te tentaste con alguna de nuestras preparaciones?
+            </h2>
+            <p className="font-body text-sm text-ink/80">
+              Pide nuestras tortas y tartaletas recién horneadas o diseña tu propia torta a medida.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3 shrink-0">
+            <ButtonLink to="/personalizacion" variant="outline" size="sm">
+              Diseñar Torta
+            </ButtonLink>
+            <ButtonLink to="/catalogo" variant="primary" size="sm">
+              Explorar Catálogo
+            </ButtonLink>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

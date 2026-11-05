@@ -59,7 +59,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="registro" element={<Registro />} />
         <Route path="perfil" element={<Perfil />} />
-        <Route path="perfil/pedidos" element={<PerfilSeguimiento />} />
+        <Route path="perfil/pedidos" element={<Navigate to="/perfil#pedidos" replace />} />
         <Route path="perfil/seguimiento" element={<PerfilSeguimiento />} />
         <Route path="perfil/seguimiento/:id" element={<PerfilSeguimiento />} />
       </Route>

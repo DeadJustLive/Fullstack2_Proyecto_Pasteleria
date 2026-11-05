@@ -28,7 +28,7 @@ export function ClienteLayout() {
           empujaba fuera del viewport en cualquier pantalla menor a 1080px.
           `max-w-full` fija el ancho al viewport y `xl:max-w-page` recupera el tope
           de 1080px desde 1280px, donde ya cabe. Ver FRONT-013. */}
-      <main className="max-w-full flex-1 px-4 pb-12 pt-7 sm:px-6 sm:pb-16 sm:pt-10 xl:max-w-page">
+      <main className="mx-auto w-full max-w-full flex-1 px-4 pb-12 pt-7 sm:px-6 sm:pb-16 sm:pt-10 xl:max-w-page">
         <Outlet />
       </main>
       <Footer />

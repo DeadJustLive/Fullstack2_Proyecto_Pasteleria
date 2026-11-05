@@ -475,6 +475,10 @@ export const orderApi = {
     personaRetiroNombre?: string;
     personaRetiroRut?: string;
     personaRetiroTelefono?: string;
+    subtotal?: number;
+    descuento?: number;
+    costoEnvio?: number;
+    metodoPago?: string;
   }): Promise<OrderResponse> => {
     try {
       const payload = {

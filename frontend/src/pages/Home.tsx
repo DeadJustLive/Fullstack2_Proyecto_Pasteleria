@@ -7,7 +7,6 @@
 // @relates(frontend.domain.carouselDestacados)
 // @relates(frontend.domain.sobreNosotros)
 // @relates(frontend.domain.blogRecientes)
-// @relates(frontend.data.articles)
 // @desc(Orquestador de la Home: compono las secciones de dominio)
 // @pca:end
 import { BannerServicios } from "@/components/domain/BannerServicios";

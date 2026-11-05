@@ -11,6 +11,7 @@
 // @desc(Vista de perfil de cliente con datos personales, direcciones y acceso a pedidos)
 // @pca:end
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { User, Package, CheckCircle, AlertCircle } from "lucide-react";
 import { PerfilSidebar } from "@/components/domain/PerfilSidebar";
 import { EstadoPedidoBadge } from "@/components/domain/EstadoPedidoBadge";
@@ -24,13 +25,38 @@ import { api, type OrderResponse } from "@/services/api";
 import { formatPrecio } from "@/lib/utils";
 import { formatearRut, validarRut } from "@/lib/validators/rut.validator";
 
+function persistirPerfilLocal(
+  email: string,
+  datosPersonales: { nombre: string; email: string; telefono: string; rut: string; registro: string },
+  direccion: { calle: string; departamento: string; comuna: string; region: string; codigoPostal: string }
+) {
+  try {
+    localStorage.setItem(`cremeco_perfil_${email}`, JSON.stringify({ datosPersonales, direccion }));
+    localStorage.setItem(
+      "pasteleria_perfil_datos",
+      JSON.stringify({
+        nombre: datosPersonales.nombre,
+        email: datosPersonales.email,
+        telefono: datosPersonales.telefono,
+        rut: datosPersonales.rut,
+        direccion: direccion.calle,
+        departamento: direccion.departamento,
+        comuna: direccion.comuna,
+        region: direccion.region,
+      })
+    );
+  } catch {
+    // Ignorar error de quota en storage
+  }
+}
+
 export function Perfil() {
   const { usuario, logueado, login } = useAuth();
+  const location = useLocation();
   const [emailLogin, setEmailLogin] = useState("");
   const [guardando, setGuardando] = useState(false);
   const [feedbackMsg, setFeedbackMsg] = useState<{ tipo: "exito" | "error"; texto: string } | null>(null);
 
-  // Estados editables de datos personales
   const [datosPersonales, setDatosPersonales] = useState({
     nombre: usuario?.nombre || "Camila Silva Tapia",
     email: usuario?.email || "cliente@cremeco.cl",
@@ -39,7 +65,6 @@ export function Perfil() {
     registro: "15 de Octubre, 2025",
   });
 
-  // Estados editables de dirección
   const [direccion, setDireccion] = useState({
     calle: "Av. Providencia 1234",
     departamento: "Depto 501",
@@ -48,55 +73,60 @@ export function Perfil() {
     codigoPostal: "7500000",
   });
 
-  // Pedidos del usuario
   const [pedidos, setPedidos] = useState<OrderResponse[]>([]);
   const [cargandoPedidos, setCargandoPedidos] = useState(false);
-
-  // Modales
   const [modalDatosAbierto, setModalDatosAbierto] = useState(false);
   const [modalDireccionAbierto, setModalDireccionAbierto] = useState(false);
-
-  // Formularios temporales para edición
   const [formDatos, setFormDatos] = useState(datosPersonales);
   const [formDireccion, setFormDireccion] = useState(direccion);
   const [errorRut, setErrorRut] = useState<string | null>(null);
 
-  // Cargar datos reales al iniciar o cambiar usuario
+  const tabActiva = location.hash === "#pedidos" ? "pedidos" : "datos";
+
+  useEffect(() => {
+    if (logueado && location.hash === "#pedidos") {
+      const el = document.getElementById("ultimos-pedidos");
+      if (el && typeof el.scrollIntoView === "function") {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  }, [logueado, location.hash]);
+
   useEffect(() => {
     if (!usuario?.email) return;
 
-    // Actualizar datos base del contexto
     setDatosPersonales((prev) => ({
       ...prev,
       nombre: usuario.nombre || prev.nombre,
       email: usuario.email,
     }));
 
-    // Cargar perfil ampliado desde API / storage
     const cargarPerfil = async () => {
       try {
         const perfil = await api.auth.getProfile(usuario.email);
         if (perfil) {
-          setDatosPersonales({
+          const nuevosDatos = {
             nombre: perfil.nombre ? `${perfil.nombre} ${perfil.apellidos || ""}`.trim() : usuario.nombre,
             email: perfil.email || usuario.email,
             telefono: perfil.telefono || "+56 9 8765 4321",
             rut: perfil.rut || "18.432.198-7",
-            registro: perfil.createdAt ? new Date(perfil.createdAt).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" }) : "15 de Octubre, 2025",
-          });
-
-          setDireccion({
+            registro: perfil.createdAt
+              ? new Date(perfil.createdAt).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" })
+              : "15 de Octubre, 2025",
+          };
+          const nuevaDir = {
             calle: perfil.calle || "Av. Providencia 1234",
             departamento: perfil.departamento || "Depto 501",
             comuna: perfil.comuna || "Providencia",
             region: perfil.region || "Región Metropolitana",
             codigoPostal: "7500000",
-          });
+          };
+          setDatosPersonales(nuevosDatos);
+          setDireccion(nuevaDir);
+          persistirPerfilLocal(nuevosDatos.email, nuevosDatos, nuevaDir);
         }
       } catch {
-        // Fallback local en caso de microservicio desconectado
-        const localKey = `cremeco_perfil_${usuario.email}`;
-        const raw = localStorage.getItem(localKey);
+        const raw = localStorage.getItem(`cremeco_perfil_${usuario.email}`);
         if (raw) {
           try {
             const data = JSON.parse(raw);
@@ -109,14 +139,12 @@ export function Perfil() {
       }
     };
 
-    // Cargar pedidos reales
     const cargarPedidos = async () => {
       setCargandoPedidos(true);
       try {
         const list = await api.order.getByUser(usuario.email || usuario.id || "");
         setPedidos(list);
       } catch {
-        // Fallback a lista vacía o pedidos locales
         setPedidos([]);
       } finally {
         setCargandoPedidos(false);
@@ -144,17 +172,13 @@ export function Perfil() {
         telefono: formDatos.telefono,
         rut: formDatos.rut,
       });
-
       setDatosPersonales(formDatos);
-      const localKey = `cremeco_perfil_${formDatos.email}`;
-      localStorage.setItem(localKey, JSON.stringify({ datosPersonales: formDatos, direccion }));
+      persistirPerfilLocal(formDatos.email, formDatos, direccion);
       setModalDatosAbierto(false);
       setFeedbackMsg({ tipo: "exito", texto: "Tus datos personales fueron actualizados correctamente." });
     } catch {
-      // Guardado local resiliente
       setDatosPersonales(formDatos);
-      const localKey = `cremeco_perfil_${formDatos.email}`;
-      localStorage.setItem(localKey, JSON.stringify({ datosPersonales: formDatos, direccion }));
+      persistirPerfilLocal(formDatos.email, formDatos, direccion);
       setModalDatosAbierto(false);
       setFeedbackMsg({ tipo: "exito", texto: "Datos actualizados localmente (modo offline)." });
     } finally {
@@ -174,16 +198,13 @@ export function Perfil() {
         comuna: formDireccion.comuna,
         region: formDireccion.region,
       });
-
       setDireccion(formDireccion);
-      const localKey = `cremeco_perfil_${datosPersonales.email}`;
-      localStorage.setItem(localKey, JSON.stringify({ datosPersonales, direccion: formDireccion }));
+      persistirPerfilLocal(datosPersonales.email, datosPersonales, formDireccion);
       setModalDireccionAbierto(false);
       setFeedbackMsg({ tipo: "exito", texto: "Tu dirección de entrega fue guardada correctamente." });
     } catch {
       setDireccion(formDireccion);
-      const localKey = `cremeco_perfil_${datosPersonales.email}`;
-      localStorage.setItem(localKey, JSON.stringify({ datosPersonales, direccion: formDireccion }));
+      persistirPerfilLocal(datosPersonales.email, datosPersonales, formDireccion);
       setModalDireccionAbierto(false);
       setFeedbackMsg({ tipo: "exito", texto: "Dirección guardada localmente (modo offline)." });
     } finally {
@@ -194,14 +215,12 @@ export function Perfil() {
 
   if (!logueado) {
     return (
-      <div className="mx-auto flex max-w-lg flex-col items-center gap-6 py-16 text-center">
+      <div className="mx-auto flex max-w-lg flex-col items-center gap-6 py-12 text-center sm:py-16">
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/30 text-secondary">
           <User size={36} />
         </div>
         <div className="flex flex-col gap-2">
-          <h1 className="font-display text-2xl font-bold text-tertiary">
-            Mi Perfil
-          </h1>
+          <h1 className="font-display text-2xl font-bold text-tertiary">Mi Perfil</h1>
           <p className="font-body text-sm text-ink/75">
             Inicia sesión con tu cuenta para revisar tus datos personales, direcciones y pedidos.
           </p>
@@ -233,14 +252,14 @@ export function Perfil() {
             <button
               type="button"
               onClick={() => login("cliente@cremeco.cl")}
-              className="font-body text-secondary hover:underline cursor-pointer"
+              className="cursor-pointer font-body text-secondary hover:underline"
             >
               Iniciar sesión demo: <strong>Camila Silva (cliente@cremeco.cl)</strong>
             </button>
             <button
               type="button"
               onClick={() => login("maria.gonzalez@email.com")}
-              className="font-body text-secondary hover:underline cursor-pointer"
+              className="cursor-pointer font-body text-secondary hover:underline"
             >
               Iniciar sesión demo: <strong>María González (maria.gonzalez@email.com)</strong>
             </button>
@@ -251,13 +270,12 @@ export function Perfil() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 pb-12">
-      {/* Hero Header */}
-      <header className="overflow-hidden rounded-2xl bg-gradient-to-r from-tertiary via-ink to-secondary p-8 text-neutral shadow-md sm:p-10">
+    <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 pb-12 sm:gap-8">
+      <header className="overflow-hidden rounded-2xl bg-gradient-to-r from-tertiary via-ink to-secondary p-6 text-neutral shadow-md sm:p-10">
         <span className="font-body text-xs font-bold uppercase tracking-widest text-primary">
           Mi Cuenta
         </span>
-        <h1 className="mt-2 font-display text-3xl font-bold text-neutral sm:text-4xl">
+        <h1 className="mt-2 font-display text-2xl font-bold text-neutral sm:text-4xl">
           Mi Perfil
         </h1>
         <p className="mt-2 max-w-2xl font-body text-sm text-neutral/80 sm:text-base">
@@ -265,7 +283,6 @@ export function Perfil() {
         </p>
       </header>
 
-      {/* Alerta de feedback */}
       {feedbackMsg && (
         <div
           className={`flex items-center gap-3 rounded-xl p-4 text-sm font-medium transition-all ${
@@ -279,16 +296,15 @@ export function Perfil() {
         </div>
       )}
 
-      {/* Grid Principal: Sidebar + Contenido */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr]">
-        <PerfilSidebar tabActiva="datos" />
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr] lg:gap-8">
+        <PerfilSidebar tabActiva={tabActiva} />
 
         <div className="flex flex-col gap-6">
           {/* 1. Información Personal */}
-          <Card className="flex flex-col gap-6 p-6 sm:p-8">
+          <Card className="flex flex-col gap-6 p-5 sm:p-8">
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-tertiary/10 pb-4">
               <div>
-                <h2 className="font-display text-xl font-bold text-tertiary">Información Personal</h2>
+                <h2 className="text-left font-display text-xl font-bold text-tertiary">Información Personal</h2>
                 <p className="font-body text-xs text-ink/70">Datos de tu cuenta y contacto</p>
               </div>
               <Button
@@ -315,7 +331,7 @@ export function Perfil() {
                 <span className="font-body text-xs font-semibold uppercase tracking-wider text-secondary">
                   Correo Electrónico
                 </span>
-                <p className="mt-1 font-body text-base font-medium text-ink">{datosPersonales.email}</p>
+                <p className="mt-1 break-all font-body text-base font-medium text-ink">{datosPersonales.email}</p>
               </div>
               <div className="rounded-xl bg-neutral/40 p-4">
                 <span className="font-body text-xs font-semibold uppercase tracking-wider text-secondary">
@@ -339,10 +355,10 @@ export function Perfil() {
           </Card>
 
           {/* 2. Dirección de Entrega */}
-          <Card className="flex flex-col gap-6 p-6 sm:p-8">
+          <Card className="flex flex-col gap-6 p-5 sm:p-8">
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-tertiary/10 pb-4">
               <div>
-                <h2 className="font-display text-xl font-bold text-tertiary">Dirección de Entrega</h2>
+                <h2 className="text-left font-display text-xl font-bold text-tertiary">Dirección de Entrega</h2>
                 <p className="font-body text-xs text-ink/70">Dirección principal para tus pedidos</p>
               </div>
               <Button
@@ -388,20 +404,20 @@ export function Perfil() {
           </Card>
 
           {/* 3. Últimos Pedidos */}
-          <Card className="flex flex-col gap-6 p-6 sm:p-8">
+          <Card id="ultimos-pedidos" className="scroll-mt-24 flex flex-col gap-6 p-5 sm:p-8">
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-tertiary/10 pb-4">
               <div>
-                <h2 className="font-display text-xl font-bold text-tertiary">Últimos Pedidos</h2>
+                <h2 className="text-left font-display text-xl font-bold text-tertiary">Últimos Pedidos</h2>
                 <p className="font-body text-xs text-ink/70">Acceso rápido a tus pedidos recientes</p>
               </div>
               <ButtonLink to="/perfil/seguimiento" variant="outline" size="sm">
-                Ver Todos
+                Rastrear por Código
               </ButtonLink>
             </div>
 
             {cargandoPedidos ? (
               <div className="flex items-center justify-center py-8 text-ink/60">
-                <p className="font-body text-sm animate-pulse">Cargando tus pedidos...</p>
+                <p className="animate-pulse font-body text-sm">Cargando tus pedidos...</p>
               </div>
             ) : pedidos.length === 0 ? (
               <div className="flex flex-col items-center justify-center gap-3 py-8 text-center text-ink/75">
@@ -427,15 +443,15 @@ export function Perfil() {
                   return (
                     <div
                       key={pedido.id || pedido.trackingCode}
-                      className="flex flex-col gap-4 rounded-xl border border-tertiary/10 bg-white p-4 shadow-xs sm:flex-row sm:items-center sm:justify-between transition-hover hover:border-tertiary/30"
+                      className="flex flex-col gap-4 rounded-xl border border-tertiary/10 bg-white p-4 shadow-xs transition-all hover:border-tertiary/30 sm:flex-row sm:items-center sm:justify-between"
                     >
                       <div className="flex items-center gap-4">
                         <img
                           src={imagenItem}
                           alt={nombreItem}
-                          className="h-18 w-18 shrink-0 rounded-xl object-cover shadow-xs"
+                          className="h-16 w-16 shrink-0 rounded-xl object-cover shadow-xs sm:h-18 sm:w-18"
                         />
-                        <div className="flex flex-col gap-1">
+                        <div className="flex min-w-0 flex-col gap-1">
                           <span className="font-display text-base font-bold text-tertiary sm:text-lg">
                             {nombreItem}
                           </span>
@@ -543,7 +559,7 @@ export function Perfil() {
               placeholder="Ej: Depto 501, Torre B"
             />
           </div>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label className="font-body text-xs font-semibold text-tertiary">Comuna</label>
               <Input

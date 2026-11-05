@@ -9,19 +9,19 @@
 // @relates(frontend.lib.authValidator)
 // @relates(frontend.lib.regionesChile)
 // @relates(docs.reglas_ui)
-// @desc(Vista publica de registro de nuevos clientes con selector regional y validacion de RUT)
+// @desc(Vista publica de registro de nuevos clientes con selector regional, validacion de RUT y tokens del design system)
 // @pca:end
-
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { useAuth } from "@/context/auth";
-import { api } from "@/services/api";
-import { formatearRut, validarRut } from "@/lib/validators/rut.validator";
-import { validarRegistroForm } from "@/lib/validators/auth.validator";
-import { REGIONES_CHILE, obtenerComunasPorRegion } from "@/lib/data/regiones-chile";
+import { AlertCircle, CheckCircle2, Sparkles, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
-import { UserPlus, Sparkles, AlertCircle, CheckCircle2 } from "lucide-react";
+import { useAuth } from "@/context/auth";
+import { REGIONES_CHILE, obtenerComunasPorRegion } from "@/lib/data/regiones-chile";
+import { validarRegistroForm } from "@/lib/validators/auth.validator";
+import { formatearRut, validarRut } from "@/lib/validators/rut.validator";
+import { api } from "@/services/api";
 
 export function Registro() {
   const navigate = useNavigate();
@@ -92,19 +92,12 @@ export function Registro() {
     });
 
     const nuevosErrores: Record<string, string> = { ...resultado.errores };
-
     if (!region) nuevosErrores.region = "Selecciona una región";
     if (!comuna) nuevosErrores.comuna = "Selecciona una comuna";
-
-    if (!aceptaTerminos) {
-      nuevosErrores.terminos = "Debes aceptar los términos y condiciones";
-    }
+    if (!aceptaTerminos) nuevosErrores.terminos = "Debes aceptar los términos y condiciones";
 
     setErrores(nuevosErrores);
-
-    if (Object.keys(nuevosErrores).length > 0) {
-      return;
-    }
+    if (Object.keys(nuevosErrores).length > 0) return;
 
     setIsSubmitting(true);
     try {
@@ -116,7 +109,6 @@ export function Registro() {
       });
 
       setRegistroExitoso(true);
-      // Iniciar sesión automáticamente
       const loginOk = await login(email.trim(), password);
       if (loginOk) {
         setTimeout(() => {
@@ -131,228 +123,246 @@ export function Registro() {
     }
   };
 
+  const selectClass =
+    "w-full rounded-lg border border-tertiary/25 bg-white px-3.5 py-2.5 font-body text-sm text-ink outline-none transition-colors focus:border-secondary focus:ring-2 focus:ring-primary/60 disabled:opacity-50";
+
   return (
-    <div className="py-12 px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto">
-      <div className="bg-white rounded-3xl p-8 sm:p-10 shadow-sm border border-[#E8D8CE]">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-primary/30 text-secondary mb-3">
-            <UserPlus className="w-6 h-6" />
+    <div className="mx-auto max-w-2xl py-6 sm:py-10">
+      <Card className="overflow-hidden p-0 shadow-md">
+        <div className="bg-gradient-to-r from-tertiary via-ink to-secondary px-6 py-8 text-center text-neutral sm:px-8">
+          <div className="mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/25 text-primary">
+            <UserPlus className="h-6 w-6" />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold font-serif text-ink">
+          <h1 className="font-display text-2xl font-bold text-neutral sm:text-3xl">
             Crear Cuenta de Cliente
           </h1>
-          <p className="text-sm text-tertiary mt-2">
+          <p className="mt-2 font-body text-sm text-neutral/85">
             Regístrate para guardar tus direcciones, acceder a promociones y ver tu historial de compras
           </p>
         </div>
 
-        {/* Botonera de autocompletado demo */}
-        <div className="mb-6 p-4 rounded-2xl bg-[#FFF9F3] border border-dashed border-[#E2BBA2]">
-          <div className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-secondary mb-2.5">
-            <Sparkles className="w-4 h-4 text-secondary" />
-            <span>Autocompletar datos de prueba válidos:</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => handleFillDemo("Camila", "Silva Tapia", "18.432.198-7", "camila.nueva@cremeco.cl", "+56 9 8765 4321", "Metropolitana de Santiago", "Providencia")}
-              className="text-xs font-medium px-3 py-1.5 rounded-full bg-white border border-[#D7B9A5] text-ink hover:bg-primary/40 hover:border-secondary transition-colors"
-            >
-              ✨ Camila Silva (Providencia)
-            </button>
-            <button
-              type="button"
-              onClick={() => handleFillDemo("Diego", "Araneda Castro", "17.890.123-4", "diego.araneda@cremeco.cl", "+56 9 9876 5432", "Valparaíso", "Viña del Mar")}
-              className="text-xs font-medium px-3 py-1.5 rounded-full bg-white border border-[#D7B9A5] text-ink hover:bg-primary/40 hover:border-secondary transition-colors"
-            >
-              🌊 Diego Araneda (Viña del Mar)
-            </button>
-          </div>
-        </div>
-
-        {errorServidor && (
-          <div className="mb-6 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-800 text-sm flex items-start gap-2">
-            <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5 text-red-600" />
-            <span>{errorServidor}</span>
-          </div>
-        )}
-
-        {registroExitoso && (
-          <div className="mb-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-900 text-sm flex items-center gap-2">
-            <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0" />
-            <span>¡Cuenta creada con éxito! Iniciando sesión y redirigiendo...</span>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              label="Nombre(s) *"
-              type="text"
-              placeholder="Ej. Camila Andrea"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              error={errores.nombre}
-              required
-            />
-            <Input
-              label="Apellidos *"
-              type="text"
-              placeholder="Ej. Silva Tapia"
-              value={apellidos}
-              onChange={(e) => setApellidos(e.target.value)}
-              error={errores.apellidos}
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              label="RUT Chileno *"
-              type="text"
-              placeholder="18.432.198-7"
-              value={rut}
-              onChange={(e) => setRut(e.target.value)}
-              onBlur={handleRutBlur}
-              error={errores.rut}
-              required
-            />
-            <Input
-              label="Teléfono Móvil *"
-              type="tel"
-              placeholder="+56 9 8765 4321"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
-              error={errores.telefono}
-              required
-            />
-          </div>
-
-          <Input
-            label="Correo Electrónico *"
-            type="email"
-            placeholder="ejemplo@correo.cl"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            error={errores.email}
-            required
-            autoComplete="email"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-semibold text-ink mb-1">
-                Región *
-              </label>
-              <select
-                value={region}
-                onChange={(e) => {
-                  setRegion(e.target.value);
-                  setComuna("");
-                }}
-                className="w-full px-4 py-2.5 bg-white border border-[#E8D8CE] rounded-xl text-ink focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 text-sm"
-                required
-              >
-                <option value="">Selecciona tu región...</option>
-                {REGIONES_CHILE.map((r) => (
-                  <option key={r.nombre} value={r.nombre}>
-                    {r.nombre}
-                  </option>
-                ))}
-              </select>
-              {errores.region && (
-                <p className="text-xs text-red-600 mt-1">{errores.region}</p>
-              )}
+        <div className="p-6 sm:p-8">
+          <div className="mb-6 rounded-2xl border border-dashed border-secondary/30 bg-neutral/60 p-4">
+            <div className="mb-2.5 flex items-center gap-1.5 font-body text-xs font-bold uppercase tracking-wider text-secondary">
+              <Sparkles className="h-4 w-4 text-secondary" />
+              <span>Autocompletar datos de prueba válidos:</span>
             </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-ink mb-1">
-                Comuna *
-              </label>
-              <select
-                value={comuna}
-                onChange={(e) => setComuna(e.target.value)}
-                disabled={!region}
-                className="w-full px-4 py-2.5 bg-white border border-[#E8D8CE] rounded-xl text-ink focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/20 text-sm disabled:opacity-50"
-                required
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() =>
+                  handleFillDemo(
+                    "Camila",
+                    "Silva Tapia",
+                    "18.432.198-7",
+                    "camila.nueva@cremeco.cl",
+                    "+56 9 8765 4321",
+                    "Metropolitana de Santiago",
+                    "Providencia"
+                  )
+                }
+                className="cursor-pointer rounded-full border border-tertiary/20 bg-white px-3.5 py-1.5 font-body text-xs font-semibold text-tertiary transition-colors hover:border-secondary hover:bg-primary/30"
               >
-                <option value="">
-                  {region ? "Selecciona tu comuna..." : "Primero elige región"}
-                </option>
-                {comunasDisponibles.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-              {errores.comuna && (
-                <p className="text-xs text-red-600 mt-1">{errores.comuna}</p>
-              )}
+                ✨ Camila Silva (Providencia)
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  handleFillDemo(
+                    "Diego",
+                    "Araneda Castro",
+                    "17.890.123-4",
+                    "diego.araneda@cremeco.cl",
+                    "+56 9 9876 5432",
+                    "Valparaíso",
+                    "Viña del Mar"
+                  )
+                }
+                className="cursor-pointer rounded-full border border-tertiary/20 bg-white px-3.5 py-1.5 font-body text-xs font-semibold text-tertiary transition-colors hover:border-secondary hover:bg-primary/30"
+              >
+                🌊 Diego Araneda (Viña del Mar)
+              </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              label="Contraseña (mínimo 6 caracteres) *"
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              error={errores.password}
-              required
-              autoComplete="new-password"
-            />
-            <Input
-              label="Confirmar Contraseña *"
-              type="password"
-              placeholder="••••••••"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              error={errores.confirmPassword}
-              required
-              autoComplete="new-password"
-            />
-          </div>
+          {errorServidor && (
+            <div className="mb-6 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 p-3.5 font-body text-sm text-red-800">
+              <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-error" />
+              <span>{errorServidor}</span>
+            </div>
+          )}
 
-          <div className="pt-2">
-            <label className="flex items-start gap-2.5 cursor-pointer text-xs text-tertiary select-none">
-              <input
-                type="checkbox"
-                checked={aceptaTerminos}
-                onChange={(e) => setAceptaTerminos(e.target.checked)}
-                className="mt-0.5 rounded text-secondary focus:ring-secondary"
+          {registroExitoso && (
+            <div className="mb-6 flex items-center gap-2 rounded-xl border border-green-200 bg-green-50 p-4 font-body text-sm text-green-900">
+              <CheckCircle2 className="h-5 w-5 shrink-0 text-green-600" />
+              <span>¡Cuenta creada con éxito! Iniciando sesión y redirigiendo...</span>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Input
+                label="Nombre(s) *"
+                type="text"
+                placeholder="Ej. Camila Andrea"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+                error={errores.nombre}
                 required
               />
-              <span>
-                Acepto los términos y condiciones de servicio y consiento el tratamiento de mis datos de contacto para la gestión de pedidos de Crème & Co Pastelería.
-              </span>
-            </label>
-            {errores.terminos && (
-              <p className="text-xs text-red-600 mt-1">{errores.terminos}</p>
-            )}
-          </div>
+              <Input
+                label="Apellidos *"
+                type="text"
+                placeholder="Ej. Silva Tapia"
+                value={apellidos}
+                onChange={(e) => setApellidos(e.target.value)}
+                error={errores.apellidos}
+                required
+              />
+            </div>
 
-          <Button
-            type="submit"
-            variant="primary"
-            size="lg"
-            className="w-full mt-4"
-            disabled={isSubmitting || registroExitoso}
-          >
-            {isSubmitting ? "Registrando usuario en BD..." : "Crear mi Cuenta de Cliente"}
-          </Button>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Input
+                label="RUT Chileno *"
+                type="text"
+                placeholder="18.432.198-7"
+                value={rut}
+                onChange={(e) => setRut(e.target.value)}
+                onBlur={handleRutBlur}
+                error={errores.rut}
+                required
+              />
+              <Input
+                label="Teléfono Móvil *"
+                type="tel"
+                placeholder="+56 9 8765 4321"
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value)}
+                error={errores.telefono}
+                required
+              />
+            </div>
 
-          <div className="text-center text-sm text-tertiary pt-4 border-t border-[#F0E6DF]">
-            ¿Ya tienes una cuenta registrada?{" "}
-            <Link
-              to={`/login${redirectPath !== "/perfil" ? `?redirect=${encodeURIComponent(redirectPath)}` : ""}`}
-              className="text-secondary font-semibold hover:underline"
+            <Input
+              label="Correo Electrónico *"
+              type="email"
+              placeholder="ejemplo@correo.cl"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={errores.email}
+              required
+              autoComplete="email"
+            />
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label className="mb-1.5 block font-body text-sm font-semibold text-tertiary">
+                  Región *
+                </label>
+                <select
+                  value={region}
+                  onChange={(e) => {
+                    setRegion(e.target.value);
+                    setComuna("");
+                  }}
+                  className={selectClass}
+                  required
+                >
+                  <option value="">Selecciona tu región...</option>
+                  {REGIONES_CHILE.map((r) => (
+                    <option key={r.nombre} value={r.nombre}>
+                      {r.nombre}
+                    </option>
+                  ))}
+                </select>
+                {errores.region && <p className="mt-1 font-body text-xs text-error">{errores.region}</p>}
+              </div>
+
+              <div>
+                <label className="mb-1.5 block font-body text-sm font-semibold text-tertiary">
+                  Comuna *
+                </label>
+                <select
+                  value={comuna}
+                  onChange={(e) => setComuna(e.target.value)}
+                  disabled={!region}
+                  className={selectClass}
+                  required
+                >
+                  <option value="">
+                    {region ? "Selecciona tu comuna..." : "Primero elige región"}
+                  </option>
+                  {comunasDisponibles.map((c) => (
+                    <option key={c} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+                {errores.comuna && <p className="mt-1 font-body text-xs text-error">{errores.comuna}</p>}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <Input
+                label="Contraseña (mínimo 6 caracteres) *"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={errores.password}
+                required
+                autoComplete="new-password"
+              />
+              <Input
+                label="Confirmar Contraseña *"
+                type="password"
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                error={errores.confirmPassword}
+                required
+                autoComplete="new-password"
+              />
+            </div>
+
+            <div className="pt-2">
+              <label className="flex cursor-pointer select-none items-start gap-2.5 font-body text-xs text-tertiary">
+                <input
+                  type="checkbox"
+                  checked={aceptaTerminos}
+                  onChange={(e) => setAceptaTerminos(e.target.checked)}
+                  className="mt-0.5 rounded text-secondary focus:ring-secondary"
+                  required
+                />
+                <span>
+                  Acepto los términos y condiciones de servicio y consiento el tratamiento de mis datos de contacto para la gestión de pedidos de Crème & Co Pastelería.
+                </span>
+              </label>
+              {errores.terminos && <p className="mt-1 font-body text-xs text-error">{errores.terminos}</p>}
+            </div>
+
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className="mt-4 w-full"
+              disabled={isSubmitting || registroExitoso}
             >
-              Inicia sesión aquí
-            </Link>
-          </div>
-        </form>
-      </div>
+              {isSubmitting ? "Registrando usuario en BD..." : "Crear mi Cuenta de Cliente"}
+            </Button>
+
+            <div className="border-t border-tertiary/10 pt-4 text-center font-body text-sm text-tertiary">
+              ¿Ya tienes una cuenta registrada?{" "}
+              <Link
+                to={`/login${redirectPath !== "/perfil" ? `?redirect=${encodeURIComponent(redirectPath)}` : ""}`}
+                className="font-semibold text-secondary hover:underline"
+              >
+                Inicia sesión aquí
+              </Link>
+            </div>
+          </form>
+        </div>
+      </Card>
     </div>
   );
 }
