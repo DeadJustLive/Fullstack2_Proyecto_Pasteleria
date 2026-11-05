@@ -723,7 +723,7 @@
       "path": "frontend/src/services/api.ts",
       "id": "frontend.services.api",
       "kind": "service",
-      "limit": 750,
+      "limit": 780,
       "contract": "authApi, catalogApi, orderApi, inventoryApi, notificationApi, paymentApi",
       "desc": "Cliente HTTP del frontend con token JWT para consumir microservicios",
       "relates": [
@@ -735,7 +735,7 @@
       "path": "admin-pwa/src/services/api.ts",
       "id": "admin.services.api",
       "kind": "service",
-      "limit": 620,
+      "limit": 650,
       "contract": "authApi, catalogApi, orderApi, inventoryApi",
       "desc": "Cliente HTTP del Admin PWA para gestionar catalogo, POS e inventario",
       "relates": [

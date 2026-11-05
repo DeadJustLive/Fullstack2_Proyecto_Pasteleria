@@ -69,7 +69,7 @@ public class OrderDataSeeder implements CommandLineRunner {
                 .cantidad(1)
                 .precio(24990L)
                 .subtotal(24990L)
-                .imagen("/imagen/Torta-Opera-Francesa.webp")
+                .imagen("https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop")
                 .variacion("12-15 porciones")
                 .build());
 
@@ -79,7 +79,7 @@ public class OrderDataSeeder implements CommandLineRunner {
                 .cantidad(1)
                 .precio(21990L)
                 .subtotal(21990L)
-                .imagen("/imagen/Cheesecake-de-Frutos-Rojos.webp")
+                .imagen("https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=800&auto=format&fit=crop")
                 .variacion("10-12 porciones")
                 .build());
 
@@ -116,7 +116,7 @@ public class OrderDataSeeder implements CommandLineRunner {
                 .cantidad(1)
                 .precio(23990L)
                 .subtotal(23990L)
-                .imagen("/imagen/Torta-Selva-Negra-Tradicional.webp")
+                .imagen("https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?q=80&w=800&auto=format&fit=crop")
                 .variacion("12 porciones")
                 .build());
 
@@ -156,7 +156,7 @@ public class OrderDataSeeder implements CommandLineRunner {
                 .cantidad(1)
                 .precio(24990L)
                 .subtotal(24990L)
-                .imagen("/imagen/Torta-Opera-Francesa.webp")
+                .imagen("https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop")
                 .variacion("15 porciones")
                 .build());
 
@@ -166,7 +166,7 @@ public class OrderDataSeeder implements CommandLineRunner {
                 .cantidad(1)
                 .precio(18990L)
                 .subtotal(18990L)
-                .imagen("/imagen/Tarta-de-Limon-y-Merengue.webp")
+                .imagen("https://images.unsplash.com/photo-1519915028121-7d3463d20b13?q=80&w=800&auto=format&fit=crop")
                 .variacion("8-10 porciones")
                 .build());
 
@@ -205,7 +205,7 @@ public class OrderDataSeeder implements CommandLineRunner {
                 .cantidad(1)
                 .precio(21990L)
                 .subtotal(21990L)
-                .imagen("/imagen/Cheesecake-de-Frutos-Rojos.webp")
+                .imagen("https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=800&auto=format&fit=crop")
                 .variacion("10-12 porciones")
                 .build());
 

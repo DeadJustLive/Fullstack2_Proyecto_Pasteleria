@@ -160,7 +160,7 @@ export function ProductoDetalle() {
     <div className="flex flex-col gap-10 pb-12">
       <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[1.08fr_1fr] lg:items-start lg:gap-10">
         <div className="relative overflow-hidden rounded-2xl border border-tertiary/10 bg-white shadow-md">
-          <img src={producto.imagen} alt={producto.nombre} className="h-80 w-full object-cover sm:h-96 lg:h-[480px]" />
+          <img src={producto.imagen} alt={producto.nombre} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = "/imagen/chocolate.jpg"; }} className="h-80 w-full object-cover sm:h-96 lg:h-[480px]" />
           {producto.badge && (
             <span className="absolute left-4 top-4 rounded-full bg-primary/95 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-tertiary shadow-sm">
               {BADGE_LABEL[producto.badge]}

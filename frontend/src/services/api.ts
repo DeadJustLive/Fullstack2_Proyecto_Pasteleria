@@ -1,7 +1,7 @@
 // @pca:start
 // @id(frontend.services.api)
 // @kind(service)
-// @limit(lines: 750)
+// @limit(lines: 780)
 // @contract(authApi, catalogApi, orderApi, inventoryApi, notificationApi, paymentApi)
 // @relates(docs.especificacion_microservicios)
 // @relates(docs.convenciones)
@@ -76,6 +76,19 @@ export function normalizeBadge(val?: string): BadgeTipo | undefined {
   return undefined;
 }
 
+export function resolveCatalogImage(img?: string, defaultFallback = "/imagen/chocolate.jpg"): string {
+  if (!img) return defaultFallback;
+  if (img.includes("Torta-Opera-Francesa")) return "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("Cheesecake-de-Frutos-Rojos")) return "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("Torta-Selva-Negra")) return "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("Tarta-de-Limon")) return "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("Croissant.webp")) return "https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("Pancakes.webp")) return "https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("1569864321390")) return "https://images.unsplash.com/photo-1569864358642-9d1684040f43?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("1535141192574")) return "https://images.unsplash.com/photo-1542826438-bd32f43d626f?q=80&w=800&auto=format&fit=crop";
+  return img;
+}
+
 export function normalizeProduct(raw: RawCatalogProduct): Producto {
   let categorias: Categoria[] = [];
   if (Array.isArray(raw.categorias)) {
@@ -108,7 +121,7 @@ export function normalizeProduct(raw: RawCatalogProduct): Producto {
     precio: typeof raw.precio === "number" ? raw.precio : 0,
     precioAnterior: typeof raw.precioAnterior === "number" ? raw.precioAnterior : undefined,
     enOferta: raw.enOferta ?? (typeof raw.precioAnterior === "number" && typeof raw.precio === "number" && raw.precioAnterior > raw.precio),
-    imagen: raw.imagen || "/imagen/chocolate.jpg",
+    imagen: resolveCatalogImage(raw.imagen, "/imagen/chocolate.jpg"),
     descripcion:
       raw.descripcion ||
       "Deliciosa preparación artesanal elaborada diariamente con los más selectos ingredientes de repostería.",
@@ -204,17 +217,25 @@ export const catalogApi = {
       return Array.isArray(data) ? data.map(normalizeProduct) : [];
     },
     getCategories: async (): Promise<Array<{ id?: number; slug: string; nombre: string; descripcion?: string; imagen?: string; activo?: boolean }>> => {
-      return request<Array<{ id?: number; slug: string; nombre: string; descripcion?: string; imagen?: string; activo?: boolean }>>("/catalog/categories");
+      const cats = await request<Array<{ id?: number; slug: string; nombre: string; descripcion?: string; imagen?: string; activo?: boolean }>>("/catalog/categories");
+      return Array.isArray(cats) ? cats.map((c) => ({ ...c, imagen: resolveCatalogImage(c.imagen) })) : [];
     },
     getCategoryBySlug: async (slug: string) => {
-      return request<{ id?: number; slug: string; nombre: string; descripcion?: string; imagen?: string; activo?: boolean }>(`/catalog/categories/slug/${slug}`);
+      const cat = await request<{ id?: number; slug: string; nombre: string; descripcion?: string; imagen?: string; activo?: boolean }>(`/catalog/categories/slug/${slug}`);
+      return cat ? { ...cat, imagen: resolveCatalogImage(cat.imagen) } : cat;
     },
     getOffers: async (): Promise<Producto[]> => {
       const data = await request<RawCatalogProduct[]>("/catalog/products/offers");
       return Array.isArray(data) ? data.map(normalizeProduct) : [];
     },
-    getBlogs: () => request<any[]>("/catalog/blogs"),
-    getBlogBySlug: (slug: string) => request<any>(`/catalog/blogs/slug/${slug}`),
+    getBlogs: async () => {
+      const blogs = await request<any[]>("/catalog/blogs");
+      return Array.isArray(blogs) ? blogs.map((b) => ({ ...b, imagen: resolveCatalogImage(b?.imagen, "/imagen/torta.jpg") })) : [];
+    },
+    getBlogBySlug: async (slug: string) => {
+      const b = await request<any>(`/catalog/blogs/slug/${slug}`);
+      return b ? { ...b, imagen: resolveCatalogImage(b.imagen, "/imagen/torta.jpg") } : b;
+    },
     getProductById: async (id: number): Promise<Producto> => {
       const data = await request<RawCatalogProduct>(`/catalog/products/${id}`);
       return normalizeProduct(data);

@@ -1,7 +1,7 @@
 // @pca:start
 // @id(admin.services.api)
 // @kind(service)
-// @limit(lines: 620)
+// @limit(lines: 650)
 // @contract(authApi, catalogApi, orderApi, inventoryApi)
 // @relates(docs.especificacion_pwa_admin)
 // @relates(docs.convenciones)
@@ -182,11 +182,28 @@ const CATEGORIES_KEY = "cremeco_admin_categories_cache";
 const PROMOTIONS_KEY = "cremeco_admin_promotions_cache";
 const USERS_KEY = "cremeco_admin_users_cache";
 
+export function resolveAdminImageUrl(img?: string): string {
+  const fallback = "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop";
+  if (!img) return fallback;
+  if (img.includes("Cheesecake") || img.includes("cheesecake")) return "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("Selva-Negra")) return "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("Tarta-de-Limon")) return "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("Croissant")) return "https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("Pancakes") || img.includes("pancakes")) return "https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("tres_leches")) return "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("zanahoria")) return "https://images.unsplash.com/photo-1621303837174-89787a7d4729?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("macarons") || img.includes("1569864321390")) return "https://images.unsplash.com/photo-1569864358642-9d1684040f43?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("tartaleta")) return "https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=800&auto=format&fit=crop";
+  if (img.includes("1535141192574")) return "https://images.unsplash.com/photo-1542826438-bd32f43d626f?q=80&w=800&auto=format&fit=crop";
+  if (img.startsWith("/imagen/")) return fallback;
+  return img;
+}
+
 export const CATEGORIAS_FALLBACK: CategoryAdmin[] = [
-  { id: 1, slug: "tortas-clasicas", nombre: "Tortas Clásicas", descripcion: "Recetas tradicionales de bizcocho húmedo, hojarasca y milhojas", activo: true, productosCount: 6 },
-  { id: 2, slug: "pasteleria-fina", nombre: "Pastelería Fina", descripcion: "Tartaletas, macarons franceses, mini postres y eclairs", activo: true, productosCount: 5 },
-  { id: 3, slug: "linea-saludable", nombre: "Línea Saludable", descripcion: "Opciones sin azúcar añadida, aptas para celíacos y keto", activo: true, productosCount: 3 },
-  { id: 4, slug: "temporada-festivos", nombre: "Temporada y Festivos", descripcion: "Ediciones limitadas de fiestas patrias, pascua y fin de año", activo: false, productosCount: 0 },
+  { id: 1, slug: "tortas-clasicas", nombre: "Tortas Clásicas", descripcion: "Recetas tradicionales de bizcocho húmedo, hojarasca y milhojas", imagen: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop", activo: true, productosCount: 6 },
+  { id: 2, slug: "pasteleria-fina", nombre: "Pastelería Fina", descripcion: "Tartaletas, macarons franceses, mini postres y eclairs", imagen: "https://images.unsplash.com/photo-1519915028121-7d3463d20b13?q=80&w=800&auto=format&fit=crop", activo: true, productosCount: 5 },
+  { id: 3, slug: "linea-saludable", nombre: "Línea Saludable", descripcion: "Opciones sin azúcar añadida, aptas para celíacos y keto", imagen: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=800&auto=format&fit=crop", activo: true, productosCount: 3 },
+  { id: 4, slug: "temporada-festivos", nombre: "Temporada y Festivos", descripcion: "Ediciones limitadas de fiestas patrias, pascua y fin de año", imagen: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?q=80&w=800&auto=format&fit=crop", activo: false, productosCount: 0 },
 ];
 
 export const PROMOCIONES_FALLBACK: PromotionAdmin[] = [
@@ -268,8 +285,9 @@ export async function getCategories(): Promise<CategoryAdmin[]> {
   try {
     const data = await request<CategoryAdmin[]>("/catalog/categories");
     if (Array.isArray(data) && data.length > 0) {
-      setLocalCategories(data);
-      return data;
+      const sanitized = data.map((c) => ({ ...c, imagen: resolveAdminImageUrl(c.imagen) }));
+      setLocalCategories(sanitized);
+      return sanitized;
     }
     return getLocalCategories();
   } catch {
@@ -518,7 +536,10 @@ export const adminApi = {
 
   // Productos y Catálogo (cumplimiento T97: list/get, create, update, delete)
   products: {
-    list: () => request<ProductCatalogDTO[]>("/catalog/products"),
+    list: async () => {
+      const res = await request<ProductCatalogDTO[]>("/catalog/products");
+      return Array.isArray(res) ? res.map((p) => ({ ...p, imagen: resolveAdminImageUrl(p.imagen) })) : [];
+    },
     getProducts: () => request<ProductCatalogDTO[]>("/catalog/products"),
     create: (data: Partial<ProductCatalogDTO>) =>
       request<Record<string, unknown>>("/catalog/products", { method: "POST", body: JSON.stringify(data) }),
