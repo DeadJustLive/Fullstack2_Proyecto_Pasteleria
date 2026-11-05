@@ -28,7 +28,7 @@ TEXT_EXTS = {
     ".md", ".markdown", ".yml", ".yaml", ".toml", ".sql", ".xml",
 }
 
-ARTIFACT_DIRS = ["fida-kit", "tools", "prompts", "setup", "docs/tickets"]
+ARTIFACT_DIRS = ["fida-kit", "tools", "prompts", "setup", "docs/tickets", "guias"]
 ARTIFACT_ROOT_FILES = [
     "AGENTS.md",
     "fida.config.json",
@@ -41,24 +41,27 @@ ARTIFACT_ROOT_FILES = [
     "docs/estado_proyecto.md",
     "docs/plantilla_ticket.md",
     "docs/diccionario_funciones_variables.md",
+    "docs/evaluacion_2_transversal.md",
+    "docs/plan_sprints.md",
+    "docs/backlog_requisitos.md",
 ]
 
 
 def _strip_pca_from_text(text: str, purge_fida_jsdoc: bool = False) -> tuple[str, bool]:
     eol = "\r\n" if "\r\n" in text else "\n"
     lines = text.splitlines()
-    start = end = None
-    for idx, line in enumerate(lines):
-        if "@pca:start" in line and start is None:
-            start = idx
-        if "@pca:end" in line and start is not None:
-            end = idx
-            break
-
     changed = False
-    if start is not None and end is not None:
-        # Si la linea inmediatamente posterior al bloque esta en blanco y el bloque estaba al inicio,
-        # la removemos tambien para no dejar lineas vacias al principio del archivo.
+
+    while True:
+        start = end = None
+        for idx, line in enumerate(lines):
+            if "@pca:start" in line and start is None:
+                start = idx
+            if "@pca:end" in line and start is not None:
+                end = idx
+                break
+        if start is None or end is None:
+            break
         after_end = end + 1
         if start == 0 and after_end < len(lines) and lines[after_end].strip() == "":
             after_end += 1
@@ -75,6 +78,7 @@ def _strip_pca_from_text(text: str, purge_fida_jsdoc: bool = False) -> tuple[str
         cleaned = re.sub(r"FIDA\s*-\s*Interface Layer \(I\)", "Module Public Contract", cleaned)
         cleaned = re.sub(r".*Nivel de Impacto FIDA.*\r?\n", "", cleaned)
         cleaned = re.sub(r"FIDA Features — Módulos Críticos de Negocio FIDA", "Domain Features — Módulos Críticos de Negocio", cleaned)
+        cleaned = re.sub(r".*(fida-kit|fida_opl|pca_annotator).*\r?\n", "", cleaned, flags=re.IGNORECASE)
         if cleaned != new_text:
             new_text = cleaned
             changed = True
@@ -94,12 +98,11 @@ def strip_project(target_root: Path, apply: bool = False, purge_artifacts: bool 
         rel_parts = path.relative_to(target_root).parts
         if any(p in SKIP_DIRS for p in rel_parts):
             continue
-        # Si no se purgan artefactos, no tocar fida-kit ni tools
         if not purge_artifacts and rel_parts and rel_parts[0] in ("fida-kit", "tools"):
             continue
-        if purge_artifacts and rel_parts and rel_parts[0] in ("fida-kit", "tools", "prompts", "setup"):
+        if purge_artifacts and rel_parts and rel_parts[0] in ("fida-kit", "tools", "prompts", "setup", "guias"):
             continue
-        if path.suffix.lower() not in TEXT_EXTS:
+        if path.suffix.lower() not in TEXT_EXTS and path.name != "Dockerfile":
             continue
 
         try:
@@ -115,7 +118,6 @@ def strip_project(target_root: Path, apply: bool = False, purge_artifacts: bool 
                 path.write_text(new_text, encoding="utf-8")
 
     if purge_artifacts:
-        # 1. Renombrar test con nombre FIDA si existe
         old_test = target_root / "frontend/src/test/features/fida-features.test.tsx"
         new_test = target_root / "frontend/src/test/features/domain-features.test.tsx"
         if old_test.exists():
@@ -123,7 +125,6 @@ def strip_project(target_root: Path, apply: bool = False, purge_artifacts: bool 
             if apply:
                 old_test.rename(new_test)
 
-        # 2. Eliminar archivos sueltos de metadatos FIDA/OPL (.snapshot.json, fida.module.json, decisions.md de módulos)
         for path in sorted(target_root.rglob("*")):
             if not path.exists():
                 continue
@@ -142,7 +143,6 @@ def strip_project(target_root: Path, apply: bool = False, purge_artifacts: bool 
                     if path.parent.exists() and not any(path.parent.iterdir()):
                         path.parent.rmdir()
 
-        # 3. Eliminar archivos raíz de gobernanza
         for rel_file in ARTIFACT_ROOT_FILES:
             p = target_root / rel_file
             if p.exists() and p.is_file():
@@ -150,7 +150,6 @@ def strip_project(target_root: Path, apply: bool = False, purge_artifacts: bool 
                 if apply:
                     p.unlink(missing_ok=True)
 
-        # 4. Eliminar directorios completos de gobernanza (fida-kit, tools, prompts, setup, docs/tickets)
         for rel_dir in ARTIFACT_DIRS:
             d = target_root / rel_dir
             if d.exists() and d.is_dir():
